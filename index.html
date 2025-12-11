@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Zach AI – Plan Consistency Checker (Demo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #050816;
+      color: #e5e7eb;
+    }
+
+    .app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-pill {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #a855f7, #10b981);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #f9fafb;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      padding: 4px 10px;
+      color: #9ca3af;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, #111827, #020617);
+      border-radius: 18px;
+      border: 1px solid #1f2937;
+      padding: 18px 18px 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: 1.5rem;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    .upload-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 12px;
+    }
+
+    .upload-box {
+      border-radius: 12px;
+      border: 1px dashed #4b5563;
+      padding: 12px;
+      background: rgba(15, 23, 42, 0.75);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+
+    .upload-box label {
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .upload-box input[type="file"] {
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    .hint {
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+
+    .actions-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s ease;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #f9fafb;
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(79, 70, 229, 0.6);
+    }
+
+    .secondary-btn {
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+    }
+
+    .secondary-btn:hover {
+      background: rgba(31, 41, 55, 0.9);
+    }
+
+    .status-pill {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 4px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-idle {
+      background: rgba(15, 23, 42, 0.9);
+      color: #9ca3af;
+      border: 1px solid #374151;
+    }
+
+    .status-running {
+      background: rgba(21, 128, 61, 0.16);
+      color: #6ee7b7;
+      border: 1px solid #22c55e;
+    }
+
+    .status-done {
+      background: rgba(37, 99, 235, 0.24);
+      color: #bfdbfe;
+      border: 1px solid #3b82f6;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    /* Layout for the plans & issues */
+    .layout-row {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .layout-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .plan-card-title {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .plan-wrapper {
+      border-radius: 12px;
+      background: radial-gradient(circle at top, #020617, #020617);
+      border: 1px solid #1f2937;
+      padding: 10px;
+    }
+
+    .plan-canvas {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: 8px;
+      background: #020617;
+      overflow: hidden;
+      border: 1px solid #374151;
+    }
+
+    /* Mock architectural plan */
+    .arch-plan-grid {
+      position: absolute;
+      inset: 10px;
+      border: 2px solid #6b7280;
+      display: grid;
+      grid-template-rows: 1.2fr 1fr;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4px;
+    }
+
+    .room {
+      border: 1px solid #4b5563;
+      position: relative;
+      font-size: 0.65rem;
+      color: #9ca3af;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 4px;
+    }
+
+    .room-label {
+      background: rgba(15, 23, 42, 0.9);
+      padding: 1px 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(55, 65, 81, 0.8);
+    }
+
+    .window-line {
+      position: absolute;
+      height: 4px;
+      background: #22c55e;
+      left: 18%;
+      right: 18%;
+      top: 0;
+    }
+
+    /* Mock electrical plan */
+    .electrical-layer {
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed #6b7280;
+      border-radius: 4px;
+    }
+
+    .wire {
+      position: absolute;
+      border-top: 2px solid #facc15;
+      width: 55%;
+      left: 18%;
+      top: 30%;
+      transform: rotate(3deg);
+    }
+
+    .wire-vertical {
+      position: absolute;
+      border-left: 2px solid #facc15;
+      height: 45%;
+      left: 70%;
+      top: 30%;
+    }
+
+    .outlet {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: #f97316;
+      border: 1px solid #ea580c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .fixture {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 2px solid #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      color: #38bdf8;
+    }
+
+    .panel {
+      position: absolute;
+      width: 32px;
+      height: 20px;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+      font-size: 0.55rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+    }
+
+    /* Issue markers */
+    .issue-marker {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f97316, #b91c1c);
+      border: 2px solid #fecaca;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fee2e2;
+      font-size: 0.65rem;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.7);
+      transform: scale(0.2);
+      opacity: 0;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .issue-marker::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      transform: translate(-50%, 105%);
+      white-space: nowrap;
+      font-size: 0.65rem;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 999px;
+      padding: 2px 6px;
+      border: 1px solid #4b5563;
+      color: #e5e7eb;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s ease, transform 0.1s ease;
+      transform-origin: top center;
+    }
+
+    .issue-marker:hover::after {
+      opacity: 1;
+      transform: translate(-50%, 100%) scale(1.02);
+    }
+
+    body.show-issues .issue-marker {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Specific marker positions (relative to canvas) */
+    .issue-1 {
+      top: 12%;
+      left: 50%;
+    }
+
+    .issue-2 {
+      top: 62%;
+      right: 18%;
+    }
+
+    .issue-3 {
+      bottom: 14%;
+      left: 24%;
+    }
+
+    /* Issues list */
+    .issues-card {
+      margin-top: 12px;
+    }
+
+    .issues-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .issues-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .issues-list {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0;
+      font-size: 0.8rem;
+      display: grid;
+      gap: 4px;
+    }
+
+    .issue-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #1f2937;
+    }
+
+    .severity-pill {
+      font-size: 0.65rem;
+      border-radius: 999px;
+      padding: 2px 6px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    .sev-high {
+      border-color: #f97316;
+      color: #fed7aa;
+      background: rgba(248, 113, 113, 0.12);
+    }
+
+    .sev-medium {
+      border-color: #eab308;
+      color: #fef9c3;
+      background: rgba(234, 179, 8, 0.1);
+    }
+
+    .sev-low {
+      border-color: #22c55e;
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .issue-body {
+      flex: 1;
+    }
+
+    .issue-title {
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+
+    .issue-meta {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    .issue-suggestion {
+      font-size: 0.72rem;
+      color: #e5e7eb;
+      margin-top: 1px;
+    }
+
+    .status-note {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">
+        <span class="logo-pill">Z</span>
+        Zach AI – Plan Consistency
+      </div>
+      <div class="badge">Internal demo · Week 1 concept</div>
+    </header>
+
+    <section class="card">
+      <h1>Detect inconsistencies between Architectural &amp; MEP plans</h1>
+      <p class="subtitle">
+        Upload plan files or use our sample project, then let the AI highlight clashes and design mismatches automatically.
+      </p>
+
+      <div class="upload-row">
+        <div class="upload-box">
+          <label for="archInput">Architectural plan</label>
+          <input id="archInput" type="file" accept=".pdf,.dwg,.dxf,.png,.jpg,.jpeg" />
+          <div class="hint">For demo purposes, file content is not actually parsed yet.</div>
+        </div>
+        <div class="upload-box">
+          <label for="mepInput">Electrical / MEP plan</label>
+          <input id="mepInput" type="file" accept=".pdf,.dwg,.dxf,.png,.jpg,.jpeg" />
+          <div class="hint">Supports layered 2D layouts in future versions.</div>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <div class="buttons">
+          <button id="analyzeBtn" class="primary-btn">
+            <span>⚡ Analyze plans</span>
+          </button>
+          <button id="sampleBtn" class="secondary-btn">
+            🎯 Load sample project
+          </button>
+        </div>
+
+        <div id="statusPill" class="status-pill status-idle">
+          <span class="dot"></span>
+          <span id="statusText">Idle · waiting for plans</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="layout-row">
+        <!-- Left: Architectural plan -->
+        <div>
+          <div class="plan-card-title">
+            <span>Architectural layout</span>
+            <span style="font-size:0.7rem;color:#6b7280;">Rooms, openings, dimensions</span>
+          </div>
+          <div class="plan-wrapper">
+            <div class="plan-canvas" id="archCanvas">
+              <div class="arch-plan-grid">
+                <div class="room">
+                  <div class="room-label">Living room · 4.2m</div>
+                  <div class="window-line"></div>
+                </div>
+                <div class="room">
+                  <div class="room-label">Kitchen</div>
+                </div>
+                <div class="room">
+                  <div class="room-label">Bedroom</div>
+                </div>
+                <div class="room">
+                  <div class="room-label">Bathroom</div>
+                </div>
+              </div>
+
+              <!-- Issue markers (appear after analysis) -->
+              <div
+                class="issue-marker issue-1"
+                data-label="Outlet overlapping window"
+                title="Outlet overlapping window in living room"
+              >
+                !
+              </div>
+              <div
+                class="issue-marker issue-3"
+                data-label="Door swing vs fixture"
+                title="Door swing conflicts with ceiling fixture"
+              >
+                !
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Electrical / MEP plan -->
+        <div>
+          <div class="plan-card-title">
+            <span>Electrical / MEP layout</span>
+            <span style="font-size:0.7rem;color:#6b7280;">Outlets, fixtures, panel &amp; routing</span>
+          </div>
+          <div class="plan-wrapper">
+            <div class="plan-canvas" id="mepCanvas">
+              <div class="electrical-layer">
+                <div class="wire"></div>
+                <div class="wire-vertical"></div>
+
+                <div class="outlet" style="top: 9%; left: 48%;" title="Outlet">
+                  ⏚
+                </div>
+                <div class="outlet" style="top: 37%; left: 23%;" title="Outlet">
+                  ⏚
+                </div>
+                <div class="outlet" style="top: 68%; right: 20%;" title="Outlet">
+                  ⏚
+                </div>
+
+                <div class="fixture" style="top: 58%; left: 24%;" title="Ceiling light">
+                  💡
+                </div>
+                <div class="fixture" style="top: 26%; left: 70%;" title="Ceiling light">
+                  💡
+                </div>
+
+                <div class="panel" style="bottom: 8%; left: 10%;" title="Electrical panel">
+                  DB-01
+                </div>
+              </div>
+
+              <!-- Issue markers -->
+              <div
+                class="issue-marker issue-1"
+                data-label="Outlet on window"
+                title="Electrical outlet placed on sliding window"
+              >
+                1
+              </div>
+              <div
+                class="issue-marker issue-2"
+                data-label="Circuit overload risk"
+                title="Too many outlets on bedroom branch"
+              >
+                2
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Issues list -->
+      <div class="issues-card">
+        <div class="issues-header">
+          <div class="issues-title">AI-detected inconsistencies</div>
+          <div style="font-size:0.7rem;color:#6b7280;" id="issuesSummary">
+            No analysis has been run yet.
+          </div>
+        </div>
+
+        <ul class="issues-list" id="issuesList" style="display:none;">
+          <li class="issue-item">
+            <span class="severity-pill sev-high">High</span>
+            <div class="issue-body">
+              <div class="issue-title">Outlet overlapping living room window</div>
+              <div class="issue-meta">
+                Room: Living room · Ref: ARCH-R1 vs ELEC-O3
+              </div>
+              <div class="issue-suggestion">
+                Recommended to shift outlet 45–60cm away from the sliding window edge to comply with safety and
+                waterproofing constraints.
+              </div>
+            </div>
+          </li>
+
+          <li class="issue-item">
+            <span class="severity-pill sev-medium">Medium</span>
+            <div class="issue-body">
+              <div class="issue-title">Potential bedroom circuit overload</div>
+              <div class="issue-meta">
+                Room: Bedroom · Ref: ELEC-C2 · Load estimation: 3.4kW on 16A breaker
+              </div>
+              <div class="issue-suggestion">
+                Split bedroom general-use sockets into two circuits or upgrade to a dedicated breaker, based on client
+                appliance schedule.
+              </div>
+            </div>
+          </li>
+
+          <li class="issue-item">
+            <span class="severity-pill sev-low">Low</span>
+            <div class="issue-body">
+              <div class="issue-title">Door swing intersects with ceiling fixture axis</div>
+              <div class="issue-meta">
+                Room: Bathroom · Ref: ARCH-D4 vs ELEC-F1
+              </div>
+              <div class="issue-suggestion">
+                Consider shifting the ceiling fixture 25–30cm to avoid visual and functional clash when door is fully
+                open.
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <p class="status-note" id="statusNote">
+          Run an analysis or load the sample project to see how Zach AI surfaces clashes between disciplines.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const body = document.body;
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const sampleBtn = document.getElementById("sampleBtn");
+    const statusPill = document.getElementById("statusPill");
+    const statusText = document.getElementById("statusText");
+    const issuesList = document.getElementById("issuesList");
+    const issuesSummary = document.getElementById("issuesSummary");
+    const statusNote = document.getElementById("statusNote");
+
+    let isAnalyzing = false;
+
+    function setStatus(mode) {
+      statusPill.classList.remove("status-idle", "status-running", "status-done");
+
+      if (mode === "running") {
+        statusPill.classList.add("status-running");
+        statusText.textContent = "Analyzing multi-discipline plans with AI…";
+      } else if (mode === "done") {
+        statusPill.classList.add("status-done");
+        statusText.textContent = "Analysis complete · 3 issues detected";
+      } else {
+        statusPill.classList.add("status-idle");
+        statusText.textContent = "Idle · waiting for plans";
+      }
+    }
+
+    function runAnalysis() {
+      if (isAnalyzing) return;
+      isAnalyzing = true;
+
+      setStatus("running");
+      issuesSummary.textContent = "Running clash detection across layers…";
+      statusNote.textContent = "The engine is aligning plans, extracting entities and checking for clashes.";
+
+      // Fake delay to feel like AI work is being done
+      setTimeout(() => {
+        body.classList.add("show-issues");
+        issuesList.style.display = "grid";
+        setStatus("done");
+        issuesSummary.textContent = "3 inconsistencies found in this unit.";
+        statusNote.textContent =
+          "In a production setup, this step would parse your real CAD/PDF layers and generate a clash report.";
+
+        isAnalyzing = false;
+      }, 1200);
+    }
+
+    analyzeBtn.addEventListener("click", runAnalysis);
+
+    sampleBtn.addEventListener("click", () => {
+      // For now just hint that sample is loaded – the visual is already there
+      issuesSummary.textContent = "Sample project 'APT-3B' loaded · ready to analyze.";
+      statusNote.textContent =
+        "This sample showcases a typical residential unit where AI highlights discipline mismatches.";
+    });
+  </script>
+</body>
+</html>
