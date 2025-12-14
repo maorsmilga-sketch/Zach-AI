@@ -1,19 +1,26 @@
+בטח, בוא נרים את זה! 🎰✈️🥂
+עדכנתי את הקוד עם כל השינויים שביקשת:
+ * השעה: כיוונתי את השעון ל-06:20 (שלוש שעות לפני הטיסה ב-09:20), זמן המפגש בנתב"ג.
+ * האווירה: הוספתי אייקונים של קזינו, ספא ומטוס, ושיניתי את הטקסט למשהו שמשדר חופש וגברים.
+ * הנבחרת: הוספתי רשימה מסודרת של המשתתפים הבטוחים (היצ'קוק, בגדן, מאור ועידו) והפרדתי את ניר ובילי שנמצאים בסימן שאלה.
+הנה הקוד החדש, מוכן להעתקה:
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הספירה לאחור לבוקרשט!</title>
+    <title>בוקרשט 2026 - טיול האחים</title>
     <style>
         /* הגדרות עיצוב כלליות */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=1920&auto=format&fit=crop');
+            /* רקע יוקרתי יותר שמתאים לקזינו/מלון */
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1596525737525-a130f162793b?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,68 +29,116 @@
         }
 
         .container {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(20, 20, 20, 0.85);
             padding: 40px;
-            border-radius: 15px;
-            border: 2px solid #d4af37; /* צבע זהב */
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            border-radius: 20px;
+            border: 2px solid #d4af37; /* זהב */
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            max-width: 800px;
+            width: 90%;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin: 0 0 10px 0;
             color: #d4af37;
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-shadow: 2px 2px 4px #000;
         }
 
-        p {
+        .vibe {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .details {
             font-size: 1.2rem;
+            color: #aaa;
             margin-bottom: 30px;
-            color: #ddd;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .squad {
+            margin: 30px 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .squad h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .names {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pending {
+            font-size: 1rem;
+            color: #ff6b6b; /* אדום עדין */
+            font-style: italic;
         }
 
         /* עיצוב השעון */
         #countdown {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
         .time-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            min-width: 80px;
-            backdrop-filter: blur(5px);
+            background: linear-gradient(145deg, #1a1a1a, #333);
+            padding: 15px 20px;
+            border-radius: 12px;
+            min-width: 70px;
+            border: 1px solid #444;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .number {
             display: block;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: #fff;
         }
 
         .label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #d4af37;
+            text-transform: uppercase;
         }
 
         /* התאמה למובייל */
         @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .number { font-size: 2rem; }
-            .time-box { min-width: 60px; padding: 10px; }
+            h1 { font-size: 2rem; }
+            .vibe { font-size: 1.1rem; }
+            .number { font-size: 1.8rem; }
+            .time-box { min-width: 50px; padding: 10px; }
+            .names { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>האחים היקרים טסים לבוקרשט! 🇷🇴</h1>
-        <p>נפגשים במריוט ב-28.02.2026 בשעה 09:20</p>
+        <h1>האחים היקרים כובשים את בוקרשט! 🇷🇴</h1>
+        <p class="vibe">ספא 🧖‍♂️ | קזינו 🎰 | אלכוהול 🥃 | חופש מהשגרה 🦅</p>
+        
+        <div class="details">
+            📍 נפגשים בנתב"ג (טרמינל 3) <br>
+            📅 28.02.2026 בשעה <strong>06:20</strong> <br>
+            (מתחילים בדיוטי, ממריאים ב-09:20)
+        </div>
         
         <div id="countdown">
             <div class="time-box">
@@ -103,11 +158,21 @@
                 <span class="label">שניות</span>
             </div>
         </div>
+
+        <div class="squad">
+            <h3>⭐ ההרכב הפותח ⭐</h3>
+            <div class="names">
+                היצ'קוק • בגדן • מאור • עידו
+            </div>
+            <div class="pending">
+                ❓ בסימן שאלה (תתעוררו על עצמכם): ניר ובילי
+            </div>
+        </div>
     </div>
 
     <script>
-        // הגדרת תאריך היעד: 28 בפברואר 2026, שעה 09:20
-        const targetDate = new Date("Feb 28, 2026 09:20:00").getTime();
+        // הגדרת תאריך היעד: 28 בפברואר 2026, שעה 06:20 (זמן המפגש)
+        const targetDate = new Date("Feb 28, 2026 06:20:00").getTime();
 
         const timer = setInterval(function() {
             const now = new Date().getTime();
@@ -128,10 +193,11 @@
             // כשהזמן נגמר
             if (distance < 0) {
                 clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<h2>הגיע הזמן לטוס! ✈️</h2>";
+                document.getElementById("countdown").innerHTML = "<h2>🥂 יאללה לדיוטי! נפגשים עכשיו! 🥂</h2>";
             }
         }, 1000);
     </script>
 
 </body>
 </html>
+
