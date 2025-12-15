@@ -3,157 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Construction Coordinator</title>
+    <title>בוקרשט 2026 - טיול האחים</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #f4f4f9; color: #333; }
-        .container { max_width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        /* Header */
-        header { background: #2c3e50; color: white; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; margin-bottom: 30px; }
-        h1 { margin: 0; font-size: 1.8rem; }
-        
-        /* Upload Section */
-        .upload-section { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; gap: 20px; flex-wrap: wrap; }
-        .input-group { flex: 1; min-width: 200px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
-        input[type="file"], input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        button { background: #3498db; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 1rem; margin-top: 25px; transition: 0.3s; }
-        button:hover { background: #2980b9; }
-        button:disabled { background: #ccc; }
+        /* הגדרות עיצוב כלליות */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* רקע יוקרתי יותר שמתאים לקזינו/מלון */
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1596525737525-a130f162793b?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+        }
 
-        /* Comparison Slider CSS */
-        .comparison-container { position: relative; width: 100%; max-width: 800px; height: 500px; margin: 40px auto; overflow: hidden; border: 2px solid #333; display: none; }
-        .img-comp-img { position: absolute; width: 100%; height: 100%; overflow: hidden; }
-        .img-comp-img img { display: block; width: 100%; height: 100%; object-fit: contain; }
-        .slider { position: absolute; z-index: 9; cursor: ew-resize; width: 40px; height: 40px; background-color: #3498db; opacity: 0.7; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .container {
+            background-color: rgba(20, 20, 20, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #d4af37; /* זהב */
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            max-width: 800px;
+            width: 90%;
+        }
 
-        /* Results */
-        #results { background: white; padding: 30px; margin-top: 30px; border-radius: 10px; border-right: 5px solid #3498db; display: none; }
-        .loader { border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h1 {
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .vibe {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .details {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .squad {
+            margin: 30px 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .squad h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .names {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pending {
+            font-size: 1rem;
+            color: #ff6b6b; /* אדום עדין */
+            font-style: italic;
+        }
+
+        /* עיצוב השעון */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .time-box {
+            background: linear-gradient(145deg, #1a1a1a, #333);
+            padding: 15px 20px;
+            border-radius: 12px;
+            min-width: 70px;
+            border: 1px solid #444;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .label {
+            font-size: 0.9rem;
+            color: #d4af37;
+            text-transform: uppercase;
+        }
+
+        /* התאמה למובייל */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .vibe { font-size: 1.1rem; }
+            .number { font-size: 1.8rem; }
+            .time-box { min-width: 50px; padding: 10px; }
+            .names { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>מערכת סנכרון תוכניות חכמה (BIM AI)</h1>
-</header>
-
-<div class="container">
-    <div class="upload-section">
-        <div class="input-group">
-            <label>1. מפתח API (Claude)</label>
-            <input type="password" id="apiKey" placeholder="sk-ant-...">
-        </div>
-        <div class="input-group">
-            <label>2. תוכנית אדריכלית</label>
-            <input type="file" id="archFile" accept="image/*" onchange="previewImage(this, 'imgArch')">
-        </div>
-        <div class="input-group">
-            <label>3. תוכנית חשמל</label>
-            <input type="file" id="elecFile" accept="image/*" onchange="previewImage(this, 'imgElec')">
-        </div>
-        <button onclick="analyzePlans()" id="analyzeBtn">בצע ניתוח AI</button>
-    </div>
-
-    <div class="comparison-container" id="compContainer">
-        <div class="img-comp-img">
-            <img id="imgElec" src="" alt="Electricity">
-        </div>
-        <div class="img-comp-img img-comp-overlay" id="overlayDiv">
-            <img id="imgArch" src="" alt="Architecture">
-        </div>
-    </div>
-    <div style="text-align:center; color:#666; font-size:0.9em; margin-top:5px; display:none;" id="sliderHint">הזז את העכבר שמאלה/ימינה על התמונה להשוואה</div>
-
-    <div class="loader" id="loader"></div>
-    
-    <div id="results">
-        <h2>ממצאי הניתוח:</h2>
-        <div id="reportContent"></div>
-    </div>
-</div>
-
-<script>
-    // לוגיקה לסליידר השוואה
-    function initComparisons() {
-        const container = document.getElementById("compContainer");
-        const overlay = document.getElementById("overlayDiv");
+    <div class="container">
+        <h1>האחים היקרים כובשים את בוקרשט! 🇷🇴</h1>
+        <p class="vibe">ספא 🧖‍♂️ | קזינו 🎰 | אלכוהול 🥃 | חופש מהשגרה 🦅</p>
         
-        container.addEventListener("mousemove", (e) => {
-            let rect = container.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            if (x < 0) x = 0;
-            if (x > rect.width) x = rect.width;
-            overlay.style.width = x + "px";
-        });
-    }
-
-    function previewImage(input, imgId) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById(imgId).src = e.target.result;
-                // אם שתי התמונות נטענו, נציג את הסליידר
-                if(document.getElementById('archFile').files[0] && document.getElementById('elecFile').files[0]){
-                    document.getElementById('compContainer').style.display = "block";
-                    document.getElementById('sliderHint').style.display = "block";
-                    initComparisons();
-                }
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    async function analyzePlans() {
-        const apiKey = document.getElementById('apiKey').value;
-        const archFile = document.getElementById('archFile').files[0];
-        const elecFile = document.getElementById('elecFile').files[0];
-
-        if (!apiKey || !archFile || !elecFile) {
-            alert("נא למלא את כל השדות ולהעלות את שתי התוכניות");
-            return;
-        }
-
-        const btn = document.getElementById('analyzeBtn');
-        const loader = document.getElementById('loader');
-        const results = document.getElementById('results');
+        <div class="details">
+            📍 נפגשים בנתב"ג (טרמינל 3) <br>
+            📅 28.02.2026 בשעה <strong>06:20</strong> <br>
+            (מתחילים בדיוטי, ממריאים ב-09:20)
+        </div>
         
-        btn.disabled = true;
-        btn.innerText = "מעבד נתונים...";
-        loader.style.display = "block";
-        results.style.display = "none";
+        <div id="countdown">
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">ימים</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">שעות</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">דקות</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">שניות</span>
+            </div>
+        </div>
 
-        const formData = new FormData();
-        formData.append('api_key', apiKey);
-        formData.append('arch_file', archFile);
-        formData.append('elec_file', elecFile);
+        <div class="squad">
+            <h3>⭐ ההרכב הפותח ⭐</h3>
+            <div class="names">
+                היצ'קוק • בגדן • מאור • עידו
+            </div>
+            <div class="pending">
+                ❓ בסימן שאלה (תתעוררו על עצמכם): ניר ובילי
+            </div>
+        </div>
+    </div>
 
-        try {
-            const response = await fetch('/analyze', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const data = await response.json();
-            
-            if (data.error) {
-                alert("שגיאה: " + data.error);
-            } else {
-                document.getElementById('reportContent').innerHTML = data.result;
-                results.style.display = "block";
-                // גלילה לתוצאות
-                results.scrollIntoView({ behavior: 'smooth' });
+    <script>
+        // הגדרת תאריך היעד: 28 בפברואר 2026, שעה 06:20 (זמן המפגש)
+        const targetDate = new Date("Feb 28, 2026 06:20:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // חישובי זמן לימים, שעות, דקות ושניות
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // עדכון ה-HTML
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+            // כשהזמן נגמר
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "<h2>🥂 יאללה לדיוטי! נפגשים עכשיו! 🥂</h2>";
             }
-        } catch (error) {
-            alert("שגיאה בתקשורת עם השרת");
-            console.error(error);
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "בצע ניתוח AI";
-            loader.style.display = "none";
-        }
-    }
-</script>
+        }, 1000);
+    </script>
+
 </body>
 </html>
