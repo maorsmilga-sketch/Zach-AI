@@ -7,22 +7,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* רקע "חלומית" - שילוב של סגול, כחול וורוד */
       --bg-gradient: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-      
-      /* אפקט זכוכית (Glassmorphism) */
       --glass-bg: rgba(255, 255, 255, 0.45);
       --glass-border: rgba(255, 255, 255, 0.8);
       --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-      
-      /* צבעים ראשיים */
-      --primary: #667eea; /* סגול כחלחל */
-      --secondary: #764ba2; /* סגול עמוק */
-      --accent: #ff758c; /* ורוד להדגשות */
-      
-      /* טקסט */
-      --text-main: #2d3748; /* אפור כהה */
-      --text-muted: #718096; /* אפור בינוני */
+      --primary: #667eea; 
+      --secondary: #764ba2;
+      --accent: #ff758c; 
+      --text-main: #2d3748;
+      --text-muted: #718096;
     }
 
     body {
@@ -35,7 +28,6 @@
       overflow-x: hidden;
     }
 
-    /* טקסטורת רקע עדינה */
     body::before {
       content: "";
       position: fixed;
@@ -195,14 +187,12 @@
       box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
     }
     
-    /* תמונות בתוך הקנבס */
     .canvas-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
-    /* קונטיינרים פנימיים להפרדה בין 2D ל-3D */
     .view-layer {
       position: absolute;
       top: 0; left: 0;
@@ -308,7 +298,6 @@
     .info-label { font-size: 0.85rem; color: var(--text-muted); }
     .info-val { font-weight: 600; color: var(--text-main); }
 
-    /* Issues List */
     .issue-card {
       background: white;
       border-radius: 12px 12px 12px 2px;
@@ -340,7 +329,6 @@
       font-weight: 600;
     }
     
-    /* View Toggles */
     .view-toggles {
       display: flex;
       gap: 10px;
@@ -365,6 +353,83 @@
       color: var(--secondary);
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       font-weight: 600;
+    }
+
+    /* --- Chat & Q&A Styles --- */
+    .chat-section {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 300px; /* גובה קבוע לאזור השיחה */
+    }
+
+    .chat-history {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 12px;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .chat-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .chat-bubble.bot {
+      align-self: flex-start;
+      background: white;
+      color: var(--text-main);
+      border-bottom-left-radius: 2px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 2px;
+      box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+    }
+
+    .questions-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 5px 0;
+      scrollbar-width: none; /* Firefox */
+    }
+    .questions-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+    .question-chip {
+      white-space: nowrap;
+      background: white;
+      border: 1px solid #e0e0e0;
+      color: var(--secondary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .question-chip:hover {
+      background: var(--secondary);
+      color: white;
+      transform: translateY(-2px);
     }
 
   </style>
@@ -415,14 +480,14 @@
 
   <div class="main-grid">
     
-    <div class="glass-card" style="display:flex; flex-direction:column; min-height:450px;">
+    <div class="glass-card" style="display:flex; flex-direction:column; min-height:600px;">
       
       <div class="view-toggles">
          <button class="toggle-btn active" id="btn2D">Floor Plan View</button>
          <button class="toggle-btn" id="btn3D">3D Model</button>
       </div>
 
-      <div class="canvas-container" id="mainCanvasContainer" style="flex:1;">
+      <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 300px;">
         
         <div id="layer2D" class="view-layer">
             <div class="scan-line"></div>
@@ -435,15 +500,23 @@
         </div>
 
         <div id="layer3D" class="view-layer" style="display:none;">
-            <img src="3d model.jpg" alt="3D Model Visualization" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
+            <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
         </div>
 
       </div>
       
-      <div style="margin-top:15px; background:white; padding:10px; border-radius:12px; display:flex; gap:10px; align-items:center; border:1px solid #eee;">
-         <span style="opacity:0.5;">🎤</span>
-         <input type="text" placeholder="Ask a question about your design files..." style="border:none; outline:none; flex:1; font-family:inherit;">
-         <button style="background:var(--accent); border:none; color:white; width:30px; height:30px; border-radius:8px; cursor:pointer;">➤</button>
+      <div class="chat-section">
+        <div class="chat-history" id="chatHistory">
+           <div class="chat-bubble bot">Hello! I've analyzed your plans. Click a question below to get insights.</div>
+        </div>
+        
+        <div class="questions-container">
+          <button class="question-chip" onclick="askQuestion(0)">What is the total area?</button>
+          <button class="question-chip" onclick="askQuestion(1)">Are there any clashes detected?</button>
+          <button class="question-chip" onclick="askQuestion(2)">Is the design compliant?</button>
+          <button class="question-chip" onclick="askQuestion(3)">How many floors?</button>
+          <button class="question-chip" onclick="askQuestion(4)">Export Report</button>
+        </div>
       </div>
 
     </div>
@@ -502,11 +575,45 @@
   const areaDisplay = document.getElementById('areaDisplay');
   const floorsDisplay = document.getElementById('floorsDisplay');
 
-  // -- View Switching Elements --
+  // View Switching
   const btn2D = document.getElementById('btn2D');
   const btn3D = document.getElementById('btn3D');
   const layer2D = document.getElementById('layer2D');
   const layer3D = document.getElementById('layer3D');
+
+  // Chat Elements
+  const chatHistory = document.getElementById('chatHistory');
+
+  // -- Predefined Q&A Data --
+  const qaData = [
+    { q: "What is the total area?", a: "Based on the floor plan analysis, the total net internal area is **15,250 sq ft**." },
+    { q: "Are there any clashes detected?", a: "Yes, I found **1 critical clash** between the Architectural and Electrical layers in the Living Room (Wall A)." },
+    { q: "Is the design compliant?", a: "Most of the design is compliant. However, the wiring in Bedroom 2 may exceed voltage drop limits (NEC 210.19)." },
+    { q: "How many floors?", a: "This specific blueprint covers **2 Levels**." },
+    { q: "Export Report", a: "I've generated a PDF report with all detected issues and metrics. [Download Report]" }
+  ];
+
+  // -- Chat Logic --
+  function askQuestion(index) {
+    const data = qaData[index];
+    
+    // 1. Add User Bubble
+    addBubble(data.q, 'user');
+
+    // 2. Simulate typing delay then add Bot Bubble
+    setTimeout(() => {
+        addBubble(data.a, 'bot');
+    }, 600);
+  }
+
+  function addBubble(text, type) {
+    const bubble = document.createElement('div');
+    bubble.classList.add('chat-bubble', type);
+    bubble.innerHTML = text; // innerHTML allows bolding etc.
+    chatHistory.appendChild(bubble);
+    // Scroll to bottom
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
 
   // -- View Logic --
   btn2D.addEventListener('click', () => {
@@ -530,24 +637,21 @@
       if (file) {
         const reader = new FileReader();
         reader.onload = (evt) => {
-          // Remove old user-uploaded image in 2D layer
           const oldImg = layer2D.querySelector('img.uploaded-img');
           if(oldImg) oldImg.remove();
           
           layer2D.querySelector('.placeholder-text').style.display = 'none';
           
-          // Add new image
           const img = document.createElement('img');
           img.src = evt.target.result;
           img.classList.add('uploaded-img');
-          // Add specific style to ensure it fits
           img.style.width = '100%';
           img.style.height = '100%';
           img.style.objectFit = 'contain';
           img.style.position = 'absolute';
           img.style.zIndex = '1';
           
-          layer2D.prepend(img); // Put behind markers
+          layer2D.prepend(img);
         };
         reader.readAsDataURL(file);
       }
@@ -558,10 +662,7 @@
 
   // -- Analyze Animation --
   analyzeBtn.addEventListener('click', () => {
-    // Force switch to 2D view to see animation
     btn2D.click();
-    
-    // Add scanning class
     layer2D.classList.add('scanning');
     analyzeBtn.innerHTML = "<span>⏳ Analyzing...</span>";
     
@@ -578,13 +679,17 @@
       animateValueHTML(areaDisplay, 0, 15250, 1500, " sq ft");
       floorsDisplay.innerText = "2 Levels";
 
+      // Trigger a bot message in chat
+      setTimeout(() => {
+        addBubble("Analysis finished. I found 2 issues. How can I help?", 'bot');
+      }, 500);
+
     }, 2000); 
   });
 
   // -- Marker Interactions --
   document.querySelectorAll('.issue-card').forEach(item => {
     item.addEventListener('mouseenter', () => {
-      // Only highlight if we are in 2D view
       if(layer2D.style.display !== 'none') {
           const targetId = item.getAttribute('data-target');
           const targetMarker = document.getElementById(targetId);
