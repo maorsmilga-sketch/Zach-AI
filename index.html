@@ -205,7 +205,7 @@
       box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
     }
     
-    .canvas-container img {
+    .canvas-container img, .canvas-container video {
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -229,7 +229,7 @@
       gap: 10px;
     }
 
-    /* --- Enhanced Scan Line --- */
+    /* --- Scan Line --- */
     .scan-line {
       position: absolute;
       top: 0; left: 0; width: 100%; 
@@ -440,11 +440,51 @@
       font-weight: 600;
     }
     
-    /* Disabled State for Buttons */
     .toggle-btn.disabled {
         opacity: 0.5;
         cursor: not-allowed;
         background: rgba(200,200,200,0.3);
+    }
+
+    /* --- VIDEO OVERLAY STYLES --- */
+    .play-overlay {
+        position: absolute;
+        top: 0; left: 0; 
+        width: 100%; height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.1);
+        z-index: 5;
+    }
+    
+    .btn-play {
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50px;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--secondary);
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(118, 75, 162, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        backdrop-filter: blur(5px);
+        animation: pulseBtn 2s infinite;
+    }
+
+    .btn-play:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(118, 75, 162, 0.5);
+    }
+
+    @keyframes pulseBtn {
+        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
     }
 
   </style>
@@ -515,7 +555,20 @@
         </div>
 
         <div id="layer3D" class="view-layer" style="display:none;">
-            <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
+            <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
+                <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
+                
+                <div class="play-overlay">
+                    <button id="btnPlayVideo" class="btn-play">
+                        <span>▶</span> Run Simulation
+                    </button>
+                </div>
+            </div>
+
+            <video id="video3D" controls style="display:none; width:100%; height:100%; object-fit:contain;">
+                <source src="3d video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
 
       </div>
@@ -608,6 +661,11 @@
   const btn3D = document.getElementById('btn3D');
   const layer2D = document.getElementById('layer2D');
   const layer3D = document.getElementById('layer3D');
+  
+  // Video Elements
+  const image3DContainer = document.getElementById('image3DContainer');
+  const video3D = document.getElementById('video3D');
+  const btnPlayVideo = document.getElementById('btnPlayVideo');
 
   // Chat Elements
   const chatHistory = document.getElementById('chatHistory');
@@ -615,7 +673,6 @@
   // File Names
   const archFileName = document.getElementById('archFileName');
   const mepFileName = document.getElementById('mepFileName');
-  // Files Inputs
   const archInput = document.getElementById('archInput');
 
   // -- Predefined Q&A Data --
@@ -648,6 +705,11 @@
   btn2D.addEventListener('click', () => {
      btn2D.classList.add('active');
      btn3D.classList.remove('active');
+     
+     // Stop video if playing when switching back to 2D
+     video3D.pause();
+     video3D.currentTime = 0;
+     
      layer2D.style.display = 'flex';
      layer3D.style.display = 'none';
   });
@@ -663,6 +725,17 @@
      btn2D.classList.remove('active');
      layer2D.style.display = 'none';
      layer3D.style.display = 'flex';
+     
+     // Reset state (Show image, hide video initially)
+     image3DContainer.style.display = 'block';
+     video3D.style.display = 'none';
+  });
+  
+  // -- Video Logic --
+  btnPlayVideo.addEventListener('click', () => {
+      image3DContainer.style.display = 'none'; // Hide Image
+      video3D.style.display = 'block'; // Show Video
+      video3D.play(); // Play Video
   });
 
   // -- Image Upload Logic (2D) --
