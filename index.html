@@ -1,196 +1,400 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>בוקרשט 2026 - טיול האחים</title>
-    <style>
-        /* הגדרות עיצוב כלליות */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* רקע יוקרתי יותר שמתאים לקזינו/מלון */
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1596525737525-a130f162793b?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <title>Zach AI – Plan Consistency Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* --- גופנים וצבעים בסיסיים (Light Mode) --- */
+    :root { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    
+    body { 
+      margin: 0; 
+      background: #f3f4f6; /* רקע אפור בהיר מאוד ונעים */
+      color: #1f2937; /* טקסט כהה לקריאות מקסימלית */
+    }
+    
+    /* מבנה כללי */
+    .app { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+    
+    /* Header */
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    
+    .logo { 
+      font-size: 1.4rem; 
+      font-weight: 700; 
+      display: flex; align-items: center; gap: 10px; 
+      color: #111827;
+    }
+    
+    .logo-pill { 
+      width: 34px; height: 34px; 
+      border-radius: 10px; 
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6); /* כחול-סגול מודרני */
+      display: inline-flex; align-items: center; justify-content: center; 
+      font-weight: 800; font-size: 1rem; color: #fff; 
+      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+    }
+    
+    .badge { 
+      font-size: 0.75rem; 
+      background: #e0e7ff; 
+      color: #4338ca; 
+      padding: 6px 12px; 
+      border-radius: 999px; 
+      font-weight: 600;
+    }
 
-        .container {
-            background-color: rgba(20, 20, 20, 0.85);
-            padding: 40px;
-            border-radius: 20px;
-            border: 2px solid #d4af37; /* זהב */
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            max-width: 800px;
-            width: 90%;
-        }
+    /* כרטיסיות לבנות ונקיות */
+    .card { 
+      background: #ffffff; 
+      border-radius: 16px; 
+      border: 1px solid #e5e7eb; /* גבול עדין מאוד */
+      padding: 24px; 
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* צל עדין */
+      margin-bottom: 24px; 
+    }
+    
+    h1 { margin: 0 0 8px; font-size: 1.6rem; color: #111827; }
+    .subtitle { margin: 0; font-size: 0.95rem; color: #6b7280; }
+    
+    /* אזור ההעלאה */
+    .upload-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 24px 0; }
+    
+    .upload-box { 
+      border: 2px dashed #cbd5e1; /* קו מקווקו אפור */
+      padding: 20px; 
+      border-radius: 12px; 
+      background: #f8fafc; /* רקע כמעט לבן */
+      display: flex; flex-direction: column; gap: 8px; 
+      transition: 0.2s;
+    }
+    
+    .upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
+    
+    .upload-box label { font-size: 0.9rem; font-weight: 600; color: #374151; }
+    .upload-box input { font-size: 0.85rem; color: #6b7280; }
 
-        h1 {
-            font-size: 3rem;
-            margin: 0 0 10px 0;
-            color: #d4af37;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px #000;
-        }
+    /* כפתורים */
+    .buttons { display: flex; gap: 12px; margin-top: 10px; }
+    
+    button { 
+      padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; 
+      display: flex; align-items: center; gap: 8px; font-weight: 600; transition: 0.2s; font-size: 0.95rem;
+    }
+    
+    .primary-btn { 
+      background: #2563eb; /* כחול רויאל */
+      color: white; 
+      box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2); 
+    }
+    .primary-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+    
+    .secondary-btn { 
+      background: #f1f5f9; 
+      color: #475569; 
+      border: 1px solid #cbd5e1; 
+    }
+    .secondary-btn:hover { background: #e2e8f0; }
+    
+    /* גריד ראשי */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .analysis-grid { grid-template-columns: 1fr; } }
 
-        .vibe {
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
+    /* אזור התוכניות */
+    .plans-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 600px) { .plans-container { grid-template-columns: 1fr; } }
 
-        .details {
-            font-size: 1.2rem;
-            color: #aaa;
-            margin-bottom: 30px;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 10px;
-            display: inline-block;
-        }
+    .plan-wrapper { 
+      background: #ffffff; 
+      border: 1px solid #e5e7eb; 
+      border-radius: 12px; 
+      padding: 12px; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    .plan-canvas { 
+      position: relative; aspect-ratio: 4/3; 
+      background: #f1f5f9; /* רקע אפור ניטרלי לשרטוט */
+      border-radius: 8px; 
+      overflow: hidden; 
+      border: 1px solid #e2e8f0;
+    }
+    
+    .plan-canvas img { width: 100%; height: 100%; object-fit: contain; }
+    
+    .canvas-placeholder { 
+      position: absolute; inset: 0; 
+      display: flex; align-items: center; justify-content: center; 
+      color: #94a3b8; font-weight: 500; font-size: 0.9rem; 
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
 
-        .squad {
-            margin: 30px 0;
-            padding-top: 20px;
-            border-top: 1px solid rgba(212, 175, 55, 0.3);
-        }
+    /* סרגל צד */
+    .details-sidebar {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      position: sticky; top: 20px;
+    }
 
-        .squad h3 {
-            color: #d4af37;
-            margin-bottom: 15px;
-        }
+    .details-title { font-size: 1.1rem; font-weight: 700; color: #111827; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    
+    .ai-badge { 
+      font-size: 0.7rem; 
+      background: #ecfdf5; color: #059669; 
+      border: 1px solid #a7f3d0; 
+      padding: 3px 8px; border-radius: 6px; display: none; 
+    }
+    .show-ai .ai-badge { display: inline-block; }
 
-        .names {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+    .detail-group { margin-bottom: 16px; }
+    .detail-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 6px; }
+    
+    .detail-group input { 
+      width: 100%; 
+      background: #f8fafc; 
+      border: 1px solid #cbd5e1; 
+      color: #1e293b; 
+      padding: 10px; 
+      border-radius: 8px; 
+      font-size: 0.95rem;
+      box-sizing: border-box; 
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .detail-group input:focus { outline: none; border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
 
-        .pending {
-            font-size: 1rem;
-            color: #ff6b6b; /* אדום עדין */
-            font-style: italic;
-        }
+    /* Issue Markers */
+    .issue-marker { 
+      position: absolute; width: 28px; height: 28px; 
+      background: #ef4444; /* אדום פחות זרחני */
+      border: 3px solid #fff; /* מסגרת לבנה בולטת */
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+      border-radius: 50%; 
+      display: flex; align-items: center; justify-content: center; 
+      color: white; font-weight: 700; font-size: 0.85rem; 
+      cursor: pointer; transform: scale(0); 
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+      z-index: 10; 
+    }
+    body.show-results .issue-marker { transform: scale(1); }
+    
+    .pos-1 { top: 20%; left: 40%; }
+    .pos-2 { top: 60%; right: 30%; }
+    
+    /* סטטוס */
+    .status-bar { margin-top: 16px; font-size: 0.9rem; color: #64748b; display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 8px 12px; border-radius: 8px; display: inline-flex;}
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; }
+    .running .status-dot { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2); }
+    .done .status-dot { background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
 
-        /* עיצוב השעון */
-        #countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .time-box {
-            background: linear-gradient(145deg, #1a1a1a, #333);
-            padding: 15px 20px;
-            border-radius: 12px;
-            min-width: 70px;
-            border: 1px solid #444;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .number {
-            display: block;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .label {
-            font-size: 0.9rem;
-            color: #d4af37;
-            text-transform: uppercase;
-        }
-
-        /* התאמה למובייל */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .vibe { font-size: 1.1rem; }
-            .number { font-size: 1.8rem; }
-            .time-box { min-width: 50px; padding: 10px; }
-            .names { font-size: 1.1rem; }
-        }
-    </style>
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>האחים היקרים כובשים את בוקרשט! 🇷🇴</h1>
-        <p class="vibe">ספא 🧖‍♂️ | קזינו 🎰 | אלכוהול 🥃 | חופש מהשגרה 🦅</p>
-        
-        <div class="details">
-            📍 נפגשים בנתב"ג (טרמינל 3) <br>
-            📅 25.02.2026 בשעה <strong>06:20</strong> <br>
-            (מתחילים בדיוטי, ממריאים ב-09:20)
-        </div>
-        
-        <div id="countdown">
-            <div class="time-box">
-                <span class="number" id="days">00</span>
-                <span class="label">ימים</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="hours">00</span>
-                <span class="label">שעות</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="minutes">00</span>
-                <span class="label">דקות</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="seconds">00</span>
-                <span class="label">שניות</span>
-            </div>
-        </div>
+<div class="app">
+  <header>
+    <div class="logo">
+      <span class="logo-pill">Z</span> 
+      Zach AI
+    </div>
+    <div class="badge">Internal Demo v2.0</div>
+  </header>
 
-        <div class="squad">
-            <h3>⭐ ההרכב הפותח ⭐</h3>
-            <div class="names">
-                היצ'קוק • בגדן • מאור • עידו
-            </div>
-            <div class="pending">
-                ❓ בסימן שאלה (תתעוררו על עצמכם): ניר ובילי
-            </div>
-        </div>
+  <section class="card">
+    <h1>Plan Consistency & Extraction</h1>
+    <p class="subtitle">Upload Architectural and MEP plans. The AI will extract project metrics and detect clashes.</p>
+    
+    <div class="upload-row">
+      <div class="upload-box">
+        <label>Architectural Plan (Image)</label>
+        <input type="file" id="archInput" accept="image/*">
+      </div>
+      <div class="upload-box">
+        <label>MEP / Electrical Plan (Image)</label>
+        <input type="file" id="mepInput" accept="image/*">
+      </div>
     </div>
 
-    <script>
-        // הגדרת תאריך היעד: 25 בפברואר 2026, שעה 06:20 (זמן המפגש)
-        const targetDate = new Date("Feb 25, 2026 06:20:00").getTime();
+    <div class="buttons">
+      <button class="primary-btn" id="analyzeBtn"><span>⚡ Analyze & Extract Data</span></button>
+      <button class="secondary-btn" onclick="location.reload()">🔄 Reset</button>
+    </div>
+    
+    <div class="status-bar" id="statusBar">
+      <div class="status-dot"></div>
+      <span id="statusText">Waiting for files...</span>
+    </div>
+  </section>
 
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+  <div class="analysis-grid">
+    
+    <div class="plans-container">
+      <div>
+        <div style="font-size:0.85rem; font-weight:600; color:#64748b; margin-bottom:8px;">Architectural View</div>
+        <div class="plan-wrapper">
+          <div class="plan-canvas" id="archCanvas">
+            <div class="canvas-placeholder">Upload Image</div>
+            <div class="issue-marker pos-1" title="Window/Outlet Clash">!</div>
+          </div>
+        </div>
+      </div>
 
-            // חישובי זמן לימים, שעות, דקות ושניות
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      <div>
+        <div style="font-size:0.85rem; font-weight:600; color:#64748b; margin-bottom:8px;">MEP View</div>
+        <div class="plan-wrapper">
+          <div class="plan-canvas" id="mepCanvas">
+            <div class="canvas-placeholder">Upload Image</div>
+            <div class="issue-marker pos-2" title="Routing Issue">!</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            // עדכון ה-HTML
-            document.getElementById("days").innerHTML = days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+    <div class="details-sidebar" id="detailsSidebar">
+      <div class="details-title">
+        Project Details
+        <span class="ai-badge">✨ AI Detected</span>
+      </div>
+      
+      <div class="detail-group">
+        <label>Total Area (m²)</label>
+        <input type="number" id="areaInput" placeholder="--" />
+      </div>
 
-            // כשהזמן נגמר
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<h2>🥂 יאללה לדיוטי! נפגשים עכשיו! 🥂</h2>";
-            }
-        }, 1000);
-    </script>
+      <div class="detail-group">
+        <label>Number of Floors</label>
+        <input type="number" id="floorsInput" placeholder="--" />
+      </div>
+
+      <div class="detail-group">
+        <label>Number of Rooms</label>
+        <input type="number" id="roomsInput" placeholder="--" />
+      </div>
+
+      <div class="detail-group">
+        <label>Building Type</label>
+        <input type="text" id="typeInput" placeholder="--" />
+      </div>
+
+      <hr style="border:0; border-top:1px solid #e2e8f0; margin: 24px 0;">
+
+      <div style="font-size:0.9rem; font-weight:700; margin-bottom:12px; color:#ef4444; display:flex; align-items:center; gap:6px;">
+        <span style="font-size:1.1rem;">⚠️</span> Detected Issues
+      </div>
+      
+      <div style="font-size:0.85rem; color:#475569; line-height:1.5; background:#fef2f2; padding:12px; border-radius:8px; border:1px solid #fecaca;">
+        <ul style="padding-left:16px; margin:0;">
+          <li id="issueList1" style="display:none;">Outlet overlapping window (Living Room)</li>
+          <li id="issueList2" style="display:none; margin-top:8px;">Circuit overload risk (Bedroom 2)</li>
+        </ul>
+        <span id="noIssuesText" style="color:#94a3b8;">Run analysis to see issues.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Elements
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const statusBar = document.getElementById('statusBar');
+  const statusText = document.getElementById('statusText');
+  const detailsSidebar = document.getElementById('detailsSidebar');
+  
+  // Inputs
+  const areaInput = document.getElementById('areaInput');
+  const floorsInput = document.getElementById('floorsInput');
+  const roomsInput = document.getElementById('roomsInput');
+  const typeInput = document.getElementById('typeInput');
+
+  // Issues
+  const issueList1 = document.getElementById('issueList1');
+  const issueList2 = document.getElementById('issueList2');
+  const noIssuesText = document.getElementById('noIssuesText');
+
+  // Handle Image Uploads
+  function setupUpload(inputId, canvasId) {
+    document.getElementById(inputId).addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const canvas = document.getElementById(canvasId);
+        // Remove old images
+        const oldImg = canvas.querySelector('img');
+        if (oldImg) oldImg.remove();
+        // Hide placeholder
+        canvas.querySelector('.canvas-placeholder').style.display = 'none';
+        
+        // Add new image
+        const img = document.createElement('img');
+        img.src = evt.target.result;
+        canvas.prepend(img); // Put image behind markers
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  setupUpload('archInput', 'archCanvas');
+  setupUpload('mepInput', 'mepCanvas');
+
+  // Analyze Logic
+  analyzeBtn.addEventListener('click', () => {
+    // 1. UI updates to "Running" state
+    statusBar.classList.add('running');
+    statusText.textContent = "AI is scanning geometry and extracting metadata...";
+    analyzeBtn.disabled = true;
+    analyzeBtn.style.opacity = "0.7";
+
+    // 2. Simulate Delay (1.5 seconds)
+    setTimeout(() => {
+      // 3. UI updates to "Done" state
+      statusBar.classList.remove('running');
+      statusBar.classList.add('done');
+      statusText.textContent = "Analysis Complete. Data extracted.";
+      analyzeBtn.disabled = false;
+      analyzeBtn.style.opacity = "1";
+      document.body.classList.add('show-results'); // Shows markers
+      detailsSidebar.classList.add('show-ai'); // Shows AI badge
+
+      // 4. Populate Inputs with "AI" Data (Simulated)
+      animateValue(areaInput, 0, 145, 1000); 
+      floorsInput.value = 1;
+      roomsInput.value = 4;
+      typeInput.value = "Residential Unit";
+
+      // 5. Update Issues List
+      noIssuesText.style.display = 'none';
+      issueList1.style.display = 'list-item';
+      issueList2.style.display = 'list-item';
+
+    }, 1500);
+  });
+
+  function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      obj.value = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }
+
+</script>
 
 </body>
 </html>
