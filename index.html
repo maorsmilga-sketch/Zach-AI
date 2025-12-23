@@ -1,400 +1,241 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Zach AI – Plan Consistency Checker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    /* --- גופנים וצבעים בסיסיים (Light Mode) --- */
-    :root { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    
-    body { 
-      margin: 0; 
-      background: #f3f4f6; /* רקע אפור בהיר מאוד ונעים */
-      color: #1f2937; /* טקסט כהה לקריאות מקסימלית */
-    }
-    
-    /* מבנה כללי */
-    .app { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
-    
-    /* Header */
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-    
-    .logo { 
-      font-size: 1.4rem; 
-      font-weight: 700; 
-      display: flex; align-items: center; gap: 10px; 
-      color: #111827;
-    }
-    
-    .logo-pill { 
-      width: 34px; height: 34px; 
-      border-radius: 10px; 
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6); /* כחול-סגול מודרני */
-      display: inline-flex; align-items: center; justify-content: center; 
-      font-weight: 800; font-size: 1rem; color: #fff; 
-      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-    }
-    
-    .badge { 
-      font-size: 0.75rem; 
-      background: #e0e7ff; 
-      color: #4338ca; 
-      padding: 6px 12px; 
-      border-radius: 999px; 
-      font-weight: 600;
-    }
-
-    /* כרטיסיות לבנות ונקיות */
-    .card { 
-      background: #ffffff; 
-      border-radius: 16px; 
-      border: 1px solid #e5e7eb; /* גבול עדין מאוד */
-      padding: 24px; 
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* צל עדין */
-      margin-bottom: 24px; 
-    }
-    
-    h1 { margin: 0 0 8px; font-size: 1.6rem; color: #111827; }
-    .subtitle { margin: 0; font-size: 0.95rem; color: #6b7280; }
-    
-    /* אזור ההעלאה */
-    .upload-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 24px 0; }
-    
-    .upload-box { 
-      border: 2px dashed #cbd5e1; /* קו מקווקו אפור */
-      padding: 20px; 
-      border-radius: 12px; 
-      background: #f8fafc; /* רקע כמעט לבן */
-      display: flex; flex-direction: column; gap: 8px; 
-      transition: 0.2s;
-    }
-    
-    .upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
-    
-    .upload-box label { font-size: 0.9rem; font-weight: 600; color: #374151; }
-    .upload-box input { font-size: 0.85rem; color: #6b7280; }
-
-    /* כפתורים */
-    .buttons { display: flex; gap: 12px; margin-top: 10px; }
-    
-    button { 
-      padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; 
-      display: flex; align-items: center; gap: 8px; font-weight: 600; transition: 0.2s; font-size: 0.95rem;
-    }
-    
-    .primary-btn { 
-      background: #2563eb; /* כחול רויאל */
-      color: white; 
-      box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2); 
-    }
-    .primary-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
-    
-    .secondary-btn { 
-      background: #f1f5f9; 
-      color: #475569; 
-      border: 1px solid #cbd5e1; 
-    }
-    .secondary-btn:hover { background: #e2e8f0; }
-    
-    /* גריד ראשי */
-    .analysis-grid {
-      display: grid;
-      grid-template-columns: 3fr 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-    @media (max-width: 900px) { .analysis-grid { grid-template-columns: 1fr; } }
-
-    /* אזור התוכניות */
-    .plans-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 600px) { .plans-container { grid-template-columns: 1fr; } }
-
-    .plan-wrapper { 
-      background: #ffffff; 
-      border: 1px solid #e5e7eb; 
-      border-radius: 12px; 
-      padding: 12px; 
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    
-    .plan-canvas { 
-      position: relative; aspect-ratio: 4/3; 
-      background: #f1f5f9; /* רקע אפור ניטרלי לשרטוט */
-      border-radius: 8px; 
-      overflow: hidden; 
-      border: 1px solid #e2e8f0;
-    }
-    
-    .plan-canvas img { width: 100%; height: 100%; object-fit: contain; }
-    
-    .canvas-placeholder { 
-      position: absolute; inset: 0; 
-      display: flex; align-items: center; justify-content: center; 
-      color: #94a3b8; font-weight: 500; font-size: 0.9rem; 
-      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
-
-    /* סרגל צד */
-    .details-sidebar {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      position: sticky; top: 20px;
-    }
-
-    .details-title { font-size: 1.1rem; font-weight: 700; color: #111827; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-    
-    .ai-badge { 
-      font-size: 0.7rem; 
-      background: #ecfdf5; color: #059669; 
-      border: 1px solid #a7f3d0; 
-      padding: 3px 8px; border-radius: 6px; display: none; 
-    }
-    .show-ai .ai-badge { display: inline-block; }
-
-    .detail-group { margin-bottom: 16px; }
-    .detail-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 6px; }
-    
-    .detail-group input { 
-      width: 100%; 
-      background: #f8fafc; 
-      border: 1px solid #cbd5e1; 
-      color: #1e293b; 
-      padding: 10px; 
-      border-radius: 8px; 
-      font-size: 0.95rem;
-      box-sizing: border-box; 
-      font-weight: 500;
-      transition: 0.2s;
-    }
-    .detail-group input:focus { outline: none; border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
-
-    /* Issue Markers */
-    .issue-marker { 
-      position: absolute; width: 28px; height: 28px; 
-      background: #ef4444; /* אדום פחות זרחני */
-      border: 3px solid #fff; /* מסגרת לבנה בולטת */
-      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-      border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center; 
-      color: white; font-weight: 700; font-size: 0.85rem; 
-      cursor: pointer; transform: scale(0); 
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
-      z-index: 10; 
-    }
-    body.show-results .issue-marker { transform: scale(1); }
-    
-    .pos-1 { top: 20%; left: 40%; }
-    .pos-2 { top: 60%; right: 30%; }
-    
-    /* סטטוס */
-    .status-bar { margin-top: 16px; font-size: 0.9rem; color: #64748b; display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 8px 12px; border-radius: 8px; display: inline-flex;}
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; }
-    .running .status-dot { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2); }
-    .done .status-dot { background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
-
-  </style>
-</head>
-<body>
-
-<div class="app">
-  <header>
-    <div class="logo">
-      <span class="logo-pill">Z</span> 
-      Zach AI
-    </div>
-    <div class="badge">Internal Demo v2.0</div>
-  </header>
-
-  <section class="card">
-    <h1>Plan Consistency & Extraction</h1>
-    <p class="subtitle">Upload Architectural and MEP plans. The AI will extract project metrics and detect clashes.</p>
-    
-    <div class="upload-row">
-      <div class="upload-box">
-        <label>Architectural Plan (Image)</label>
-        <input type="file" id="archInput" accept="image/*">
-      </div>
-      <div class="upload-box">
-        <label>MEP / Electrical Plan (Image)</label>
-        <input type="file" id="mepInput" accept="image/*">
-      </div>
-    </div>
-
-    <div class="buttons">
-      <button class="primary-btn" id="analyzeBtn"><span>⚡ Analyze & Extract Data</span></button>
-      <button class="secondary-btn" onclick="location.reload()">🔄 Reset</button>
-    </div>
-    
-    <div class="status-bar" id="statusBar">
-      <div class="status-dot"></div>
-      <span id="statusText">Waiting for files...</span>
-    </div>
-  </section>
-
-  <div class="analysis-grid">
-    
-    <div class="plans-container">
-      <div>
-        <div style="font-size:0.85rem; font-weight:600; color:#64748b; margin-bottom:8px;">Architectural View</div>
-        <div class="plan-wrapper">
-          <div class="plan-canvas" id="archCanvas">
-            <div class="canvas-placeholder">Upload Image</div>
-            <div class="issue-marker pos-1" title="Window/Outlet Clash">!</div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div style="font-size:0.85rem; font-weight:600; color:#64748b; margin-bottom:8px;">MEP View</div>
-        <div class="plan-wrapper">
-          <div class="plan-canvas" id="mepCanvas">
-            <div class="canvas-placeholder">Upload Image</div>
-            <div class="issue-marker pos-2" title="Routing Issue">!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="details-sidebar" id="detailsSidebar">
-      <div class="details-title">
-        Project Details
-        <span class="ai-badge">✨ AI Detected</span>
-      </div>
-      
-      <div class="detail-group">
-        <label>Total Area (m²)</label>
-        <input type="number" id="areaInput" placeholder="--" />
-      </div>
-
-      <div class="detail-group">
-        <label>Number of Floors</label>
-        <input type="number" id="floorsInput" placeholder="--" />
-      </div>
-
-      <div class="detail-group">
-        <label>Number of Rooms</label>
-        <input type="number" id="roomsInput" placeholder="--" />
-      </div>
-
-      <div class="detail-group">
-        <label>Building Type</label>
-        <input type="text" id="typeInput" placeholder="--" />
-      </div>
-
-      <hr style="border:0; border-top:1px solid #e2e8f0; margin: 24px 0;">
-
-      <div style="font-size:0.9rem; font-weight:700; margin-bottom:12px; color:#ef4444; display:flex; align-items:center; gap:6px;">
-        <span style="font-size:1.1rem;">⚠️</span> Detected Issues
-      </div>
-      
-      <div style="font-size:0.85rem; color:#475569; line-height:1.5; background:#fef2f2; padding:12px; border-radius:8px; border:1px solid #fecaca;">
-        <ul style="padding-left:16px; margin:0;">
-          <li id="issueList1" style="display:none;">Outlet overlapping window (Living Room)</li>
-          <li id="issueList2" style="display:none; margin-top:8px;">Circuit overload risk (Bedroom 2)</li>
-        </ul>
-        <span id="noIssuesText" style="color:#94a3b8;">Run analysis to see issues.</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<script>
-  // Elements
-  const analyzeBtn = document.getElementById('analyzeBtn');
-  const statusBar = document.getElementById('statusBar');
-  const statusText = document.getElementById('statusText');
-  const detailsSidebar = document.getElementById('detailsSidebar');
-  
-  // Inputs
-  const areaInput = document.getElementById('areaInput');
-  const floorsInput = document.getElementById('floorsInput');
-  const roomsInput = document.getElementById('roomsInput');
-  const typeInput = document.getElementById('typeInput');
-
-  // Issues
-  const issueList1 = document.getElementById('issueList1');
-  const issueList2 = document.getElementById('issueList2');
-  const noIssuesText = document.getElementById('noIssuesText');
-
-  // Handle Image Uploads
-  function setupUpload(inputId, canvasId) {
-    document.getElementById(inputId).addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const canvas = document.getElementById(canvasId);
-        // Remove old images
-        const oldImg = canvas.querySelector('img');
-        if (oldImg) oldImg.remove();
-        // Hide placeholder
-        canvas.querySelector('.canvas-placeholder').style.display = 'none';
-        
-        // Add new image
-        const img = document.createElement('img');
-        img.src = evt.target.result;
-        canvas.prepend(img); // Put image behind markers
-      };
-      reader.readAsDataURL(file);
-    });
+<style>
+  :root {
+    --bg-main: linear-gradient(135deg, #eef2ff, #ecfeff);
+    --card-bg: linear-gradient(180deg, #ffffff, #f8fafc);
+    --primary: #6366f1;
+    --secondary: #06b6d4;
+    --accent: #a855f7;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --text-main: #0f172a;
+    --text-muted: #475569;
   }
 
-  setupUpload('archInput', 'archCanvas');
-  setupUpload('mepInput', 'mepCanvas');
-
-  // Analyze Logic
-  analyzeBtn.addEventListener('click', () => {
-    // 1. UI updates to "Running" state
-    statusBar.classList.add('running');
-    statusText.textContent = "AI is scanning geometry and extracting metadata...";
-    analyzeBtn.disabled = true;
-    analyzeBtn.style.opacity = "0.7";
-
-    // 2. Simulate Delay (1.5 seconds)
-    setTimeout(() => {
-      // 3. UI updates to "Done" state
-      statusBar.classList.remove('running');
-      statusBar.classList.add('done');
-      statusText.textContent = "Analysis Complete. Data extracted.";
-      analyzeBtn.disabled = false;
-      analyzeBtn.style.opacity = "1";
-      document.body.classList.add('show-results'); // Shows markers
-      detailsSidebar.classList.add('show-ai'); // Shows AI badge
-
-      // 4. Populate Inputs with "AI" Data (Simulated)
-      animateValue(areaInput, 0, 145, 1000); 
-      floorsInput.value = 1;
-      roomsInput.value = 4;
-      typeInput.value = "Residential Unit";
-
-      // 5. Update Issues List
-      noIssuesText.style.display = 'none';
-      issueList1.style.display = 'list-item';
-      issueList2.style.display = 'list-item';
-
-    }, 1500);
-  });
-
-  function animateValue(obj, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      obj.value = Math.floor(progress * (end - start) + start);
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg-main);
+    color: var(--text-main);
   }
 
-</script>
+  .app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 16px 48px;
+  }
 
-</body>
-</html>
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-pill {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: white;
+  }
+
+  .badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #e0e7ff, #cffafe);
+    color: #1e3a8a;
+    font-weight: 600;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 22px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 25px 50px rgba(15, 23, 42, 0.15);
+  }
+
+  h1 {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .upload-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .upload-box {
+    border-radius: 14px;
+    border: 2px dashed #c7d2fe;
+    padding: 14px;
+    background: #f8fafc;
+  }
+
+  .upload-box label {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .hint {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    border-radius: 999px;
+    border: none;
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .primary-btn {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
+  }
+
+  .secondary-btn {
+    background: linear-gradient(135deg, #ecfeff, #e0f2fe);
+    color: #0369a1;
+  }
+
+  .status-pill {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+
+  .status-idle {
+    background: #e2e8f0;
+    color: #334155;
+  }
+
+  .status-running {
+    background: linear-gradient(135deg, #d1fae5, #ccfbf1);
+    color: #065f46;
+  }
+
+  .status-done {
+    background: linear-gradient(135deg, #dbeafe, #ede9fe);
+    color: #1e3a8a;
+  }
+
+  .plan-wrapper {
+    border-radius: 16px;
+    background: white;
+    padding: 10px;
+    box-shadow: inset 0 0 0 2px #e2e8f0;
+  }
+
+  .plan-canvas {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    background: #f1f5f9;
+    overflow: hidden;
+  }
+
+  .issue-marker {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--danger), var(--warning));
+    color: white;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
+    transform: scale(0.3);
+    opacity: 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  body.show-issues .issue-marker {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .issues-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+    display: grid;
+    gap: 6px;
+  }
+
+  .issue-item {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    display: flex;
+    gap: 10px;
+  }
+
+  .severity-pill {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .sev-high {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .sev-medium {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .sev-low {
+    background: #dcfce7;
+    color: #166534;
+  }
+</style>
