@@ -16,6 +16,7 @@
       --accent: #ff758c; 
       --text-main: #2d3748;
       --text-muted: #718096;
+      --laser-color: #00f2ff; /* צבע לייזר חדש */
     }
 
     body {
@@ -115,7 +116,6 @@
 
     .file-input-wrapper {
       position: relative;
-      overflow: hidden;
       cursor: pointer;
     }
     
@@ -124,6 +124,7 @@
       top: 0; left: 0; width: 100%; height: 100%;
       opacity: 0;
       cursor: pointer;
+      z-index: 2;
     }
 
     .upload-btn-visual {
@@ -131,11 +132,28 @@
       padding: 15px;
       border-radius: 12px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       color: var(--secondary);
       font-weight: 500;
+      transition: 0.2s;
+      min-height: 80px;
+    }
+
+    .file-input-wrapper:hover .upload-btn-visual {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .file-name-display {
+        font-size: 0.8rem;
+        color: #10b981; /* ירוק להצלחה */
+        font-weight: 600;
+        margin-top: 4px;
+        min-height: 1.2em;
     }
 
     /* --- Buttons --- */
@@ -211,15 +229,18 @@
       gap: 10px;
     }
 
-    /* Scan Line */
+    /* --- Enhanced Scan Line (Laser) --- */
     .scan-line {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 6px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      top: 0; left: 0; width: 100%; 
+      height: 8px; /* פס עבה יותר */
+      /* גרדיאנט ניאון בולט */
+      background: linear-gradient(to right, transparent, var(--laser-color), #ffffff, var(--laser-color), transparent);
+      /* אפקט זוהר חזק */
+      box-shadow: 0 0 20px var(--laser-color), 0 0 10px rgba(255,255,255,0.8);
       z-index: 20;
       display: none;
-      opacity: 0.8;
+      opacity: 0.9;
       pointer-events: none;
     }
     
@@ -229,10 +250,10 @@
     }
 
     @keyframes scanMove {
-      0% { top: 0%; opacity: 0; }
+      0% { top: -10%; opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: 1; }
-      100% { top: 100%; opacity: 0; }
+      100% { top: 110%; opacity: 0; }
     }
 
     /* Markers */
@@ -320,48 +341,13 @@
       border-left: 3px solid var(--accent);
     }
 
-    .badge-ai {
-      background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      color: #555;
-      font-weight: 600;
-    }
-    
-    .view-toggles {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .toggle-btn {
-      background: rgba(255,255,255,0.5);
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-    .toggle-btn:hover {
-      background: rgba(255,255,255,0.8);
-    }
-    .toggle-btn.active {
-      background: white;
-      color: var(--secondary);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      font-weight: 600;
-    }
-
-    /* --- Chat & Q&A Styles --- */
+    /* Chat & Q&A Styles */
     .chat-section {
       margin-top: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      height: 300px; /* גובה קבוע לאזור השיחה */
+      height: 300px;
     }
 
     .chat-history {
@@ -408,9 +394,9 @@
       gap: 8px;
       overflow-x: auto;
       padding: 5px 0;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
     }
-    .questions-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+    .questions-container::-webkit-scrollbar { display: none; }
 
     .question-chip {
       white-space: nowrap;
@@ -432,6 +418,30 @@
       transform: translateY(-2px);
     }
 
+    /* Toggles */
+    .view-toggles {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .toggle-btn {
+      background: rgba(255,255,255,0.5);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .toggle-btn.active {
+      background: white;
+      color: var(--secondary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body>
@@ -442,11 +452,7 @@
       <div class="logo-icon">▲</div>
       ArcWiz AI
     </div>
-    <div style="display:flex; gap:10px; align-items:center;">
-       <span style="font-size:0.9rem; color:var(--text-main);">Settings</span>
-       <div class="logo-icon" style="width:30px; height:30px; background:#fff; color:#ccc;">⚙</div>
-    </div>
-  </header>
+    </header>
 
   <div class="glass-card">
     <h2 style="margin-top:0; font-size:1.4rem; color:var(--secondary);">Upload Your Architectural Files</h2>
@@ -458,15 +464,16 @@
         <label class="file-input-wrapper">
           <input type="file" id="archInput" accept="image/*">
           <div class="upload-btn-visual">
-            <span style="font-size:1.2rem;">📄</span> Upload Floor Plan
-          </div>
+            <span style="font-size:2rem;">📐</span> <span>Upload Floor Plan</span>
+            <span id="archFileName" class="file-name-display"></span> </div>
         </label>
         
         <label class="file-input-wrapper">
           <input type="file" id="mepInput" accept="image/*">
           <div class="upload-btn-visual">
-            <span style="font-size:1.2rem;">⚡</span> Upload MEP Plan
-          </div>
+            <span style="font-size:2rem;">⚡</span>
+            <span>Upload MEP Plan</span>
+            <span id="mepFileName" class="file-name-display"></span> </div>
         </label>
       </div>
     </div>
@@ -490,8 +497,7 @@
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 300px;">
         
         <div id="layer2D" class="view-layer">
-            <div class="scan-line"></div>
-            <div class="placeholder-text">
+            <div class="scan-line"></div> <div class="placeholder-text">
                <div style="font-size:3rem; opacity:0.3;">🖼️</div>
                Waiting for plan upload...
             </div>
@@ -536,7 +542,7 @@
         <span class="info-val" id="floorsDisplay">--</span>
       </div>
       <div class="info-row">
-        <span class="info-label">Units</span>
+        <span class="info-label">Num. of rooms</span>
         <span class="info-val">8</span>
       </div>
 
@@ -584,6 +590,10 @@
   // Chat Elements
   const chatHistory = document.getElementById('chatHistory');
 
+  // File Names
+  const archFileName = document.getElementById('archFileName');
+  const mepFileName = document.getElementById('mepFileName');
+
   // -- Predefined Q&A Data --
   const qaData = [
     { q: "What is the total area?", a: "Based on the floor plan analysis, the total net internal area is **15,250 sq ft**." },
@@ -596,11 +606,7 @@
   // -- Chat Logic --
   function askQuestion(index) {
     const data = qaData[index];
-    
-    // 1. Add User Bubble
     addBubble(data.q, 'user');
-
-    // 2. Simulate typing delay then add Bot Bubble
     setTimeout(() => {
         addBubble(data.a, 'bot');
     }, 600);
@@ -609,9 +615,8 @@
   function addBubble(text, type) {
     const bubble = document.createElement('div');
     bubble.classList.add('chat-bubble', type);
-    bubble.innerHTML = text; // innerHTML allows bolding etc.
+    bubble.innerHTML = text; 
     chatHistory.appendChild(bubble);
-    // Scroll to bottom
     chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
@@ -631,10 +636,15 @@
   });
 
   // -- Image Upload Logic (2D) --
-  function handleUpload(inputId) {
+  function handleUpload(inputId, nameDisplayId) {
     document.getElementById(inputId).addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
+        // Show File Name
+        const nameDisplay = document.getElementById(nameDisplayId);
+        nameDisplay.textContent = "✅ " + file.name;
+
+        // Render Image
         const reader = new FileReader();
         reader.onload = (evt) => {
           const oldImg = layer2D.querySelector('img.uploaded-img');
@@ -657,8 +667,8 @@
       }
     });
   }
-  handleUpload('archInput');
-  handleUpload('mepInput');
+  handleUpload('archInput', 'archFileName');
+  handleUpload('mepInput', 'mepFileName');
 
   // -- Analyze Animation --
   analyzeBtn.addEventListener('click', () => {
@@ -679,7 +689,6 @@
       animateValueHTML(areaDisplay, 0, 15250, 1500, " sq ft");
       floorsDisplay.innerText = "2 Levels";
 
-      // Trigger a bot message in chat
       setTimeout(() => {
         addBubble("Analysis finished. I found 2 issues. How can I help?", 'bot');
       }, 500);
