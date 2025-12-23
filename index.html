@@ -16,7 +16,7 @@
       --accent: #ff758c; 
       --text-main: #2d3748;
       --text-muted: #718096;
-      --laser-color: #00f2ff; /* צבע לייזר חדש */
+      --laser-color: #00f2ff;
     }
 
     body {
@@ -150,7 +150,7 @@
 
     .file-name-display {
         font-size: 0.8rem;
-        color: #10b981; /* ירוק להצלחה */
+        color: #10b981; 
         font-weight: 600;
         margin-top: 4px;
         min-height: 1.2em;
@@ -229,14 +229,12 @@
       gap: 10px;
     }
 
-    /* --- Enhanced Scan Line (Laser) --- */
+    /* --- Enhanced Scan Line --- */
     .scan-line {
       position: absolute;
       top: 0; left: 0; width: 100%; 
-      height: 8px; /* פס עבה יותר */
-      /* גרדיאנט ניאון בולט */
+      height: 8px;
       background: linear-gradient(to right, transparent, var(--laser-color), #ffffff, var(--laser-color), transparent);
-      /* אפקט זוהר חזק */
       box-shadow: 0 0 20px var(--laser-color), 0 0 10px rgba(255,255,255,0.8);
       z-index: 20;
       display: none;
@@ -452,7 +450,7 @@
       <div class="logo-icon">▲</div>
       ArcWiz AI
     </div>
-    </header>
+  </header>
 
   <div class="glass-card">
     <h2 style="margin-top:0; font-size:1.4rem; color:var(--secondary);">Upload Your Architectural Files</h2>
@@ -464,8 +462,10 @@
         <label class="file-input-wrapper">
           <input type="file" id="archInput" accept="image/*">
           <div class="upload-btn-visual">
-            <span style="font-size:2rem;">📐</span> <span>Upload Floor Plan</span>
-            <span id="archFileName" class="file-name-display"></span> </div>
+            <span style="font-size:2rem;">📐</span>
+            <span>Upload Floor Plan</span>
+            <span id="archFileName" class="file-name-display"></span>
+          </div>
         </label>
         
         <label class="file-input-wrapper">
@@ -473,7 +473,8 @@
           <div class="upload-btn-visual">
             <span style="font-size:2rem;">⚡</span>
             <span>Upload MEP Plan</span>
-            <span id="mepFileName" class="file-name-display"></span> </div>
+            <span id="mepFileName" class="file-name-display"></span>
+          </div>
         </label>
       </div>
     </div>
@@ -497,7 +498,8 @@
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 300px;">
         
         <div id="layer2D" class="view-layer">
-            <div class="scan-line"></div> <div class="placeholder-text">
+            <div class="scan-line"></div> 
+            <div class="placeholder-text">
                <div style="font-size:3rem; opacity:0.3;">🖼️</div>
                Waiting for plan upload...
             </div>
@@ -517,10 +519,10 @@
         </div>
         
         <div class="questions-container">
-          <button class="question-chip" onclick="askQuestion(0)">What is the total area?</button>
+          <button class="question-chip" onclick="askQuestion(0)">What is the building area?</button>
           <button class="question-chip" onclick="askQuestion(1)">Are there any clashes detected?</button>
-          <button class="question-chip" onclick="askQuestion(2)">Is the design compliant?</button>
-          <button class="question-chip" onclick="askQuestion(3)">How many floors?</button>
+          <button class="question-chip" onclick="askQuestion(2)">How many rooms?</button>
+          <button class="question-chip" onclick="askQuestion(3)">Outdoor space details?</button>
           <button class="question-chip" onclick="askQuestion(4)">Export Report</button>
         </div>
       </div>
@@ -538,12 +540,20 @@
         <span class="info-val" id="areaDisplay">--</span>
       </div>
       <div class="info-row">
-        <span class="info-label">Floors</span>
-        <span class="info-val" id="floorsDisplay">--</span>
+        <span class="info-label">Num. of rooms</span>
+        <span class="info-val" id="roomsDisplay">--</span>
       </div>
       <div class="info-row">
-        <span class="info-label">Num. of rooms</span>
-        <span class="info-val">8</span>
+        <span class="info-label">Bathrooms</span>
+        <span class="info-val" id="bathsDisplay">--</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Outdoor Space</span>
+        <span class="info-val" id="outdoorDisplay">--</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Floors</span>
+        <span class="info-val" id="floorsDisplay">--</span>
       </div>
 
       <div style="margin-top:30px;">
@@ -578,7 +588,12 @@
   const waitingText = document.getElementById('waitingText');
   const aiStatus = document.getElementById('aiStatus');
   const markers = document.querySelectorAll('.marker');
+  
+  // -- New Summary Elements --
   const areaDisplay = document.getElementById('areaDisplay');
+  const roomsDisplay = document.getElementById('roomsDisplay');
+  const bathsDisplay = document.getElementById('bathsDisplay');
+  const outdoorDisplay = document.getElementById('outdoorDisplay');
   const floorsDisplay = document.getElementById('floorsDisplay');
 
   // View Switching
@@ -594,12 +609,12 @@
   const archFileName = document.getElementById('archFileName');
   const mepFileName = document.getElementById('mepFileName');
 
-  // -- Predefined Q&A Data --
+  // -- Predefined Q&A Data (Updated) --
   const qaData = [
-    { q: "What is the total area?", a: "Based on the floor plan analysis, the total net internal area is **15,250 sq ft**." },
+    { q: "What is the building area?", a: "Based on the floor plan analysis, the building area is **~88 sqm**." },
     { q: "Are there any clashes detected?", a: "Yes, I found **1 critical clash** between the Architectural and Electrical layers in the Living Room (Wall A)." },
-    { q: "Is the design compliant?", a: "Most of the design is compliant. However, the wiring in Bedroom 2 may exceed voltage drop limits (NEC 210.19)." },
-    { q: "How many floors?", a: "This specific blueprint covers **2 Levels**." },
+    { q: "How many rooms?", a: "This unit features **3 Rooms**." },
+    { q: "Outdoor space details?", a: "The plan includes **1 Balcony**." },
     { q: "Export Report", a: "I've generated a PDF report with all detected issues and metrics. [Download Report]" }
   ];
 
@@ -670,7 +685,7 @@
   handleUpload('archInput', 'archFileName');
   handleUpload('mepInput', 'mepFileName');
 
-  // -- Analyze Animation --
+  // -- Analyze Animation & Data Population --
   analyzeBtn.addEventListener('click', () => {
     btn2D.click();
     layer2D.classList.add('scanning');
@@ -686,11 +701,16 @@
       issuesList.style.display = 'block';
 
       markers.forEach(m => m.style.transform = "scale(1)");
-      animateValueHTML(areaDisplay, 0, 15250, 1500, " sq ft");
-      floorsDisplay.innerText = "2 Levels";
+      
+      // Update Summary Data
+      animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
+      roomsDisplay.innerText = "3";
+      bathsDisplay.innerText = "2 Full Bathrooms";
+      outdoorDisplay.innerText = "1 Balcony";
+      floorsDisplay.innerText = "1 Level"; // Updated to 1 Level
 
       setTimeout(() => {
-        addBubble("Analysis finished. I found 2 issues. How can I help?", 'bot');
+        addBubble("Analysis finished. I updated the summary with new metrics. How can I help?", 'bot');
       }, 500);
 
     }, 2000); 
@@ -720,7 +740,7 @@
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
       const val = Math.floor(progress * (end - start) + start);
-      element.innerText = val.toLocaleString() + suffix;
+      element.innerText = "~" + val.toLocaleString() + suffix;
       if (progress < 1) {
         window.requestAnimationFrame(step);
       }
