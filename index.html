@@ -446,45 +446,128 @@
         background: rgba(200,200,200,0.3);
     }
 
-    /* --- VIDEO OVERLAY STYLES --- */
-    .play-overlay {
+    /* --- VIDEO FLOATING BUTTON STYLES --- */
+    .floating-play-btn {
         position: absolute;
-        top: 0; left: 0; 
-        width: 100%; height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0,0,0,0.1);
-        z-index: 5;
-    }
-    
-    .btn-play {
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         background: rgba(255, 255, 255, 0.9);
         border: none;
         border-radius: 50px;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        font-weight: 700;
+        padding: 10px 24px;
+        font-size: 0.95rem;
+        font-weight: 600;
         color: var(--secondary);
         cursor: pointer;
-        box-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(118, 75, 162, 0.3);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         display: flex;
         align-items: center;
-        gap: 10px;
-        transition: transform 0.2s, box-shadow 0.2s;
+        gap: 8px;
+        transition: all 0.2s;
         backdrop-filter: blur(5px);
-        animation: pulseBtn 2s infinite;
+        z-index: 10;
     }
 
-    .btn-play:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(118, 75, 162, 0.5);
+    .floating-play-btn:hover {
+        transform: translateX(-50%) translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        background: white;
     }
 
-    @keyframes pulseBtn {
-        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-        70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    .close-video-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 20;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+    }
+    .close-video-btn:hover {
+        background: rgba(220, 38, 38, 0.9);
+    }
+
+    /* --- CUSTOM POPUP MODAL --- */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .modal-content {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 1);
+        padding: 30px;
+        border-radius: 24px;
+        width: 320px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        transform: scale(0.8);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.active .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .modal-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--secondary);
+        margin-bottom: 10px;
+    }
+
+    .modal-text {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+    }
+
+    .modal-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: 0.2s;
+        box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+    }
+
+    .modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(102, 126, 234, 0.6);
     }
 
   </style>
@@ -555,20 +638,23 @@
         </div>
 
         <div id="layer3D" class="view-layer" style="display:none;">
+            
             <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
                 <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
                 
-                <div class="play-overlay">
-                    <button id="btnPlayVideo" class="btn-play">
-                        <span>▶</span> Run Simulation
-                    </button>
-                </div>
+                <button id="btnPlayVideo" class="floating-play-btn">
+                    <span>▶</span> Run Video Simulation
+                </button>
             </div>
 
-            <video id="video3D" controls style="display:none; width:100%; height:100%; object-fit:contain;">
-                <source src="3d video.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div id="videoContainer" style="display:none; width:100%; height:100%; position:relative;">
+                <button id="btnCloseVideo" class="close-video-btn" title="Back to Image">✕</button>
+                <video id="video3D" controls style="width:100%; height:100%; object-fit:contain;">
+                    <source src="3d video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
         </div>
 
       </div>
@@ -641,6 +727,15 @@
   </div>
 </div>
 
+<div id="customModal" class="modal-overlay">
+    <div class="modal-content glass-card">
+        <span class="modal-icon">⚠️</span>
+        <div class="modal-title">Attention</div>
+        <div id="modalMessage" class="modal-text">Please upload a file first.</div>
+        <button id="closeModalBtn" class="modal-btn">Understood</button>
+    </div>
+</div>
+
 <script>
   // -- Elements --
   const analyzeBtn = document.getElementById('analyzeBtn');
@@ -664,8 +759,10 @@
   
   // Video Elements
   const image3DContainer = document.getElementById('image3DContainer');
+  const videoContainer = document.getElementById('videoContainer');
   const video3D = document.getElementById('video3D');
   const btnPlayVideo = document.getElementById('btnPlayVideo');
+  const btnCloseVideo = document.getElementById('btnCloseVideo');
 
   // Chat Elements
   const chatHistory = document.getElementById('chatHistory');
@@ -674,6 +771,28 @@
   const archFileName = document.getElementById('archFileName');
   const mepFileName = document.getElementById('mepFileName');
   const archInput = document.getElementById('archInput');
+
+  // Modal Elements
+  const customModal = document.getElementById('customModal');
+  const modalMessage = document.getElementById('modalMessage');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  // -- Modal Logic --
+  function showCustomAlert(msg) {
+      modalMessage.innerText = msg;
+      customModal.classList.add('active');
+  }
+
+  closeModalBtn.addEventListener('click', () => {
+      customModal.classList.remove('active');
+  });
+  
+  // Close modal when clicking outside
+  customModal.addEventListener('click', (e) => {
+      if(e.target === customModal) {
+          customModal.classList.remove('active');
+      }
+  });
 
   // -- Predefined Q&A Data --
   const qaData = [
@@ -701,7 +820,7 @@
     chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
-  // -- View Logic (With Protection) --
+  // -- View Logic (With Custom Modal Protection) --
   btn2D.addEventListener('click', () => {
      btn2D.classList.add('active');
      btn3D.classList.remove('active');
@@ -717,7 +836,7 @@
   btn3D.addEventListener('click', () => {
      // Validation: Check if File Uploaded
      if(archInput.files.length === 0) {
-         alert("⚠️ Please upload a Floor Plan file to view the 3D Model.");
+         showCustomAlert("Please upload a Floor Plan file to view the 3D Model.");
          return;
      }
      
@@ -726,16 +845,23 @@
      layer2D.style.display = 'none';
      layer3D.style.display = 'flex';
      
-     // Reset state (Show image, hide video initially)
+     // Reset state: Show image, hide video
      image3DContainer.style.display = 'block';
-     video3D.style.display = 'none';
+     videoContainer.style.display = 'none';
+     video3D.pause();
   });
   
   // -- Video Logic --
   btnPlayVideo.addEventListener('click', () => {
       image3DContainer.style.display = 'none'; // Hide Image
-      video3D.style.display = 'block'; // Show Video
+      videoContainer.style.display = 'block'; // Show Video Container
       video3D.play(); // Play Video
+  });
+
+  btnCloseVideo.addEventListener('click', () => {
+      video3D.pause();
+      videoContainer.style.display = 'none'; // Hide Video
+      image3DContainer.style.display = 'block'; // Show Image Back
   });
 
   // -- Image Upload Logic (2D) --
@@ -782,7 +908,7 @@
   analyzeBtn.addEventListener('click', () => {
     // Validation Check: Is File Uploaded?
     if (archInput.files.length === 0) {
-        alert("⚠️ Please upload a Floor Plan file first!");
+        showCustomAlert("Please upload a Floor Plan file first!");
         return; 
     }
 
