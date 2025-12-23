@@ -2,34 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Zach AI – Interactive Interface</title>
+  <title>Zach AI – ArcWiz Style</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --primary: #00f2ff; /* Cyan Neon */
-      --secondary: #bd00ff; /* Purple Neon */
-      --accent: #ff0055; /* Pink Neon */
-      --text-main: #ffffff;
-      --text-muted: #a0a0c0;
+      /* רקע "חלומית" - שילוב של סגול, כחול וורוד */
+      --bg-gradient: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+      
+      /* אפקט זכוכית (Glassmorphism) */
+      --glass-bg: rgba(255, 255, 255, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.8);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      
+      /* צבעים ראשיים */
+      --primary: #667eea; /* סגול כחלחל */
+      --secondary: #764ba2; /* סגול עמוק */
+      --accent: #ff758c; /* ורוד להדגשות */
+      
+      /* טקסט */
+      --text-main: #2d3748; /* אפור כהה */
+      --text-muted: #718096; /* אפור בינוני */
     }
 
     body {
       margin: 0;
       background: var(--bg-gradient);
-      background-attachment: fixed;
-      font-family: 'Outfit', sans-serif;
+      background-attachment: fixed; /* הרקע נשאר קבוע בגלילה */
+      font-family: 'Poppins', sans-serif;
       color: var(--text-main);
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
+    /* הוספת טקסטורה של "כוכבים/חלקיקים" עדינה ברקע */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(#ffffff 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: -1;
+    }
+
     .app {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 30px 20px;
     }
 
     /* --- Header --- */
@@ -37,134 +58,141 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .logo {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      color: var(--secondary);
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .logo-icon {
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      color: #000;
-      box-shadow: 0 0 20px var(--secondary);
+      color: white;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);
     }
 
-    /* --- Glass Cards --- */
+    /* --- Glass Cards (הקונטיינרים הלבנים) --- */
     .glass-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(12px); /* טשטוש הרקע מאחור */
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      padding: 30px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      margin-bottom: 30px;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--glass-shadow);
+      margin-bottom: 24px;
       transition: transform 0.3s ease;
     }
 
     /* --- Upload Zone --- */
-    .upload-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .upload-zone {
-      border: 2px dashed var(--glass-border);
+    .upload-container {
+      border: 2px dashed #b8c6db;
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 16px;
       padding: 30px;
       text-align: center;
-      transition: 0.3s;
-      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .upload-container:hover {
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .file-input-wrapper {
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
-
-    .upload-zone:hover {
-      border-color: var(--primary);
-      background: rgba(0, 242, 255, 0.05);
-      transform: translateY(-5px);
-    }
-
-    .upload-zone input {
+    
+    .file-input-wrapper input {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       opacity: 0;
       cursor: pointer;
     }
 
-    .icon-upload {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      color: var(--primary);
+    .upload-btn-visual {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      color: var(--secondary);
+      font-weight: 500;
     }
 
     /* --- Buttons --- */
     .btn-grad {
-      background-image: linear-gradient(to right, #00f2ff 0%, #bd00ff 51%, #00f2ff 100%);
+      background-image: linear-gradient(to right, #667eea 0%, #764ba2 51%, #667eea 100%);
       margin-top: 20px;
-      padding: 15px 45px;
+      padding: 12px 40px;
       text-align: center;
       text-transform: uppercase;
       transition: 0.5s;
       background-size: 200% auto;
       color: white;
-      box-shadow: 0 0 20px #eee;
+      box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
       border-radius: 50px;
       border: none;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .btn-grad:hover {
-      background-position: right center; /* change the direction of the change here */
-      color: #fff;
-      text-decoration: none;
-      box-shadow: 0 0 30px var(--secondary);
+      background-position: right center;
+      transform: translateY(-2px);
     }
 
-    /* --- Main Interface --- */
+    /* --- Main Interface Layout --- */
     .main-grid {
       display: grid;
-      grid-template-columns: 2.5fr 1fr;
-      gap: 30px;
+      grid-template-columns: 2.5fr 1fr; /* חלוקה כמו בתמונה */
+      gap: 24px;
     }
     @media(max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
 
     /* Canvas Area */
     .canvas-container {
       position: relative;
-      background: rgba(0,0,0,0.3);
+      background: rgba(255, 255, 255, 0.6);
       border-radius: 16px;
       aspect-ratio: 16/9;
       overflow: hidden;
-      border: 1px solid var(--glass-border);
+      border: 1px solid white;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
     }
     
     .canvas-container img {
@@ -175,20 +203,21 @@
 
     .placeholder-text {
       color: var(--text-muted);
-      font-size: 1.2rem;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* The Scanner Laser */
+    /* The Scanner Bar (Soft White/Blue instead of neon green) */
     .scan-line {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--primary);
-      box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
+      top: 0; left: 0; width: 100%; height: 6px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
       z-index: 20;
-      display: none; /* Hidden by default */
+      display: none;
       opacity: 0.8;
     }
     
@@ -204,14 +233,14 @@
       100% { top: 100%; opacity: 0; }
     }
 
-    /* Markers */
+    /* Markers (Softer colors) */
     .marker {
       position: absolute;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: rgba(255, 0, 85, 0.2);
-      border: 2px solid var(--accent);
+      background: var(--accent); /* ורוד */
+      border: 3px solid white;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -219,7 +248,10 @@
       transform: scale(0);
       transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 10;
-      box-shadow: 0 0 15px var(--accent);
+      box-shadow: 0 4px 10px rgba(255, 117, 140, 0.5);
+      color: white;
+      font-weight: bold;
+      font-size: 0.8rem;
     }
 
     .marker::after {
@@ -228,97 +260,96 @@
       width: 100%; height: 100%;
       border-radius: 50%;
       border: 1px solid var(--accent);
-      animation: pulse 1.5s infinite;
+      animation: pulse 2s infinite;
+      opacity: 0.5;
+      transform: scale(1);
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(2.5); opacity: 0; }
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(2); opacity: 0; }
     }
 
     .marker.active {
-      background: var(--accent);
-      color: white;
       transform: scale(1.3) !important;
+      background: #764ba2;
       z-index: 100;
     }
 
-    /* Sidebar Controls */
+    /* Sidebar / Summary */
     .sidebar-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-bottom: 20px;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      display: flex;
-      justify-content: space-between;
+      color: var(--secondary);
+      font-weight: 600;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding-bottom: 10px;
     }
 
-    .input-group {
+    .info-row {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+    }
+    
+    .info-label { font-size: 0.85rem; color: var(--text-muted); }
+    .info-val { font-weight: 600; color: var(--text-main); }
+
+    /* Issues / Chat Style */
+    .issue-card {
+      background: white;
+      border-radius: 12px 12px 12px 2px; /* Chat bubble shape */
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,0.02);
+      cursor: pointer;
+      transition: 0.2s;
       position: relative;
     }
 
-    .input-group label {
-      display: block;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 5px;
-    }
-
-    .input-group input {
-      width: 100%;
-      background: rgba(0,0,0,0.2);
-      border: 1px solid var(--glass-border);
-      padding: 12px;
-      border-radius: 8px;
-      color: white;
-      font-family: inherit;
-      transition: 0.3s;
-      box-sizing: border-box;
-    }
-
-    .input-group input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
-    }
-
-    /* Issues List */
-    .issue-item {
-      background: rgba(255, 255, 255, 0.03);
-      border-left: 3px solid var(--accent);
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 0 8px 8px 0;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .issue-item:hover {
-      background: rgba(255, 0, 85, 0.1);
+    .issue-card:hover {
       transform: translateX(5px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      border-left: 3px solid var(--accent);
     }
     
-    .issue-item.highlighted {
-      background: linear-gradient(90deg, rgba(255, 0, 85, 0.2), transparent);
-      box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
+    .issue-card.highlighted {
+      background: #fdf2f8; /* ורוד בהיר מאוד */
+      border-left: 3px solid var(--accent);
     }
 
     .badge-ai {
-      background: linear-gradient(135deg, #11998e, #38ef7d);
-      padding: 4px 8px;
-      border-radius: 6px;
+      background: linear-gradient(135deg, #8ec5fc, #e0c3fc);
+      padding: 4px 10px;
+      border-radius: 20px;
       font-size: 0.7rem;
-      color: #000;
-      font-weight: bold;
-      animation: shimmer 2s infinite;
+      color: #555;
+      font-weight: 600;
     }
     
-    @keyframes shimmer {
-      0% { opacity: 0.8; }
-      50% { opacity: 1; filter: brightness(1.2); }
-      100% { opacity: 0.8; }
+    /* פקדי תצוגה */
+    .view-toggles {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .toggle-btn {
+      background: rgba(255,255,255,0.5);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .toggle-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
   </style>
@@ -328,92 +359,111 @@
 <div class="app">
   <header>
     <div class="logo">
-      <div class="logo-icon">Z</div>
-      Zach AI
+      <div class="logo-icon">▲</div>
+      ArcWiz AI
     </div>
-    <div style="display:flex; gap:10px;">
-        <span class="badge-ai">System Online</span>
+    <div style="display:flex; gap:10px; align-items:center;">
+       <span style="font-size:0.9rem; color:var(--text-main);">Settings</span>
+       <div class="logo-icon" style="width:30px; height:30px; background:#fff; color:#ccc;">⚙</div>
     </div>
   </header>
 
   <div class="glass-card">
-    <h2 style="margin-top:0;">1. Upload Blueprints</h2>
-    <p style="color:var(--text-muted);">Select your files. Supported formats: JPG, PNG, PDF.</p>
+    <h2 style="margin-top:0; font-size:1.4rem; color:var(--secondary);">Upload Your Architectural Files</h2>
     
-    <div class="upload-grid">
-      <div class="upload-zone">
-        <input type="file" id="archInput" accept="image/*">
-        <div class="icon-upload">🏛️</div>
-        <div><strong>Architectural Plan</strong><br><span style="font-size:0.8rem; color:var(--text-muted)">Drop file here</span></div>
-      </div>
-      <div class="upload-zone">
-        <input type="file" id="mepInput" accept="image/*">
-        <div class="icon-upload">⚡</div>
-        <div><strong>MEP / Electrical Plan</strong><br><span style="font-size:0.8rem; color:var(--text-muted)">Drop file here</span></div>
+    <div class="upload-container">
+      <p style="color:var(--text-muted); margin-bottom:20px;">Drag & drop files here or Browse Files<br><span style="font-size:0.8rem;">Supported formats: PDF, DWG, RVT, JPG</span></p>
+      
+      <div class="upload-grid">
+        <label class="file-input-wrapper">
+          <input type="file" id="archInput" accept="image/*">
+          <div class="upload-btn-visual">
+            <span style="font-size:1.2rem;">📄</span> Upload Floor Plan
+          </div>
+        </label>
+        
+        <label class="file-input-wrapper">
+          <input type="file" id="mepInput" accept="image/*">
+          <div class="upload-btn-visual">
+            <span style="font-size:1.2rem;">⚡</span> Upload MEP Plan
+          </div>
+        </label>
       </div>
     </div>
-
-    <center>
-      <button class="btn-grad" id="analyzeBtn">
-        <span>🚀 Initiate Deep Scan</span>
+    
+    <div style="text-align:center;">
+       <button class="btn-grad" id="analyzeBtn">
+        <span>✨ Analyze Project</span>
       </button>
-    </center>
+    </div>
   </div>
 
   <div class="main-grid">
     
-    <div class="glass-card" style="padding:10px;">
-      <div style="display:flex; gap:10px; margin-bottom:10px; padding:10px;">
-        <button id="showArch" class="input-group" style="background:none; border:none; color:var(--primary); cursor:pointer; font-weight:bold;">ARCH VIEW</button>
-        <span style="color:var(--glass-border)">|</span>
-        <button id="showMep" class="input-group" style="background:none; border:none; color:var(--text-muted); cursor:pointer;">MEP VIEW</button>
+    <div class="glass-card" style="display:flex; flex-direction:column; min-height:400px;">
+      
+      <div class="view-toggles">
+         <button class="toggle-btn active">Floor Plan View</button>
+         <button class="toggle-btn">3D Model</button>
       </div>
 
-      <div class="canvas-container" id="mainCanvasContainer">
+      <div class="canvas-container" id="mainCanvasContainer" style="flex:1;">
         <div class="scan-line"></div>
-        <div class="placeholder-text">Awaiting Input...</div>
-        <div id="marker1" class="marker" style="top: 30%; left: 45%;" title="Clash Detected">!</div>
-        <div id="marker2" class="marker" style="top: 65%; right: 20%;" title="Routing Error">!</div>
+        <div class="placeholder-text">
+           <div style="font-size:3rem; opacity:0.3;">🖼️</div>
+           Waiting for plan upload...
+        </div>
+        
+        <div id="marker1" class="marker" style="top: 30%; left: 45%;" title="Clash Detected">1</div>
+        <div id="marker2" class="marker" style="top: 65%; right: 20%;" title="Routing Error">2</div>
       </div>
+      
+      <div style="margin-top:15px; background:white; padding:10px; border-radius:12px; display:flex; gap:10px; align-items:center; border:1px solid #eee;">
+         <span style="opacity:0.5;">🎤</span>
+         <input type="text" placeholder="Ask a question about your design files..." style="border:none; outline:none; flex:1; font-family:inherit;">
+         <button style="background:var(--accent); border:none; color:white; width:30px; height:30px; border-radius:8px; cursor:pointer;">➤</button>
+      </div>
+
     </div>
 
     <div class="glass-card">
       <div class="sidebar-title">
-        Analysis Data
-        <span class="badge-ai" id="aiStatus" style="display:none;">AI ACTIVE</span>
+        File Analysis Summary
+        <span class="badge-ai" id="aiStatus" style="display:none; float:right;">Done</span>
       </div>
 
-      <div class="input-group">
-        <label>Total Floor Area (m²)</label>
-        <input type="number" id="areaInput" placeholder="---">
+      <div class="info-row">
+        <span class="info-label">Building Area</span>
+        <span class="info-val" id="areaDisplay">--</span>
       </div>
-      <div class="input-group">
-        <label>Room Count</label>
-        <input type="number" id="roomInput" placeholder="---">
+      <div class="info-row">
+        <span class="info-label">Floors</span>
+        <span class="info-val" id="floorsDisplay">--</span>
       </div>
-      <div class="input-group">
-        <label>Project Type</label>
-        <input type="text" id="typeInput" placeholder="---">
+      <div class="info-row">
+        <span class="info-label">Units</span>
+        <span class="info-val">8</span>
       </div>
 
-      <div style="margin-top:30px; border-top:1px solid var(--glass-border); padding-top:20px;">
-        <h4 style="color:var(--accent); margin-bottom:15px;">⚠️ Critical Issues</h4>
+      <div style="margin-top:30px;">
+        <h4 style="color:var(--text-main); margin-bottom:15px;">AI Insights</h4>
+        
+        <div id="waitingText" style="color:var(--text-muted); font-size:0.9rem; font-style:italic;">
+           Insights will appear here after analysis.
+        </div>
+
         <div id="issuesList" style="display:none;">
+          <div class="issue-card" data-target="marker1">
+            <div style="font-weight:600; color:var(--text-main); margin-bottom:4px;">⚠️ Clash Detected</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">Window overlaps with power outlet in Living Room.</div>
+          </div>
           
-          <div class="issue-item" data-target="marker1">
-            <div style="font-weight:bold; color:#fff;">Window/Outlet Clash</div>
-            <div style="font-size:0.8rem; color:var(--text-muted);">Living Room - Wall A</div>
+          <div class="issue-card" data-target="marker2">
+            <div style="font-weight:600; color:var(--text-main); margin-bottom:4px;">⚠️ Routing Issue</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">Wiring path exceeds maximum length for this circuit.</div>
           </div>
-
-          <div class="issue-item" data-target="marker2">
-            <div style="font-weight:bold; color:#fff;">Circuit Overload</div>
-            <div style="font-size:0.8rem; color:var(--text-muted);">Master Bedroom</div>
-          </div>
-
         </div>
-        <div id="waitingText" style="color:var(--text-muted); font-style:italic; font-size:0.9rem;">
-          Run scan to detect anomalies.
-        </div>
+
       </div>
     </div>
 
@@ -429,10 +479,9 @@
   const aiStatus = document.getElementById('aiStatus');
   const markers = document.querySelectorAll('.marker');
 
-  // -- Inputs --
-  const areaInput = document.getElementById('areaInput');
-  const roomInput = document.getElementById('roomInput');
-  const typeInput = document.getElementById('typeInput');
+  // -- Text Displays --
+  const areaDisplay = document.getElementById('areaDisplay');
+  const floorsDisplay = document.getElementById('floorsDisplay');
 
   // -- Image Upload Logic --
   function handleUpload(inputId) {
@@ -456,22 +505,20 @@
     });
   }
   handleUpload('archInput');
-  handleUpload('mepInput'); // In this demo, both overwrite the view for simplicity
+  handleUpload('mepInput');
 
   // -- Analyze / Animation Logic --
   analyzeBtn.addEventListener('click', () => {
     // 1. Start Scanning Effect
     canvasContainer.classList.add('scanning');
-    analyzeBtn.innerHTML = "<span>⏳ Scanning...</span>";
-    analyzeBtn.style.filter = "grayscale(1)";
-
+    analyzeBtn.innerHTML = "<span>⏳ Analyzing...</span>";
+    
     // 2. Simulate AI Processing Time
     setTimeout(() => {
       // Stop Scan
       canvasContainer.classList.remove('scanning');
-      analyzeBtn.innerHTML = "<span>✅ Scan Complete</span>";
-      analyzeBtn.style.filter = "none";
-      analyzeBtn.style.background = "linear-gradient(to right, #11998e, #38ef7d)"; // Success Green
+      analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
+      analyzeBtn.style.background = "linear-gradient(to right, #11998e, #38ef7d)"; // Success Green gradient
 
       // Show Results
       aiStatus.style.display = 'inline-block';
@@ -481,17 +528,15 @@
       // Show Markers with pop animation
       markers.forEach(m => m.style.transform = "scale(1)");
 
-      // Fill Data
-      animateValue(areaInput, 0, 145, 1500);
-      animateValue(roomInput, 0, 5, 1000);
-      typeInput.value = "Residential / Type B";
+      // Fill Data with animation
+      animateValueHTML(areaDisplay, 0, 15250, 1500, " sq ft");
+      floorsDisplay.innerText = "2 Levels";
 
-    }, 2000); // 2 second scan
+    }, 2000); 
   });
 
   // -- Interactive List <-> Marker --
-  // When hovering list item, highlight marker
-  document.querySelectorAll('.issue-item').forEach(item => {
+  document.querySelectorAll('.issue-card').forEach(item => {
     item.addEventListener('mouseenter', () => {
       const targetId = item.getAttribute('data-target');
       const targetMarker = document.getElementById(targetId);
@@ -506,20 +551,14 @@
     });
   });
 
-  // When clicking marker, highlight list item
-  markers.forEach(marker => {
-    marker.addEventListener('click', () => {
-      alert("Opening detailed report for: " + marker.title);
-    });
-  });
-
-  // -- Helper: Number Animation --
-  function animateValue(obj, start, end, duration) {
+  // -- Helper: Number Animation for Text --
+  function animateValueHTML(element, start, end, duration, suffix) {
     let startTimestamp = null;
     const step = (timestamp) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      obj.value = Math.floor(progress * (end - start) + start);
+      const val = Math.floor(progress * (end - start) + start);
+      element.innerText = val.toLocaleString() + suffix;
       if (progress < 1) {
         window.requestAnimationFrame(step);
       }
