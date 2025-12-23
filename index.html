@@ -28,14 +28,14 @@
     body {
       margin: 0;
       background: var(--bg-gradient);
-      background-attachment: fixed; /* הרקע נשאר קבוע בגלילה */
+      background-attachment: fixed;
       font-family: 'Poppins', sans-serif;
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* הוספת טקסטורה של "כוכבים/חלקיקים" עדינה ברקע */
+    /* טקסטורת רקע עדינה */
     body::before {
       content: "";
       position: fixed;
@@ -84,10 +84,10 @@
       box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);
     }
 
-    /* --- Glass Cards (הקונטיינרים הלבנים) --- */
+    /* --- Glass Cards --- */
     .glass-card {
       background: var(--glass-bg);
-      backdrop-filter: blur(12px); /* טשטוש הרקע מאחור */
+      backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--glass-border);
       border-radius: 20px;
@@ -173,10 +173,10 @@
       transform: translateY(-2px);
     }
 
-    /* --- Main Interface Layout --- */
+    /* --- Main Layout --- */
     .main-grid {
       display: grid;
-      grid-template-columns: 2.5fr 1fr; /* חלוקה כמו בתמונה */
+      grid-template-columns: 2.5fr 1fr;
       gap: 24px;
     }
     @media(max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
@@ -195,10 +195,21 @@
       box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
     }
     
+    /* תמונות בתוך הקנבס */
     .canvas-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    /* קונטיינרים פנימיים להפרדה בין 2D ל-3D */
+    .view-layer {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .placeholder-text {
@@ -210,7 +221,7 @@
       gap: 10px;
     }
 
-    /* The Scanner Bar (Soft White/Blue instead of neon green) */
+    /* Scan Line */
     .scan-line {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 6px;
@@ -219,6 +230,7 @@
       z-index: 20;
       display: none;
       opacity: 0.8;
+      pointer-events: none;
     }
     
     .scanning .scan-line {
@@ -233,13 +245,13 @@
       100% { top: 100%; opacity: 0; }
     }
 
-    /* Markers (Softer colors) */
+    /* Markers */
     .marker {
       position: absolute;
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: var(--accent); /* ורוד */
+      background: var(--accent);
       border: 3px solid white;
       display: flex;
       align-items: center;
@@ -262,7 +274,6 @@
       border: 1px solid var(--accent);
       animation: pulse 2s infinite;
       opacity: 0.5;
-      transform: scale(1);
     }
 
     @keyframes pulse {
@@ -297,17 +308,16 @@
     .info-label { font-size: 0.85rem; color: var(--text-muted); }
     .info-val { font-weight: 600; color: var(--text-main); }
 
-    /* Issues / Chat Style */
+    /* Issues List */
     .issue-card {
       background: white;
-      border-radius: 12px 12px 12px 2px; /* Chat bubble shape */
+      border-radius: 12px 12px 12px 2px;
       padding: 12px;
       margin-bottom: 12px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.03);
       border: 1px solid rgba(0,0,0,0.02);
       cursor: pointer;
       transition: 0.2s;
-      position: relative;
     }
 
     .issue-card:hover {
@@ -317,7 +327,7 @@
     }
     
     .issue-card.highlighted {
-      background: #fdf2f8; /* ורוד בהיר מאוד */
+      background: #fdf2f8;
       border-left: 3px solid var(--accent);
     }
 
@@ -330,7 +340,7 @@
       font-weight: 600;
     }
     
-    /* פקדי תצוגה */
+    /* View Toggles */
     .view-toggles {
       display: flex;
       gap: 10px;
@@ -339,17 +349,22 @@
     .toggle-btn {
       background: rgba(255,255,255,0.5);
       border: none;
-      padding: 6px 12px;
+      padding: 8px 16px;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       cursor: pointer;
       font-weight: 500;
+      transition: 0.2s;
+    }
+    .toggle-btn:hover {
+      background: rgba(255,255,255,0.8);
     }
     .toggle-btn.active {
       background: white;
-      color: var(--primary);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      color: var(--secondary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      font-weight: 600;
     }
 
   </style>
@@ -400,22 +415,29 @@
 
   <div class="main-grid">
     
-    <div class="glass-card" style="display:flex; flex-direction:column; min-height:400px;">
+    <div class="glass-card" style="display:flex; flex-direction:column; min-height:450px;">
       
       <div class="view-toggles">
-         <button class="toggle-btn active">Floor Plan View</button>
-         <button class="toggle-btn">3D Model</button>
+         <button class="toggle-btn active" id="btn2D">Floor Plan View</button>
+         <button class="toggle-btn" id="btn3D">3D Model</button>
       </div>
 
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1;">
-        <div class="scan-line"></div>
-        <div class="placeholder-text">
-           <div style="font-size:3rem; opacity:0.3;">🖼️</div>
-           Waiting for plan upload...
-        </div>
         
-        <div id="marker1" class="marker" style="top: 30%; left: 45%;" title="Clash Detected">1</div>
-        <div id="marker2" class="marker" style="top: 65%; right: 20%;" title="Routing Error">2</div>
+        <div id="layer2D" class="view-layer">
+            <div class="scan-line"></div>
+            <div class="placeholder-text">
+               <div style="font-size:3rem; opacity:0.3;">🖼️</div>
+               Waiting for plan upload...
+            </div>
+            <div id="marker1" class="marker" style="top: 30%; left: 45%;" title="Clash Detected">1</div>
+            <div id="marker2" class="marker" style="top: 65%; right: 20%;" title="Routing Error">2</div>
+        </div>
+
+        <div id="layer3D" class="view-layer" style="display:none;">
+            <img src="3d model.jpg" alt="3D Model Visualization" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
+        </div>
+
       </div>
       
       <div style="margin-top:15px; background:white; padding:10px; border-radius:12px; display:flex; gap:10px; align-items:center; border:1px solid #eee;">
@@ -473,32 +495,59 @@
 <script>
   // -- Elements --
   const analyzeBtn = document.getElementById('analyzeBtn');
-  const canvasContainer = document.getElementById('mainCanvasContainer');
   const issuesList = document.getElementById('issuesList');
   const waitingText = document.getElementById('waitingText');
   const aiStatus = document.getElementById('aiStatus');
   const markers = document.querySelectorAll('.marker');
-
-  // -- Text Displays --
   const areaDisplay = document.getElementById('areaDisplay');
   const floorsDisplay = document.getElementById('floorsDisplay');
 
-  // -- Image Upload Logic --
+  // -- View Switching Elements --
+  const btn2D = document.getElementById('btn2D');
+  const btn3D = document.getElementById('btn3D');
+  const layer2D = document.getElementById('layer2D');
+  const layer3D = document.getElementById('layer3D');
+
+  // -- View Logic --
+  btn2D.addEventListener('click', () => {
+     btn2D.classList.add('active');
+     btn3D.classList.remove('active');
+     layer2D.style.display = 'flex';
+     layer3D.style.display = 'none';
+  });
+
+  btn3D.addEventListener('click', () => {
+     btn3D.classList.add('active');
+     btn2D.classList.remove('active');
+     layer2D.style.display = 'none';
+     layer3D.style.display = 'flex';
+  });
+
+  // -- Image Upload Logic (2D) --
   function handleUpload(inputId) {
     document.getElementById(inputId).addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (evt) => {
-          // Clean container
-          const existingImg = canvasContainer.querySelector('img');
-          if(existingImg) existingImg.remove();
-          canvasContainer.querySelector('.placeholder-text').style.display = 'none';
+          // Remove old user-uploaded image in 2D layer
+          const oldImg = layer2D.querySelector('img.uploaded-img');
+          if(oldImg) oldImg.remove();
           
-          // Add Image
+          layer2D.querySelector('.placeholder-text').style.display = 'none';
+          
+          // Add new image
           const img = document.createElement('img');
           img.src = evt.target.result;
-          canvasContainer.prepend(img); // Put behind markers
+          img.classList.add('uploaded-img');
+          // Add specific style to ensure it fits
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'contain';
+          img.style.position = 'absolute';
+          img.style.zIndex = '1';
+          
+          layer2D.prepend(img); // Put behind markers
         };
         reader.readAsDataURL(file);
       }
@@ -507,41 +556,41 @@
   handleUpload('archInput');
   handleUpload('mepInput');
 
-  // -- Analyze / Animation Logic --
+  // -- Analyze Animation --
   analyzeBtn.addEventListener('click', () => {
-    // 1. Start Scanning Effect
-    canvasContainer.classList.add('scanning');
+    // Force switch to 2D view to see animation
+    btn2D.click();
+    
+    // Add scanning class
+    layer2D.classList.add('scanning');
     analyzeBtn.innerHTML = "<span>⏳ Analyzing...</span>";
     
-    // 2. Simulate AI Processing Time
     setTimeout(() => {
-      // Stop Scan
-      canvasContainer.classList.remove('scanning');
+      layer2D.classList.remove('scanning');
       analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
-      analyzeBtn.style.background = "linear-gradient(to right, #11998e, #38ef7d)"; // Success Green gradient
+      analyzeBtn.style.background = "linear-gradient(to right, #11998e, #38ef7d)";
 
-      // Show Results
       aiStatus.style.display = 'inline-block';
       waitingText.style.display = 'none';
       issuesList.style.display = 'block';
 
-      // Show Markers with pop animation
       markers.forEach(m => m.style.transform = "scale(1)");
-
-      // Fill Data with animation
       animateValueHTML(areaDisplay, 0, 15250, 1500, " sq ft");
       floorsDisplay.innerText = "2 Levels";
 
     }, 2000); 
   });
 
-  // -- Interactive List <-> Marker --
+  // -- Marker Interactions --
   document.querySelectorAll('.issue-card').forEach(item => {
     item.addEventListener('mouseenter', () => {
-      const targetId = item.getAttribute('data-target');
-      const targetMarker = document.getElementById(targetId);
-      if(targetMarker) targetMarker.classList.add('active');
-      item.classList.add('highlighted');
+      // Only highlight if we are in 2D view
+      if(layer2D.style.display !== 'none') {
+          const targetId = item.getAttribute('data-target');
+          const targetMarker = document.getElementById(targetId);
+          if(targetMarker) targetMarker.classList.add('active');
+          item.classList.add('highlighted');
+      }
     });
     item.addEventListener('mouseleave', () => {
       const targetId = item.getAttribute('data-target');
@@ -551,7 +600,6 @@
     });
   });
 
-  // -- Helper: Number Animation for Text --
   function animateValueHTML(element, start, end, duration, suffix) {
     let startTimestamp = null;
     const step = (timestamp) => {
