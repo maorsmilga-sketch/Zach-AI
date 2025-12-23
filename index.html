@@ -570,6 +570,44 @@
         box-shadow: 0 6px 15px rgba(102, 126, 234, 0.6);
     }
 
+    /* --- LAYER SWITCHER CONTROLS --- */
+    .layer-controls {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 20;
+        background: rgba(255,255,255,0.9);
+        border-radius: 50px;
+        padding: 4px;
+        display: flex;
+        gap: 2px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        backdrop-filter: blur(4px);
+    }
+    
+    .layer-btn {
+        border: none;
+        background: transparent;
+        padding: 6px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        transition: 0.2s;
+    }
+    
+    .layer-btn:hover {
+        color: var(--text-main);
+        background: rgba(0,0,0,0.05);
+    }
+
+    .layer-btn.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+
   </style>
 </head>
 <body>
@@ -628,20 +666,29 @@
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 300px;">
         
         <div id="layer2D" class="view-layer">
+            
+            <div id="layerSwitcher" class="layer-controls" style="display:none;">
+                <button id="showArchBtn" class="layer-btn active">Arch</button>
+                <button id="showMepBtn" class="layer-btn">MEP</button>
+            </div>
+
             <div class="scan-line"></div> 
+            
             <div class="placeholder-text">
                <div style="font-size:3rem; opacity:0.3;">🖼️</div>
                Waiting for plan upload...
             </div>
-            <div id="marker1" class="marker" style="top: 30%; left: 45%;" title="Clash Detected">1</div>
-            <div id="marker2" class="marker" style="top: 65%; right: 20%;" title="Routing Error">2</div>
+            
+            <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
+            <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
+
+            <div id="marker1" class="marker" style="top: 30%; left: 45%; z-index:10;" title="Clash Detected">1</div>
+            <div id="marker2" class="marker" style="top: 65%; right: 20%; z-index:10;" title="Routing Error">2</div>
         </div>
 
         <div id="layer3D" class="view-layer" style="display:none;">
-            
             <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
                 <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600?text=3D+Model+File+Not+Found'">
-                
                 <button id="btnPlayVideo" class="floating-play-btn">
                     <span>▶</span> Run Video Simulation
                 </button>
@@ -654,7 +701,6 @@
                     Your browser does not support the video tag.
                 </video>
             </div>
-
         </div>
 
       </div>
@@ -757,6 +803,14 @@
   const layer2D = document.getElementById('layer2D');
   const layer3D = document.getElementById('layer3D');
   
+  // New Layer Switcher Elements
+  const layerSwitcher = document.getElementById('layerSwitcher');
+  const showArchBtn = document.getElementById('showArchBtn');
+  const showMepBtn = document.getElementById('showMepBtn');
+  const currentArchImg = document.getElementById('currentArchImg');
+  const currentMepImg = document.getElementById('currentMepImg');
+  const placeholderText = layer2D.querySelector('.placeholder-text');
+
   // Video Elements
   const image3DContainer = document.getElementById('image3DContainer');
   const videoContainer = document.getElementById('videoContainer');
@@ -771,6 +825,7 @@
   const archFileName = document.getElementById('archFileName');
   const mepFileName = document.getElementById('mepFileName');
   const archInput = document.getElementById('archInput');
+  const mepInput = document.getElementById('mepInput');
 
   // Modal Elements
   const customModal = document.getElementById('customModal');
@@ -787,7 +842,6 @@
       customModal.classList.remove('active');
   });
   
-  // Close modal when clicking outside
   customModal.addEventListener('click', (e) => {
       if(e.target === customModal) {
           customModal.classList.remove('active');
@@ -820,12 +874,11 @@
     chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
-  // -- View Logic (With Custom Modal Protection) --
+  // -- View Logic --
   btn2D.addEventListener('click', () => {
      btn2D.classList.add('active');
      btn3D.classList.remove('active');
      
-     // Stop video if playing when switching back to 2D
      video3D.pause();
      video3D.currentTime = 0;
      
@@ -834,7 +887,6 @@
   });
 
   btn3D.addEventListener('click', () => {
-     // Validation: Check if File Uploaded
      if(archInput.files.length === 0) {
          showCustomAlert("Please upload a Floor Plan file to view the 3D Model.");
          return;
@@ -845,7 +897,6 @@
      layer2D.style.display = 'none';
      layer3D.style.display = 'flex';
      
-     // Reset state: Show image, hide video
      image3DContainer.style.display = 'block';
      videoContainer.style.display = 'none';
      video3D.pause();
@@ -853,19 +904,41 @@
   
   // -- Video Logic --
   btnPlayVideo.addEventListener('click', () => {
-      image3DContainer.style.display = 'none'; // Hide Image
-      videoContainer.style.display = 'block'; // Show Video Container
-      video3D.play(); // Play Video
+      image3DContainer.style.display = 'none'; 
+      videoContainer.style.display = 'block'; 
+      video3D.play(); 
   });
 
   btnCloseVideo.addEventListener('click', () => {
       video3D.pause();
-      videoContainer.style.display = 'none'; // Hide Video
-      image3DContainer.style.display = 'block'; // Show Image Back
+      videoContainer.style.display = 'none'; 
+      image3DContainer.style.display = 'block'; 
   });
 
-  // -- Image Upload Logic (2D) --
-  function handleUpload(inputId, nameDisplayId) {
+  // -- Layer Switching Logic (New) --
+  showArchBtn.addEventListener('click', () => {
+      showArchBtn.classList.add('active');
+      showMepBtn.classList.remove('active');
+      
+      // Toggle Visibility if images exist
+      if(currentArchImg.src) currentArchImg.style.display = 'block';
+      if(currentMepImg.src) currentMepImg.style.display = 'none';
+  });
+
+  showMepBtn.addEventListener('click', () => {
+      showMepBtn.classList.add('active');
+      showArchBtn.classList.remove('active');
+      
+      if(currentMepImg.src) {
+          currentMepImg.style.display = 'block';
+      }
+      // If Arch is shown, hide it
+      if(currentArchImg.src) currentArchImg.style.display = 'none';
+  });
+
+
+  // -- Updated Image Upload Logic (Handles separate layers) --
+  function handleUpload(inputId, nameDisplayId, imgElementId) {
     document.getElementById(inputId).addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -873,40 +946,40 @@
         const nameDisplay = document.getElementById(nameDisplayId);
         nameDisplay.textContent = "✅ " + file.name;
 
-        // Enable 3D button visual style
+        // Enable 3D button if Arch uploaded
         if(inputId === 'archInput') {
              btn3D.classList.remove('disabled');
         }
 
-        // Render Image
         const reader = new FileReader();
         reader.onload = (evt) => {
-          const oldImg = layer2D.querySelector('img.uploaded-img');
-          if(oldImg) oldImg.remove();
+          // Hide placeholder
+          placeholderText.style.display = 'none';
+          // Show controls
+          layerSwitcher.style.display = 'flex';
           
-          layer2D.querySelector('.placeholder-text').style.display = 'none';
+          const targetImg = document.getElementById(imgElementId);
+          targetImg.src = evt.target.result;
           
-          const img = document.createElement('img');
-          img.src = evt.target.result;
-          img.classList.add('uploaded-img');
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.objectFit = 'contain';
-          img.style.position = 'absolute';
-          img.style.zIndex = '1';
-          
-          layer2D.prepend(img);
+          // Logic: When uploading, switch view to that layer automatically
+          if(inputId === 'archInput') {
+              showArchBtn.click();
+          } else {
+              showMepBtn.click();
+          }
         };
         reader.readAsDataURL(file);
       }
     });
   }
-  handleUpload('archInput', 'archFileName');
-  handleUpload('mepInput', 'mepFileName');
+  
+  // Connect specific inputs to specific images
+  handleUpload('archInput', 'archFileName', 'currentArchImg');
+  handleUpload('mepInput', 'mepFileName', 'currentMepImg');
+
 
   // -- Analyze Animation --
   analyzeBtn.addEventListener('click', () => {
-    // Validation Check: Is File Uploaded?
     if (archInput.files.length === 0) {
         showCustomAlert("Please upload a Floor Plan file first!");
         return; 
@@ -927,7 +1000,6 @@
 
       markers.forEach(m => m.style.transform = "scale(1)");
       
-      // Update Summary Data
       animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
       roomsDisplay.innerText = "3";
       bathsDisplay.innerText = "2 Full Bathrooms";
