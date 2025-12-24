@@ -53,6 +53,7 @@
     .layer-left {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
       z-index: 2;
+      /* Fixed Split at 50% */
       clip-path: inset(0 50% 0 0);
       border-right: 1px solid rgba(255,255,255,0.4);
     }
@@ -175,7 +176,7 @@
       color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
     }
 
-    /* --- SCANNER (UPDATED) --- */
+    /* --- SCANNER --- */
     .scan-line {
       position: absolute; top: 0; left: 0; width: 100%; height: 4px;
       background: linear-gradient(90deg, transparent, #00f2ff, transparent);
@@ -183,7 +184,6 @@
       z-index: 20; display: none; opacity: 0.9; pointer-events: none;
     }
     
-    /* Animation updated: 1.2s per direction, alternating (Up/Down/Up/Down) */
     .scanning .scan-line { 
         display: block; 
         animation: scanMove 1.2s infinite alternate ease-in-out; 
@@ -320,26 +320,6 @@
         font-family: 'Outfit', sans-serif; transition: 0.2s;
     }
     .modal-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
-
-    /* --- SLIDER --- */
-    .comparison-bar {
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-      width: 360px; background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(20px);
-      padding: 16px 30px; border-radius: 60px; border: 1px solid rgba(255,255,255,0.2);
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      z-index: 100; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-    }
-    .comp-label { font-size: 0.75rem; color: white; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; opacity: 0.9; }
-    
-    input[type=range] { width: 100%; -webkit-appearance: none; background: transparent; cursor: pointer; }
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      height: 24px; width: 24px; border-radius: 50%; background: white;
-      -webkit-appearance: none; margin-top: -9px; box-shadow: 0 0 20px rgba(255,255,255,0.8);
-      border: 4px solid #7000ff;
-    }
 
   </style>
 </head>
@@ -496,11 +476,6 @@
   </div>
 </div>
 
-<div class="comparison-bar">
-  <span class="comp-label">Background Style (Cold / Warm)</span>
-  <input type="range" id="globalSplitSlider" min="0" max="100" value="50">
-</div>
-
 <div id="customModal" class="modal-overlay">
     <div class="modal-content">
         <div style="font-size:3.5rem; margin-bottom:15px;">⚠️</div>
@@ -570,16 +545,6 @@
   function resetZoom() { scale = 1; pointX = 0; pointY = 0; updateTransform(); }
   // -- ZOOM & PAN LOGIC END --
 
-
-  const globalSlider = document.getElementById('globalSplitSlider');
-  const dynamicBg = document.getElementById('dynamicBg');
-
-  function updateBackground(val) {
-    const percentageToClip = 100 - val; 
-    dynamicBg.style.clipPath = `inset(0 ${percentageToClip}% 0 0)`;
-  }
-  globalSlider.addEventListener('input', (e) => updateBackground(e.target.value));
-  updateBackground(50);
 
   const analyzeBtn = document.getElementById('analyzeBtn');
   const issuesList = document.getElementById('issuesList');
@@ -715,16 +680,16 @@
     setTimeout(() => {
       layer2D.classList.remove('scanning');
       analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
-      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; // Greenish for success
+      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
       
       aiStatus.style.display = 'inline-block';
       waitingText.style.display = 'none';
       issuesList.style.display = 'block';
       
-      // SHOW MARKERS HERE
+      // SHOW MARKERS HERE (Animation)
       markers.forEach(m => {
-          m.style.display = 'flex'; // Make visible
-          setTimeout(() => m.style.transform = "scale(1)", 50); // Animate scale
+          m.style.display = 'flex';
+          setTimeout(() => m.style.transform = "scale(1)", 50);
       });
       
       animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
@@ -734,7 +699,7 @@
       floorsDisplay.innerText = "1 Level";
 
       setTimeout(() => { addBubble("Analysis finished. I updated the summary with new metrics.", 'bot'); }, 500);
-    }, 6000); // 6 Seconds total
+    }, 6000); 
   });
 
   document.querySelectorAll('.issue-card').forEach(item => {
@@ -744,7 +709,6 @@
           const targetMarker = document.getElementById(targetId);
           if(targetMarker) {
               targetMarker.classList.add('active');
-              // Auto-pan to marker if zoomed in? Optional, but nice.
           }
           item.classList.add('highlighted');
       }
