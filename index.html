@@ -25,11 +25,11 @@
     body {
       margin: 0;
       background: #0f172a; 
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Outfit', sans-serif; 
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
-      font-size: 16px;
+      font-size: 16px; 
     }
 
     /* --- DYNAMIC BACKGROUND --- */
@@ -64,7 +64,11 @@
 
     /* --- APP CONTAINER --- */
     .app {
-      max-width: 1300px; margin: 0 auto; padding: 40px 24px; position: relative; z-index: 10;
+      max-width: 1300px; 
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 10;
     }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
@@ -83,7 +87,7 @@
     /* --- GLASS CARDS --- */
     .glass-card {
       background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4);
+      border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); 
       border-radius: 24px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 32px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -127,33 +131,29 @@
 
     /* --- CANVAS --- */
     .canvas-container {
-      position: relative; background: rgba(10, 10, 15, 0.4);
+      position: relative;
+      background: rgba(10, 10, 15, 0.4); 
       border-radius: 16px; aspect-ratio: 16/9; overflow: hidden;
       border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
       box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
-      /* Cursor changes for pan */
-      cursor: grab;
+      cursor: grab; /* סמן גרירה */
     }
     .canvas-container:active { cursor: grabbing; }
 
-    .canvas-container img, .canvas-container video { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
     .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     
-    /* ZOOM WRAPPER: This is the element we will scale/translate */
+    /* --- ZOOM WRAPPER (חדש!) --- */
     #zoomWrapper {
       width: 100%; height: 100%;
       position: absolute; top: 0; left: 0;
       transform-origin: center center;
-      transition: transform 0.1s linear; /* Smoothness for pan/zoom */
+      transition: transform 0.1s linear; /* תנועה חלקה */
       display: flex; align-items: center; justify-content: center;
     }
 
-    .placeholder-text {
-      color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300;
-      z-index: 0;
-    }
+    #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
-    /* --- MARKERS (Inside Zoom Wrapper) --- */
+    /* --- MARKERS (בתוך הזום) --- */
     .marker {
       position: absolute; width: 32px; height: 32px;
       border-radius: 50%; background: #ff0055;
@@ -162,25 +162,39 @@
       cursor: pointer; transition: 0.3s; z-index: 10;
       color: white; font-weight: 800; font-size: 0.9rem;
       box-shadow: 0 5px 15px rgba(255, 0, 85, 0.6);
-      /* Ensure marker doesn't get distorted */
+      /* כדי שהמרקר לא יתעוות */
       transform-origin: center center;
     }
-    /* Counter-scale markers slightly when zooming so they don't get massive (optional logic in JS, but CSS here handles base look) */
+    /* כשהזום גדל, המרקרים נשארים באותו יחס */
     .marker:hover { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
     .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
 
-    /* --- ZOOM CONTROLS --- */
+    .placeholder-text {
+      color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
+    }
+
+    /* --- SCANNER --- */
+    .scan-line {
+      position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+      background: #fff;
+      box-shadow: 0 0 20px #fff, 0 0 40px var(--primary);
+      z-index: 20; display: none; opacity: 0.9; pointer-events: none;
+    }
+    .scanning .scan-line { display: block; animation: scanMove 2s infinite linear; }
+    @keyframes scanMove { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
+
+    /* --- ZOOM CONTROLS (חדש!) --- */
     .zoom-controls {
-      position: absolute; bottom: 20px; right: 20px; z-index: 50;
-      display: flex; flex-direction: column; gap: 8px;
+        position: absolute; bottom: 20px; right: 20px; z-index: 50;
+        display: flex; flex-direction: column; gap: 8px;
     }
     .zoom-btn {
-      background: rgba(255,255,255,0.9); border: none; width: 36px; height: 36px;
-      border-radius: 50%; font-size: 1.2rem; cursor: pointer; color: #000;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.2s;
+        background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px;
+        border-radius: 12px; font-size: 1.2rem; cursor: pointer; color: #000;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: 0.2s; font-weight: 700;
     }
-    .zoom-btn:hover { background: white; transform: scale(1.1); }
+    .zoom-btn:hover { background: white; transform: scale(1.1); color: var(--primary); }
 
     /* --- SIDEBAR --- */
     .sidebar-title {
@@ -381,7 +395,7 @@
             <div class="zoom-controls">
                 <button class="zoom-btn" onclick="zoomIn()">+</button>
                 <button class="zoom-btn" onclick="zoomOut()">-</button>
-                <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.8rem; font-weight:700;">R</button>
+                <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.8rem;">R</button>
             </div>
 
             <div id="layerSwitcher" class="layer-controls" style="display:none;">
@@ -404,6 +418,7 @@
                 <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
             </div>
         </div>
+
         <div id="layer3D" class="view-layer" style="display:none;">
             <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
                 <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview'">
@@ -484,7 +499,9 @@
 </div>
 
 <script>
-  /* --- ZOOM & PAN LOGIC --- */
+  /* --- JS LOGIC --- */
+  
+  // -- ZOOM & PAN LOGIC START --
   let scale = 1;
   let pointX = 0;
   let pointY = 0;
@@ -501,26 +518,21 @@
 
   // Wheel Zoom
   canvasContainer.addEventListener('wheel', (e) => {
-      // Only zoom if in 2D mode and images are visible
+      // Only zoom in 2D mode
       if(document.getElementById('layer2D').style.display === 'none') return;
-      
       e.preventDefault();
       const zoomSpeed = 0.1;
       const delta = -Math.sign(e.deltaY) * zoomSpeed;
-      const newScale = Math.min(Math.max(1, scale + delta), 5); // Limit 1x to 5x
+      const newScale = Math.min(Math.max(1, scale + delta), 5); // Max 5x zoom
       
       scale = newScale;
-      // Reset position if zoomed out completely
-      if (scale === 1) {
-          pointX = 0;
-          pointY = 0;
-      }
+      if (scale === 1) { pointX = 0; pointY = 0; }
       updateTransform();
   });
 
-  // Mouse Drag (Pan)
+  // Drag (Pan)
   canvasContainer.addEventListener('mousedown', (e) => {
-      if (scale > 1) { // Only pan if zoomed in
+      if (scale > 1) { 
           isDragging = true;
           startX = e.clientX - pointX;
           startY = e.clientY - pointY;
@@ -541,25 +553,12 @@
       canvasContainer.style.cursor = 'grab';
   });
 
-  // Button Controls
-  function zoomIn() {
-      scale = Math.min(5, scale + 0.5);
-      updateTransform();
-  }
-  function zoomOut() {
-      scale = Math.max(1, scale - 0.5);
-      if(scale === 1) { pointX=0; pointY=0; }
-      updateTransform();
-  }
-  function resetZoom() {
-      scale = 1;
-      pointX = 0;
-      pointY = 0;
-      updateTransform();
-  }
+  function zoomIn() { scale = Math.min(5, scale + 0.5); updateTransform(); }
+  function zoomOut() { scale = Math.max(1, scale - 0.5); if(scale===1){pointX=0;pointY=0;} updateTransform(); }
+  function resetZoom() { scale = 1; pointX = 0; pointY = 0; updateTransform(); }
+  // -- ZOOM & PAN LOGIC END --
 
 
-  /* --- EXISTING JS LOGIC (PRESERVED) --- */
   const globalSlider = document.getElementById('globalSplitSlider');
   const dynamicBg = document.getElementById('dynamicBg');
 
