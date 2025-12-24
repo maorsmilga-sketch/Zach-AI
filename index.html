@@ -8,15 +8,14 @@
   
   <style>
     :root {
-      /* פלטת צבעים מעודכנת וידידותית */
       --glass-bg: rgba(30, 41, 59, 0.4); 
       --glass-border: rgba(255, 255, 255, 0.2);
       --glass-highlight: rgba(255, 255, 255, 0.05);
       --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       
-      --primary: #00f2ff; /* Cyan Neon */
-      --secondary: #7000ff; /* Deep Purple */
-      --accent: #ff0055; /* Pink/Red */
+      --primary: #00f2ff; 
+      --secondary: #7000ff; 
+      --accent: #ff0055; 
       
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
@@ -32,14 +31,13 @@
       font-size: 16px; 
     }
 
-    /* --- DYNAMIC BACKGROUND --- */
+    /* --- DYNAMIC BACKGROUND (FIXED 50/50) --- */
     .bg-container {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
     }
     .bg-layer {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background-size: cover; background-position: center;
-      transition: clip-path 0.1s ease-out;
     }
     .layer-right {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
@@ -53,7 +51,6 @@
     .layer-left {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
       z-index: 2;
-      /* Fixed Split at 50% */
       clip-path: inset(0 50% 0 0);
       border-right: 1px solid rgba(255,255,255,0.4);
     }
@@ -151,7 +148,6 @@
       transition: transform 0.1s linear; 
       display: flex; align-items: center; justify-content: center;
     }
-
     #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
     /* --- MARKERS --- */
@@ -164,17 +160,10 @@
       color: white; font-weight: 800; font-size: 0.9rem;
       box-shadow: 0 5px 15px rgba(255, 0, 85, 0.6);
       transform-origin: center center;
-      
       display: none; 
       transform: scale(0);
     }
-    
-    .marker:hover { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
-    .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
-
-    .placeholder-text {
-      color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
-    }
+    .marker:hover, .marker.active { transform: scale(1.3) !important; z-index: 100; background: #fff; color: #ff0055; }
 
     /* --- SCANNER --- */
     .scan-line {
@@ -183,16 +172,12 @@
       box-shadow: 0 0 30px #00f2ff, 0 0 10px white;
       z-index: 20; display: none; opacity: 0.9; pointer-events: none;
     }
-    
     .scanning .scan-line { 
         display: block; 
         animation: scanMove 1.2s infinite alternate ease-in-out; 
     }
-    
     @keyframes scanMove { 
-        0% { top: 0%; opacity: 0.5; } 
-        50% { opacity: 1; }
-        100% { top: 100%; opacity: 0.5; } 
+        0% { top: 0%; opacity: 0.5; } 100% { top: 100%; opacity: 1; } 
     }
 
     /* --- ZOOM CONTROLS --- */
@@ -208,7 +193,7 @@
     }
     .zoom-btn:hover { background: white; transform: scale(1.1); color: var(--primary); }
 
-    /* --- SIDEBAR --- */
+    /* --- SIDEBAR & INSIGHTS --- */
     .sidebar-title {
       font-size: 1.3rem; margin-bottom: 24px; color: white;
       font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px;
@@ -225,12 +210,24 @@
 
     .issue-card {
       background: rgba(255,255,255,0.05);
-      border-radius: 12px; padding: 16px; margin-bottom: 16px;
-      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px; padding: 18px; margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
       cursor: pointer; transition: 0.2s;
     }
     .issue-card:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); transform: translateX(5px); }
     .issue-card.highlighted { background: rgba(0, 242, 255, 0.1); border-color: var(--primary); }
+
+    /* Regulation Link Style (New) */
+    .reg-link {
+        display: inline-flex; align-items: center; gap: 6px;
+        margin-top: 12px; padding: 6px 12px; background: rgba(255,255,255,0.1);
+        border-radius: 8px; color: var(--primary); font-size: 0.8rem;
+        text-decoration: none; font-weight: 600; transition: 0.2s;
+        border: 1px solid transparent;
+    }
+    .reg-link:hover {
+        background: var(--primary); color: #000;
+    }
 
     /* --- CHAT --- */
     .chat-section { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; height: 350px; }
@@ -246,19 +243,7 @@
     .chat-bubble.bot { align-self: flex-start; background: rgba(255,255,255,0.15); color: white; border-bottom-left-radius: 4px; backdrop-filter: blur(10px); }
     .chat-bubble.user { align-self: flex-end; background: linear-gradient(135deg, #7000ff, #ae00ff); color: white; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(112, 0, 255, 0.3); }
 
-    .questions-container {
-      display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none;
-    }
-    .questions-container::-webkit-scrollbar { display: none; }
-    .question-chip {
-      white-space: nowrap; background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2); color: white;
-      padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 500;
-      cursor: pointer; transition: 0.2s;
-    }
-    .question-chip:hover { background: white; color: #7000ff; border-color: white; transform: translateY(-2px); }
-
-    /* --- TOGGLES & CONTROLS --- */
+    /* --- TOGGLES & MODALS --- */
     .view-toggles { display: flex; gap: 12px; margin-bottom: 12px; }
     .toggle-btn {
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
@@ -268,7 +253,6 @@
     .toggle-btn.active { background: white; color: #000; font-weight: 700; box-shadow: 0 0 20px rgba(255,255,255,0.4); border-color: white; }
     .toggle-btn.disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* Layer Switcher */
     .layer-controls {
         position: absolute; top: 20px; right: 20px; z-index: 20;
         background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px;
@@ -281,7 +265,6 @@
     }
     .layer-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
 
-    /* Video Overlay */
     .floating-play-btn {
         position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
         background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; border-radius: 50px;
@@ -289,17 +272,7 @@
         cursor: pointer; box-shadow: 0 10px 30px rgba(0, 114, 255, 0.5);
         display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 10;
     }
-    .floating-play-btn:hover { transform: translateX(-50%) scale(1.05) translateY(-2px); filter: brightness(1.1); }
-    
-    .close-video-btn {
-        position: absolute; top: 20px; right: 20px;
-        background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
-        width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 20;
-        display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
-    }
-    .close-video-btn:hover { background: #ef4444; border-color: #ef4444; }
 
-    /* --- MODAL (POPUP) --- */
     .modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
@@ -309,17 +282,12 @@
     .modal-overlay.active { opacity: 1; pointer-events: all; }
     .modal-content {
         background: rgba(20, 25, 40, 0.95); border: 1px solid rgba(255,255,255,0.2);
-        padding: 40px; border-radius: 24px; width: 360px; text-align: center;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.6); transform: scale(0.8);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
+        padding: 40px; border-radius: 24px; width: 360px; text-align: center; color: white;
     }
-    .modal-overlay.active .modal-content { transform: scale(1); }
     .modal-btn {
         background: white; color: #7000ff; border: none;
         padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 25px;
-        font-family: 'Outfit', sans-serif; transition: 0.2s;
     }
-    .modal-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
 
   </style>
 </head>
@@ -340,10 +308,8 @@
 
   <div class="glass-card">
     <h2>Upload Project Files</h2>
-    
     <div class="upload-container">
-      <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">Drag & drop files here or <u style="color:white; cursor:pointer;">Browse Files</u><br><span style="font-size:0.9rem; opacity:0.7;">Supported formats: PDF, DWG, RVT, JPG</span></p>
-      
+      <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">Drag & drop files here or <u>Browse Files</u></p>
       <div class="upload-grid">
         <label class="file-input-wrapper">
           <input type="file" id="archInput" accept="image/*">
@@ -363,116 +329,86 @@
         </label>
       </div>
     </div>
-    
     <div style="text-align:center;">
-       <button class="btn-grad" id="analyzeBtn">
-        <span>✨ Run Analysis</span>
-      </button>
+       <button class="btn-grad" id="analyzeBtn"><span>✨ Run Analysis</span></button>
     </div>
   </div>
 
   <div class="main-grid">
-    
     <div class="glass-card" style="display:flex; flex-direction:column; min-height:650px;">
-      
       <div class="view-toggles">
          <button class="toggle-btn active" id="btn2D">Floor Plan</button>
          <button class="toggle-btn disabled" id="btn3D">3D Model</button>
       </div>
 
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 400px;">
-        
         <div id="layer2D" class="view-layer">
-            
             <div class="zoom-controls">
                 <button class="zoom-btn" onclick="zoomIn()">+</button>
                 <button class="zoom-btn" onclick="zoomOut()">-</button>
                 <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.8rem;">R</button>
             </div>
-
             <div id="layerSwitcher" class="layer-controls" style="display:none;">
                 <button id="showArchBtn" class="layer-btn active">Arch</button>
                 <button id="showMepBtn" class="layer-btn">MEP</button>
             </div>
-
             <div class="scan-line"></div> 
-            
             <div class="placeholder-text">
-               <div style="font-size:4rem; opacity:0.4; margin-bottom:10px;">🖼️</div>
+               <div style="font-size:4rem; opacity:0.4;">🖼️</div>
                Waiting for plan upload...
             </div>
-            
             <div id="zoomWrapper">
                 <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
                 <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
-
                 <div id="marker1" class="marker" style="top: 30%; left: 24%; z-index:10;" title="Clash Detected">1</div>
                 <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
             </div>
         </div>
-
         <div id="layer3D" class="view-layer" style="display:none;">
             <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
                 <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview'">
-                <button id="btnPlayVideo" class="floating-play-btn">
-                    <span>▶</span> Play Video Simulation
-                </button>
+                <button id="btnPlayVideo" class="floating-play-btn"><span>▶</span> Play Simulation</button>
             </div>
             <div id="videoContainer" style="display:none; width:100%; height:100%; position:relative;">
-                <button id="btnCloseVideo" class="close-video-btn" title="Close">✕</button>
-                <video id="video3D" controls style="width:100%; height:100%; object-fit:contain;">
-                    <source src="3d video.mp4" type="video/mp4">
-                </video>
+                <video id="video3D" controls style="width:100%; height:100%; object-fit:contain;"><source src="3d video.mp4" type="video/mp4"></video>
             </div>
         </div>
-
       </div>
       
       <div class="chat-section">
-        <div class="chat-history" id="chatHistory">
-           <div class="chat-bubble bot">Hello! Upload your blueprints to start the AI analysis.</div>
-        </div>
+        <div class="chat-history" id="chatHistory"><div class="chat-bubble bot">Hello! Upload blueprints to begin.</div></div>
         <div class="questions-container">
           <button class="question-chip" onclick="askQuestion(0)">Building area?</button>
           <button class="question-chip" onclick="askQuestion(1)">Show clashes</button>
-          <button class="question-chip" onclick="askQuestion(2)">Room count?</button>
-          <button class="question-chip" onclick="askQuestion(3)">Outdoor space?</button>
           <button class="question-chip" onclick="askQuestion(4)">Export PDF</button>
         </div>
       </div>
-
     </div>
 
     <div class="glass-card">
-      <div class="sidebar-title">
-        Analysis Summary
-        <span class="badge-ai" id="aiStatus" style="display:none;">DONE</span>
-      </div>
-
+      <div class="sidebar-title">Analysis Summary <span class="badge-ai" id="aiStatus" style="display:none;">DONE</span></div>
       <div class="info-row"><span class="info-label">Building Area</span><span class="info-val" id="areaDisplay">--</span></div>
       <div class="info-row"><span class="info-label">Rooms</span><span class="info-val" id="roomsDisplay">--</span></div>
       <div class="info-row"><span class="info-label">Bathrooms</span><span class="info-val" id="bathsDisplay">--</span></div>
-      <div class="info-row"><span class="info-label">Outdoor Space</span><span class="info-val" id="outdoorDisplay">--</span></div>
       <div class="info-row"><span class="info-label">Floors</span><span class="info-val" id="floorsDisplay">--</span></div>
 
       <div style="margin-top:40px;">
-        <h4 style="color:white; margin-bottom:20px; font-weight:600; font-size:1.1rem;">AI Insights</h4>
-        <div id="waitingText" style="color:var(--text-muted); font-size:1rem; font-style:italic;">
-           Analysis pending...
-        </div>
+        <h4 style="color:white; margin-bottom:20px; font-weight:600;">AI Insights</h4>
+        <div id="waitingText" style="color:var(--text-muted); font-size:1rem; font-style:italic;">Analysis pending...</div>
         <div id="issuesList" style="display:none;">
           <div class="issue-card" data-target="marker1">
-            <div style="color:#ef4444; font-weight:700; margin-bottom:6px; font-size:1rem;">⚠️ Clash Detected</div>
+            <div style="color:#ef4444; font-weight:700; margin-bottom:6px;">⚠️ Clash Detected</div>
             <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4;">Kitchen: Socket violates minimum clearance from sink. Ensure 60cm distance.</div>
+            <a href="https://www.gov.il/BlobFolder/legalinfo/electrical_interpretations/he/electricity_Authority_pirush_08-33.pdf" target="_blank" class="reg-link">📜 View Regulation (Interpretation 08-33)</a>
           </div>
           <div class="issue-card" data-target="marker2">
-            <div style="color:#fbbf24; font-weight:700; margin-bottom:6px; font-size:1rem;">⚠️ Routing Issue</div>
-            <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4;">Bathroom - Wet Area: Switch ($H=130$) located within wet zone. Relocate outside or use IP-rated fixture..</div>
+            <div style="color:#fbbf24; font-weight:700; margin-bottom:6px;">⚠️ Safety Issue</div>
+            <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4;">Bathroom - Wet Area: Switch ($H=130$) located within wet zone. Relocation required.</div>
+            <a href="https://www.nevo.co.il/law_html/law01/214_054.htm" target="_blank" class="reg-link">📜 View Regulation (Bathroom 2005)</a>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -480,258 +416,102 @@
     <div class="modal-content">
         <div style="font-size:3.5rem; margin-bottom:15px;">⚠️</div>
         <div style="font-size:1.5rem; font-weight:800; margin-bottom:15px;">Attention</div>
-        <div id="modalMessage" style="color:#cbd5e1; margin-bottom:25px; font-size:1.1rem; line-height:1.5;"></div>
+        <div id="modalMessage" style="color:#cbd5e1; margin-bottom:25px;"></div>
         <button id="closeModalBtn" class="modal-btn">Understood</button>
     </div>
 </div>
 
 <script>
-  /* --- JS LOGIC --- */
-  
-  // -- ZOOM & PAN LOGIC START --
-  let scale = 1;
-  let pointX = 0;
-  let pointY = 0;
-  let startX = 0;
-  let startY = 0;
-  let isDragging = false;
+  let scale = 1, pointX = 0, pointY = 0, startX = 0, startY = 0, isDragging = false;
+  const zoomWrapper = document.getElementById('zoomWrapper'), canvasContainer = document.getElementById('mainCanvasContainer');
 
-  const zoomWrapper = document.getElementById('zoomWrapper');
-  const canvasContainer = document.getElementById('mainCanvasContainer');
+  function updateTransform() { zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
 
-  function updateTransform() {
-      zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-  }
-
-  // Wheel Zoom
   canvasContainer.addEventListener('wheel', (e) => {
-      // Only zoom in 2D mode
       if(document.getElementById('layer2D').style.display === 'none') return;
       e.preventDefault();
-      const zoomSpeed = 0.1;
-      const delta = -Math.sign(e.deltaY) * zoomSpeed;
-      const newScale = Math.min(Math.max(1, scale + delta), 5); // Max 5x zoom
-      
-      scale = newScale;
+      const delta = -Math.sign(e.deltaY) * 0.1;
+      scale = Math.min(Math.max(1, scale + delta), 5);
       if (scale === 1) { pointX = 0; pointY = 0; }
       updateTransform();
   });
 
-  // Drag (Pan)
-  canvasContainer.addEventListener('mousedown', (e) => {
-      if (scale > 1) { 
-          isDragging = true;
-          startX = e.clientX - pointX;
-          startY = e.clientY - pointY;
-          canvasContainer.style.cursor = 'grabbing';
-      }
-  });
-
-  window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      pointX = e.clientX - startX;
-      pointY = e.clientY - startY;
-      updateTransform();
-  });
-
-  window.addEventListener('mouseup', () => {
-      isDragging = false;
-      canvasContainer.style.cursor = 'grab';
-  });
+  canvasContainer.addEventListener('mousedown', (e) => { if (scale > 1) { isDragging = true; startX = e.clientX - pointX; startY = e.clientY - pointY; canvasContainer.style.cursor = 'grabbing'; } });
+  window.addEventListener('mousemove', (e) => { if (!isDragging) return; e.preventDefault(); pointX = e.clientX - startX; pointY = e.clientY - startY; updateTransform(); });
+  window.addEventListener('mouseup', () => { isDragging = false; canvasContainer.style.cursor = 'grab'; });
 
   function zoomIn() { scale = Math.min(5, scale + 0.5); updateTransform(); }
   function zoomOut() { scale = Math.max(1, scale - 0.5); if(scale===1){pointX=0;pointY=0;} updateTransform(); }
   function resetZoom() { scale = 1; pointX = 0; pointY = 0; updateTransform(); }
-  // -- ZOOM & PAN LOGIC END --
 
+  const analyzeBtn = document.getElementById('analyzeBtn'), issuesList = document.getElementById('issuesList'), aiStatus = document.getElementById('aiStatus'), markers = document.querySelectorAll('.marker');
+  const areaDisplay = document.getElementById('areaDisplay'), roomsDisplay = document.getElementById('roomsDisplay'), bathsDisplay = document.getElementById('bathsDisplay'), floorsDisplay = document.getElementById('floorsDisplay');
+  const archInput = document.getElementById('archInput'), currentArchImg = document.getElementById('currentArchImg'), currentMepImg = document.getElementById('currentMepImg');
 
-  const analyzeBtn = document.getElementById('analyzeBtn');
-  const issuesList = document.getElementById('issuesList');
-  const waitingText = document.getElementById('waitingText');
-  const aiStatus = document.getElementById('aiStatus');
-  const markers = document.querySelectorAll('.marker');
-  const areaDisplay = document.getElementById('areaDisplay');
-  const roomsDisplay = document.getElementById('roomsDisplay');
-  const bathsDisplay = document.getElementById('bathsDisplay');
-  const outdoorDisplay = document.getElementById('outdoorDisplay');
-  const floorsDisplay = document.getElementById('floorsDisplay');
-  const btn2D = document.getElementById('btn2D');
-  const btn3D = document.getElementById('btn3D');
-  const layer2D = document.getElementById('layer2D');
-  const layer3D = document.getElementById('layer3D');
-  const layerSwitcher = document.getElementById('layerSwitcher');
-  const showArchBtn = document.getElementById('showArchBtn');
-  const showMepBtn = document.getElementById('showMepBtn');
-  const currentArchImg = document.getElementById('currentArchImg');
-  const currentMepImg = document.getElementById('currentMepImg');
-  const placeholderText = layer2D.querySelector('.placeholder-text');
-  const image3DContainer = document.getElementById('image3DContainer');
-  const videoContainer = document.getElementById('videoContainer');
-  const video3D = document.getElementById('video3D');
-  const btnPlayVideo = document.getElementById('btnPlayVideo');
-  const btnCloseVideo = document.getElementById('btnCloseVideo');
-  const chatHistory = document.getElementById('chatHistory');
-  const archFileName = document.getElementById('archFileName');
-  const mepFileName = document.getElementById('mepFileName');
-  const archInput = document.getElementById('archInput');
-  const mepInput = document.getElementById('mepInput');
-  const customModal = document.getElementById('customModal');
-  const modalMessage = document.getElementById('modalMessage');
-  const closeModalBtn = document.getElementById('closeModalBtn');
-
-  function showCustomAlert(msg) { modalMessage.innerText = msg; customModal.classList.add('active'); }
-  closeModalBtn.addEventListener('click', () => customModal.classList.remove('active'));
-  customModal.addEventListener('click', (e) => { if(e.target === customModal) customModal.classList.remove('active'); });
-
-  const qaData = [
-    { q: "Building area?", a: "Total net internal area is **~88 sqm**." },
-    { q: "Show clashes", a: "I found **1 critical clash** in the Living Room (Wall A)." },
-    { q: "Room count?", a: "This unit features **3 Rooms**." },
-    { q: "Outdoor space?", a: "The plan includes **1 Balcony**." },
-    { q: "Export PDF", a: "Generating Report... [Download PDF]" }
-  ];
-
-  function askQuestion(index) {
-    const data = qaData[index];
-    addBubble(data.q, 'user');
-    setTimeout(() => addBubble(data.a, 'bot'), 600);
-  }
-
-  function addBubble(text, type) {
-    const bubble = document.createElement('div');
-    bubble.classList.add('chat-bubble', type);
-    bubble.innerHTML = text; 
-    chatHistory.appendChild(bubble);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-  }
-
-  btn2D.addEventListener('click', () => {
-     btn2D.classList.add('active'); btn3D.classList.remove('active');
-     video3D.pause(); video3D.currentTime = 0;
-     layer2D.style.display = 'flex'; layer3D.style.display = 'none';
-  });
-
-  btn3D.addEventListener('click', () => {
-     if(archInput.files.length === 0) { showCustomAlert("Please upload a Floor Plan file first."); return; }
-     btn3D.classList.add('active'); btn2D.classList.remove('active');
-     layer2D.style.display = 'none'; layer3D.style.display = 'flex';
-     image3DContainer.style.display = 'block'; videoContainer.style.display = 'none';
-     video3D.pause();
-  });
-  
-  btnPlayVideo.addEventListener('click', () => { image3DContainer.style.display = 'none'; videoContainer.style.display = 'block'; video3D.play(); });
-  btnCloseVideo.addEventListener('click', () => { video3D.pause(); videoContainer.style.display = 'none'; image3DContainer.style.display = 'block'; });
-
-  showArchBtn.addEventListener('click', () => {
-      showArchBtn.classList.add('active'); showMepBtn.classList.remove('active');
-      if(currentArchImg.src) currentArchImg.style.display = 'block';
-      if(currentMepImg.src) currentMepImg.style.display = 'none';
-  });
-
-  showMepBtn.addEventListener('click', () => {
-      showMepBtn.classList.add('active'); showArchBtn.classList.remove('active');
-      if(currentMepImg.src) currentMepImg.style.display = 'block';
-      if(currentArchImg.src) currentArchImg.style.display = 'none';
+  analyzeBtn.addEventListener('click', () => {
+    if (archInput.files.length === 0) { showCustomAlert("Please upload a Floor Plan file first!"); return; }
+    document.getElementById('btn2D').click();
+    document.getElementById('layer2D').classList.add('scanning');
+    
+    analyzeBtn.innerHTML = "<span>🧠 Processing Geometry...</span>";
+    setTimeout(() => analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>", 2500);
+    setTimeout(() => analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>", 4500);
+    
+    setTimeout(() => {
+      document.getElementById('layer2D').classList.remove('scanning');
+      analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
+      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
+      aiStatus.style.display = 'inline-block';
+      document.getElementById('waitingText').style.display = 'none';
+      issuesList.style.display = 'block';
+      markers.forEach(m => { m.style.display = 'flex'; setTimeout(() => m.style.transform = "scale(1)", 50); });
+      animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
+      roomsDisplay.innerText = "3"; bathsDisplay.innerText = "2 Full"; floorsDisplay.innerText = "1 Level";
+      addBubble("Analysis complete. Check the summary and AI Insights below.", 'bot');
+    }, 6000); 
   });
 
   function handleUpload(inputId, nameDisplayId, imgElementId) {
     document.getElementById(inputId).addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
-        const nameDisplay = document.getElementById(nameDisplayId);
-        nameDisplay.textContent = "✅ " + file.name;
-        if(inputId === 'archInput') btn3D.classList.remove('disabled');
+        document.getElementById(nameDisplayId).textContent = "✅ " + file.name;
+        if(inputId === 'archInput') document.getElementById('btn3D').classList.remove('disabled');
         const reader = new FileReader();
         reader.onload = (evt) => {
-          placeholderText.style.display = 'none';
-          layerSwitcher.style.display = 'flex';
-          const targetImg = document.getElementById(imgElementId);
-          targetImg.src = evt.target.result;
-          if(inputId === 'archInput') showArchBtn.click(); else showMepBtn.click();
+          document.querySelector('.placeholder-text').style.display = 'none';
+          document.getElementById('layerSwitcher').style.display = 'flex';
+          document.getElementById(imgElementId).src = evt.target.result;
+          document.getElementById(imgElementId).style.display = 'block';
         };
         reader.readAsDataURL(file);
       }
     });
   }
-  
   handleUpload('archInput', 'archFileName', 'currentArchImg');
   handleUpload('mepInput', 'mepFileName', 'currentMepImg');
 
-  analyzeBtn.addEventListener('click', () => {
-    if (archInput.files.length === 0) { showCustomAlert("Please upload a Floor Plan file first!"); return; }
-    btn2D.click();
-    layer2D.classList.add('scanning');
-    
-    // 1. Initial State
-    analyzeBtn.innerHTML = "<span>🧠 Processing Geometry...</span>";
-    
-    // 2. Mid State (simulating progress)
-    setTimeout(() => {
-         analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>";
-    }, 2500);
+  function showCustomAlert(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').classList.add('active'); }
+  document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('customModal').classList.remove('active'));
 
-    // 3. Finalizing State
-    setTimeout(() => {
-         analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>";
-    }, 4500);
-    
-    // 4. Finish
-    setTimeout(() => {
-      layer2D.classList.remove('scanning');
-      analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
-      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
-      
-      aiStatus.style.display = 'inline-block';
-      waitingText.style.display = 'none';
-      issuesList.style.display = 'block';
-      
-      // SHOW MARKERS HERE (Animation)
-      markers.forEach(m => {
-          m.style.display = 'flex';
-          setTimeout(() => m.style.transform = "scale(1)", 50);
-      });
-      
-      animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
-      roomsDisplay.innerText = "3";
-      bathsDisplay.innerText = "2 Full";
-      outdoorDisplay.innerText = "1 Balcony";
-      floorsDisplay.innerText = "1 Level";
-
-      setTimeout(() => { addBubble("Analysis finished. I updated the summary with new metrics.", 'bot'); }, 500);
-    }, 6000); 
-  });
-
-  document.querySelectorAll('.issue-card').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      if(layer2D.style.display !== 'none') {
-          const targetId = item.getAttribute('data-target');
-          const targetMarker = document.getElementById(targetId);
-          if(targetMarker) {
-              targetMarker.classList.add('active');
-          }
-          item.classList.add('highlighted');
-      }
-    });
-    item.addEventListener('mouseleave', () => {
-      const targetId = item.getAttribute('data-target');
-      const targetMarker = document.getElementById(targetId);
-      if(targetMarker) targetMarker.classList.remove('active');
-      item.classList.remove('highlighted');
-    });
-  });
+  function addBubble(text, type) { const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', type); bubble.innerHTML = text; document.getElementById('chatHistory').appendChild(bubble); document.getElementById('chatHistory').scrollTop = document.getElementById('chatHistory').scrollHeight; }
 
   function animateValueHTML(element, start, end, duration, suffix) {
     let startTimestamp = null;
     const step = (timestamp) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const val = Math.floor(progress * (end - start) + start);
-      element.innerText = "~" + val.toLocaleString() + suffix;
+      element.innerText = "~" + Math.floor(progress * (end - start) + start).toLocaleString() + suffix;
       if (progress < 1) window.requestAnimationFrame(step);
     };
     window.requestAnimationFrame(step);
   }
+
+  document.getElementById('btn2D').addEventListener('click', () => { document.getElementById('btn2D').classList.add('active'); document.getElementById('btn3D').classList.remove('active'); document.getElementById('layer2D').style.display = 'flex'; document.getElementById('layer3D').style.display = 'none'; });
+  document.getElementById('btn3D').addEventListener('click', () => { if(archInput.files.length === 0) return; document.getElementById('btn3D').classList.add('active'); document.getElementById('btn2D').classList.remove('active'); document.getElementById('layer2D').style.display = 'none'; document.getElementById('layer3D').style.display = 'flex'; });
+  document.getElementById('btnPlayVideo').addEventListener('click', () => { document.getElementById('image3DContainer').style.display = 'none'; document.getElementById('videoContainer').style.display = 'block'; document.getElementById('video3D').play(); });
+  document.getElementById('showArchBtn').addEventListener('click', () => { document.getElementById('showArchBtn').classList.add('active'); document.getElementById('showMepBtn').classList.remove('active'); currentArchImg.style.display = 'block'; currentMepImg.style.display = 'none'; });
+  document.getElementById('showMepBtn').addEventListener('click', () => { document.getElementById('showMepBtn').classList.add('active'); document.getElementById('showArchBtn').classList.remove('active'); currentMepImg.style.display = 'block'; currentArchImg.style.display = 'none'; });
 </script>
 </body>
 </html>
