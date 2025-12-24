@@ -10,7 +10,6 @@
     :root {
       --glass-bg: rgba(30, 41, 59, 0.4); 
       --glass-border: rgba(255, 255, 255, 0.2);
-      --glass-highlight: rgba(255, 255, 255, 0.05);
       --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       --primary: #00f2ff; 
       --secondary: #7000ff; 
@@ -40,13 +39,13 @@
     .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #00c6ff, #0072ff); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4); }
 
     /* --- GLASS CARDS --- */
-    .glass-card { background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); border-radius: 24px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 32px; transition: transform 0.3s ease; }
+    .glass-card { background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); border-radius: 24px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 32px; }
     h2 { margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px; }
 
     /* --- UPLOAD ZONE --- */
     .upload-container { background: rgba(0,0,0,0.2); border: 2px dashed rgba(255,255,255,0.2); border-radius: 20px; padding: 40px; text-align: center; }
     .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
-    .file-input-wrapper { position: relative; cursor: pointer; height: 100%; }
+    .file-input-wrapper { position: relative; cursor: pointer; }
     .file-input-wrapper input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
     .upload-btn-visual { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: white; font-weight: 600; min-height: 120px; }
     .file-name-display { font-size: 0.9rem; color: #4ade80; font-weight: 500; min-height: 1.2em; }
@@ -55,76 +54,98 @@
     .btn-grad { background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 100%); padding: 16px 50px; border-radius: 50px; border: none; font-weight: 700; font-size: 1.1rem; color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); transition: 0.3s; min-width: 220px; }
     .btn-grad:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6); }
 
-    /* --- CANVAS & 3D FIX --- */
-    .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px; }
-    @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
-
-    .canvas-container { position: relative; background: rgba(10, 10, 15, 0.6); border-radius: 16px; aspect-ratio: 16/9; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 100px rgba(0,0,0,0.5); }
+    /* --- CANVAS CONTAINER (IMPORTANT FIX) --- */
+    .canvas-container { 
+      position: relative; 
+      background: rgba(10, 10, 15, 0.6); 
+      border-radius: 16px; 
+      aspect-ratio: 16/9; 
+      overflow: hidden; 
+      border: 1px solid rgba(255,255,255,0.15); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      box-shadow: inset 0 0 100px rgba(0,0,0,0.5); 
+    }
     
-    /* 3D View: נטרול הזום המובנה ושימוש ב-Contain */
-    #layer3D img, #layer3D video { width: 100%; height: 100%; object-fit: contain; }
+    .view-layer { 
+      position: absolute; 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
 
-    #zoomWrapper { width: 100%; height: 100%; position: absolute; transform-origin: center center; transition: transform 0.1s linear; display: flex; align-items: center; justify-content: center; }
-    #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+    /* Zoom Wrapper Fix */
+    #zoomWrapper { 
+      width: 100%; height: 100%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      transition: transform 0.1s linear; 
+    }
+
+    #zoomWrapper img, #layer3D img, #layer3D video { 
+      max-width: 100%; 
+      max-height: 100%; 
+      object-fit: contain; 
+      display: block;
+    }
 
     /* --- MARKERS --- */
     .marker { position: absolute; width: 32px; height: 32px; border-radius: 50%; background: #ff0055; border: 3px solid white; display: none; align-items: center; justify-content: center; cursor: pointer; transform: scale(0); transition: 0.3s; z-index: 10; color: white; font-weight: 800; box-shadow: 0 5px 15px rgba(255, 0, 85, 0.6); }
 
     /* --- SCANNER --- */
-    .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); box-shadow: 0 0 30px #00f2ff, 0 0 10px white; z-index: 20; display: none; opacity: 0.9; }
+    .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); box-shadow: 0 0 30px #00f2ff, 0 0 10px white; z-index: 20; display: none; opacity: 0.9; pointer-events: none; }
     .scanning .scan-line { display: block; animation: scanMove 1.2s infinite alternate ease-in-out; }
-    @keyframes scanMove { 0% { top: 0%; opacity: 0.5; } 100% { top: 100%; opacity: 1; } }
+    @keyframes scanMove { 0% { top: 0%; } 100% { top: 100%; } }
 
-    /* --- MINI PLAY BUTTON (New Style) --- */
+    /* --- MINI PLAY BUTTON --- */
     .mini-play-btn {
         position: absolute; bottom: 20px; right: 20px; z-index: 30;
-        background: var(--glass-bg); backdrop-filter: blur(10px);
-        border: 1px solid var(--glass-border); color: white;
+        background: rgba(0, 242, 255, 0.2); backdrop-filter: blur(10px);
+        border: 1px solid var(--primary); color: white;
         padding: 10px 20px; border-radius: 50px; cursor: pointer;
-        display: flex; align-items: center; gap: 10px; font-weight: 600;
-        transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        display: flex; align-items: center; gap: 10px; font-weight: 600; transition: 0.3s;
     }
-    .mini-play-btn:hover { background: white; color: black; transform: scale(1.05); }
-    .mini-play-btn i { font-size: 1.2rem; }
+    .mini-play-btn:hover { background: var(--primary); color: black; }
 
     .close-video-btn { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 40; display: flex; align-items: center; justify-content: center; }
 
     /* --- SIDEBAR & CHAT --- */
     .sidebar-title { font-size: 1.3rem; margin-bottom: 24px; color: white; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
     .info-row { display: flex; justify-content: space-between; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .info-val { font-weight: 600; color: white; }
-    .issue-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+    .issue-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
     .reg-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; color: var(--primary); font-size: 0.8rem; text-decoration: none; font-weight: 600; }
-    .chat-section { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; height: 350px; }
-    .chat-history { flex: 1; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-    .chat-bubble { max-width: 85%; padding: 14px 18px; border-radius: 18px; font-size: 1rem; }
-    .chat-bubble.bot { align-self: flex-start; background: rgba(255,255,255,0.15); color: white; }
-    .chat-bubble.user { align-self: flex-end; background: linear-gradient(135deg, #7000ff, #ae00ff); color: white; }
+    
+    .chat-history { margin-top: 20px; flex: 1; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; height: 150px; }
+    .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; }
+    .chat-bubble.bot { align-self: flex-start; background: rgba(255,255,255,0.1); color: white; }
 
     /* --- TOGGLES --- */
     .view-toggles { display: flex; gap: 12px; margin-bottom: 12px; }
     .toggle-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); padding: 10px 24px; border-radius: 12px; color: rgba(255,255,255,0.7); cursor: pointer; }
-    .toggle-btn.active { background: white; color: #000; font-weight: 700; border-color: white; }
+    .toggle-btn.active { background: white; color: #000; font-weight: 700; }
     .toggle-btn.disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .layer-controls { position: absolute; top: 20px; right: 20px; z-index: 20; background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px; display: flex; gap: 5px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
-    .layer-btn { border: none; background: transparent; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.8rem; color: #ccc; }
+    .layer-controls { position: absolute; top: 20px; right: 20px; z-index: 20; background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px; display: flex; gap: 5px; border: 1px solid rgba(255,255,255,0.2); }
+    .layer-btn { border: none; background: transparent; padding: 8px 16px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.8rem; color: #ccc; }
     .layer-btn.active { background: var(--primary); color: #000; }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-    .modal-overlay.active { opacity: 1; pointer-events: all; }
-    .modal-content { background: rgba(20, 25, 40, 0.95); border: 1px solid rgba(255,255,255,0.2); padding: 40px; border-radius: 24px; width: 360px; text-align: center; color: white; }
-    .modal-btn { background: white; color: #7000ff; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 25px; }
-
     .zoom-controls { position: absolute; bottom: 20px; right: 20px; z-index: 50; display: flex; flex-direction: column; gap: 8px; }
-    .zoom-btn { background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 12px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .zoom-btn { background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 12px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+    
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 9999; display: none; align-items: center; justify-content: center; }
+    .modal-content { background: #1e293b; padding: 40px; border-radius: 24px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+    .modal-btn { background: white; color: black; padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; border: none; }
   </style>
 </head>
 <body>
 
 <div class="bg-container">
   <div class="bg-layer layer-right"></div>
-  <div class="bg-layer layer-left" id="dynamicBg"></div>
+  <div class="bg-layer layer-left"></div>
 </div>
 
 <div class="app">
@@ -135,7 +156,6 @@
   <div class="glass-card">
     <h2>Upload Project Files</h2>
     <div class="upload-container">
-      <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">Drag & drop files here or <u>Browse Files</u></p>
       <div class="upload-grid">
         <label class="file-input-wrapper">
           <input type="file" id="archInput" accept="image/*">
@@ -146,26 +166,32 @@
           <div class="upload-btn-visual"><span>⚡ Upload MEP Plan</span><span id="mepFileName" class="file-name-display"></span></div>
         </label>
       </div>
-    </div>
-    <div style="text-align:center; margin-top: 20px;">
-       <button class="btn-grad" id="analyzeBtn"><span>✨ Run Analysis</span></button>
+      <div style="text-align:center; margin-top: 30px;">
+        <button class="btn-grad" id="analyzeBtn"><span>✨ Run Analysis</span></button>
+      </div>
     </div>
   </div>
 
   <div class="main-grid">
-    <div class="glass-card" style="display:flex; flex-direction:column; min-height:650px;">
+    <div class="glass-card" style="display:flex; flex-direction:column; min-height:600px;">
       <div class="view-toggles">
          <button class="toggle-btn active" id="btn2D">Floor Plan</button>
          <button class="toggle-btn disabled" id="btn3D">3D Model</button>
       </div>
 
-      <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 400px;">
+      <div class="canvas-container" id="mainCanvasContainer">
         <div id="layer2D" class="view-layer">
-            <div class="zoom-controls"><button class="zoom-btn" onclick="zoomIn()">+</button><button class="zoom-btn" onclick="zoomOut()">-</button></div>
-            <div id="layerSwitcher" class="layer-controls" style="display:none;"><button id="showArchBtn" class="layer-btn active">Arch</button><button id="showMepBtn" class="layer-btn">MEP</button></div>
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoomIn()">+</button>
+                <button class="zoom-btn" onclick="zoomOut()">-</button>
+            </div>
+            <div id="layerSwitcher" class="layer-controls" style="display:none;">
+                <button id="showArchBtn" class="layer-btn active">Arch</button>
+                <button id="showMepBtn" class="layer-btn">MEP</button>
+            </div>
             <div class="scan-line"></div> 
-            <div class="placeholder-text">Waiting for plan upload...</div>
             <div id="zoomWrapper">
+                <div class="placeholder-text" id="mainPlaceholder">Waiting for plan upload...</div>
                 <img id="currentArchImg" style="display:none;">
                 <img id="currentMepImg" style="display:none;">
                 <div id="marker1" class="marker" style="top: 30%; left: 24%;">1</div>
@@ -174,26 +200,26 @@
         </div>
 
         <div id="layer3D" class="view-layer" style="display:none;">
-            <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
+            <div id="image3DContainer" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; position:relative;">
                 <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview'">
                 <button id="btnPlayVideo" class="mini-play-btn"><span>▶ Run Simulation</span></button>
             </div>
-            <div id="videoContainer" style="display:none; width:100%; height:100%; position:relative;">
+            <div id="videoContainer" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; position:relative;">
                 <button id="btnCloseVideo" class="close-video-btn">✕</button>
                 <video id="video3D" controls style="width:100%; height:100%; object-fit:contain;"><source src="3d video.mp4" type="video/mp4"></video>
             </div>
         </div>
       </div>
       
-      <div class="chat-history" id="chatHistory" style="margin-top: 20px;"><div class="chat-bubble bot">Hello! Upload blueprints to begin.</div></div>
+      <div class="chat-history" id="chatHistory"><div class="chat-bubble bot">Hello! Upload blueprints to begin the AI scan.</div></div>
     </div>
 
     <div class="glass-card">
-      <div class="sidebar-title">Summary <span class="badge-ai" id="aiStatus" style="display:none; background:#4ade80; color:black; padding:4px 8px; border-radius:8px;">DONE</span></div>
+      <div class="sidebar-title">Summary <span class="badge-ai" id="aiStatus" style="display:none;">DONE</span></div>
       <div class="info-row"><span>Area</span><span id="areaDisplay">--</span></div>
       <div class="info-row"><span>Rooms</span><span>3</span></div>
       <div id="issuesList" style="display:none; margin-top:20px;">
-        <div class="issue-card" data-target="marker1"><div style="color:#ef4444; font-weight:700;">⚠️ Socket too close to sink</div><a href="https://www.gov.il/he/pages/mmok_takanot_maagar_2025" target="_blank" class="reg-link">📜 View Code</a></div>
+        <div class="issue-card" data-target="marker1"><div style="color:#ef4444; font-weight:700;">⚠️ Socket violates clearance</div><a href="https://www.gov.il/he/pages/mmok_takanot_maagar_2025" target="_blank" class="reg-link">📜 View Code</a></div>
         <div class="issue-card" data-target="marker2"><div style="color:#fbbf24; font-weight:700;">⚠️ Switch in wet zone</div><a href="https://www.gov.il/he/Departments/legalInfo/electricity_regulations_bathrooms" target="_blank" class="reg-link">📜 View Code</a></div>
       </div>
     </div>
@@ -204,16 +230,8 @@
 
 <script>
   let scale = 1, pointX = 0, pointY = 0, isDragging = false, startX, startY;
-  const zoomWrapper = document.getElementById('zoomWrapper'), canvas = document.getElementById('mainCanvasContainer');
+  const zoomWrapper = document.getElementById('zoomWrapper');
   function updateTransform() { zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
-
-  canvas.addEventListener('wheel', (e) => { if(document.getElementById('layer2D').style.display==='none') return; e.preventDefault(); scale = Math.min(Math.max(1, scale + (-Math.sign(e.deltaY) * 0.1)), 5); if(scale===1){pointX=0;pointY=0;} updateTransform(); });
-  canvas.addEventListener('mousedown', (e) => { if (scale > 1) { isDragging = true; startX = e.clientX - pointX; startY = e.clientY - pointY; canvas.style.cursor = 'grabbing'; } });
-  window.addEventListener('mousemove', (e) => { if (isDragging) { pointX = e.clientX - startX; pointY = e.clientY - startY; updateTransform(); } });
-  window.addEventListener('mouseup', () => { isDragging = false; canvas.style.cursor = 'grab'; });
-
-  function zoomIn() { scale = Math.min(5, scale + 0.5); updateTransform(); }
-  function zoomOut() { scale = Math.max(1, scale - 0.5); if(scale===1){pointX=0;pointY=0;} updateTransform(); }
 
   const archInput = document.getElementById('archInput'), mepInput = document.getElementById('mepInput');
   const analyzeBtn = document.getElementById('analyzeBtn');
@@ -242,7 +260,7 @@
         if(input.id === 'archInput') document.getElementById('btn3D').classList.remove('disabled');
         const reader = new FileReader();
         reader.onload = (evt) => {
-          document.querySelector('.placeholder-text').style.display = 'none';
+          document.getElementById('mainPlaceholder').style.display = 'none';
           document.getElementById('layerSwitcher').style.display = 'flex';
           const img = document.getElementById(imgId); img.src = evt.target.result; img.style.display = 'block';
         };
@@ -253,20 +271,20 @@
   handleUpload(archInput, 'archFileName', 'currentArchImg');
   handleUpload(mepInput, 'mepFileName', 'currentMepImg');
 
-  function showCustomAlert(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').classList.add('active'); }
-  document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('customModal').classList.remove('active'));
+  function zoomIn() { scale = Math.min(5, scale + 0.5); updateTransform(); }
+  function zoomOut() { scale = Math.max(1, scale - 0.5); if(scale===1){pointX=0;pointY=0;} updateTransform(); }
 
-  // 3D View Handlers
+  function showCustomAlert(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').style.display = 'flex'; }
+  document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('customModal').style.display = 'none');
+
   document.getElementById('btn3D').addEventListener('click', () => {
     if(archInput.files.length === 0) return;
     document.getElementById('btn3D').classList.add('active');
     document.getElementById('btn2D').classList.remove('active');
     document.getElementById('layer2D').style.display = 'none';
     document.getElementById('layer3D').style.display = 'flex';
-    // Always show image first, reset video
-    document.getElementById('image3DContainer').style.display = 'block';
+    document.getElementById('image3DContainer').style.display = 'flex';
     document.getElementById('videoContainer').style.display = 'none';
-    const v = document.getElementById('video3D'); v.pause(); v.currentTime = 0;
   });
 
   document.getElementById('btn2D').addEventListener('click', () => {
@@ -278,14 +296,14 @@
 
   document.getElementById('btnPlayVideo').addEventListener('click', () => {
     document.getElementById('image3DContainer').style.display = 'none';
-    document.getElementById('videoContainer').style.display = 'block';
+    document.getElementById('videoContainer').style.display = 'flex';
     document.getElementById('video3D').play();
   });
 
   document.getElementById('btnCloseVideo').addEventListener('click', () => {
-    const v = document.getElementById('video3D'); v.pause();
+    document.getElementById('video3D').pause();
     document.getElementById('videoContainer').style.display = 'none';
-    document.getElementById('image3DContainer').style.display = 'block';
+    document.getElementById('image3DContainer').style.display = 'flex';
   });
 
   document.getElementById('showArchBtn').addEventListener('click', () => { document.getElementById('showArchBtn').classList.add('active'); document.getElementById('showMepBtn').classList.remove('active'); document.getElementById('currentArchImg').style.display = 'block'; document.getElementById('currentMepImg').style.display = 'none'; });
