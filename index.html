@@ -9,7 +9,7 @@
   <style>
     :root {
       /* פלטת צבעים מעודכנת וידידותית */
-      --glass-bg: rgba(30, 41, 59, 0.4); /* זכוכית כהה-כחלחלה עדינה, לא שחור אטום */
+      --glass-bg: rgba(30, 41, 59, 0.4); 
       --glass-border: rgba(255, 255, 255, 0.2);
       --glass-highlight: rgba(255, 255, 255, 0.05);
       --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
@@ -24,15 +24,15 @@
 
     body {
       margin: 0;
-      background: #0f172a; /* צבע גיבוי */
-      font-family: 'Outfit', sans-serif; /* הגופן החדש */
+      background: #0f172a; 
+      font-family: 'Outfit', sans-serif;
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
-      font-size: 16px; /* הגדלת טקסט בסיסי */
+      font-size: 16px;
     }
 
-    /* --- DYNAMIC BACKGROUND (שכבות רקע חצויות) --- */
+    /* --- DYNAMIC BACKGROUND --- */
     .bg-container {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
     }
@@ -41,7 +41,6 @@
       background-size: cover; background-position: center;
       transition: clip-path 0.1s ease-out;
     }
-    /* שכבה ימנית - חמה */
     .layer-right {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
       z-index: 1;
@@ -51,7 +50,6 @@
       background: linear-gradient(135deg, rgba(255,0,100,0.6), rgba(255,100,0,0.6));
       mix-blend-mode: overlay;
     }
-    /* שכבה שמאלית - קרה */
     .layer-left {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
       z-index: 2;
@@ -66,156 +64,123 @@
 
     /* --- APP CONTAINER --- */
     .app {
-      max-width: 1300px; /* רחב יותר */
-      margin: 0 auto;
-      padding: 40px 24px;
-      position: relative;
-      z-index: 10;
+      max-width: 1300px; margin: 0 auto; padding: 40px 24px; position: relative; z-index: 10;
     }
 
-    /* --- HEADER --- */
-    header {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;
-    }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
     .logo {
-      font-size: 2.2rem; /* גופן גדול יותר */
-      font-weight: 800; /* מודגש יותר */
-      color: white;
+      font-size: 2.2rem; font-weight: 800; color: white;
       display: flex; align-items: center; gap: 15px;
-      text-shadow: 0 4px 20px rgba(0,242,255,0.3);
-      letter-spacing: -0.5px;
+      text-shadow: 0 4px 20px rgba(0,242,255,0.3); letter-spacing: -0.5px;
     }
     .logo-icon {
       width: 48px; height: 48px;
       background: linear-gradient(135deg, #00c6ff, #0072ff);
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 1.5rem;
-      box-shadow: 0 0 20px rgba(0,114,255,0.4);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4);
     }
 
-    /* --- FRIENDLIER GLASS CARDS --- */
+    /* --- GLASS CARDS --- */
     .glass-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(30px); /* טשטוש חזק למראה "חלבי" */
-      -webkit-backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border);
-      border-top: 1px solid rgba(255,255,255,0.4); /* הדגשה למעלה */
-      border-radius: 24px; /* פינות עגולות יותר */
-      padding: 32px;
-      box-shadow: var(--glass-shadow);
-      margin-bottom: 32px;
+      background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4);
+      border-radius: 24px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 32px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .glass-card:hover {
-      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-      border-color: rgba(255,255,255,0.3);
-    }
+    .glass-card:hover { box-shadow: 0 30px 60px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.3); }
 
-    h2 { 
-      margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px;
-    }
+    h2 { margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px; }
 
-    /* --- UPLOAD ZONE (DESIGNED) --- */
+    /* --- UPLOAD ZONE --- */
     .upload-container {
-      background: rgba(0,0,0,0.2);
-      border: 2px dashed rgba(255,255,255,0.2);
-      border-radius: 20px;
-      padding: 40px;
-      text-align: center;
-      transition: 0.3s;
+      background: rgba(0,0,0,0.2); border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 20px; padding: 40px; text-align: center; transition: 0.3s;
     }
-    .upload-container:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: var(--primary);
-    }
-    .upload-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px;
-    }
+    .upload-container:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); }
+    .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
     .file-input-wrapper { position: relative; cursor: pointer; height: 100%; }
-    .file-input-wrapper input {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2;
-    }
+    .file-input-wrapper input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
     .upload-btn-visual {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 25px;
-      border-radius: 16px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-      color: white; font-weight: 600; font-size: 1.1rem;
-      transition: 0.2s; min-height: 120px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      padding: 25px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      color: white; font-weight: 600; font-size: 1.1rem; transition: 0.2s; min-height: 120px;
     }
     .file-input-wrapper:hover .upload-btn-visual {
-      background: rgba(255,255,255,0.15);
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.15); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     .icon-large { font-size: 2.5rem; margin-bottom: 5px; }
     .file-name-display { font-size: 0.9rem; color: #4ade80; font-weight: 500; min-height: 1.2em; }
 
-    /* --- BUTTONS (Fun & Interactive) --- */
+    /* --- BUTTONS --- */
     .btn-grad {
       background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 100%);
-      padding: 16px 50px;
-      border-radius: 50px;
-      border: none;
-      font-weight: 700; font-size: 1.1rem; color: white;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
-      transition: 0.3s;
-      letter-spacing: 0.5px;
-      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 50px; border-radius: 50px; border: none;
+      font-weight: 700; font-size: 1.1rem; color: white; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); transition: 0.3s;
+      letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 10px;
     }
-    .btn-grad:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6);
-    }
+    .btn-grad:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6); }
 
     /* --- LAYOUT --- */
-    .main-grid {
-      display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px;
-    }
+    .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px; }
     @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
 
     /* --- CANVAS --- */
     .canvas-container {
-      position: relative;
-      background: rgba(10, 10, 15, 0.4); /* קצת כהה יותר לקונטרסט */
-      border-radius: 16px;
-      aspect-ratio: 16/9;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; justify-content: center;
+      position: relative; background: rgba(10, 10, 15, 0.4);
+      border-radius: 16px; aspect-ratio: 16/9; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
       box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
+      /* Cursor changes for pan */
+      cursor: grab;
     }
-    .canvas-container img, .canvas-container video { width: 100%; height: 100%; object-fit: contain; }
+    .canvas-container:active { cursor: grabbing; }
+
+    .canvas-container img, .canvas-container video { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
     .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     
+    /* ZOOM WRAPPER: This is the element we will scale/translate */
+    #zoomWrapper {
+      width: 100%; height: 100%;
+      position: absolute; top: 0; left: 0;
+      transform-origin: center center;
+      transition: transform 0.1s linear; /* Smoothness for pan/zoom */
+      display: flex; align-items: center; justify-content: center;
+    }
+
     .placeholder-text {
       color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300;
+      z-index: 0;
     }
 
-    /* --- SCANNER --- */
-    .scan-line {
-      position: absolute; top: 0; left: 0; width: 100%; height: 6px;
-      background: #fff;
-      box-shadow: 0 0 20px #fff, 0 0 40px var(--primary);
-      z-index: 20; display: none; opacity: 0.9; pointer-events: none;
-    }
-    .scanning .scan-line { display: block; animation: scanMove 2s infinite linear; }
-    @keyframes scanMove { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
-
-    /* --- MARKERS --- */
+    /* --- MARKERS (Inside Zoom Wrapper) --- */
     .marker {
       position: absolute; width: 32px; height: 32px;
       border-radius: 50%; background: #ff0055;
       border: 3px solid white;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transform: scale(0); transition: 0.3s; z-index: 10;
+      cursor: pointer; transition: 0.3s; z-index: 10;
       color: white; font-weight: 800; font-size: 0.9rem;
       box-shadow: 0 5px 15px rgba(255, 0, 85, 0.6);
+      /* Ensure marker doesn't get distorted */
+      transform-origin: center center;
     }
-    .marker.active { transform: scale(1.3) !important; z-index: 100; background: #fff; color: #ff0055; }
+    /* Counter-scale markers slightly when zooming so they don't get massive (optional logic in JS, but CSS here handles base look) */
+    .marker:hover { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
+    .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
+
+    /* --- ZOOM CONTROLS --- */
+    .zoom-controls {
+      position: absolute; bottom: 20px; right: 20px; z-index: 50;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .zoom-btn {
+      background: rgba(255,255,255,0.9); border: none; width: 36px; height: 36px;
+      border-radius: 50%; font-size: 1.2rem; cursor: pointer; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.2s;
+    }
+    .zoom-btn:hover { background: white; transform: scale(1.1); }
 
     /* --- SIDEBAR --- */
     .sidebar-title {
@@ -412,6 +377,13 @@
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 400px;">
         
         <div id="layer2D" class="view-layer">
+            
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoomIn()">+</button>
+                <button class="zoom-btn" onclick="zoomOut()">-</button>
+                <button class="zoom-btn" onclick="resetZoom()" style="font-size:0.8rem; font-weight:700;">R</button>
+            </div>
+
             <div id="layerSwitcher" class="layer-controls" style="display:none;">
                 <button id="showArchBtn" class="layer-btn active">Arch</button>
                 <button id="showMepBtn" class="layer-btn">MEP</button>
@@ -424,13 +396,14 @@
                Waiting for plan upload...
             </div>
             
-            <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
-            <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
+            <div id="zoomWrapper">
+                <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
+                <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
 
-            <div id="marker1" class="marker" style="top: 30%; left: 24%; z-index:10;" title="Clash Detected">1</div>
-            <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
+                <div id="marker1" class="marker" style="top: 30%; left: 24%; z-index:10;" title="Clash Detected">1</div>
+                <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
+            </div>
         </div>
-
         <div id="layer3D" class="view-layer" style="display:none;">
             <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
                 <img src="3d model.jpg" alt="3D Model" onerror="this.src='https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview'">
@@ -511,7 +484,82 @@
 </div>
 
 <script>
-  /* --- JS LOGIC (Same functionality, preserved) --- */
+  /* --- ZOOM & PAN LOGIC --- */
+  let scale = 1;
+  let pointX = 0;
+  let pointY = 0;
+  let startX = 0;
+  let startY = 0;
+  let isDragging = false;
+
+  const zoomWrapper = document.getElementById('zoomWrapper');
+  const canvasContainer = document.getElementById('mainCanvasContainer');
+
+  function updateTransform() {
+      zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+  }
+
+  // Wheel Zoom
+  canvasContainer.addEventListener('wheel', (e) => {
+      // Only zoom if in 2D mode and images are visible
+      if(document.getElementById('layer2D').style.display === 'none') return;
+      
+      e.preventDefault();
+      const zoomSpeed = 0.1;
+      const delta = -Math.sign(e.deltaY) * zoomSpeed;
+      const newScale = Math.min(Math.max(1, scale + delta), 5); // Limit 1x to 5x
+      
+      scale = newScale;
+      // Reset position if zoomed out completely
+      if (scale === 1) {
+          pointX = 0;
+          pointY = 0;
+      }
+      updateTransform();
+  });
+
+  // Mouse Drag (Pan)
+  canvasContainer.addEventListener('mousedown', (e) => {
+      if (scale > 1) { // Only pan if zoomed in
+          isDragging = true;
+          startX = e.clientX - pointX;
+          startY = e.clientY - pointY;
+          canvasContainer.style.cursor = 'grabbing';
+      }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+      isDragging = false;
+      canvasContainer.style.cursor = 'grab';
+  });
+
+  // Button Controls
+  function zoomIn() {
+      scale = Math.min(5, scale + 0.5);
+      updateTransform();
+  }
+  function zoomOut() {
+      scale = Math.max(1, scale - 0.5);
+      if(scale === 1) { pointX=0; pointY=0; }
+      updateTransform();
+  }
+  function resetZoom() {
+      scale = 1;
+      pointX = 0;
+      pointY = 0;
+      updateTransform();
+  }
+
+
+  /* --- EXISTING JS LOGIC (PRESERVED) --- */
   const globalSlider = document.getElementById('globalSplitSlider');
   const dynamicBg = document.getElementById('dynamicBg');
 
