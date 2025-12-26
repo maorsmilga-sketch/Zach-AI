@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <title>ArcWiz AI – Next Gen Interface</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
-  <!-- PDF Generation Library -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
   <style>
@@ -75,16 +74,29 @@
     }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+
+    /* --- LOGO STYLES (UPDATED) --- */
     .logo {
-      font-size: 2.2rem; font-weight: 800; color: white;
+      font-size: 2.2rem; 
+      font-weight: 900; /* מודגש יותר */
+      color: white;
       display: flex; align-items: center; gap: 15px;
-      text-shadow: 0 4px 20px rgba(0,242,255,0.3); letter-spacing: -0.5px;
+      letter-spacing: -0.5px;
+      
+      /* הוספת מסגרת שחורה לטקסט */
+      -webkit-text-stroke: 1.5px black;
+      text-stroke: 1.5px black;
+      
+      /* השארת הזוהר המקורי */
+      text-shadow: 0 4px 20px rgba(0,242,255,0.3); 
     }
-    .logo-icon {
-      width: 48px; height: 48px;
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      border-radius: 14px; display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4);
+    
+    /* סגנון לתמונת הלוגו החדשה */
+    .logo-img {
+        width: 50px; height: 50px;
+        border-radius: 14px;
+        object-fit: cover;
+        box-shadow: 0 0 25px rgba(0, 114, 255, 0.5); /* זוהר סביב התמונה */
     }
 
     /* --- GLASS CARDS --- */
@@ -347,7 +359,7 @@
 <div class="app">
   <header>
     <div class="logo">
-      <div class="logo-icon">▲</div>
+      <img src="logo.jpg" alt="ArcWiz AI Logo" class="logo-img">
       ArcWiz AI
     </div>
   </header>
