@@ -7,30 +7,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
   <!-- PDF Generation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+  
   <style>
     :root {
+      /* פלטת צבעים מעודכנת וידידותית */
       --glass-bg: rgba(30, 41, 59, 0.4); 
       --glass-border: rgba(255, 255, 255, 0.2);
       --glass-highlight: rgba(255, 255, 255, 0.05);
       --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      --primary: #00f2ff;
-      --secondary: #7000ff;
-      --accent: #ff0055;
+      
+      --primary: #00f2ff; /* Cyan Neon */
+      --secondary: #7000ff; /* Deep Purple */
+      --accent: #ff0055; /* Pink/Red */
+      
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
     }
 
     body {
       margin: 0;
-      background: #0f172a;
-      font-family: 'Outfit', sans-serif;
+      background: #0f172a; 
+      font-family: 'Outfit', sans-serif; 
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
-      font-size: 16px;
+      font-size: 16px; 
     }
 
+    /* --- DYNAMIC BACKGROUND --- */
     .bg-container {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
     }
@@ -51,6 +55,7 @@
     .layer-left {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
       z-index: 2;
+      /* Fixed Split at 50% */
       clip-path: inset(0 50% 0 0);
       border-right: 1px solid rgba(255,255,255,0.4);
     }
@@ -60,7 +65,14 @@
       mix-blend-mode: overlay;
     }
 
-    .app { max-width: 1300px; margin: 0 auto; padding: 40px 24px; position: relative; z-index: 10; }
+    /* --- APP CONTAINER --- */
+    .app {
+      max-width: 1300px; 
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 10;
+    }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
     .logo {
@@ -75,9 +87,10 @@
       color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4);
     }
 
+    /* --- GLASS CARDS --- */
     .glass-card {
       background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4);
+      border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); 
       border-radius: 24px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 32px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -85,6 +98,7 @@
 
     h2 { margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px; }
 
+    /* --- UPLOAD ZONE --- */
     .upload-container {
       background: rgba(0,0,0,0.2); border: 2px dashed rgba(255,255,255,0.2);
       border-radius: 20px; padding: 40px; text-align: center; transition: 0.3s;
@@ -104,6 +118,7 @@
     .icon-large { font-size: 2.5rem; margin-bottom: 5px; }
     .file-name-display { font-size: 0.9rem; color: #4ade80; font-weight: 500; min-height: 1.2em; }
 
+    /* --- BUTTONS --- */
     .btn-grad {
       background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 100%);
       padding: 16px 50px; border-radius: 50px; border: none;
@@ -113,30 +128,35 @@
     }
     .btn-grad:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6); }
 
+    /* --- LAYOUT --- */
     .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px; }
     @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
 
+    /* --- CANVAS --- */
     .canvas-container {
       position: relative;
-      background: rgba(10, 10, 15, 0.4);
+      background: rgba(10, 10, 15, 0.4); 
       border-radius: 16px; aspect-ratio: 16/9; overflow: hidden;
       border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
       box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
-      cursor: grab;
+      cursor: grab; 
     }
     .canvas-container:active { cursor: grabbing; }
 
     .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-
+    
+    /* --- ZOOM WRAPPER --- */
     #zoomWrapper {
       width: 100%; height: 100%;
       position: absolute; top: 0; left: 0;
       transform-origin: center center;
-      transition: transform 0.1s linear;
+      transition: transform 0.1s linear; 
       display: flex; align-items: center; justify-content: center;
     }
+
     #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
+    /* --- MARKERS --- */
     .marker {
       position: absolute; width: 32px; height: 32px;
       border-radius: 50%; background: #ff0055;
@@ -149,6 +169,7 @@
       display: none;
       transform: scale(0);
     }
+    
     .marker:hover { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
     .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
 
@@ -156,34 +177,39 @@
       color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
     }
 
+    /* --- SCANNER --- */
     .scan-line {
       position: absolute; top: 0; left: 0; width: 100%; height: 4px;
       background: linear-gradient(90deg, transparent, #00f2ff, transparent);
       box-shadow: 0 0 30px #00f2ff, 0 0 10px white;
       z-index: 20; display: none; opacity: 0.9; pointer-events: none;
     }
-    .scanning .scan-line {
-      display: block;
-      animation: scanMove 1.2s infinite alternate ease-in-out;
+    
+    .scanning .scan-line { 
+        display: block; 
+        animation: scanMove 1.2s infinite alternate ease-in-out; 
     }
-    @keyframes scanMove {
-      0% { top: 0%; opacity: 0.5; }
-      50% { opacity: 1; }
-      100% { top: 100%; opacity: 0.5; }
+    
+    @keyframes scanMove { 
+        0% { top: 0%; opacity: 0.5; } 
+        50% { opacity: 1; }
+        100% { top: 100%; opacity: 0.5; } 
     }
 
+    /* --- ZOOM CONTROLS --- */
     .zoom-controls {
-      position: absolute; bottom: 20px; right: 20px; z-index: 50;
-      display: flex; flex-direction: column; gap: 8px;
+        position: absolute; bottom: 20px; right: 20px; z-index: 50;
+        display: flex; flex-direction: column; gap: 8px;
     }
     .zoom-btn {
-      background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px;
-      border-radius: 12px; font-size: 1.2rem; cursor: pointer; color: #000;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: 0.2s; font-weight: 700;
+        background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px;
+        border-radius: 12px; font-size: 1.2rem; cursor: pointer; color: #000;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: 0.2s; font-weight: 700;
     }
     .zoom-btn:hover { background: white; transform: scale(1.1); color: var(--primary); }
 
+    /* --- SIDEBAR --- */
     .sidebar-title {
       font-size: 1.3rem; margin-bottom: 24px; color: white;
       font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px;
@@ -207,6 +233,7 @@
     .issue-card:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); transform: translateX(5px); }
     .issue-card.highlighted { background: rgba(0, 242, 255, 0.1); border-color: var(--primary); }
 
+    /* ISSUE LINK BUTTONS */
     .issue-link {
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(255,255,255,0.1); color: var(--primary);
@@ -219,6 +246,7 @@
       transform: translateX(4px); box-shadow: 0 5px 15px rgba(0,242,255,0.4);
     }
 
+    /* --- CHAT --- */
     .chat-section { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; height: 350px; }
     .chat-history {
       flex: 1; background: rgba(0,0,0,0.2);
@@ -244,6 +272,7 @@
     }
     .question-chip:hover { background: white; color: #7000ff; border-color: white; transform: translateY(-2px); }
 
+    /* --- TOGGLES & CONTROLS --- */
     .view-toggles { display: flex; gap: 12px; margin-bottom: 12px; }
     .toggle-btn {
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
@@ -253,62 +282,59 @@
     .toggle-btn.active { background: white; color: #000; font-weight: 700; box-shadow: 0 0 20px rgba(255,255,255,0.4); border-color: white; }
     .toggle-btn.disabled { opacity: 0.4; cursor: not-allowed; }
 
+    /* Layer Switcher */
     .layer-controls {
-      position: absolute; top: 20px; right: 20px; z-index: 20;
-      background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px;
-      display: flex; gap: 5px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+        position: absolute; top: 20px; right: 20px; z-index: 20;
+        background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px;
+        display: flex; gap: 5px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
     }
     .layer-btn {
-      border: none; background: transparent; padding: 8px 20px;
-      border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.8rem;
-      color: #ccc; transition: 0.2s; font-family: 'Outfit', sans-serif;
+        border: none; background: transparent; padding: 8px 20px;
+        border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.8rem;
+        color: #ccc; transition: 0.2s; font-family: 'Outfit', sans-serif;
     }
     .layer-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
 
-    /* 3D loader spinner */
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
+    /* Video Overlay */
     .floating-play-btn {
-      position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; border-radius: 50px;
-      padding: 14px 36px; font-size: 1rem; font-weight: 700; color: white; font-family: 'Outfit', sans-serif;
-      cursor: pointer; box-shadow: 0 10px 30px rgba(0, 114, 255, 0.5);
-      display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 10;
+        position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+        background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; border-radius: 50px;
+        padding: 14px 36px; font-size: 1rem; font-weight: 700; color: white; font-family: 'Outfit', sans-serif;
+        cursor: pointer; box-shadow: 0 10px 30px rgba(0, 114, 255, 0.5);
+        display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 10;
     }
-
+    .floating-play-btn:hover { transform: translateX(-50%) scale(1.05) translateY(-2px); filter: brightness(1.1); }
+    
     .close-video-btn {
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
-      width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 20;
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
+        position: absolute; top: 20px; right: 20px;
+        background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
+        width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 20;
+        display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
     }
+    .close-video-btn:hover { background: #ef4444; border-color: #ef4444; }
 
+    /* --- MODAL (POPUP) --- */
     .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
-      z-index: 9999; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
+        z-index: 9999; display: flex; align-items: center; justify-content: center;
+        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .modal-overlay.active { opacity: 1; pointer-events: all; }
     .modal-content {
-      background: rgba(20, 25, 40, 0.95); border: 1px solid rgba(255,255,255,0.2);
-      padding: 40px; border-radius: 24px; width: 360px; text-align: center;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6); transform: scale(0.8);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
+        background: rgba(20, 25, 40, 0.95); border: 1px solid rgba(255,255,255,0.2);
+        padding: 40px; border-radius: 24px; width: 360px; text-align: center;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.6); transform: scale(0.8);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
     }
     .modal-overlay.active .modal-content { transform: scale(1); }
     .modal-btn {
-      background: white; color: #7000ff; border: none;
-      padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 25px;
-      font-family: 'Outfit', sans-serif; transition: 0.2s;
+        background: white; color: #7000ff; border: none;
+        padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 25px;
+        font-family: 'Outfit', sans-serif; transition: 0.2s;
     }
+    .modal-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
 
-    /* PDF only styling */
-    @media print {
-      .app > header, .upload-container, .btn-grad, .view-toggles, .zoom-controls, .chat-section { display: none !important; }
-    }
   </style>
 </head>
 <body>
@@ -328,11 +354,10 @@
 
   <div class="glass-card">
     <h2>Upload Project Files</h2>
+    
     <div class="upload-container">
-      <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">
-        Drag & drop files here or <u style="color:white; cursor:pointer;">Browse Files</u><br>
-        <span style="font-size:0.9rem; opacity:0.7;">Supported formats: PDF, DWG, RVT, JPG</span>
-      </p>
+      <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">Drag & drop files here or <u style="color:white; cursor:pointer;">Browse Files</u><br><span style="font-size:0.9rem; opacity:0.7;">Supported formats: PDF, DWG, RVT, JPG</span></p>
+      
       <div class="upload-grid">
         <label class="file-input-wrapper">
           <input type="file" id="archInput" accept="image/*">
@@ -352,104 +377,81 @@
         </label>
       </div>
     </div>
+    
     <div style="text-align:center;">
-      <button class="btn-grad" id="analyzeBtn">
+       <button class="btn-grad" id="analyzeBtn">
         <span>✨ Run Analysis</span>
       </button>
     </div>
   </div>
 
   <div class="main-grid">
+    
     <div class="glass-card" style="display:flex; flex-direction:column; min-height:650px;">
+      
       <div class="view-toggles">
-        <button class="toggle-btn active" id="btn2D">Floor Plan</button>
-        <button class="toggle-btn" id="btn3D">3D Model</button>
+         <button class="toggle-btn active" id="btn2D">Floor Plan</button>
+         <button class="toggle-btn disabled" id="btn3D">3D Model</button>
       </div>
 
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 400px;">
-        <!-- 2D -->
+        
         <div id="layer2D" class="view-layer">
-          <div class="zoom-controls">
-            <button class="zoom-btn" id="zoomInBtn">+</button>
-            <button class="zoom-btn" id="zoomOutBtn">-</button>
-            <button class="zoom-btn" id="resetZoomBtn" style="font-size:0.8rem;">R</button>
-          </div>
-
-          <div id="layerSwitcher" class="layer-controls" style="display:none;">
-            <button id="showArchBtn" class="layer-btn active">Arch</button>
-            <button id="showMepBtn" class="layer-btn">MEP</button>
-          </div>
-
-          <div class="scan-line"></div>
-
-          <div class="placeholder-text">
-            <div style="font-size:4rem; opacity:0.4; margin-bottom:10px;">🖼️</div>
-            Waiting for plan upload...
-          </div>
-
-          <div id="zoomWrapper">
-            <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
-            <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
-            <div id="marker1" class="marker" style="top: 30%; left: 24%; z-index:10;" title="Clash Detected">1</div>
-            <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
-          </div>
-        </div>
-
-        <!-- 3D -->
-        <div id="layer3D" class="view-layer" style="display:none;">
-          <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
-            <div id="loader3D" style="
-              position:absolute; inset:0;
-              display:flex; flex-direction:column;
-              align-items:center; justify-content:center;
-              background:rgba(15,23,42,0.9); color:#e5e7eb;
-              font-size:1rem; gap:10px; z-index:20;">
-              <div style="
-                width:32px; height:32px;
-                border-radius:50%;
-                border:3px solid rgba(148,163,184,0.5);
-                border-top-color:#38bdf8;
-                animation:spin 0.8s linear infinite;"></div>
-              Loading 3D view...
+            
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoomInBtn">+</button>
+                <button class="zoom-btn" id="zoomOutBtn">-</button>
+                <button class="zoom-btn" id="resetZoomBtn" style="font-size:0.8rem;">R</button>
             </div>
 
-            <img
-              id="image3D"
-              src="3d model.jpg"
-              alt="3D Model"
-              style="width:100%; height:100%; object-fit:contain; object-position:center; opacity:0; transition:opacity 0.3s;">
+            <div id="layerSwitcher" class="layer-controls" style="display:none;">
+                <button id="showArchBtn" class="layer-btn active">Arch</button>
+                <button id="showMepBtn" class="layer-btn">MEP</button>
+            </div>
 
-            <button id="btnPlayVideoSmall" title="Play 3D walkthrough" style="
-              position:absolute; top:16px; right:16px;
-              width:40px; height:40px;
-              border-radius:999px;
-              border:none;
-              background:rgba(15,23,42,0.85);
-              color:white;
-              display:flex; align-items:center; justify-content:center;
-              cursor:pointer;
-              box-shadow:0 6px 16px rgba(0,0,0,0.5);
-              opacity:0; pointer-events:none;
-              transition:opacity 0.2s;">
-              ▶
-            </button>
-          </div>
+            <div class="scan-line"></div> 
+            
+            <div class="placeholder-text">
+               <div style="font-size:4rem; opacity:0.4; margin-bottom:10px;">🖼️</div>
+               Waiting for plan upload...
+            </div>
+            
+            <div id="zoomWrapper">
+                <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
+                <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
 
-          <div id="videoContainer" style="display:none; width:100%; height:100%; position:relative;">
-            <button id="btnCloseVideo" class="close-video-btn" title="Close">✕</button>
-            <video
-              id="video3D"
-              controls
-              style="width:100%; height:100%; object-fit:contain; object-position:center;">
-              <source src="3d video.mp4" type="video/mp4">
-            </video>
-          </div>
+                <div id="marker1" class="marker" style="top: 30%; left: 24%; z-index:10;" title="Clash Detected">1</div>
+                <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
+            </div>
         </div>
-      </div>
 
+        <div id="layer3D" class="view-layer" style="display:none;">
+            <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
+                <img 
+                  src="3d model.jpg" 
+                  alt="3D Model" 
+                  style="width:100%; height:100%; object-fit:contain; object-position:center;" 
+                  onerror="this.src='https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview'">
+                <button id="btnPlayVideo" class="floating-play-btn">
+                    <span>▶</span> Play Video Simulation
+                </button>
+            </div>
+            <div id="videoContainer" style="display:none; width:100%; height:100%; position:relative;">
+                <button id="btnCloseVideo" class="close-video-btn" title="Close">✕</button>
+                <video 
+                  id="video3D" 
+                  controls 
+                  style="width:100%; height:100%; object-fit:contain; object-position:center;">
+                    <source src="3d video.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+      </div>
+      
       <div class="chat-section">
         <div class="chat-history" id="chatHistory">
-          <div class="chat-bubble bot">Hello! Upload your blueprints to start the AI analysis.</div>
+           <div class="chat-bubble bot">Hello! Upload your blueprints to start the AI analysis.</div>
         </div>
         <div class="questions-container">
           <button class="question-chip" onclick="askQuestion(0)">Building area?</button>
@@ -459,6 +461,7 @@
           <button class="question-chip" onclick="askQuestion(4)">Export PDF</button>
         </div>
       </div>
+
     </div>
 
     <div class="glass-card">
@@ -476,7 +479,7 @@
       <div style="margin-top:40px;">
         <h4 style="color:white; margin-bottom:20px; font-weight:600; font-size:1.1rem;">AI Insights</h4>
         <div id="waitingText" style="color:var(--text-muted); font-size:1rem; font-style:italic;">
-          Analysis pending...
+           Analysis pending...
         </div>
         <div id="issuesList" style="display:none;">
           <div class="issue-card" data-target="marker1">
@@ -486,160 +489,106 @@
           </div>
           <div class="issue-card" data-target="marker2">
             <div style="color:#fbbf24; font-weight:700; margin-bottom:6px; font-size:1rem;">⚠️ Routing Issue</div>
-            <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4; margin-bottom:12px;">Bathroom - Wet Area: Switch (H=130) located within wet zone. Relocate outside or use IP-rated fixture.</div>
+            <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4; margin-bottom:12px;">Bathroom - Wet Area: Switch ($H=130$) located within wet zone. Relocate outside or use IP-rated fixture.</div>
             <a href="https://www.abone.co.il/articles/%d7%a9%d7%a7%d7%a2%d7%99-%d7%97%d7%a9%d7%9e%d7%9c-%d7%95%d7%aa%d7%90%d7%95%d7%a8%d7%94-%d7%91%d7%9e%d7%98%d7%91%d7%97-%d7%9b%d7%9e%d7%95%d7%aa-%d7%95%d7%9e%d7%99%d7%a7%d7%95%d7%9d/" target="_blank" class="issue-link">📖 קראו מידע נוסף</a>
           </div>
         </div>
       </div>
     </div>
+
   </div>
-</div>
-
-<!-- PDF content (hidden) -->
-<div id="pdfContent" style="display:none; background:white; color:#000; padding:40px; width:100%; max-width:900px;">
-  <h1 style="text-align:center; color:#1e293b; margin-bottom:10px;">ArcWiz AI Analysis Report</h1>
-  <p style="text-align:center; color:#64748b; margin-bottom:40px; font-size:14px;">Generated on <span id="reportDate"></span></p>
-
-  <h2 style="color:#1e293b; border-bottom:2px solid #0072ff; padding-bottom:10px;">Project Summary</h2>
-  <div style="margin:20px 0; color:#334155; line-height:1.6;">
-    <p><strong>Building Area:</strong> <span id="pdfArea">--</span></p>
-    <p><strong>Number of Rooms:</strong> <span id="pdfRooms">--</span></p>
-    <p><strong>Bathrooms:</strong> <span id="pdfBaths">--</span></p>
-    <p><strong>Outdoor Space:</strong> <span id="pdfOutdoor">--</span></p>
-    <p><strong>Floors:</strong> <span id="pdfFloors">--</span></p>
-  </div>
-
-  <h2 style="color:#1e293b; border-bottom:2px solid #0072ff; padding-bottom:10px; margin-top:40px;">Floor Plan with Analysis Points</h2>
-  <div style="margin:20px 0; text-align:center;">
-    <!-- שימוש ישיר ב-clashes.jpg -->
-    <img id="pdfPlanImage" src="clashes.jpg" alt="Floor Plan" style="max-width:100%; height:auto; border:1px solid #e2e8f0; border-radius:8px;">
-  </div>
-
-  <h2 style="color:#1e293b; border-bottom:2px solid #0072ff; padding-bottom:10px; margin-top:40px;">Issues & Recommendations</h2>
-  <div id="pdfIssuesContent" style="color:#334155; line-height:1.8;"></div>
 </div>
 
 <div id="customModal" class="modal-overlay">
-  <div class="modal-content">
-    <div style="font-size:3.5rem; margin-bottom:15px;">⚠️</div>
-    <div style="font-size:1.5rem; font-weight:800; margin-bottom:15px;">Attention</div>
-    <div id="modalMessage" style="color:#cbd5e1; margin-bottom:25px; font-size:1.1rem; line-height:1.5;"></div>
-    <button id="closeModalBtn" class="modal-btn">Understood</button>
-  </div>
+    <div class="modal-content">
+        <div style="font-size:3.5rem; margin-bottom:15px;">⚠️</div>
+        <div style="font-size:1.5rem; font-weight:800; margin-bottom:15px;">Attention</div>
+        <div id="modalMessage" style="color:#cbd5e1; margin-bottom:25px; font-size:1.1rem; line-height:1.5;"></div>
+        <button id="closeModalBtn" class="modal-btn">Understood</button>
+    </div>
 </div>
 
 <script>
-  // ZOOM & PAN
-  let scale = 1, pointX = 0, pointY = 0, startX = 0, startY = 0, isDragging = false;
+  /* --- JS LOGIC --- */
+  
+  // -- ZOOM & PAN LOGIC START --
+  let scale = 1;
+  let pointX = 0;
+  let pointY = 0;
+  let startX = 0;
+  let startY = 0;
+  let isDragging = false;
+
   const zoomWrapper = document.getElementById('zoomWrapper');
   const canvasContainer = document.getElementById('mainCanvasContainer');
 
   function updateTransform() {
-    zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+      zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
   }
-  function zoomIn() { scale = Math.min(5, scale + 0.5); updateTransform(); }
-  function zoomOut() { scale = Math.max(1, scale - 0.5); if(scale === 1){ pointX = 0; pointY = 0; } updateTransform(); }
-  function resetZoom() { scale = 1; pointX = 0; pointY = 0; updateTransform(); }
 
+  function zoomIn() { 
+    scale = Math.min(5, scale + 0.5); 
+    updateTransform(); 
+  }
+
+  function zoomOut() { 
+    scale = Math.max(1, scale - 0.5); 
+    if(scale === 1){ pointX = 0; pointY = 0; } 
+    updateTransform(); 
+  }
+
+  function resetZoom() { 
+    scale = 1; 
+    pointX = 0; 
+    pointY = 0; 
+    updateTransform(); 
+  }
+
+  // Wheel Zoom
   canvasContainer.addEventListener('wheel', (e) => {
-    if(document.getElementById('layer2D').style.display === 'none') return;
-    e.preventDefault();
-    const zoomSpeed = 0.1;
-    const delta = -Math.sign(e.deltaY) * zoomSpeed;
-    const newScale = Math.min(Math.max(1, scale + delta), 5);
-    scale = newScale;
-    if (scale === 1) { pointX = 0; pointY = 0; }
-    updateTransform();
+      // Only zoom in 2D mode
+      if(document.getElementById('layer2D').style.display === 'none') return;
+      e.preventDefault();
+      const zoomSpeed = 0.1;
+      const delta = -Math.sign(e.deltaY) * zoomSpeed;
+      const newScale = Math.min(Math.max(1, scale + delta), 5); 
+      
+      scale = newScale;
+      if (scale === 1) { pointX = 0; pointY = 0; }
+      updateTransform();
   });
 
+  // Drag (Pan)
   canvasContainer.addEventListener('mousedown', (e) => {
-    if (scale > 1) {
-      isDragging = true;
-      startX = e.clientX - pointX;
-      startY = e.clientY - pointY;
-      canvasContainer.style.cursor = 'grabbing';
-    }
-  });
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    pointX = e.clientX - startX;
-    pointY = e.clientY - startY;
-    updateTransform();
-  });
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-    canvasContainer.style.cursor = 'grab';
+      if (scale > 1) { 
+          isDragging = true;
+          startX = e.clientX - pointX;
+          startY = e.clientY - pointY;
+          canvasContainer.style.cursor = 'grabbing';
+      }
   });
 
+  window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+      isDragging = false;
+      canvasContainer.style.cursor = 'grab';
+  });
+
+  // כפתורי זום (במקום onclick ב‑HTML)
   document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
   document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
   document.getElementById('resetZoomBtn').addEventListener('click', resetZoom);
 
-  // FILE UPLOAD
-  const archInput = document.getElementById('archInput');
-  const mepInput = document.getElementById('mepInput');
-  const archFileName = document.getElementById('archFileName');
-  const mepFileName = document.getElementById('mepFileName');
-  const currentArchImg = document.getElementById('currentArchImg');
-  const currentMepImg = document.getElementById('currentMepImg');
-  const layerSwitcher = document.getElementById('layerSwitcher');
-  const showArchBtn = document.getElementById('showArchBtn');
-  const showMepBtn = document.getElementById('showMepBtn');
-  const placeholderText = document.querySelector('.placeholder-text');
+  // -- ZOOM & PAN LOGIC END --
 
-  let archImgData = null, mepImgData = null;
 
-  archInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if(file) {
-      archFileName.textContent = file.name;
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        archImgData = event.target.result;
-        currentArchImg.src = archImgData;
-        currentArchImg.style.display = 'block';
-        if(!mepImgData) placeholderText.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  mepInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if(file) {
-      mepFileName.textContent = file.name;
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        mepImgData = event.target.result;
-        currentMepImg.src = mepImgData;
-        if(!archImgData) currentMepImg.style.display = 'block';
-        if(archImgData) {
-          currentArchImg.style.display = 'block';
-          currentMepImg.style.display = 'none';
-          layerSwitcher.style.display = 'flex';
-        }
-        placeholderText.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  showArchBtn.addEventListener('click', () => {
-    showArchBtn.classList.add('active');
-    showMepBtn.classList.remove('active');
-    currentArchImg.style.display = 'block';
-    currentMepImg.style.display = 'none';
-  });
-
-  showMepBtn.addEventListener('click', () => {
-    showMepBtn.classList.add('active');
-    showArchBtn.classList.remove('active');
-    currentMepImg.style.display = 'block';
-    currentArchImg.style.display = 'none';
-  });
-
-  // ANALYSIS
   const analyzeBtn = document.getElementById('analyzeBtn');
   const issuesList = document.getElementById('issuesList');
   const waitingText = document.getElementById('waitingText');
@@ -650,183 +599,303 @@
   const bathsDisplay = document.getElementById('bathsDisplay');
   const outdoorDisplay = document.getElementById('outdoorDisplay');
   const floorsDisplay = document.getElementById('floorsDisplay');
+  const btn2D = document.getElementById('btn2D');
+  const btn3D = document.getElementById('btn3D');
+  const layer2D = document.getElementById('layer2D');
+  const layer3D = document.getElementById('layer3D');
+  const layerSwitcher = document.getElementById('layerSwitcher');
+  const showArchBtn = document.getElementById('showArchBtn');
+  const showMepBtn = document.getElementById('showMepBtn');
+  const currentArchImg = document.getElementById('currentArchImg');
+  const currentMepImg = document.getElementById('currentMepImg');
+  const placeholderText = layer2D.querySelector('.placeholder-text');
+  const image3DContainer = document.getElementById('image3DContainer');
+  const videoContainer = document.getElementById('videoContainer');
+  const video3D = document.getElementById('video3D');
+  const btnPlayVideo = document.getElementById('btnPlayVideo');
+  const btnCloseVideo = document.getElementById('btnCloseVideo');
   const chatHistory = document.getElementById('chatHistory');
+  const archFileName = document.getElementById('archFileName');
+  const mepFileName = document.getElementById('mepFileName');
+  const archInput = document.getElementById('archInput');
+  const mepInput = document.getElementById('mepInput');
+  const customModal = document.getElementById('customModal');
+  const modalMessage = document.getElementById('modalMessage');
+  const closeModalBtn = document.getElementById('closeModalBtn');
 
-  analyzeBtn.addEventListener('click', () => {
-    if(!archImgData && !mepImgData) {
-      showModal('Please upload at least one floor plan to analyze.');
-      return;
-    }
-    analyzeBtn.textContent = '🔄 Analyzing...';
-    analyzeBtn.disabled = true;
-
-    setTimeout(() => {
-      markers.forEach(m => m.style.display = 'flex');
-      areaDisplay.textContent = '250 m²';
-      roomsDisplay.textContent = '5';
-      bathsDisplay.textContent = '2';
-      outdoorDisplay.textContent = 'Balcony 15m²';
-      floorsDisplay.textContent = '1';
-
-      waitingText.style.display = 'none';
-      issuesList.style.display = 'block';
-      aiStatus.style.display = 'inline-block';
-      canvasContainer.classList.add('scanning');
-
-      setTimeout(() => {
-        canvasContainer.classList.remove('scanning');
-        addChatBubble('Analysis complete! I found 2 design clashes. See the marked points on your floor plan.', 'bot');
-      }, 3000);
-
-      analyzeBtn.textContent = '✨ Run Analysis';
-      analyzeBtn.disabled = false;
-    }, 1500);
-  });
-
-  function showModal(message) {
-    document.getElementById('modalMessage').textContent = message;
-    document.getElementById('customModal').classList.add('active');
+  function showCustomAlert(msg) { 
+    modalMessage.innerText = msg; 
+    customModal.classList.add('active'); 
   }
-  document.getElementById('closeModalBtn').addEventListener('click', () => {
-    document.getElementById('customModal').classList.remove('active');
-  });
+  closeModalBtn.addEventListener('click', () => customModal.classList.remove('active'));
+  customModal.addEventListener('click', (e) => { if(e.target === customModal) customModal.classList.remove('active'); });
 
-  function addChatBubble(text, sender) {
+  const qaData = [
+    { q: "Building area?", a: "Total net internal area is **~88 sqm**." },
+    { q: "Show clashes", a: "I found **1 critical clash** in the Living Room (Wall A)." },
+    { q: "Room count?", a: "This unit features **3 Rooms**." },
+    { q: "Outdoor space?", a: "The plan includes **1 Balcony**." },
+    { q: "Export PDF", a: "📄 Generating PDF report..." }
+  ];
+
+  // 🔥 PDF GENERATION FUNCTION - תוספת חדשה
+  function generatePDF() {
+    const element = document.createElement('div');
+    element.style.padding = '40px';
+    element.style.backgroundColor = '#fff';
+    element.style.color = '#000';
+    element.style.fontFamily = 'Arial, sans-serif';
+    element.style.lineHeight = '1.6';
+
+    element.innerHTML = `
+      <h1 style="text-align: center; color: #1e293b; margin-bottom: 30px; font-size: 28px;">ArcWiz AI Analysis Report</h1>
+      
+      <h2 style="color: #0072ff; margin-top: 30px; border-bottom: 3px solid #0072ff; padding-bottom: 10px; font-size: 22px;">📊 Project Summary</h2>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 16px;">
+        <tr style="background-color: #f8f9ff;">
+          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold; width: 40%;">Building Area</td>
+          <td style="padding: 15px; border: 1px solid #ddd;">${areaDisplay.innerText}</td>
+        </tr>
+        <tr>
+          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Rooms</td>
+          <td style="padding: 15px; border: 1px solid #ddd;">${roomsDisplay.innerText}</td>
+        </tr>
+        <tr style="background-color: #f8f9ff;">
+          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Bathrooms</td>
+          <td style="padding: 15px; border: 1px solid #ddd;">${bathsDisplay.innerText}</td>
+        </tr>
+        <tr>
+          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Outdoor Space</td>
+          <td style="padding: 15px; border: 1px solid #ddd;">${outdoorDisplay.innerText}</td>
+        </tr>
+        <tr style="background-color: #f8f9ff;">
+          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Floors</td>
+          <td style="padding: 15px; border: 1px solid #ddd;">${floorsDisplay.innerText}</td>
+        </tr>
+      </table>
+
+      <h2 style="color: #ef4444; margin-top: 40px; border-bottom: 3px solid #ef4444; padding-bottom: 10px; font-size: 22px;">🚨 Issues Found</h2>
+      
+      <div style="margin: 20px 0; padding: 25px; background-color: #fff5f5; border-left: 5px solid #ef4444; border-radius: 8px;">
+        <h3 style="color: #ef4444; margin-top: 0; font-size: 18px;">⚠️ Clash Detected</h3>
+        <p><strong>📍 Location:</strong> Kitchen</p>
+        <p><strong>❌ Issue:</strong> Socket violates minimum clearance from sink. Ensure 60cm distance.</p>
+        <p><strong>🔗 Reference:</strong> <a href="https://www.mabbat.co.il/post/%D7%AA%D7%A7%D7%A0%D7%99-%D7%97%D7%A9%D7%9E%D7%9C-%D7%91%D7%9E%D7%98%D7%91%D7%97%D7%99%D7%9D-%D7%9E%D7%94-%D7%90%D7%A1%D7%95%D7%A8-%D7%95%D7%9E%D7%94-%D7%9E%D7%95%D7%AA%D7%A8" style="color: #0072ff;">תקנות חשמל במטבחים</a></p>
+      </div>
+
+      <div style="margin: 20px 0; padding: 25px; background-color: #fffbf0; border-left: 5px solid #fbbf24; border-radius: 8px;">
+        <h3 style="color: #f59e0b; margin-top: 0; font-size: 18px;">⚠️ Routing Issue</h3>
+        <p><strong>📍 Location:</strong> Bathroom - Wet Area</p>
+        <p><strong>❌ Issue:</strong> Switch (H=130) located within wet zone. Relocate outside or use IP-rated fixture.</p>
+        <p><strong>🔗 Reference:</strong> <a href="https://www.abone.co.il/articles/%d7%a9%d7%a7%d7%a2%d7%99-%d7%97%d7%a9%d7%9e%d7%9c-%d7%95%d7%aa%d7%90%d7%95%d7%a8%d7%94-%d7%91%d7%9e%d7%98%d7%91%d7%97-%d7%9b%d7%9e%d7%95%d7%aa-%d7%95%d7%9e%d7%99%d7%a7%d7%95%d7%9d/" style="color: #0072ff;">קראו מידע נוסף</a></p>
+      </div>
+
+      <h2 style="color: #22c55e; margin-top: 40px; border-bottom: 3px solid #22c55e; padding-bottom: 10px; font-size: 22px;">✅ Recommendations</h2>
+      <ul style="line-height: 1.8; font-size: 16px; padding-left: 20px;">
+        <li>🔧 Reposition kitchen socket to maintain 60cm distance from sink</li>
+        <li>🔧 Install IP-rated electrical fixture in bathroom wet zone or relocate switch outside wet area</li>
+        <li>📋 Review and comply with latest electrical safety codes (תקנות חשמל)</li>
+      </ul>
+
+      <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #eee; font-size: 14px; color: #666; text-align: center;">
+        <p><strong>📅 Report Generated:</strong> ${new Date().toLocaleDateString('he-IL')} ${new Date().toLocaleTimeString('he-IL')}</p>
+        <p><strong>🛠️ Tool:</strong> ArcWiz AI Analysis Engine v2.0</p>
+        <p style="margin-top: 20px; font-size: 12px; opacity: 0.7;">This report was automatically generated by AI analysis.</p>
+      </div>
+    `;
+
+    // הגדרות ל-PDF
+    const opt = {
+      margin: 15,
+      filename: `ArcWiz_Analysis_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compress: true }
+    };
+
+    // יצור את ה-PDF
+    html2pdf().set(opt).from(element).save();
+
+    // הודעה בצ'אט
+    setTimeout(() => {
+      addBubble("✅ PDF downloaded successfully! Check your downloads folder.", 'bot');
+    }, 1500);
+  }
+
+  function askQuestion(index) {
+    const data = qaData[index];
+    
+    if (index === 4) { // Export PDF
+      addBubble(data.q, 'user');
+      setTimeout(() => {
+        generatePDF();
+      }, 600);
+    } else {
+      addBubble(data.q, 'user');
+      setTimeout(() => addBubble(data.a, 'bot'), 600);
+    }
+  }
+
+  function addBubble(text, type) {
     const bubble = document.createElement('div');
-    bubble.className = `chat-bubble ${sender}`;
-    bubble.textContent = text;
+    bubble.classList.add('chat-bubble', type);
+    bubble.innerHTML = text; 
     chatHistory.appendChild(bubble);
     chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
-  // PDF EXPORT using clashes.jpg
-  async function generatePDF() {
-    if(!archImgData && !mepImgData) {
-      showModal('No floor plan uploaded. Please upload first.');
-      return;
-    }
-
-    analyzeBtn.textContent = '📄 Generating PDF...';
-    analyzeBtn.disabled = true;
-
-    document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-US');
-    document.getElementById('pdfArea').textContent = areaDisplay.textContent;
-    document.getElementById('pdfRooms').textContent = roomsDisplay.textContent;
-    document.getElementById('pdfBaths').textContent = bathsDisplay.textContent;
-    document.getElementById('pdfOutdoor').textContent = outdoorDisplay.textContent;
-    document.getElementById('pdfFloors').textContent = floorsDisplay.textContent;
-
-    const issuesContent = document.getElementById('pdfIssuesContent');
-    issuesContent.innerHTML = `
-      <div style="margin-bottom:20px; padding:15px; background:#fff3cd; border-left:4px solid #fbbf24; border-radius:4px;">
-        <strong style="color:#1e293b;">⚠️ Issue 1 - Clash Detected</strong><br>
-        <span style="color:#334155;">Kitchen: Socket violates minimum clearance from sink. Ensure 60cm distance according to electrical codes.</span>
-      </div>
-      <div style="margin-bottom:20px; padding:15px; background:#fff3cd; border-left:4px solid #fbbf24; border-radius:4px;">
-        <strong style="color:#1e293b;">⚠️ Issue 2 - Routing Issue</strong><br>
-        <span style="color:#334155;">Bathroom Wet Area: Switch (H=130cm) located within wet zone. Must relocate outside zone or use IP-rated fixture per standards.</span>
-      </div>
-    `;
-
-    const element = document.getElementById('pdfContent');
-    const opt = {
-      margin: 10,
-      filename: 'ArcWiz_Analysis_Report.pdf',
-      image: { type: 'png', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-    };
-    html2pdf().set(opt).save();
-
-    setTimeout(() => {
-      analyzeBtn.textContent = '✨ Run Analysis';
-      analyzeBtn.disabled = false;
-      addChatBubble('PDF report exported successfully!', 'bot');
-    }, 1000);
-  }
-
-  // QUESTIONS
-  function askQuestion(index) {
-    const questions = [
-      { q: 'What is the building area?', a: 'The total area is 250 m², optimized for modern living.' },
-      { q: 'Show me all clashes', a: 'I found 2 critical clashes marked on your plan. Click on the markers for details.' },
-      { q: 'How many rooms are in this building?', a: 'There are 5 rooms total: 3 bedrooms, 1 living room, and 1 dining area.' },
-      { q: 'What is the outdoor space?', a: 'The building features a 15m² balcony with southern exposure.' },
-      { q: 'Export analysis to PDF', a: 'Generating PDF report...', fn: generatePDF }
-    ];
-    const q = questions[index];
-    addChatBubble(q.q, 'user');
-    if(q.fn) {
-      q.fn();
-    } else {
-      setTimeout(() => addChatBubble(q.a, 'bot'), 500);
-    }
-  }
-
-  // 3D LOADING + PLAY BUTTON
-  const image3D = document.getElementById('image3D');
-  const loader3D = document.getElementById('loader3D');
-  const btnPlayVideoSmall = document.getElementById('btnPlayVideoSmall');
-  const videoContainer = document.getElementById('videoContainer');
-  const image3DContainer = document.getElementById('image3DContainer');
-  const video3D = document.getElementById('video3D');
-
-  image3D.addEventListener('load', () => {
-    loader3D.style.display = 'none';
-    image3D.style.opacity = '1';
-    btnPlayVideoSmall.style.opacity = '1';
-    btnPlayVideoSmall.style.pointerEvents = 'auto';
+  btn2D.addEventListener('click', () => {
+     btn2D.classList.add('active'); 
+     btn3D.classList.remove('active');
+     video3D.pause(); 
+     video3D.currentTime = 0;
+     image3DContainer.style.display = 'block';
+     videoContainer.style.display = 'none';
+     layer2D.style.display = 'flex'; 
+     layer3D.style.display = 'none';
+     resetZoom();
   });
 
-  image3D.addEventListener('error', () => {
-    loader3D.style.display = 'none';
-    image3D.style.opacity = '1';
-    image3D.src = 'https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview';
-    btnPlayVideoSmall.style.opacity = '1';
-    btnPlayVideoSmall.style.pointerEvents = 'auto';
+  btn3D.addEventListener('click', () => {
+     if(archInput.files.length === 0) { 
+       showCustomAlert("Please upload a Floor Plan file first."); 
+       return; 
+     }
+     btn3D.classList.add('active'); 
+     btn2D.classList.remove('active');
+     layer2D.style.display = 'none'; 
+     layer3D.style.display = 'flex';
+     image3DContainer.style.display = 'block'; 
+     videoContainer.style.display = 'none';
+     video3D.pause();
+     resetZoom();
+  });
+  
+  btnPlayVideo.addEventListener('click', () => { 
+    image3DContainer.style.display = 'none'; 
+    videoContainer.style.display = 'block'; 
+    video3D.play(); 
+  });
+  btnCloseVideo.addEventListener('click', () => { 
+    video3D.pause(); 
+    videoContainer.style.display = 'none'; 
+    image3DContainer.style.display = 'block'; 
   });
 
-  btnPlayVideoSmall.addEventListener('click', () => {
-    image3DContainer.style.display = 'none';
-    videoContainer.style.display = 'block';
-    video3D.play();
+  showArchBtn.addEventListener('click', () => {
+      showArchBtn.classList.add('active'); 
+      showMepBtn.classList.remove('active');
+      if(currentArchImg.src) currentArchImg.style.display = 'block';
+      if(currentMepImg.src) currentMepImg.style.display = 'none';
   });
 
-  document.getElementById('btnCloseVideo').addEventListener('click', () => {
-    videoContainer.style.display = 'none';
-    image3DContainer.style.display = 'block';
-    video3D.pause();
+  showMepBtn.addEventListener('click', () => {
+      showMepBtn.classList.add('active'); 
+      showArchBtn.classList.remove('active');
+      if(currentMepImg.src) currentMepImg.style.display = 'block';
+      if(currentArchImg.src) currentArchImg.style.display = 'none';
   });
 
-  // VIEW TOGGLE
-  document.getElementById('btn2D').addEventListener('click', () => {
-    document.getElementById('layer2D').style.display = 'flex';
-    document.getElementById('layer3D').style.display = 'none';
-    document.getElementById('btn2D').classList.add('active');
-    document.getElementById('btn3D').classList.remove('active');
-  });
-
-  document.getElementById('btn3D').addEventListener('click', () => {
-    document.getElementById('layer2D').style.display = 'none';
-    document.getElementById('layer3D').style.display = 'flex';
-    document.getElementById('btn3D').classList.add('active');
-    document.getElementById('btn2D').classList.remove('active');
-  });
-
-  // ISSUE MARKERS HIGHLIGHT
-  document.querySelectorAll('.issue-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const targetId = card.getAttribute('data-target');
-      document.querySelectorAll('.issue-card').forEach(c => c.classList.remove('highlighted'));
-      card.classList.add('highlighted');
-      const target = document.getElementById(targetId);
-      if(target) {
-        target.classList.add('active');
-        setTimeout(() => target.classList.remove('active'), 2000);
+  function handleUpload(inputId, nameDisplayId, imgElementId) {
+    document.getElementById(inputId).addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const nameDisplay = document.getElementById(nameDisplayId);
+        nameDisplay.textContent = "✅ " + file.name;
+        if(inputId === 'archInput') btn3D.classList.remove('disabled');
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          placeholderText.style.display = 'none';
+          layerSwitcher.style.display = 'flex';
+          const targetImg = document.getElementById(imgElementId);
+          targetImg.src = evt.target.result;
+          if(inputId === 'archInput') showArchBtn.click(); else showMepBtn.click();
+        };
+        reader.readAsDataURL(file);
       }
     });
-  });
-</script>
+  }
+  
+  handleUpload('archInput', 'archFileName', 'currentArchImg');
+  handleUpload('mepInput', 'mepFileName', 'currentMepImg');
 
+  analyzeBtn.addEventListener('click', () => {
+    if (archInput.files.length === 0) { 
+      showCustomAlert("Please upload a Floor Plan file first!"); 
+      return; 
+    }
+    btn2D.click();
+    layer2D.classList.add('scanning');
+    
+    // 1. Initial State
+    analyzeBtn.innerHTML = "<span>🧠 Processing Geometry...</span>";
+    
+    // 2. Mid State (simulating progress)
+    setTimeout(() => {
+         analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>";
+    }, 2500);
+
+    // 3. Finalizing State
+    setTimeout(() => {
+         analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>";
+    }, 4500);
+    
+    // 4. Finish
+    setTimeout(() => {
+      layer2D.classList.remove('scanning');
+      analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
+      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
+      
+      aiStatus.style.display = 'inline-block';
+      waitingText.style.display = 'none';
+      issuesList.style.display = 'block';
+      
+      // SHOW MARKERS HERE (Animation)
+      markers.forEach(m => {
+          m.style.display = 'flex';
+          setTimeout(() => m.style.transform = "scale(1)", 50);
+      });
+      
+      animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
+      roomsDisplay.innerText = "3";
+      bathsDisplay.innerText = "2 Full";
+      outdoorDisplay.innerText = "1 Balcony";
+      floorsDisplay.innerText = "1 Level";
+
+      setTimeout(() => { addBubble("Analysis finished. I updated the summary with new metrics.", 'bot'); }, 500);
+    }, 6000); 
+  });
+
+  document.querySelectorAll('.issue-card').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      if(layer2D.style.display !== 'none') {
+          const targetId = item.getAttribute('data-target');
+          const targetMarker = document.getElementById(targetId);
+          if(targetMarker) {
+              targetMarker.classList.add('active');
+          }
+          item.classList.add('highlighted');
+      }
+    });
+    item.addEventListener('mouseleave', () => {
+      const targetId = item.getAttribute('data-target');
+      const targetMarker = document.getElementById(targetId);
+      if(targetMarker) targetMarker.classList.remove('active');
+      item.classList.remove('highlighted');
+    });
+  });
+
+  function animateValueHTML(element, start, end, duration, suffix) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const val = Math.floor(progress * (end - start) + start);
+      element.innerText = "~" + val.toLocaleString() + suffix;
+      if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+  }
+</script>
 </body>
 </html>
