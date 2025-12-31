@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <title>ArcWiz AI – Next Gen Interface</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
   <!-- PDF Generation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+  
   <style>
     :root {
       /* פלטת צבעים מעודכנת וידידותית */
@@ -16,11 +15,11 @@
       --glass-border: rgba(255, 255, 255, 0.2);
       --glass-highlight: rgba(255, 255, 255, 0.05);
       --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-
+      
       --primary: #00f2ff; /* Cyan Neon */
       --secondary: #7000ff; /* Deep Purple */
       --accent: #ff0055; /* Pink/Red */
-
+      
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
     }
@@ -76,31 +75,11 @@
     }
 
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-
-    /* --- LOGO STYLES (UPDATED) --- */
     .logo {
-      font-size: 2.2rem; 
-      font-weight: 900; /* מודגש יותר */
-      color: white;
       font-size: 2.2rem; font-weight: 800; color: white;
       display: flex; align-items: center; gap: 15px;
-      letter-spacing: -0.5px;
-      
-      /* הוספת מסגרת שחורה לטקסט */
-      -webkit-text-stroke: 1.5px black;
-      text-stroke: 1.5px black;
-      
-      /* השארת הזוהר המקורי */
-      text-shadow: 0 4px 20px rgba(0,242,255,0.3); 
       text-shadow: 0 4px 20px rgba(0,242,255,0.3); letter-spacing: -0.5px;
     }
-    
-    /* סגנון לתמונת הלוגו החדשה */
-    .logo-img {
-        width: 50px; height: 50px;
-        border-radius: 14px;
-        object-fit: cover;
-        box-shadow: 0 0 25px rgba(0, 114, 255, 0.5); /* זוהר סביב התמונה */
     .logo-icon {
       width: 48px; height: 48px;
       background: linear-gradient(135deg, #00c6ff, #0072ff);
@@ -165,7 +144,7 @@
     .canvas-container:active { cursor: grabbing; }
 
     .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-
+    
     /* --- ZOOM WRAPPER --- */
     #zoomWrapper {
       width: 100%; height: 100%;
@@ -190,7 +169,7 @@
       display: none;
       transform: scale(0);
     }
-
+    
     .marker:hover { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
     .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
 
@@ -205,12 +184,12 @@
       box-shadow: 0 0 30px #00f2ff, 0 0 10px white;
       z-index: 20; display: none; opacity: 0.9; pointer-events: none;
     }
-
+    
     .scanning .scan-line { 
         display: block; 
         animation: scanMove 1.2s infinite alternate ease-in-out; 
     }
-
+    
     @keyframes scanMove { 
         0% { top: 0%; opacity: 0.5; } 
         50% { opacity: 1; }
@@ -325,7 +304,7 @@
         display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 10;
     }
     .floating-play-btn:hover { transform: translateX(-50%) scale(1.05) translateY(-2px); filter: brightness(1.1); }
-
+    
     .close-video-btn {
         position: absolute; top: 20px; right: 20px;
         background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
@@ -368,7 +347,6 @@
 <div class="app">
   <header>
     <div class="logo">
-      <img src="logo.jpg" alt="ArcWiz AI Logo" class="logo-img">
       <div class="logo-icon">▲</div>
       ArcWiz AI
     </div>
@@ -376,10 +354,10 @@
 
   <div class="glass-card">
     <h2>Upload Project Files</h2>
-
+    
     <div class="upload-container">
       <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">Drag & drop files here or <u style="color:white; cursor:pointer;">Browse Files</u><br><span style="font-size:0.9rem; opacity:0.7;">Supported formats: PDF, DWG, RVT, JPG</span></p>
-
+      
       <div class="upload-grid">
         <label class="file-input-wrapper">
           <input type="file" id="archInput" accept="image/*">
@@ -399,7 +377,7 @@
         </label>
       </div>
     </div>
-
+    
     <div style="text-align:center;">
        <button class="btn-grad" id="analyzeBtn">
         <span>✨ Run Analysis</span>
@@ -408,18 +386,18 @@
   </div>
 
   <div class="main-grid">
-
+    
     <div class="glass-card" style="display:flex; flex-direction:column; min-height:650px;">
-
+      
       <div class="view-toggles">
          <button class="toggle-btn active" id="btn2D">Floor Plan</button>
          <button class="toggle-btn disabled" id="btn3D">3D Model</button>
       </div>
 
       <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 400px;">
-
+        
         <div id="layer2D" class="view-layer">
-
+            
             <div class="zoom-controls">
                 <button class="zoom-btn" id="zoomInBtn">+</button>
                 <button class="zoom-btn" id="zoomOutBtn">-</button>
@@ -432,12 +410,12 @@
             </div>
 
             <div class="scan-line"></div> 
-
+            
             <div class="placeholder-text">
                <div style="font-size:4rem; opacity:0.4; margin-bottom:10px;">🖼️</div>
                Waiting for plan upload...
             </div>
-
+            
             <div id="zoomWrapper">
                 <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
                 <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
@@ -470,7 +448,7 @@
         </div>
 
       </div>
-
+      
       <div class="chat-section">
         <div class="chat-history" id="chatHistory">
            <div class="chat-bubble bot">Hello! Upload your blueprints to start the AI analysis.</div>
@@ -532,7 +510,7 @@
 
 <script>
   /* --- JS LOGIC --- */
-
+  
   // -- ZOOM & PAN LOGIC START --
   let scale = 1;
   let pointX = 0;
@@ -574,7 +552,7 @@
       const zoomSpeed = 0.1;
       const delta = -Math.sign(e.deltaY) * zoomSpeed;
       const newScale = Math.min(Math.max(1, scale + delta), 5); 
-
+      
       scale = newScale;
       if (scale === 1) { pointX = 0; pointY = 0; }
       updateTransform();
@@ -746,7 +724,7 @@
 
   function askQuestion(index) {
     const data = qaData[index];
-
+    
     if (index === 4) { // Export PDF
       addBubble(data.q, 'user');
       setTimeout(() => {
@@ -792,7 +770,7 @@
      video3D.pause();
      resetZoom();
   });
-
+  
   btnPlayVideo.addEventListener('click', () => { 
     image3DContainer.style.display = 'none'; 
     videoContainer.style.display = 'block'; 
@@ -837,7 +815,7 @@
       }
     });
   }
-
+  
   handleUpload('archInput', 'archFileName', 'currentArchImg');
   handleUpload('mepInput', 'mepFileName', 'currentMepImg');
 
@@ -848,10 +826,10 @@
     }
     btn2D.click();
     layer2D.classList.add('scanning');
-
+    
     // 1. Initial State
     analyzeBtn.innerHTML = "<span>🧠 Processing Geometry...</span>";
-
+    
     // 2. Mid State (simulating progress)
     setTimeout(() => {
          analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>";
@@ -861,23 +839,23 @@
     setTimeout(() => {
          analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>";
     }, 4500);
-
+    
     // 4. Finish
     setTimeout(() => {
       layer2D.classList.remove('scanning');
       analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
       analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
-
+      
       aiStatus.style.display = 'inline-block';
       waitingText.style.display = 'none';
       issuesList.style.display = 'block';
-
+      
       // SHOW MARKERS HERE (Animation)
       markers.forEach(m => {
           m.style.display = 'flex';
           setTimeout(() => m.style.transform = "scale(1)", 50);
       });
-
+      
       animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
       roomsDisplay.innerText = "3";
       bathsDisplay.innerText = "2 Full";
