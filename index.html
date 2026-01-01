@@ -32,7 +32,6 @@
       font-size: 16px; 
     }
 
-    /* --- DYNAMIC BACKGROUND --- */
     .bg-container {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
     }
@@ -62,7 +61,6 @@
       mix-blend-mode: overlay;
     }
 
-    /* --- APP CONTAINER --- */
     .app {
       max-width: 1300px; 
       margin: 0 auto;
@@ -84,7 +82,6 @@
       color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4);
     }
 
-    /* --- GLASS CARDS --- */
     .glass-card {
       background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
       border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); 
@@ -95,7 +92,6 @@
 
     h2 { margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px; }
 
-    /* --- UPLOAD ZONE --- */
     .upload-container {
       background: rgba(0,0,0,0.2); border: 2px dashed rgba(255,255,255,0.2);
       border-radius: 20px; padding: 40px; text-align: center; transition: 0.3s;
@@ -115,7 +111,6 @@
     .icon-large { font-size: 2.5rem; margin-bottom: 5px; }
     .file-name-display { font-size: 0.9rem; color: #4ade80; font-weight: 500; min-height: 1.2em; }
 
-    /* --- BUTTONS --- */
     .btn-grad {
       background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 100%);
       padding: 16px 50px; border-radius: 50px; border: none;
@@ -125,11 +120,9 @@
     }
     .btn-grad:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6); }
 
-    /* --- LAYOUT --- */
     .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px; }
     @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
 
-    /* --- CANVAS --- */
     .canvas-container {
       position: relative;
       background: rgba(10, 10, 15, 0.4); 
@@ -142,7 +135,6 @@
 
     .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     
-    /* --- ZOOM WRAPPER --- */
     #zoomWrapper {
       width: 100%; height: 100%;
       position: absolute; top: 0; left: 0;
@@ -153,7 +145,6 @@
 
     #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
-    /* --- MARKERS --- */
     .marker {
       position: absolute; width: 32px; height: 32px;
       border-radius: 50%; background: #ff0055;
@@ -169,7 +160,10 @@
     
     .marker:hover, .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
 
-    /* --- SCANNER --- */
+    .placeholder-text {
+      color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
+    }
+
     .scan-line {
       position: absolute; top: 0; left: 0; width: 100%; height: 4px;
       background: linear-gradient(90deg, transparent, #00f2ff, transparent);
@@ -188,7 +182,6 @@
         100% { top: 100%; opacity: 0.5; } 
     }
 
-    /* --- ZOOM CONTROLS --- */
     .zoom-controls {
         position: absolute; bottom: 20px; right: 20px; z-index: 50;
         display: flex; flex-direction: column; gap: 8px;
@@ -201,7 +194,6 @@
     }
     .zoom-btn:hover { background: white; transform: scale(1.1); color: var(--primary); }
 
-    /* --- SIDEBAR --- */
     .sidebar-title {
       font-size: 1.3rem; margin-bottom: 24px; color: white;
       font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px;
@@ -236,7 +228,6 @@
       transform: translateX(4px); box-shadow: 0 5px 15px rgba(0,242,255,0.4);
     }
 
-    /* --- CHAT --- */
     .chat-section { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; height: 350px; }
     .chat-history {
       flex: 1; background: rgba(0,0,0,0.2);
@@ -262,7 +253,6 @@
     }
     .question-chip:hover { background: white; color: #7000ff; border-color: white; transform: translateY(-2px); }
 
-    /* --- TOGGLES & CONTROLS --- */
     .view-toggles { display: flex; gap: 12px; margin-bottom: 12px; }
     .toggle-btn {
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
@@ -272,7 +262,35 @@
     .toggle-btn.active { background: white; color: #000; font-weight: 700; box-shadow: 0 0 20px rgba(255,255,255,0.4); border-color: white; }
     .toggle-btn.disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* --- MODAL (POPUP) --- */
+    .layer-controls {
+        position: absolute; top: 20px; right: 20px; z-index: 20;
+        background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px;
+        display: flex; gap: 5px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+    }
+    .layer-btn {
+        border: none; background: transparent; padding: 8px 20px;
+        border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.8rem;
+        color: #ccc; transition: 0.2s; font-family: 'Outfit', sans-serif;
+    }
+    .layer-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
+
+    .floating-play-btn {
+        position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+        background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; border-radius: 50px;
+        padding: 14px 36px; font-size: 1rem; font-weight: 700; color: white; font-family: 'Outfit', sans-serif;
+        cursor: pointer; box-shadow: 0 10px 30px rgba(0, 114, 255, 0.5);
+        display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 10;
+    }
+    .floating-play-btn:hover { transform: translateX(-50%) scale(1.05) translateY(-2px); filter: brightness(1.1); }
+    
+    .close-video-btn {
+        position: absolute; top: 20px; right: 20px;
+        background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
+        width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 20;
+        display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
+    }
+    .close-video-btn:hover { background: #ef4444; border-color: #ef4444; }
+
     .modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
@@ -402,7 +420,7 @@
                   id="video3D" 
                   controls 
                   style="width:100%; height:100%; object-fit:contain; object-position:center;">
-                    <source id="videoSource" src="3d video.mp4" type="video/mp4">
+                    <source src="3d video.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -475,31 +493,64 @@
   let startX = 0;
   let startY = 0;
   let isDragging = false;
-  let isAnalyzed = false;
 
   const zoomWrapper = document.getElementById('zoomWrapper');
   const canvasContainer = document.getElementById('mainCanvasContainer');
 
-  function updateTransform() { zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
-  function zoomIn() { scale = Math.min(5, scale + 0.5); updateTransform(); }
-  function zoomOut() { scale = Math.max(1, scale - 0.5); if(scale === 1){ pointX = 0; pointY = 0; } updateTransform(); }
-  function resetZoom() { scale = 1; pointX = 0; pointY = 0; updateTransform(); }
+  function updateTransform() {
+      zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+  }
+
+  function zoomIn() { 
+    scale = Math.min(5, scale + 0.5); 
+    updateTransform(); 
+  }
+
+  function zoomOut() { 
+    scale = Math.max(1, scale - 0.5); 
+    if(scale === 1){ pointX = 0; pointY = 0; } 
+    updateTransform(); 
+  }
+
+  function resetZoom() { 
+    scale = 1; 
+    pointX = 0; 
+    pointY = 0; 
+    updateTransform(); 
+  }
 
   canvasContainer.addEventListener('wheel', (e) => {
       if(document.getElementById('layer2D').style.display === 'none') return;
       e.preventDefault();
       const zoomSpeed = 0.1;
       const delta = -Math.sign(e.deltaY) * zoomSpeed;
-      scale = Math.min(Math.max(1, scale + delta), 5);
+      const newScale = Math.min(Math.max(1, scale + delta), 5); 
+      scale = newScale;
       if (scale === 1) { pointX = 0; pointY = 0; }
       updateTransform();
   });
 
   canvasContainer.addEventListener('mousedown', (e) => {
-      if (scale > 1) { isDragging = true; startX = e.clientX - pointX; startY = e.clientY - pointY; canvasContainer.style.cursor = 'grabbing'; }
+      if (scale > 1) { 
+          isDragging = true;
+          startX = e.clientX - pointX;
+          startY = e.clientY - pointY;
+          canvasContainer.style.cursor = 'grabbing';
+      }
   });
-  window.addEventListener('mousemove', (e) => { if (!isDragging) return; pointX = e.clientX - startX; pointY = e.clientY - startY; updateTransform(); });
-  window.addEventListener('mouseup', () => { isDragging = false; canvasContainer.style.cursor = 'grab'; });
+
+  window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+      isDragging = false;
+      canvasContainer.style.cursor = 'grab';
+  });
 
   document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
   document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
@@ -531,171 +582,309 @@
   const btnPlayVideo = document.getElementById('btnPlayVideo');
   const btnCloseVideo = document.getElementById('btnCloseVideo');
   const chatHistory = document.getElementById('chatHistory');
+  const archFileName = document.getElementById('archFileName');
+  const mepFileName = document.getElementById('mepFileName');
   const archInput = document.getElementById('archInput');
-  const displayImg3D = document.getElementById('displayImg3D');
+  const mepInput = document.getElementById('mepInput');
   const customModal = document.getElementById('customModal');
   const modalMessage = document.getElementById('modalMessage');
   const closeModalBtn = document.getElementById('closeModalBtn');
+  const displayImg3D = document.getElementById('displayImg3D');
 
-  function showCustomAlert(msg) { modalMessage.innerText = msg; customModal.classList.add('active'); }
+  let isAnalyzed = false;
+  let lastUploadedName = "";
+
+  function showCustomAlert(msg) { 
+    modalMessage.innerText = msg; 
+    customModal.classList.add('active'); 
+  }
   closeModalBtn.addEventListener('click', () => customModal.classList.remove('active'));
+  customModal.addEventListener('click', (e) => { if(e.target === customModal) customModal.classList.remove('active'); });
 
-  // --- PDF REPAIR LOGIC START ---
+  const qaData = [
+    { q: "Building area?", a: "Total net internal area is **~88 sqm**." },
+    { q: "Show clashes", a: "I found **1 critical clash** in the Living Room (Wall A)." },
+    { q: "Room count?", a: "This unit features **3 Rooms**." },
+    { q: "Outdoor space?", a: "The plan includes **1 Balcony**." },
+    { q: "Export PDF", a: "📄 Generating PDF report..." }
+  ];
+
   function generatePDF() {
-    if (!isAnalyzed) { showCustomAlert("Please run analysis before exporting PDF."); return; }
-    
-    // יצירת אלמנט זמני נקי לעיצוב ה-PDF
+    if (!isAnalyzed) {
+      showCustomAlert("Please run analysis before exporting PDF.");
+      return;
+    }
+
     const element = document.createElement('div');
     element.style.padding = '30px';
-    element.style.backgroundColor = '#fff';
     element.style.color = '#333';
+    element.style.backgroundColor = '#fff';
     element.style.fontFamily = 'Arial, sans-serif';
 
-    // תוכן ה-PDF
-    element.innerHTML = `
-      <h1 style="color:#1e293b; text-align:center; margin-bottom:10px;">ArcWiz AI Analysis Report</h1>
-      <p style="text-align:center; color:#64748b; margin-bottom:20px;">Generated: ${new Date().toLocaleString()}</p>
+    const summaryHtml = `
+      <h1 style="color: #1e293b; text-align: center; margin-bottom: 20px;">ArcWiz AI Analysis Report</h1>
+      <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Generated on: ${new Date().toLocaleString('he-IL')}</p>
       
-      <h2 style="border-bottom:2px solid #00f2ff; padding-bottom:5px; color:#1e293b;">Analysis Summary</h2>
-      <table style="width:100%; border-collapse:collapse; margin:15px 0;">
-        <tr style="background:#f8fafc;"><td style="padding:10px; border:1px solid #ddd; font-weight:bold;">Building Area</td><td style="padding:10px; border:1px solid #ddd;">${areaDisplay.innerText}</td></tr>
-        <tr><td style="padding:10px; border:1px solid #ddd; font-weight:bold;">Rooms</td><td style="padding:10px; border:1px solid #ddd;">${roomsDisplay.innerText}</td></tr>
-        <tr style="background:#f8fafc;"><td style="padding:10px; border:1px solid #ddd; font-weight:bold;">Bathrooms</td><td style="padding:10px; border:1px solid #ddd;">${bathsDisplay.innerText}</td></tr>
-        <tr><td style="padding:10px; border:1px solid #ddd; font-weight:bold;">Outdoor Space</td><td style="padding:10px; border:1px solid #ddd;">${outdoorDisplay.innerText}</td></tr>
+      <h2 style="border-bottom: 2px solid #00f2ff; padding-bottom: 10px; color: #1e293b;">Analysis Summary</h2>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Building Area</td><td style="padding: 12px; border: 1px solid #ddd;">${areaDisplay.innerText}</td></tr>
+        <tr><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Rooms</td><td style="padding: 12px; border: 1px solid #ddd;">${roomsDisplay.innerText}</td></tr>
+        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Bathrooms</td><td style="padding: 12px; border: 1px solid #ddd;">${bathsDisplay.innerText}</td></tr>
+        <tr><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Outdoor Space</td><td style="padding: 12px; border: 1px solid #ddd;">${outdoorDisplay.innerText}</td></tr>
+        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Floors</td><td style="padding: 12px; border: 1px solid #ddd;">${floorsDisplay.innerText}</td></tr>
       </table>
+    `;
 
-      <h2 style="border-bottom:2px solid #7000ff; padding-bottom:5px; margin-top:20px; color:#1e293b;">Annotated Floor Plan</h2>
-      <div id="pdf-map-container" style="position:relative; width:100%; height:450px; background:#0a0a0f; border-radius:10px; overflow:hidden; margin:10px 0;"></div>
+    const planClone = zoomWrapper.cloneNode(true);
+    planClone.style.transform = "none";
+    planClone.style.position = "relative";
+    planClone.style.width = "100%";
+    planClone.style.height = "450px"; 
+    planClone.style.display = "flex";
+    planClone.style.alignItems = "center";
+    planClone.style.justifyContent = "center";
+    planClone.style.backgroundColor = "#0a0a0f";
+    planClone.style.borderRadius = "12px";
+    planClone.style.overflow = "hidden";
+    planClone.style.margin = "30px 0";
+    planClone.style.pageBreakInside = "avoid";
 
-      <h2 style="border-bottom:2px solid #fbbf24; padding-bottom:5px; margin-top:20px; color:#1e293b;">Detected Issues</h2>
-      <div id="pdf-issues-container"></div>
-
-      <h2 style="border-bottom:2px solid #ff0055; padding-bottom:5px; margin-top:20px; color:#1e293b;">Recommendations</h2>
-      <ul style="line-height:1.6;">
-        <li>Verify 60cm clearance between kitchen sockets and water sources.</li>
-        <li>Check bathroom IP-ratings for all fixtures in wet zones.</li>
-        <li>Review MEP routes for structural clash points.</li>
+    const issuesContent = issuesList.innerHTML;
+    const recommendationsHtml = `
+      <h2 style="border-bottom: 2px solid #ff0055; padding-bottom: 10px; margin-top: 40px; color: #1e293b;">Recommendations & Fixes</h2>
+      <ul style="line-height: 1.8; color: #334155; font-size: 1.1rem; padding-left: 20px;">
+        <li><b>Kitchen:</b> Re-verify the socket placement to ensure a minimum 60cm clearance from the sink.</li>
+        <li><b>Wet Areas:</b> Relocate any switches currently within the splash zone to the outside wall.</li>
+        <li><b>Routing:</b> Re-evaluate MEP routing in the bathroom area.</li>
       </ul>
     `;
 
-    // שכפול המפה בצורה שטוחה ל-PDF
-    const mapContainer = element.querySelector('#pdf-map-container');
-    const archImg = document.getElementById('currentArchImg');
-    const mepImg = document.getElementById('currentMepImg');
-    
-    if(archImg.style.display !== 'none') {
-        const img = archImg.cloneNode();
-        img.style.display = 'block'; img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'contain';
-        mapContainer.appendChild(img);
-    }
-    
-    // שכפול המרקרים במיקום יחסי נכון בתוך המכולה של ה-PDF
-    markers.forEach(m => {
-        const mClone = m.cloneNode(true);
-        mClone.style.display = 'flex';
-        mClone.style.transform = 'scale(1)';
-        mClone.style.opacity = '1';
-        mapContainer.appendChild(mClone);
-    });
+    element.innerHTML = summaryHtml;
+    const imgTitle = document.createElement('h2');
+    imgTitle.innerText = "Annotated Floor Plan (Hazards)";
+    imgTitle.style.borderBottom = "2px solid #7000ff";
+    imgTitle.style.paddingBottom = "10px";
+    imgTitle.style.color = "#1e293b";
+    element.appendChild(imgTitle);
+    element.appendChild(planClone);
 
-    // שכפול כרטיסי המפגעים ללא עיצוב ה-Glass הקשה
-    const issuesContainer = element.querySelector('#pdf-issues-container');
-    document.querySelectorAll('.issue-card').forEach(card => {
-        const cClone = card.cloneNode(true);
-        cClone.style.background = '#f1f5f9';
-        cClone.style.color = '#333';
-        cClone.style.border = '1px solid #cbd5e1';
-        cClone.style.padding = '15px';
-        cClone.style.marginBottom = '10px';
-        cClone.style.borderRadius = '8px';
-        cClone.style.pageBreakInside = 'avoid';
-        const link = cClone.querySelector('a'); if(link) link.style.color = '#0072ff';
-        issuesContainer.appendChild(cClone);
+    const issuesHeader = document.createElement('h2');
+    issuesHeader.innerText = "Detected Issues (AI Insights)";
+    issuesHeader.style.borderBottom = "2px solid #fbbf24";
+    issuesHeader.style.paddingBottom = "10px";
+    issuesHeader.style.marginTop = "40px";
+    issuesHeader.style.color = "#1e293b";
+    element.appendChild(issuesHeader);
+
+    const issuesDiv = document.createElement('div');
+    issuesDiv.innerHTML = issuesContent;
+    issuesDiv.querySelectorAll('.issue-card').forEach(card => {
+        card.style.background = "#f1f5f9";
+        card.style.color = "#333";
+        card.style.border = "1px solid #cbd5e1";
+        card.style.marginBottom = "15px";
+        card.style.pageBreakInside = "avoid";
     });
+    element.appendChild(issuesDiv);
+
+    const recDiv = document.createElement('div');
+    recDiv.innerHTML = recommendationsHtml;
+    recDiv.style.pageBreakInside = "avoid";
+    element.appendChild(recDiv);
 
     const opt = {
       margin: 10,
-      filename: `ArcWiz_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+      filename: `ArcWiz_Full_Report_${new Date().toISOString().slice(0,10)}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, letterRendering: true, windowWidth: 1200 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
-        addBubble("✅ Full report generated successfully without cutting.", 'bot');
+        addBubble("✅ PDF report generated successfully!", 'bot');
     });
   }
-  // --- PDF REPAIR LOGIC END ---
 
   function askQuestion(index) {
     const data = qaData[index];
-    if (index === 4) { addBubble(data.q, 'user'); setTimeout(() => generatePDF(), 600); }
-    else { addBubble(data.q, 'user'); setTimeout(() => addBubble(data.a, 'bot'), 600); }
+    if (index === 4) {
+      addBubble(data.q, 'user');
+      setTimeout(() => { generatePDF(); }, 600);
+    } else {
+      addBubble(data.q, 'user');
+      setTimeout(() => addBubble(data.a, 'bot'), 600);
+    }
   }
 
   function addBubble(text, type) {
-    const bubble = document.createElement('div'); bubble.classList.add('chat-bubble', type);
-    bubble.innerHTML = text; chatHistory.appendChild(bubble); chatHistory.scrollTop = chatHistory.scrollHeight;
+    const bubble = document.createElement('div');
+    bubble.classList.add('chat-bubble', type);
+    bubble.innerHTML = text; 
+    chatHistory.appendChild(bubble);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
   }
 
   btn2D.addEventListener('click', () => {
-     btn2D.classList.add('active'); btn3D.classList.remove('active');
-     video3D.pause(); layer2D.style.display = 'flex'; layer3D.style.display = 'none'; resetZoom();
+     btn2D.classList.add('active'); 
+     btn3D.classList.remove('active');
+     video3D.pause(); 
+     video3D.currentTime = 0;
+     image3DContainer.style.display = 'block';
+     videoContainer.style.display = 'none';
+     layer2D.style.display = 'flex'; 
+     layer3D.style.display = 'none';
+     resetZoom();
   });
 
   btn3D.addEventListener('click', () => {
-     if(archInput.files.length === 0) { showCustomAlert("Please upload a Floor Plan first."); return; }
-     
-     // לוגיקת החלפת תמונות ווידאו לפי מצב ניתוח
-     displayImg3D.src = isAnalyzed ? "3d with clash.jpg" : "3d model.jpg";
-     const vSrc = isAnalyzed ? "3d video clash.mp4" : "3d video.mp4";
-     if(!video3D.src.includes(vSrc)) { video3D.src = vSrc; video3D.load(); }
+     if(archInput.files.length === 0) { 
+       showCustomAlert("Please upload a Floor Plan file first."); 
+       return; 
+     }
 
-     btn3D.classList.add('active'); btn2D.classList.remove('active');
-     layer2D.style.display = 'none'; layer3D.style.display = 'flex';
-     image3DContainer.style.display = 'block'; videoContainer.style.display = 'none'; resetZoom();
+     // עדכון תמונה לפי מצב הניתוח
+     displayImg3D.src = isAnalyzed ? "3d with clash.jpg" : "3d model.jpg";
+     
+     // עדכון וידאו לפי מצב הניתוח
+     const videoSrc = isAnalyzed ? "3d video clash.mp4" : "3d video.mp4";
+     if(video3D.src !== videoSrc) {
+        video3D.src = videoSrc;
+        video3D.load();
+     }
+
+     btn3D.classList.add('active'); 
+     btn2D.classList.remove('active');
+     layer2D.style.display = 'none'; 
+     layer3D.style.display = 'flex';
+     image3DContainer.style.display = 'block'; 
+     videoContainer.style.display = 'none';
+     video3D.pause();
+     resetZoom();
+  });
+  
+  btnPlayVideo.addEventListener('click', () => { 
+    image3DContainer.style.display = 'none'; 
+    videoContainer.style.display = 'block'; 
+    video3D.play(); 
+  });
+  btnCloseVideo.addEventListener('click', () => { 
+    video3D.pause(); 
+    videoContainer.style.display = 'none'; 
+    image3DContainer.style.display = 'block'; 
   });
 
-  btnPlayVideo.addEventListener('click', () => { image3DContainer.style.display = 'none'; videoContainer.style.display = 'block'; video3D.play(); });
-  btnCloseVideo.addEventListener('click', () => { video3D.pause(); videoContainer.style.display = 'none'; image3DContainer.style.display = 'block'; });
+  showArchBtn.addEventListener('click', () => {
+      showArchBtn.classList.add('active'); 
+      showMepBtn.classList.remove('active');
+      if(currentArchImg.src) currentArchImg.style.display = 'block';
+      if(currentMepImg.src) currentMepImg.style.display = 'none';
+  });
+
+  showMepBtn.addEventListener('click', () => {
+      showMepBtn.classList.add('active'); 
+      showArchBtn.classList.remove('active');
+      if(currentMepImg.src) currentMepImg.style.display = 'block';
+      if(currentArchImg.src) currentArchImg.style.display = 'none';
+  });
 
   function handleUpload(inputId, nameDisplayId, imgElementId) {
     document.getElementById(inputId).addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
-        document.getElementById(nameDisplayId).textContent = "✅ " + file.name;
-        if(inputId === 'archInput') { isAnalyzed = false; btn3D.classList.remove('disabled'); }
+        const nameDisplay = document.getElementById(nameDisplayId);
+        nameDisplay.textContent = "✅ " + file.name;
+
+        if(inputId === 'archInput') {
+          isAnalyzed = false;
+          // איפוס מקור הוידאו בטעינה חדשה
+          video3D.src = "3d video.mp4";
+          video3D.load();
+          lastUploadedName = file.name;
+          btn3D.classList.remove('disabled');
+        }
+
         const reader = new FileReader();
         reader.onload = (evt) => {
-          placeholderText.style.display = 'none'; layerSwitcher.style.display = 'flex';
-          const target = document.getElementById(imgElementId); target.src = evt.target.result;
-          if(inputId === 'archInput') { document.getElementById('showArchBtn').click(); } else { document.getElementById('showMepBtn').click(); }
+          placeholderText.style.display = 'none';
+          layerSwitcher.style.display = 'flex';
+          const targetImg = document.getElementById(imgElementId);
+          targetImg.src = evt.target.result;
+          if(inputId === 'archInput') showArchBtn.click(); else showMepBtn.click();
         };
         reader.readAsDataURL(file);
       }
     });
   }
+  
   handleUpload('archInput', 'archFileName', 'currentArchImg');
   handleUpload('mepInput', 'mepFileName', 'currentMepImg');
 
   analyzeBtn.addEventListener('click', () => {
-    if (archInput.files.length === 0) { showCustomAlert("Please upload a file first!"); return; }
-    btn2D.click(); layer2D.classList.add('scanning');
-    analyzeBtn.innerHTML = "<span>🧠 Analyzing blueprints...</span>";
+    if (archInput.files.length === 0) { 
+      showCustomAlert("Please upload a Floor Plan file first!"); 
+      return; 
+    }
+    btn2D.click();
+    layer2D.classList.add('scanning');
+    
+    analyzeBtn.innerHTML = "<span>🧠 Processing...</span>";
+    
+    setTimeout(() => { analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>"; }, 2500);
+    setTimeout(() => { analyzeBtn.innerHTML = "<span>✨ Finalizing...</span>"; }, 4500);
+    
     setTimeout(() => {
-      isAnalyzed = true; layer2D.classList.remove('scanning');
+      isAnalyzed = true;
+      layer2D.classList.remove('scanning');
       analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
-      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)";
-      aiStatus.style.display = 'inline-block'; waitingText.style.display = 'none'; issuesList.style.display = 'block';
-      markers.forEach(m => { m.style.display = 'flex'; setTimeout(() => m.style.transform = "scale(1)", 50); });
-      areaDisplay.innerText = "~88 sqm"; roomsDisplay.innerText = "3"; bathsDisplay.innerText = "2 Full"; outdoorDisplay.innerText = "1 Balcony"; floorsDisplay.innerText = "1 Level";
-      addBubble("Analysis finished. Updated 3D views are ready.", 'bot');
-    }, 4000);
+      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
+      
+      aiStatus.style.display = 'inline-block';
+      waitingText.style.display = 'none';
+      issuesList.style.display = 'block';
+      
+      markers.forEach(m => {
+          m.style.display = 'flex';
+          setTimeout(() => m.style.transform = "scale(1)", 50);
+      });
+      
+      animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
+      roomsDisplay.innerText = "3";
+      bathsDisplay.innerText = "2 Full";
+      outdoorDisplay.innerText = "1 Balcony";
+      floorsDisplay.innerText = "1 Level";
+
+      setTimeout(() => { addBubble("Analysis finished. Updated metrics and 3D simulation ready.", 'bot'); }, 500);
+    }, 6000); 
   });
 
-  document.getElementById('showArchBtn').addEventListener('click', () => { currentArchImg.style.display = 'block'; currentMepImg.style.display = 'none'; document.getElementById('showArchBtn').classList.add('active'); document.getElementById('showMepBtn').classList.remove('active'); });
-  document.getElementById('showMepBtn').addEventListener('click', () => { currentMepImg.style.display = 'block'; currentArchImg.style.display = 'none'; document.getElementById('showMepBtn').classList.add('active'); document.getElementById('showArchBtn').classList.remove('active'); });
+  document.querySelectorAll('.issue-card').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      if(layer2D.style.display !== 'none') {
+          const targetId = item.getAttribute('data-target');
+          const targetMarker = document.getElementById(targetId);
+          if(targetMarker) targetMarker.classList.add('active');
+          item.classList.add('highlighted');
+      }
+    });
+    item.addEventListener('mouseleave', () => {
+      const targetId = item.getAttribute('data-target');
+      const targetMarker = document.getElementById(targetId);
+      if(targetMarker) targetMarker.classList.remove('active');
+      item.classList.remove('highlighted');
+    });
+  });
+
+  function animateValueHTML(element, start, end, duration, suffix) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const val = Math.floor(progress * (end - start) + start);
+      element.innerText = "~" + val.toLocaleString() + suffix;
+      if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
+  }
 </script>
 </body>
 </html>
