@@ -624,6 +624,7 @@
 
   // --- משתנה חדש למעקב אחרי מצב הניתוח ---
   let isAnalyzed = false;
+  let lastUploadedName = "";
 
   function showCustomAlert(msg) { 
     modalMessage.innerText = msg; 
@@ -640,58 +641,108 @@
     { q: "Export PDF", a: "📄 Generating PDF report..." }
   ];
 
+  // 🔥 PDF GENERATION FUNCTION - תיקון מלא כאן
   function generatePDF() {
-    const element = document.createElement('div');
-    element.style.padding = '40px';
-    element.style.backgroundColor = '#fff';
-    element.style.color = '#000';
-    element.style.fontFamily = 'Arial, sans-serif';
-    element.style.lineHeight = '1.6';
+    if (!isAnalyzed) {
+      showCustomAlert("Please run analysis before exporting PDF.");
+      return;
+    }
 
-    element.innerHTML = `
-      <h1 style="text-align: center; color: #1e293b; margin-bottom: 30px; font-size: 28px;">ArcWiz AI Analysis Report</h1>
-      <h2 style="color: #0072ff; margin-top: 30px; border-bottom: 3px solid #0072ff; padding-bottom: 10px; font-size: 22px;">📊 Project Summary</h2>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 16px;">
-        <tr style="background-color: #f8f9ff;">
-          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold; width: 40%;">Building Area</td>
-          <td style="padding: 15px; border: 1px solid #ddd;">${areaDisplay.innerText}</td>
-        </tr>
-        <tr>
-          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Rooms</td>
-          <td style="padding: 15px; border: 1px solid #ddd;">${roomsDisplay.innerText}</td>
-        </tr>
-        <tr style="background-color: #f8f9ff;">
-          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Bathrooms</td>
-          <td style="padding: 15px; border: 1px solid #ddd;">${bathsDisplay.innerText}</td>
-        </tr>
-        <tr>
-          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Outdoor Space</td>
-          <td style="padding: 15px; border: 1px solid #ddd;">${outdoorDisplay.innerText}</td>
-        </tr>
-        <tr style="background-color: #f8f9ff;">
-          <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Floors</td>
-          <td style="padding: 15px; border: 1px solid #ddd;">${floorsDisplay.innerText}</td>
-        </tr>
+    const element = document.createElement('div');
+    element.style.padding = '30px';
+    element.style.color = '#333';
+    element.style.backgroundColor = '#fff';
+    element.style.fontFamily = 'Arial, sans-serif';
+
+    // Summary Table Data
+    const summaryHtml = `
+      <h1 style="color: #1e293b; text-align: center; margin-bottom: 20px;">ArcWiz AI Analysis Report</h1>
+      <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Generated on: ${new Date().toLocaleString('he-IL')}</p>
+      
+      <h2 style="border-bottom: 2px solid #00f2ff; padding-bottom: 10px; color: #1e293b;">Analysis Summary</h2>
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Building Area</td><td style="padding: 12px; border: 1px solid #ddd;">${areaDisplay.innerText}</td></tr>
+        <tr><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Rooms</td><td style="padding: 12px; border: 1px solid #ddd;">${roomsDisplay.innerText}</td></tr>
+        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Bathrooms</td><td style="padding: 12px; border: 1px solid #ddd;">${bathsDisplay.innerText}</td></tr>
+        <tr><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Outdoor Space</td><td style="padding: 12px; border: 1px solid #ddd;">${outdoorDisplay.innerText}</td></tr>
+        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Floors</td><td style="padding: 12px; border: 1px solid #ddd;">${floorsDisplay.innerText}</td></tr>
       </table>
-      <h2 style="color: #ef4444; margin-top: 40px; border-bottom: 3px solid #ef4444; padding-bottom: 10px; font-size: 22px;">🚨 Issues Found</h2>
-      <div style="margin: 20px 0; padding: 25px; background-color: #fff5f5; border-left: 5px solid #ef4444; border-radius: 8px;">
-        <h3 style="color: #ef4444; margin-top: 0; font-size: 18px;">⚠️ Clash Detected</h3>
-        <p><strong>📍 Location:</strong> Kitchen</p>
-        <p><strong>❌ Issue:</strong> Socket violates minimum clearance from sink. Ensure 60cm distance.</p>
-        <p><strong>🔗 Reference:</strong> <a href="#" style="color: #0072ff;">תקנות חשמל במטבחים</a></p>
-      </div>
     `;
 
+    // Capture the 2D Plan with Markers
+    const planClone = zoomWrapper.cloneNode(true);
+    planClone.style.transform = "none";
+    planClone.style.position = "relative";
+    planClone.style.width = "100%";
+    planClone.style.height = "auto";
+    planClone.style.minHeight = "400px";
+    planClone.style.display = "flex";
+    planClone.style.alignItems = "center";
+    planClone.style.justifyContent = "center";
+    planClone.style.backgroundColor = "#0a0a0f";
+    planClone.style.borderRadius = "12px";
+    planClone.style.overflow = "hidden";
+    planClone.style.margin = "30px 0";
+
+    // Issues section - Get actual issues from the DOM
+    const issuesContent = issuesList.innerHTML;
+
+    // Recommendations section
+    const recommendationsHtml = `
+      <h2 style="border-bottom: 2px solid #ff0055; padding-bottom: 10px; margin-top: 40px; color: #1e293b;">Recommendations & Fixes</h2>
+      <ul style="line-height: 1.8; color: #334155; font-size: 1.1rem; padding-left: 20px;">
+        <li><b>Kitchen:</b> Re-verify the socket placement to ensure a minimum 60cm clearance from the sink according to electrical safety standards.</li>
+        <li><b>Wet Areas:</b> Relocate any switches currently within the splash zone to the outside wall or use IP56-rated covers.</li>
+        <li><b>Routing:</b> Re-evaluate MEP routing in the bathroom area to avoid structural beam interference.</li>
+        <li><b>General:</b> Review the full clash report with the on-site contractor before commencing installation.</li>
+      </ul>
+    `;
+
+    element.innerHTML = summaryHtml;
+    
+    const imgTitle = document.createElement('h2');
+    imgTitle.innerText = "Annotated Floor Plan (Hazards)";
+    imgTitle.style.borderBottom = "2px solid #7000ff";
+    imgTitle.style.paddingBottom = "10px";
+    imgTitle.style.color = "#1e293b";
+    element.appendChild(imgTitle);
+    
+    element.appendChild(planClone);
+
+    const issuesHeader = document.createElement('h2');
+    issuesHeader.innerText = "Detected Issues (AI Insights)";
+    issuesHeader.style.borderBottom = "2px solid #fbbf24";
+    issuesHeader.style.paddingBottom = "10px";
+    issuesHeader.style.marginTop = "40px";
+    issuesHeader.style.color = "#1e293b";
+    element.appendChild(issuesHeader);
+
+    const issuesDiv = document.createElement('div');
+    issuesDiv.innerHTML = issuesContent;
+    // Fix issue card styles for white background
+    issuesDiv.querySelectorAll('.issue-card').forEach(card => {
+        card.style.background = "#f1f5f9";
+        card.style.color = "#333";
+        card.style.border = "1px solid #cbd5e1";
+        card.style.marginBottom = "15px";
+    });
+    element.appendChild(issuesDiv);
+
+    const recDiv = document.createElement('div');
+    recDiv.innerHTML = recommendationsHtml;
+    element.appendChild(recDiv);
+
     const opt = {
-      margin: 15,
-      filename: `ArcWiz_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+      margin: 10,
+      filename: `ArcWiz_Full_Report_${new Date().toISOString().slice(0,10)}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compress: true }
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    html2pdf().set(opt).from(element).save();
-    setTimeout(() => { addBubble("✅ PDF downloaded successfully!", 'bot'); }, 1500);
+    html2pdf().set(opt).from(element).save().then(() => {
+        addBubble("✅ Full PDF report with plan and issues generated successfully!", 'bot');
+    });
   }
 
   function askQuestion(index) {
@@ -731,7 +782,6 @@
        return; 
      }
 
-     // --- עדכון: בחירת התמונה להצגה לפי מצב הניתוח ---
      displayImg3D.src = isAnalyzed ? "3d with clash.jpg" : "3d model.jpg";
 
      btn3D.classList.add('active'); 
@@ -776,9 +826,9 @@
         const nameDisplay = document.getElementById(nameDisplayId);
         nameDisplay.textContent = "✅ " + file.name;
 
-        // --- איפוס מצב הניתוח כשיש קובץ חדש ---
         if(inputId === 'archInput') {
           isAnalyzed = false;
+          lastUploadedName = file.name;
           btn3D.classList.remove('disabled');
         }
 
@@ -812,9 +862,7 @@
     setTimeout(() => { analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>"; }, 4500);
     
     setTimeout(() => {
-      // --- סיום הניתוח: מעדכנים את המשתנה ל-true ---
       isAnalyzed = true;
-
       layer2D.classList.remove('scanning');
       analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
       analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
