@@ -5,7 +5,6 @@
   <title>ArcWiz AI – Next Gen Interface</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
-  <!-- PDF Generation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
   <style>
@@ -379,9 +378,9 @@
     </div>
     
     <div style="text-align:center;">
-       <button class="btn-grad" id="analyzeBtn">
-        <span>✨ Run Analysis</span>
-      </button>
+        <button class="btn-grad" id="analyzeBtn">
+         <span>✨ Run Analysis</span>
+       </button>
     </div>
   </div>
 
@@ -428,6 +427,7 @@
         <div id="layer3D" class="view-layer" style="display:none;">
             <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
                 <img 
+                  id="displayImg3D"
                   src="3d model.jpg" 
                   alt="3D Model" 
                   style="width:100%; height:100%; object-fit:contain; object-position:center;" 
@@ -479,7 +479,7 @@
       <div style="margin-top:40px;">
         <h4 style="color:white; margin-bottom:20px; font-weight:600; font-size:1.1rem;">AI Insights</h4>
         <div id="waitingText" style="color:var(--text-muted); font-size:1rem; font-style:italic;">
-           Analysis pending...
+            Analysis pending...
         </div>
         <div id="issuesList" style="display:none;">
           <div class="issue-card" data-target="marker1">
@@ -581,13 +581,11 @@
       canvasContainer.style.cursor = 'grab';
   });
 
-  // כפתורי זום (במקום onclick ב‑HTML)
   document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
   document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
   document.getElementById('resetZoomBtn').addEventListener('click', resetZoom);
 
   // -- ZOOM & PAN LOGIC END --
-
 
   const analyzeBtn = document.getElementById('analyzeBtn');
   const issuesList = document.getElementById('issuesList');
@@ -622,6 +620,10 @@
   const customModal = document.getElementById('customModal');
   const modalMessage = document.getElementById('modalMessage');
   const closeModalBtn = document.getElementById('closeModalBtn');
+  const displayImg3D = document.getElementById('displayImg3D');
+
+  // --- משתנה חדש למעקב אחרי מצב הניתוח ---
+  let isAnalyzed = false;
 
   function showCustomAlert(msg) { 
     modalMessage.innerText = msg; 
@@ -638,7 +640,6 @@
     { q: "Export PDF", a: "📄 Generating PDF report..." }
   ];
 
-  // 🔥 PDF GENERATION FUNCTION - תוספת חדשה
   function generatePDF() {
     const element = document.createElement('div');
     element.style.padding = '40px';
@@ -649,7 +650,6 @@
 
     element.innerHTML = `
       <h1 style="text-align: center; color: #1e293b; margin-bottom: 30px; font-size: 28px;">ArcWiz AI Analysis Report</h1>
-      
       <h2 style="color: #0072ff; margin-top: 30px; border-bottom: 3px solid #0072ff; padding-bottom: 10px; font-size: 22px;">📊 Project Summary</h2>
       <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 16px;">
         <tr style="background-color: #f8f9ff;">
@@ -673,63 +673,32 @@
           <td style="padding: 15px; border: 1px solid #ddd;">${floorsDisplay.innerText}</td>
         </tr>
       </table>
-
       <h2 style="color: #ef4444; margin-top: 40px; border-bottom: 3px solid #ef4444; padding-bottom: 10px; font-size: 22px;">🚨 Issues Found</h2>
-      
       <div style="margin: 20px 0; padding: 25px; background-color: #fff5f5; border-left: 5px solid #ef4444; border-radius: 8px;">
         <h3 style="color: #ef4444; margin-top: 0; font-size: 18px;">⚠️ Clash Detected</h3>
         <p><strong>📍 Location:</strong> Kitchen</p>
         <p><strong>❌ Issue:</strong> Socket violates minimum clearance from sink. Ensure 60cm distance.</p>
-        <p><strong>🔗 Reference:</strong> <a href="https://www.mabbat.co.il/post/%D7%AA%D7%A7%D7%A0%D7%99-%D7%97%D7%A9%D7%9E%D7%9C-%D7%91%D7%9E%D7%98%D7%91%D7%97%D7%99%D7%9D-%D7%9E%D7%94-%D7%90%D7%A1%D7%95%D7%A8-%D7%95%D7%9E%D7%94-%D7%9E%D7%95%D7%AA%D7%A8" style="color: #0072ff;">תקנות חשמל במטבחים</a></p>
-      </div>
-
-      <div style="margin: 20px 0; padding: 25px; background-color: #fffbf0; border-left: 5px solid #fbbf24; border-radius: 8px;">
-        <h3 style="color: #f59e0b; margin-top: 0; font-size: 18px;">⚠️ Routing Issue</h3>
-        <p><strong>📍 Location:</strong> Bathroom - Wet Area</p>
-        <p><strong>❌ Issue:</strong> Switch (H=130) located within wet zone. Relocate outside or use IP-rated fixture.</p>
-        <p><strong>🔗 Reference:</strong> <a href="https://www.abone.co.il/articles/%d7%a9%d7%a7%d7%a2%d7%99-%d7%97%d7%a9%d7%9e%d7%9c-%d7%95%d7%aa%d7%90%d7%95%d7%a8%d7%94-%d7%91%d7%9e%d7%98%d7%91%d7%97-%d7%9b%d7%9e%d7%95%d7%aa-%d7%95%d7%9e%d7%99%d7%a7%d7%95%d7%9d/" style="color: #0072ff;">קראו מידע נוסף</a></p>
-      </div>
-
-      <h2 style="color: #22c55e; margin-top: 40px; border-bottom: 3px solid #22c55e; padding-bottom: 10px; font-size: 22px;">✅ Recommendations</h2>
-      <ul style="line-height: 1.8; font-size: 16px; padding-left: 20px;">
-        <li>🔧 Reposition kitchen socket to maintain 60cm distance from sink</li>
-        <li>🔧 Install IP-rated electrical fixture in bathroom wet zone or relocate switch outside wet area</li>
-        <li>📋 Review and comply with latest electrical safety codes (תקנות חשמל)</li>
-      </ul>
-
-      <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #eee; font-size: 14px; color: #666; text-align: center;">
-        <p><strong>📅 Report Generated:</strong> ${new Date().toLocaleDateString('he-IL')} ${new Date().toLocaleTimeString('he-IL')}</p>
-        <p><strong>🛠️ Tool:</strong> ArcWiz AI Analysis Engine v2.0</p>
-        <p style="margin-top: 20px; font-size: 12px; opacity: 0.7;">This report was automatically generated by AI analysis.</p>
+        <p><strong>🔗 Reference:</strong> <a href="#" style="color: #0072ff;">תקנות חשמל במטבחים</a></p>
       </div>
     `;
 
-    // הגדרות ל-PDF
     const opt = {
       margin: 15,
-      filename: `ArcWiz_Analysis_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+      filename: `ArcWiz_Report_${new Date().toISOString().slice(0,10)}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compress: true }
     };
 
-    // יצור את ה-PDF
     html2pdf().set(opt).from(element).save();
-
-    // הודעה בצ'אט
-    setTimeout(() => {
-      addBubble("✅ PDF downloaded successfully! Check your downloads folder.", 'bot');
-    }, 1500);
+    setTimeout(() => { addBubble("✅ PDF downloaded successfully!", 'bot'); }, 1500);
   }
 
   function askQuestion(index) {
     const data = qaData[index];
-    
-    if (index === 4) { // Export PDF
+    if (index === 4) {
       addBubble(data.q, 'user');
-      setTimeout(() => {
-        generatePDF();
-      }, 600);
+      setTimeout(() => { generatePDF(); }, 600);
     } else {
       addBubble(data.q, 'user');
       setTimeout(() => addBubble(data.a, 'bot'), 600);
@@ -761,6 +730,10 @@
        showCustomAlert("Please upload a Floor Plan file first."); 
        return; 
      }
+
+     // --- עדכון: בחירת התמונה להצגה לפי מצב הניתוח ---
+     displayImg3D.src = isAnalyzed ? "3d with clash.jpg" : "3d model.jpg";
+
      btn3D.classList.add('active'); 
      btn2D.classList.remove('active');
      layer2D.style.display = 'none'; 
@@ -802,7 +775,13 @@
       if (file) {
         const nameDisplay = document.getElementById(nameDisplayId);
         nameDisplay.textContent = "✅ " + file.name;
-        if(inputId === 'archInput') btn3D.classList.remove('disabled');
+
+        // --- איפוס מצב הניתוח כשיש קובץ חדש ---
+        if(inputId === 'archInput') {
+          isAnalyzed = false;
+          btn3D.classList.remove('disabled');
+        }
+
         const reader = new FileReader();
         reader.onload = (evt) => {
           placeholderText.style.display = 'none';
@@ -827,21 +806,15 @@
     btn2D.click();
     layer2D.classList.add('scanning');
     
-    // 1. Initial State
     analyzeBtn.innerHTML = "<span>🧠 Processing Geometry...</span>";
     
-    // 2. Mid State (simulating progress)
-    setTimeout(() => {
-         analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>";
-    }, 2500);
-
-    // 3. Finalizing State
-    setTimeout(() => {
-         analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>";
-    }, 4500);
+    setTimeout(() => { analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>"; }, 2500);
+    setTimeout(() => { analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>"; }, 4500);
     
-    // 4. Finish
     setTimeout(() => {
+      // --- סיום הניתוח: מעדכנים את המשתנה ל-true ---
+      isAnalyzed = true;
+
       layer2D.classList.remove('scanning');
       analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
       analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
@@ -850,7 +823,6 @@
       waitingText.style.display = 'none';
       issuesList.style.display = 'block';
       
-      // SHOW MARKERS HERE (Animation)
       markers.forEach(m => {
           m.style.display = 'flex';
           setTimeout(() => m.style.transform = "scale(1)", 50);
@@ -871,9 +843,7 @@
       if(layer2D.style.display !== 'none') {
           const targetId = item.getAttribute('data-target');
           const targetMarker = document.getElementById(targetId);
-          if(targetMarker) {
-              targetMarker.classList.add('active');
-          }
+          if(targetMarker) targetMarker.classList.add('active');
           item.classList.add('highlighted');
       }
     });
