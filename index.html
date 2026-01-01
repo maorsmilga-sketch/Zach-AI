@@ -9,15 +9,14 @@
   
   <style>
     :root {
-      /* פלטת צבעים מעודכנת וידידותית */
       --glass-bg: rgba(30, 41, 59, 0.4); 
       --glass-border: rgba(255, 255, 255, 0.2);
       --glass-highlight: rgba(255, 255, 255, 0.05);
       --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       
-      --primary: #00f2ff; /* Cyan Neon */
-      --secondary: #7000ff; /* Deep Purple */
-      --accent: #ff0055; /* Pink/Red */
+      --primary: #00f2ff;
+      --secondary: #7000ff;
+      --accent: #ff0055;
       
       --text-main: #ffffff;
       --text-muted: #cbd5e1;
@@ -33,7 +32,6 @@
       font-size: 16px; 
     }
 
-    /* --- DYNAMIC BACKGROUND --- */
     .bg-container {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
     }
@@ -54,7 +52,6 @@
     .layer-left {
       background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
       z-index: 2;
-      /* Fixed Split at 50% */
       clip-path: inset(0 50% 0 0);
       border-right: 1px solid rgba(255,255,255,0.4);
     }
@@ -64,7 +61,6 @@
       mix-blend-mode: overlay;
     }
 
-    /* --- APP CONTAINER --- */
     .app {
       max-width: 1300px; 
       margin: 0 auto;
@@ -86,7 +82,6 @@
       color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4);
     }
 
-    /* --- GLASS CARDS --- */
     .glass-card {
       background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
       border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); 
@@ -97,7 +92,6 @@
 
     h2 { margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px; }
 
-    /* --- UPLOAD ZONE --- */
     .upload-container {
       background: rgba(0,0,0,0.2); border: 2px dashed rgba(255,255,255,0.2);
       border-radius: 20px; padding: 40px; text-align: center; transition: 0.3s;
@@ -117,7 +111,6 @@
     .icon-large { font-size: 2.5rem; margin-bottom: 5px; }
     .file-name-display { font-size: 0.9rem; color: #4ade80; font-weight: 500; min-height: 1.2em; }
 
-    /* --- BUTTONS --- */
     .btn-grad {
       background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 100%);
       padding: 16px 50px; border-radius: 50px; border: none;
@@ -127,11 +120,9 @@
     }
     .btn-grad:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6); }
 
-    /* --- LAYOUT --- */
     .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px; }
     @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
 
-    /* --- CANVAS --- */
     .canvas-container {
       position: relative;
       background: rgba(10, 10, 15, 0.4); 
@@ -144,7 +135,6 @@
 
     .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     
-    /* --- ZOOM WRAPPER --- */
     #zoomWrapper {
       width: 100%; height: 100%;
       position: absolute; top: 0; left: 0;
@@ -155,7 +145,6 @@
 
     #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
-    /* --- MARKERS --- */
     .marker {
       position: absolute; width: 32px; height: 32px;
       border-radius: 50%; background: #ff0055;
@@ -169,14 +158,12 @@
       transform: scale(0);
     }
     
-    .marker:hover { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
-    .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
+    .marker:hover, .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
 
     .placeholder-text {
       color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
     }
 
-    /* --- SCANNER --- */
     .scan-line {
       position: absolute; top: 0; left: 0; width: 100%; height: 4px;
       background: linear-gradient(90deg, transparent, #00f2ff, transparent);
@@ -195,7 +182,6 @@
         100% { top: 100%; opacity: 0.5; } 
     }
 
-    /* --- ZOOM CONTROLS --- */
     .zoom-controls {
         position: absolute; bottom: 20px; right: 20px; z-index: 50;
         display: flex; flex-direction: column; gap: 8px;
@@ -208,7 +194,6 @@
     }
     .zoom-btn:hover { background: white; transform: scale(1.1); color: var(--primary); }
 
-    /* --- SIDEBAR --- */
     .sidebar-title {
       font-size: 1.3rem; margin-bottom: 24px; color: white;
       font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px;
@@ -229,10 +214,8 @@
       border: 1px solid rgba(255,255,255,0.05);
       cursor: pointer; transition: 0.2s;
     }
-    .issue-card:hover { background: rgba(255,255,255,0.1); border-color: var(--primary); transform: translateX(5px); }
-    .issue-card.highlighted { background: rgba(0, 242, 255, 0.1); border-color: var(--primary); }
+    .issue-card:hover, .issue-card.highlighted { background: rgba(0, 242, 255, 0.1); border-color: var(--primary); transform: translateX(5px); }
 
-    /* ISSUE LINK BUTTONS */
     .issue-link {
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(255,255,255,0.1); color: var(--primary);
@@ -245,7 +228,6 @@
       transform: translateX(4px); box-shadow: 0 5px 15px rgba(0,242,255,0.4);
     }
 
-    /* --- CHAT --- */
     .chat-section { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; height: 350px; }
     .chat-history {
       flex: 1; background: rgba(0,0,0,0.2);
@@ -271,7 +253,6 @@
     }
     .question-chip:hover { background: white; color: #7000ff; border-color: white; transform: translateY(-2px); }
 
-    /* --- TOGGLES & CONTROLS --- */
     .view-toggles { display: flex; gap: 12px; margin-bottom: 12px; }
     .toggle-btn {
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
@@ -281,7 +262,6 @@
     .toggle-btn.active { background: white; color: #000; font-weight: 700; box-shadow: 0 0 20px rgba(255,255,255,0.4); border-color: white; }
     .toggle-btn.disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* Layer Switcher */
     .layer-controls {
         position: absolute; top: 20px; right: 20px; z-index: 20;
         background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px;
@@ -294,7 +274,6 @@
     }
     .layer-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
 
-    /* Video Overlay */
     .floating-play-btn {
         position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
         background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; border-radius: 50px;
@@ -312,7 +291,6 @@
     }
     .close-video-btn:hover { background: #ef4444; border-color: #ef4444; }
 
-    /* --- MODAL (POPUP) --- */
     .modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
@@ -509,9 +487,6 @@
 </div>
 
 <script>
-  /* --- JS LOGIC --- */
-  
-  // -- ZOOM & PAN LOGIC START --
   let scale = 1;
   let pointX = 0;
   let pointY = 0;
@@ -544,21 +519,17 @@
     updateTransform(); 
   }
 
-  // Wheel Zoom
   canvasContainer.addEventListener('wheel', (e) => {
-      // Only zoom in 2D mode
       if(document.getElementById('layer2D').style.display === 'none') return;
       e.preventDefault();
       const zoomSpeed = 0.1;
       const delta = -Math.sign(e.deltaY) * zoomSpeed;
       const newScale = Math.min(Math.max(1, scale + delta), 5); 
-      
       scale = newScale;
       if (scale === 1) { pointX = 0; pointY = 0; }
       updateTransform();
   });
 
-  // Drag (Pan)
   canvasContainer.addEventListener('mousedown', (e) => {
       if (scale > 1) { 
           isDragging = true;
@@ -584,8 +555,6 @@
   document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
   document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
   document.getElementById('resetZoomBtn').addEventListener('click', resetZoom);
-
-  // -- ZOOM & PAN LOGIC END --
 
   const analyzeBtn = document.getElementById('analyzeBtn');
   const issuesList = document.getElementById('issuesList');
@@ -622,7 +591,6 @@
   const closeModalBtn = document.getElementById('closeModalBtn');
   const displayImg3D = document.getElementById('displayImg3D');
 
-  // --- משתנה חדש למעקב אחרי מצב הניתוח ---
   let isAnalyzed = false;
   let lastUploadedName = "";
 
@@ -641,7 +609,6 @@
     { q: "Export PDF", a: "📄 Generating PDF report..." }
   ];
 
-  // 🔥 PDF GENERATION FUNCTION - תיקון מלא כאן לבעיית החיתוך
   function generatePDF() {
     if (!isAnalyzed) {
       showCustomAlert("Please run analysis before exporting PDF.");
@@ -654,7 +621,6 @@
     element.style.backgroundColor = '#fff';
     element.style.fontFamily = 'Arial, sans-serif';
 
-    // Summary Table Data
     const summaryHtml = `
       <h1 style="color: #1e293b; text-align: center; margin-bottom: 20px;">ArcWiz AI Analysis Report</h1>
       <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Generated on: ${new Date().toLocaleString('he-IL')}</p>
@@ -669,12 +635,11 @@
       </table>
     `;
 
-    // Capture the 2D Plan with Markers
     const planClone = zoomWrapper.cloneNode(true);
     planClone.style.transform = "none";
     planClone.style.position = "relative";
     planClone.style.width = "100%";
-    planClone.style.height = "450px"; // גובה קבוע לתיקון חיתוך
+    planClone.style.height = "450px"; 
     planClone.style.display = "flex";
     planClone.style.alignItems = "center";
     planClone.style.justifyContent = "center";
@@ -682,31 +647,25 @@
     planClone.style.borderRadius = "12px";
     planClone.style.overflow = "hidden";
     planClone.style.margin = "30px 0";
-    planClone.style.pageBreakInside = "avoid"; // מניעת חיתוך מעברי עמוד
+    planClone.style.pageBreakInside = "avoid";
 
-    // Issues section - Get actual issues from the DOM
     const issuesContent = issuesList.innerHTML;
-
-    // Recommendations section
     const recommendationsHtml = `
       <h2 style="border-bottom: 2px solid #ff0055; padding-bottom: 10px; margin-top: 40px; color: #1e293b;">Recommendations & Fixes</h2>
       <ul style="line-height: 1.8; color: #334155; font-size: 1.1rem; padding-left: 20px;">
-        <li><b>Kitchen:</b> Re-verify the socket placement to ensure a minimum 60cm clearance from the sink according to electrical safety standards.</li>
-        <li><b>Wet Areas:</b> Relocate any switches currently within the splash zone to the outside wall or use IP56-rated covers.</li>
-        <li><b>Routing:</b> Re-evaluate MEP routing in the bathroom area to avoid structural beam interference.</li>
-        <li><b>General:</b> Review the full clash report with the on-site contractor before commencing installation.</li>
+        <li><b>Kitchen:</b> Re-verify the socket placement to ensure a minimum 60cm clearance from the sink.</li>
+        <li><b>Wet Areas:</b> Relocate any switches currently within the splash zone to the outside wall.</li>
+        <li><b>Routing:</b> Re-evaluate MEP routing in the bathroom area.</li>
       </ul>
     `;
 
     element.innerHTML = summaryHtml;
-    
     const imgTitle = document.createElement('h2');
     imgTitle.innerText = "Annotated Floor Plan (Hazards)";
     imgTitle.style.borderBottom = "2px solid #7000ff";
     imgTitle.style.paddingBottom = "10px";
     imgTitle.style.color = "#1e293b";
     element.appendChild(imgTitle);
-    
     element.appendChild(planClone);
 
     const issuesHeader = document.createElement('h2');
@@ -719,13 +678,12 @@
 
     const issuesDiv = document.createElement('div');
     issuesDiv.innerHTML = issuesContent;
-    // Fix issue card styles for white background and avoid breaks
     issuesDiv.querySelectorAll('.issue-card').forEach(card => {
         card.style.background = "#f1f5f9";
         card.style.color = "#333";
         card.style.border = "1px solid #cbd5e1";
         card.style.marginBottom = "15px";
-        card.style.pageBreakInside = "avoid"; // מניעת חיתוך כרטיס המפגע
+        card.style.pageBreakInside = "avoid";
     });
     element.appendChild(issuesDiv);
 
@@ -743,7 +701,7 @@
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
-        addBubble("✅ Full PDF report with plan and issues generated successfully!", 'bot');
+        addBubble("✅ PDF report generated successfully!", 'bot');
     });
   }
 
@@ -784,7 +742,15 @@
        return; 
      }
 
+     // עדכון תמונה לפי מצב הניתוח
      displayImg3D.src = isAnalyzed ? "3d with clash.jpg" : "3d model.jpg";
+     
+     // עדכון וידאו לפי מצב הניתוח
+     const videoSrc = isAnalyzed ? "3d video clash.mp4" : "3d video.mp4";
+     if(video3D.src !== videoSrc) {
+        video3D.src = videoSrc;
+        video3D.load();
+     }
 
      btn3D.classList.add('active'); 
      btn2D.classList.remove('active');
@@ -830,6 +796,9 @@
 
         if(inputId === 'archInput') {
           isAnalyzed = false;
+          // איפוס מקור הוידאו בטעינה חדשה
+          video3D.src = "3d video.mp4";
+          video3D.load();
           lastUploadedName = file.name;
           btn3D.classList.remove('disabled');
         }
@@ -858,10 +827,10 @@
     btn2D.click();
     layer2D.classList.add('scanning');
     
-    analyzeBtn.innerHTML = "<span>🧠 Processing Geometry...</span>";
+    analyzeBtn.innerHTML = "<span>🧠 Processing...</span>";
     
     setTimeout(() => { analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>"; }, 2500);
-    setTimeout(() => { analyzeBtn.innerHTML = "<span>✨ Finalizing Report...</span>"; }, 4500);
+    setTimeout(() => { analyzeBtn.innerHTML = "<span>✨ Finalizing...</span>"; }, 4500);
     
     setTimeout(() => {
       isAnalyzed = true;
@@ -884,7 +853,7 @@
       outdoorDisplay.innerText = "1 Balcony";
       floorsDisplay.innerText = "1 Level";
 
-      setTimeout(() => { addBubble("Analysis finished. I updated the summary with new metrics.", 'bot'); }, 500);
+      setTimeout(() => { addBubble("Analysis finished. Updated metrics and 3D simulation ready.", 'bot'); }, 500);
     }, 6000); 
   });
 
