@@ -641,7 +641,7 @@
     { q: "Export PDF", a: "📄 Generating PDF report..." }
   ];
 
-  // 🔥 PDF GENERATION FUNCTION - תיקון מלא כאן
+  // 🔥 PDF GENERATION FUNCTION - תיקון מלא כאן לבעיית החיתוך
   function generatePDF() {
     if (!isAnalyzed) {
       showCustomAlert("Please run analysis before exporting PDF.");
@@ -674,8 +674,7 @@
     planClone.style.transform = "none";
     planClone.style.position = "relative";
     planClone.style.width = "100%";
-    planClone.style.height = "auto";
-    planClone.style.minHeight = "400px";
+    planClone.style.height = "450px"; // גובה קבוע לתיקון חיתוך
     planClone.style.display = "flex";
     planClone.style.alignItems = "center";
     planClone.style.justifyContent = "center";
@@ -683,6 +682,7 @@
     planClone.style.borderRadius = "12px";
     planClone.style.overflow = "hidden";
     planClone.style.margin = "30px 0";
+    planClone.style.pageBreakInside = "avoid"; // מניעת חיתוך מעברי עמוד
 
     // Issues section - Get actual issues from the DOM
     const issuesContent = issuesList.innerHTML;
@@ -719,17 +719,19 @@
 
     const issuesDiv = document.createElement('div');
     issuesDiv.innerHTML = issuesContent;
-    // Fix issue card styles for white background
+    // Fix issue card styles for white background and avoid breaks
     issuesDiv.querySelectorAll('.issue-card').forEach(card => {
         card.style.background = "#f1f5f9";
         card.style.color = "#333";
         card.style.border = "1px solid #cbd5e1";
         card.style.marginBottom = "15px";
+        card.style.pageBreakInside = "avoid"; // מניעת חיתוך כרטיס המפגע
     });
     element.appendChild(issuesDiv);
 
     const recDiv = document.createElement('div');
     recDiv.innerHTML = recommendationsHtml;
+    recDiv.style.pageBreakInside = "avoid";
     element.appendChild(recDiv);
 
     const opt = {
