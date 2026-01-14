@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -29,584 +28,238 @@
       align-items:center;
       justify-content:center;
       background:
-        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
         url('https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=1920&auto=format&fit=crop')
         center/cover fixed;
     }
 
     .container{
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0,0,0,0.7);
       border:2px solid var(--gold);
       border-radius:16px;
       box-shadow:0 0 20px rgba(212,175,55,0.5);
       padding:32px;
       width:min(980px, calc(100% - 24px));
+      margin: 20px 0;
     }
 
-    h1{
-      margin:0 0 10px;
-      color:var(--gold);
-      font-size:2.3rem;
-      text-transform:uppercase;
-      letter-spacing:2px;
-    }
+    h1{ margin:0 0 10px; color:var(--gold); font-size:2.3rem; text-transform:uppercase; letter-spacing:2px; }
+    p.lead{ margin:0 0 14px; color:var(--fg-muted); font-size:1.1rem; }
 
-    p.lead{
-      margin:0 0 14px;
-      color:var(--fg-muted);
-      font-size:1.1rem;
+    /* ===== רשימת משתתפים ===== */
+    .people-section {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 25px;
+      background: var(--glass);
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.3);
     }
+    .people-group { text-align: right; }
+    .people-group h3 { margin: 0 0 8px; font-size: 1rem; color: var(--gold); border-bottom: 1px solid var(--gold); }
+    .people-group ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 10px; flex-wrap: wrap; }
+    .people-group li { font-size: 0.95rem; background: rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 5px; }
 
     /* ===== ספירה לאחור ===== */
-    #countdown{
-      display:flex; justify-content:center; gap:20px; flex-wrap:wrap;
-      margin-top:12px;
-    }
+    #countdown{ display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:12px; }
     .time-box{
       background:var(--glass);
-      padding:14px; border-radius:12px; min-width:96px;
+      padding:14px; border-radius:12px; min-width:85px;
       backdrop-filter: blur(var(--blur));
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    .number{ display:block; font-size:2.8rem; font-weight:bold; }
-    .label { font-size:0.95rem; color:var(--gold); }
+    .number{ display:block; font-size:2.5rem; font-weight:bold; color: var(--gold); }
+    .label { font-size:0.9rem; color:var(--fg-muted); }
 
-    /* ===== בר התקדמות (כללי) ===== */
-    .progress{
-      margin-top:22px; height:10px; width:100%;
-      background:rgba(255,255,255,0.15);
-      border-radius:999px; overflow:hidden;
-    }
-    .progress .bar{
-      height:100%; width:0%;
-      background:linear-gradient(90deg, #8a5, var(--gold));
-      transition: width .8s ease;
-    }
-
-    /* ===== בר התקדמות לפי ימים (סגמנטים) ===== */
+    /* ===== בר התקדמות צבעוני ===== */
     .days-progress{ margin-top:24px; text-align:right; }
-    .days-header{
-      display:flex; justify-content:space-between; align-items:center; gap:12px;
-      color:var(--fg-muted); font-size:0.95rem;
-    }
+    .days-header{ display:flex; justify-content:space-between; align-items:center; color:var(--fg-muted); font-size:0.95rem; }
     .days-bar{
-      margin-top:10px; height:18px; width:100%; display:flex;
+      margin-top:10px; height:22px; width:100%; display:flex;
       border-radius:12px; overflow:hidden;
-      background:linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
-      box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+      background: rgba(255,255,255,0.1);
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
     }
-    .days-bar .seg{
-      flex:1 1 auto; position:relative;
-      transition:transform .15s ease, opacity .3s ease;
-    }
-    .days-bar .seg::after{
-      content:""; position:absolute; top:0; bottom:0; left:0;
-      width:1px; background:rgba(255,255,255,0.12);
-    }
-    .seg.far{  background: linear-gradient(180deg, #3f51b5, var(--accent-blue)); }
-    .seg.mid{  background: linear-gradient(180deg, var(--accent-green), #8bc34a); }
-    .seg.soon{ background: linear-gradient(180deg, var(--accent-orange), var(--accent-red)); }
-    .seg.today{ outline:2px solid var(--gold); box-shadow: inset 0 0 6px rgba(212,175,55,0.55); }
-    .days-bar .seg:hover{ transform:scale(1.06); z-index:2; }
-    .legend{ margin-top:8px; display:flex; gap:8px; justify-content:flex-end; }
-    .chip{
-      font-size:0.85rem; padding:4px 8px; border-radius:999px;
-      border:1px solid rgba(255,255,255,0.2); color:var(--fg);
-    }
-    .chip.far{  background:linear-gradient(90deg,#3f51b5,#2196f3); }
-    .chip.mid{  background:linear-gradient(90deg,#43a047,#8bc34a); }
-    .chip.soon{ background:linear-gradient(90deg,#fb8c00,#f44336); }
-    #daysCounters{ font-variant-numeric: tabular-nums; }
+    .days-bar .seg{ flex:1 1 auto; transition: background 0.5s ease; border-left: 1px solid rgba(0,0,0,0.1); }
+    
+    /* צבעים לפי מצב */
+    .seg.filled-far  { background: linear-gradient(180deg, #3f51b5, var(--accent-blue)); }
+    .seg.filled-mid  { background: linear-gradient(180deg, var(--accent-green), #8bc34a); }
+    .seg.filled-soon { background: linear-gradient(180deg, var(--accent-orange), var(--accent-red)); }
+    .seg.empty { background: transparent; }
 
-    /* ===== בר מיילסטונים ===== */
-    .milestones{
-      margin-top:28px; text-align:right;
-    }
-    .milestones .title{
-      color:var(--fg-muted); font-size:0.98rem; margin-bottom:8px;
-      display:flex; justify-content:space-between; align-items:center;
-    }
-    .timeline{
-      position:relative; height:36px; width:100%;
-      background:linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
-      border-radius:12px;
-      overflow:visible; box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
-    }
-    .timeline .dot{
-      position:absolute; top:50%; transform:translate(-50%,-50%);
-      width:14px; height:14px; border-radius:50%;
-      background:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.25);
-      cursor:pointer;
-    }
-    .timeline .dot:hover{ filter:brightness(1.2); }
-    .timeline .label{
-      position:absolute; white-space:nowrap;
-      transform:translate(-50%,-140%); font-size:0.9rem;
-      color:var(--fg); background:rgba(0,0,0,0.4); padding:6px 8px;
-      border:1px solid rgba(255,255,255,0.15); border-radius:8px;
-      backdrop-filter: blur(4px);
-    }
-    .timeline .label .time{
-      color:var(--gold); font-weight:600; margin-inline-start:6px;
-    }
+    /* מיילסטונים */
+    .milestones{ margin-top:28px; text-align:right; }
+    .timeline{ position:relative; height:36px; width:100%; background:var(--glass); border-radius:12px; margin-top: 15px; }
+    .timeline .dot{ position:absolute; top:50%; transform:translate(-50%,-50%); width:12px; height:12px; border-radius:50%; background:var(--gold); }
+    .timeline .label{ position:absolute; white-space:nowrap; transform:translate(-50%,-140%); font-size:0.85rem; padding:4px 8px; background:rgba(0,0,0,0.6); border-radius:6px; }
 
-    /* ===== אייקונים זזים ===== */
-    .icons-track{ position:relative; height:80px; margin-top:28px; overflow:hidden; }
-    .icon-bubble{
-      position:absolute; top:50%; transform:translateY(-50%);
-      font-size:28px; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.35));
-      opacity:0.9;
-    }
-    @keyframes fly {
-      0%   { left:-10%; transform:translateY(-50%) rotate(0deg) }
-      50%  { left:50%;  transform:translateY(-55%) rotate(8deg) }
-      100% { left:110%; transform:translateY(-50%) rotate(0deg) }
-    }
-    @keyframes slide {
-      0%   { left:110%; transform:translateY(-45%) }
-      50%  { left:50%;  transform:translateY(-55%) }
-      100% { left:-10%; transform:translateY(-45%) }
-    }
-    @keyframes bob {
-      0%   { transform:translateY(-50%) }
-      50%  { transform:translateY(-60%) }
-      100% { transform:translateY(-50%) }
-    }
-    .icon-bubble.plane { animation: fly 12s linear infinite; }
-    .icon-bubble.casino{ animation: slide 16s ease-in-out infinite; }
-    .icon-bubble.spa   { left:15%; animation: bob 3.2s ease-in-out infinite; }
-    .icons-fast .icon-bubble.plane  { animation-duration: 8s; }
-    .icons-fast .icon-bubble.casino { animation-duration: 11s; }
-    .icons-fast .icon-bubble.spa    { animation-duration: 2s; }
-
-    /* ===== SVG מפה/מסלול טיסה ===== */
-    .svg-wrap{
-      margin-top:30px; border-radius:12px; overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.20));
-      border:1px solid rgba(255,255,255,0.15);
-    }
-    .svg-caption{ color:var(--fg-muted); font-size:0.95rem; margin-top:6px; }
-
-    /* ===== כפתורים ===== */
-    .actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:24px; }
-    .btn{
-      appearance:none; border:1px solid var(--gold); background:transparent;
-      color:var(--fg); padding:10px 14px; border-radius:8px; cursor:pointer;
-      font-weight:600; transition:transform .1s ease, background .2s ease;
-    }
-    .btn:hover{ background:rgba(212,175,55,0.15); }
-    .btn:active{ transform:scale(0.98); }
-    .btn:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
-
-    /* הודעת סיום */
-    #done{ display:none; margin-top:18px; font-size:1.4rem; color:var(--gold); }
-
-    /* מובייל */
-    @media (max-width:600px){
-      h1{ font-size:1.8rem; }
-      .number{ font-size:2rem; }
-      .time-box{ min-width:80px; padding:10px; }
-      .timeline .label{ transform:translate(-50%,-150%); font-size:0.85rem; }
-    }
+    /* SVG ועיצוב נוסף */
+    .svg-wrap{ margin-top:30px; border-radius:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); }
+    .btn{ border:1px solid var(--gold); background:transparent; color:var(--fg); padding:8px 16px; border-radius:8px; cursor:pointer; margin: 5px; }
+    .btn:hover{ background:rgba(212,175,55,0.2); }
   </style>
 </head>
 <body>
 
-  <div class="container" role="group" aria-label="ספירה לאחור לטיסה לבוקרשט">
+  <div class="container">
     <h1>האחים היקרים טסים לבוקרשט! 🇷🇴</h1>
-    <p class="lead" id="eventLine">נפגשים במריוט ב‑28.02.2026 בשעה 09:20 (זמן בוקרשט)</p>
-
-    <!-- ספירה לאחור -->
-    <div id="countdown" aria-live="polite">
-      <div class="time-box" aria-label="ימים שנותרו"><span class="number" id="days">00</span><span class="label">ימים</span></div>
-      <div class="time-box" aria-label="שעות שנותרו"><span class="number" id="hours">00</span><span class="label">שעות</span></div>
-      <div class="time-box" aria-label="דקות שנותרו"><span class="number" id="minutes">00</span><span class="label">דקות</span></div>
-      <div class="time-box" aria-label="שניות שנותרו"><span class="number" id="seconds">00</span><span class="label">שניות</span></div>
+    
+    <div class="people-section">
+        <div class="people-group">
+            <h3>משתתפים</h3>
+            <ul>
+                <li>✅ היצ'קוק</li>
+                <li>✅ בגדן</li>
+                <li>✅ עידו</li>
+                <li>✅ מאור</li>
+            </ul>
+        </div>
+        <div class="people-group">
+            <h3>מתלבטים</h3>
+            <ul style="opacity: 0.7;">
+                <li>❓ ניר</li>
+                <li>❓ בילי</li>
+            </ul>
+        </div>
     </div>
-    <div id="weeksLeft" style="color:var(--fg-muted);margin-top:8px;"></div>
 
-    <!-- בר התקדמות כללי -->
-    <div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div>
+    <p class="lead" id="eventLine">טוען תאריך...</p>
 
-    <!-- בר התקדמות לפי ימים -->
-    <div id="daysProgress" class="days-progress" aria-label="בר התקדמות לפי ימים">
+    <div id="countdown">
+      <div class="time-box"><span class="number" id="days">00</span><span class="label">ימים</span></div>
+      <div class="time-box"><span class="number" id="hours">00</span><span class="label">שעות</span></div>
+      <div class="time-box"><span class="number" id="minutes">00</span><span class="label">דקות</span></div>
+      <div class="time-box"><span class="number" id="seconds">00</span><span class="label">שניות</span></div>
+    </div>
+
+    <div class="days-progress">
       <div class="days-header">
-        <span id="daysSummary">התקדמות ימים: 0%</span>
+        <span id="daysSummary">התקדמות ימים...</span>
         <span id="daysCounters"></span>
       </div>
-      <div class="days-bar" id="daysBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="התקדמות עד היעד">
-        <!-- סגמנטים נוצרים דינמית -->
-      </div>
-      <div class="legend">
-        <span class="chip soon">קרוב</span>
-        <span class="chip mid">באמצע</span>
-        <span class="chip far">רחוק</span>
-      </div>
+      <div class="days-bar" id="daysBar"></div>
     </div>
 
-    <!-- בר מיילסטונים -->
-    <div class="milestones" aria-label="מיילסטונים למסע">
-      <div class="title">
-        <span>מיילסטונים בדרך</span>
-        <span id="milestoneRange" style="color:var(--fg-muted)"></span>
-      </div>
-      <div class="timeline" id="timeline">
-        <!-- נקודות ותיוגים נוצרים דינמית -->
-      </div>
+    <div class="milestones">
+      <div class="timeline" id="timeline"></div>
     </div>
 
-    <!-- אייקונים זזים -->
-    <div class="icons-track" aria-hidden="true" id="iconsTrack">
-      <div class="icon-bubble plane" title="✈️ טיסה">✈️</div>
-      <div class="icon-bubble casino" title="🎰 קזינו">🎰</div>
-      <div class="icon-bubble spa" title="🧖‍♂️ ספא">🧖‍♂️</div>
-    </div>
-
-    <!-- SVG מפה/מסלול טיסה -->
-    <div class="svg-wrap" aria-hidden="true">
-      <svg width="100%" height="220" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="sea" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stop-color="#0b3954" />
-            <stop offset="1" stop-color="#082032" />
-          </linearGradient>
-          <linearGradient id="land" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#2b9348" />
-            <stop offset="1" stop-color="#55a630" />
-          </linearGradient>
-        </defs>
-
-        <!-- רקעים סכמטיים -->
-        <rect x="0" y="0" width="800" height="220" fill="url(#sea)" opacity="0.25"/>
-        <rect x="400" y="0" width="400" height="220" fill="url(#land)" opacity="0.18"/>
-
-        <!-- נקודות מקור/יעד (סכמטי) -->
-        <circle cx="220" cy="150" r="6" fill="#ffd54f" />
-        <text x="210" y="170" fill="#fff" font-size="12">ישראל</text>
-
-        <circle cx="620" cy="90" r="6" fill="#ffd54f" />
-        <text x="610" y="70" fill="#fff" font-size="12">בוקרשט</text>
-
-        <!-- מסלול (Bezier) -->
-        <path id="routePath" d="M220,150 C380,120 480,110 620,90" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round" />
-
-        <!-- אובייקט מטוס נע לאורך המסלול -->
-        <g id="planeGlyph">
-          <text id="planeEmoji" font-size="24">✈️</text>
-          <animateMotion dur="12s" repeatCount="indefinite">
+    <div class="svg-wrap">
+      <svg width="100%" height="150" viewBox="0 0 800 150">
+        <path id="routePath" d="M220,100 C380,70 480,60 620,40" fill="none" stroke="#d4af37" stroke-width="2" stroke-dasharray="5,5" />
+        <circle cx="220" cy="100" r="5" fill="#ffd54f" />
+        <circle cx="620" cy="40" r="5" fill="#ffd54f" />
+        <g>
+          <text font-size="20">✈️</text>
+          <animateMotion dur="10s" repeatCount="indefinite">
             <mpath xlink:href="#routePath"/>
           </animateMotion>
         </g>
       </svg>
-      <div class="svg-caption">מסלול טיסה סכמטי ישראל ➜ בוקרשט (אנימציה מחזורית להמחשה)</div>
     </div>
 
-    <!-- פעולות -->
-    <div class="actions">
-      <button class="btn" id="toggleTheme">מצב יום/לילה</button>
-      <button class="btn" id="addGoogle">הוסף ליומן Google</button>
-      <button class="btn" id="downloadICS">הורד ICS</button>
-      <button class="btn" id="toggleStopwatch">מצב סטופר</button>
-      <button class="btn" id="share">שיתוף</button>
+    <div class="actions" style="margin-top: 20px;">
+      <button class="btn" id="addGoogle">📅 הוסף ליומן</button>
+      <button class="btn" id="share">🔗 שתף חברים</button>
     </div>
-
-    <div id="done" role="status" aria-live="assertive">הגיע הזמן לטוס! ✈️</div>
   </div>
 
-  <!-- קונפטי קליל -->
   <script>
-    const miniConfetti = {
-      fire(durationMs=1800){
-        const end = Date.now() + durationMs;
-        (function frame(){
-          const particle = document.createElement('div');
-          const size = (Math.random()*8)+4;
-          particle.style.position='fixed';
-          particle.style.top='-10px';
-          particle.style.left= (Math.random()*100)+'vw';
-          particle.style.width=size+'px';
-          particle.style.height=size+'px';
-          particle.style.background= ['#d4af37','#4caf50','#ff7043','#42a5f5'][Math.floor(Math.random()*4)];
-          particle.style.borderRadius='50%';
-          particle.style.opacity='0.9';
-          particle.style.transform=`translateY(0)`;
-          particle.style.zIndex='9999';
-          document.body.appendChild(particle);
-          const y = (window.innerHeight + 40);
-          particle.animate([
-            { transform:`translateY(0) rotate(0deg)`, opacity:1 },
-            { transform:`translateY(${y}px) rotate(${Math.random()*360}deg)`, opacity:0.7 }
-          ],{ duration: (Math.random()*1500)+800, easing:'ease-out' }).onfinish = ()=> particle.remove();
-          if(Date.now() < end) requestAnimationFrame(frame);
-        })();
-      }
-    };
-  </script>
+    const TARGET = Date.UTC(2026, 1, 28, 7, 20); // 28.02.2026 09:20 (זמן בוקרשט)
+    const START_DATE = new Date('2026-01-01').getTime(); // נקודת התחלה לחישוב הבר
 
-  <script>
-    /* ===== קבועי זמנים ===== */
-    const tzTarget = 'Europe/Bucharest';
+    function updateTimer() {
+        const now = Date.now();
+        const diff = TARGET - now;
 
-    // יעד ראשי: 28/02/2026 09:20 (בוקרשט = חורף UTC+2 => 07:20Z)
-    const TARGET = Date.UTC(2026, 1, 28, 7, 20);
+        if (diff <= 0) {
+            document.querySelector('.container').innerHTML = "<h1>תהנו בבוקרשט! ✈️🥂</h1>";
+            return;
+        }
 
-    // מיילסטונים (בהתאם למה שציינת): דיוטי/המראה בישראל, מפגש מריוט בבוקרשט
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = d;
+        document.getElementById('hours').textContent = String(h).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+    }
+
+    function buildProgressBar() {
+        const bar = document.getElementById('daysBar');
+        const now = Date.now();
+        const totalDuration = TARGET - START_DATE;
+        const elapsed = now - START_DATE;
+        const percent = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
+
+        bar.innerHTML = '';
+        const totalSegments = 50; // כמות הקוביות בבר
+        const filledSegments = Math.floor((percent / 100) * totalSegments);
+
+        for (let i = 0; i < totalSegments; i++) {
+            const seg = document.createElement('div');
+            seg.className = 'seg';
+            
+            if (i < filledSegments) {
+                // קביעת צבע לפי התקדמות הבר הכולל
+                if (percent < 40) seg.classList.add('filled-far');
+                else if (percent < 80) seg.classList.add('filled-mid');
+                else seg.classList.add('filled-soon');
+            } else {
+                seg.classList.add('empty');
+            }
+            bar.appendChild(seg);
+        }
+        
+        document.getElementById('daysSummary').textContent = `התקדמות: ${Math.floor(percent)}%`;
+        const daysLeft = Math.floor((TARGET - now) / (1000*60*60*24));
+        document.getElementById('daysCounters').textContent = `עוד ${daysLeft} ימים למנאייק`;
+    }
+
+    // מיילסטונים פשוטים
     const milestones = [
-      { id:'duty',    label:'דיוטי פרי',    whenUTC: Date.UTC(2026, 1, 25, 4, 20), tz: 'Asia/Jerusalem' }, // 25.02 06:20 IL
-      { id:'takeoff', label:'המראה מנתב״ג', whenUTC: Date.UTC(2026, 1, 25, 7, 20), tz: 'Asia/Jerusalem' }, // 25.02 09:20 IL
-      { id:'meet',    label:'מפגש במריוט',  whenUTC: TARGET,                            tz: 'Europe/Bucharest' } // 28.02 09:20 RO
+        { label: 'היום', pos: 0 },
+        { label: 'טיסה ✈️', pos: 100 }
     ];
 
-    // מצב כהה/בהיר אוטומטי + מתג
-    const themeKey = 'bucharest_theme';
-    const preferred = localStorage.getItem(themeKey);
-    const hours = new Date().getHours();
-    const autoTheme = (hours >= 19 || hours < 6) ? 'dark' : 'light';
-    document.body.setAttribute('data-theme', preferred || autoTheme);
-    document.getElementById('toggleTheme').addEventListener('click', ()=>{
-      const curr = document.body.getAttribute('data-theme');
-      const next = (curr === 'dark') ? 'light' : 'dark';
-      document.body.setAttribute('data-theme', next);
-      localStorage.setItem(themeKey, next);
-    });
-
-    /* ===== תצוגת שורת אירוע ===== */
-    const eventLine = document.getElementById('eventLine');
-    const fmtTarget = new Intl.DateTimeFormat('he-IL', { timeZone: tzTarget, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
-    eventLine.textContent = `נפגשים במריוט ב‑${fmtTarget.format(new Date(TARGET))} (זמן בוקרשט)`;
-
-    /* ===== ספירה לאחור ===== */
-    const bar = document.getElementById('progressBar');
-    const done = document.getElementById('done');
-    const startEpoch = Date.now();
-    const endEpoch = TARGET;
-
-    function weeksLeft(ms){ return Math.floor(Math.max(ms,0) / (1000*60*60*24*7)); }
-    function pad(n){ return (n < 10 ? '0'+n : ''+n); }
-
-    const timer = setInterval(()=>{
-      const now = Date.now();
-      const distance = endEpoch - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hoursLeft = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutesLeft = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const secondsLeft = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById('days').textContent = days;
-      document.getElementById('hours').textContent = pad(hoursLeft);
-      document.getElementById('minutes').textContent = pad(minutesLeft);
-      document.getElementById('seconds').textContent = pad(secondsLeft);
-
-      document.getElementById('weeksLeft').textContent = `נותרו בערך ${weeksLeft(distance)} שבועות`;
-
-      const totalSpan = endEpoch - startEpoch;
-      const progressed = Math.min(Math.max(now - startEpoch, 0), totalSpan);
-      const pct = totalSpan > 0 ? (progressed / totalSpan) * 100 : 100;
-      bar.style.width = pct.toFixed(2) + '%';
-
-      // האצת אייקונים כשהיעד קרוב
-      const iconsTrack = document.getElementById('iconsTrack');
-      if(distance <= (totalSpan/3)) iconsTrack.classList.add('icons-fast');
-      else iconsTrack.classList.remove('icons-fast');
-
-      if(distance <= 0){
-        clearInterval(timer);
-        document.getElementById('countdown').style.display = 'none';
-        done.style.display = 'block';
-        miniConfetti.fire();
-      }
-    }, 1000);
-
-    /* ===== בר לפי ימים (סגמנטים) ===== */
-    function startOfTodayLocal(){ const now = new Date(); return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime(); }
-    const START_DAYS = startOfTodayLocal();
-
-    function buildDaySegments(){
-      const barDays = document.getElementById('daysBar');
-      barDays.innerHTML = '';
-      const msPerDay = 1000 * 60 * 60 * 24;
-      const totalDays = Math.max(Math.ceil((TARGET - START_DAYS) / msPerDay), 0);
-
-      if(totalDays === 0){
-        const seg = document.createElement('div');
-        seg.className = 'seg soon today';
-        seg.style.flex = '1 1 100%';
-        barDays.appendChild(seg);
-        updateDaysHeader(0, 0, 0, 100);
-        return;
-      }
-
-      const farEnd = Math.floor(totalDays * (2/3));
-      const midEnd = Math.floor(totalDays * (1/3));
-
-      for(let i=0;i<totalDays;i++){
-        const seg = document.createElement('div'); seg.classList.add('seg');
-        const daysLeft = totalDays - i;
-        if(daysLeft > farEnd) seg.classList.add('far');
-        else if(daysLeft > midEnd) seg.classList.add('mid');
-        else seg.classList.add('soon');
-        if(i===0) seg.classList.add('today');
-        const dateStr = new Date(START_DAYS + i*msPerDay).toLocaleDateString('he-IL', { weekday:'short', day:'2-digit', month:'2-digit' });
-        seg.title = `יום ${i+1} מתוך ${totalDays} (${dateStr})`;
-        barDays.appendChild(seg);
-      }
-      updateDaysHeader(totalDays, totalDays, 0, 0);
+    function initMilestones() {
+        const tl = document.getElementById('timeline');
+        milestones.forEach(m => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dot.style.left = m.pos + '%';
+            const lbl = document.createElement('div');
+            lbl.className = 'label';
+            lbl.style.left = m.pos + '%';
+            lbl.textContent = m.label;
+            tl.appendChild(dot);
+            tl.appendChild(lbl);
+        });
     }
 
-    function updateDaysHeader(totalDays, daysLeft, daysPassed, percent){
-      document.getElementById('daysSummary').textContent = `התקדמות ימים: ${percent.toFixed(1)}%`;
-      document.getElementById('daysCounters').textContent = `נותרו ${Math.max(daysLeft,0)} ימים • עברו ${Math.max(daysPassed,0)} ימים • סה״כ ${totalDays} ימים`;
-      document.getElementById('daysBar').setAttribute('aria-valuenow', percent.toFixed(1));
-    }
+    document.getElementById('eventLine').textContent = `נפגשים במריוט ב‑28.02.2026 (09:20)`;
 
-    function startDaysTicker(){
-      const msPerDay = 1000 * 60 * 60 * 24;
-      const totalDays = Math.max( Math.ceil((TARGET - START_DAYS) / msPerDay), 0);
-      function recompute(){
-        const now = Date.now();
-        const daysLeft  = Math.ceil((TARGET - now) / msPerDay);
-        const daysPassed = Math.max(totalDays - daysLeft, 0);
-        const percent = totalDays > 0 ? (daysPassed / totalDays) * 100 : 100;
-        updateDaysHeader(totalDays, daysLeft, daysPassed, percent);
-      }
-      recompute();
-      setInterval(recompute, 60 * 1000);
-    }
+    setInterval(updateTimer, 1000);
+    setInterval(buildProgressBar, 60000);
+    updateTimer();
+    buildProgressBar();
+    initMilestones();
 
-    buildDaySegments();
-    startDaysTicker();
-
-    /* ===== בר מיילסטונים ===== */
-    function formatInTZ(dateUTC, tz){
-      return new Intl.DateTimeFormat('he-IL',{
-        timeZone: tz, hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit', year:'numeric'
-      }).format(new Date(dateUTC));
-    }
-
-    function buildMilestones(){
-      const tl = document.getElementById('timeline');
-      tl.innerHTML = '';
-      const now = Date.now();
-      const start = now;          // התחלה: מעכשיו
-      const end   = TARGET;       // סוף: היעד
-      const span  = Math.max(end - start, 1);
-
-      const rangeStr = `טווח: ${new Intl.DateTimeFormat('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(start))} ➜ ${new Intl.DateTimeFormat('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(end))}`;
-      document.getElementById('milestoneRange').textContent = rangeStr;
-
-      milestones.forEach(m=>{
-        const pos = Math.max(0, Math.min(100, ((m.whenUTC - start) / span) * 100));
-        const dot = document.createElement('div'); dot.className = 'dot'; dot.style.left = pos + '%';
-        const label = document.createElement('div'); label.className = 'label';
-        label.innerHTML = `${m.label}<span class="time">${formatInTZ(m.whenUTC, m.tz)}</span>`;
-        label.style.left = pos + '%';
-        tl.appendChild(dot); tl.appendChild(label);
-      });
-    }
-    buildMilestones();
-
-    /* ===== מצב סטופר ===== */
-    const btnStopwatch = document.getElementById('toggleStopwatch');
-    let stopwatchOn = false;
-    // נגדיר סטופר החל מרגע ההמראה (אם כבר עברנו אותו)
-    const STOPWATCH_START = milestones.find(m=>m.id==='takeoff').whenUTC;
-
-    btnStopwatch.addEventListener('click', ()=>{
-      if(!stopwatchOn){
-        if(Date.now() < STOPWATCH_START){
-          alert('סטופר יהיה זמין מרגע ההמראה.');
-          return;
-        }
-        stopwatchOn = true;
-        btnStopwatch.textContent = 'כבה סטופר';
-        startStopwatch();
-      }else{
-        stopwatchOn = false;
-        btnStopwatch.textContent = 'מצב סטופר';
-        stopStopwatch();
-      }
-    });
-
-    let stopwatchInterval=null;
-    function startStopwatch(){
-      document.getElementById('countdown').style.display = 'none';
-      const box = document.getElementById('weeksLeft');
-      box.style.color = 'var(--gold)';
-      box.textContent = 'סטופר פעיל: זמן שחלף מאז ההמראה';
-      stopwatchInterval = setInterval(()=>{
-        const diff = Date.now() - STOPWATCH_START;
-        const d = Math.floor(diff / (1000*60*60*24));
-        const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-        const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-        const s = Math.floor((diff % (1000*60)) / 1000);
-        // מציגים ב‑ארבע תיבות קיימות
-        document.getElementById('days').textContent = d;
-        document.getElementById('hours').textContent = pad(h);
-        document.getElementById('minutes').textContent = pad(m);
-        document.getElementById('seconds').textContent = pad(s);
-        document.getElementById('countdown').style.display = 'flex';
-      }, 1000);
-    }
-    function stopStopwatch(){
-      clearInterval(stopwatchInterval);
-      stopwatchInterval = null;
-      document.getElementById('weeksLeft').style.color = 'var(--fg-muted)';
-      // מחזירים לספירה לאחור
-    }
-
-    /* ===== יומן Google + ICS ===== */
-    document.getElementById('addGoogle').addEventListener('click', ()=>{
-      const tz = encodeURIComponent(tzTarget);
-      const start = '20260228T072000Z'; // 09:20 בוקרשט = 07:20Z
-      const end   = '20260228T082000Z';
-      const text  = encodeURIComponent('מפגש מריוט - טיסה לבוקרשט');
-      const location = encodeURIComponent('Marriott Bucharest');
-      const details  = encodeURIComponent('נפגשים לקראת הטיסה. להביא דרכונים :)');
-      const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${start}/${end}&details=${details}&location=${location}&ctz=${tz}`;
-      window.open(url, '_blank');
-    });
-
-    document.getElementById('downloadICS').addEventListener('click', ()=>{
-      const ics =
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Bucharest Trip//HE
-CALSCALE:GREGORIAN
-BEGIN:VEVENT
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\..*/,'')}
-DTSTART:20260228T072000Z
-DTEND:20260228T082000Z
-SUMMARY:מפגש מריוט - טיסה לבוקרשט
-DESCRIPTION:נפגשים לקראת הטיסה. להביא דרכונים :)
-LOCATION:Marriott Bucharest
-END:VEVENT
-END:VCALENDAR`;
-      const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'Bucharest-Meetup.ics';
-      a.click();
-      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
-    });
-
-    /* ===== שיתוף ===== */
-    document.getElementById('share').addEventListener('click', async ()=>{
-      const shareData = {
-        title:'הספירה לאחור לבוקרשט',
-        text:'האחים היקרים טסים לבוקרשט! מפגש מריוט 28.02.2026 09:20 (זמן בוקרשט)',
-        url: location.href
-      };
-      try{
-        if(navigator.share){
-          await navigator.share(shareData);
-        }else{
-          await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}\n${shareData.url}`);
-          alert('קישור הועתק ללוח!');
-        }
-      }catch(e){
-        alert('לא ניתן לשתף כרגע. נסה/י שוב מאוחר יותר.');
-      }
-    });
+    // פונקציות כפתורים
+    document.getElementById('share').onclick = () => {
+        navigator.clipboard.writeText(window.location.href);
+        alert("הלינק הועתק! שלח לאחים בווצאפ");
+    };
+    document.getElementById('addGoogle').onclick = () => {
+        const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=טיסה+לבוקרשט+✈️&dates=20260228T072000Z/20260228T082000Z&details=נפגשים+במריוט!&location=Marriott+Bucharest`;
+        window.open(url, '_blank');
+    };
   </script>
 </body>
 </html>
