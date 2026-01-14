@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>הספירה לאחור לבוקרשט! ✈️🇷🇴</title>
+  <title> האחים היקרים - בוקרשט ✈️🇷🇴</title>
 
   <style>
     :root{
@@ -12,10 +12,9 @@
       --fg-muted:#dddddd;
       --glass:rgba(255,255,255,0.1);
       --blur:6px;
-      --accent-blue:#2196f3;
-      --accent-green:#43a047;
       --accent-red:#f44336;
-      --accent-orange:#fb8c00;
+      --accent-yellow:#f1c40f;
+      --accent-green:#2ecc71;
     }
 
     body{
@@ -28,24 +27,23 @@
       align-items:center;
       justify-content:center;
       background:
-        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
         url('https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=1920&auto=format&fit=crop')
         center/cover fixed;
     }
 
     .container{
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0,0,0,0.75);
       border:2px solid var(--gold);
       border-radius:16px;
-      box-shadow:0 0 20px rgba(212,175,55,0.5);
+      box-shadow:0 0 30px rgba(0,0,0,0.5);
       padding:32px;
       width:min(980px, calc(100% - 24px));
       margin: 20px 0;
     }
 
     h1{ margin:0 0 10px; color:var(--gold); font-size:2.3rem; text-transform:uppercase; letter-spacing:2px; }
-    p.lead{ margin:0 0 14px; color:var(--fg-muted); font-size:1.1rem; }
-
+    
     /* ===== רשימת משתתפים ===== */
     .people-section {
       display: flex;
@@ -77,29 +75,22 @@
     .days-progress{ margin-top:24px; text-align:right; }
     .days-header{ display:flex; justify-content:space-between; align-items:center; color:var(--fg-muted); font-size:0.95rem; }
     .days-bar{
-      margin-top:10px; height:22px; width:100%; display:flex;
+      margin-top:10px; height:24px; width:100%; display:flex;
       border-radius:12px; overflow:hidden;
       background: rgba(255,255,255,0.1);
-      box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.05);
     }
-    .days-bar .seg{ flex:1 1 auto; transition: background 0.5s ease; border-left: 1px solid rgba(0,0,0,0.1); }
+    .days-bar .seg{ flex:1 1 auto; transition: background 0.5s ease; border-left: 1px solid rgba(0,0,0,0.2); }
     
-    /* צבעים לפי מצב */
-    .seg.filled-far  { background: linear-gradient(180deg, #3f51b5, var(--accent-blue)); }
-    .seg.filled-mid  { background: linear-gradient(180deg, var(--accent-green), #8bc34a); }
-    .seg.filled-soon { background: linear-gradient(180deg, var(--accent-orange), var(--accent-red)); }
+    /* צבעים לפי בקשתך */
+    .seg.filled-start  { background: linear-gradient(180deg, #e74c3c, var(--accent-red)); }
+    .seg.filled-middle { background: linear-gradient(180deg, #f39c12, var(--accent-yellow)); }
+    .seg.filled-end    { background: linear-gradient(180deg, #27ae60, var(--accent-green)); }
     .seg.empty { background: transparent; }
 
-    /* מיילסטונים */
-    .milestones{ margin-top:28px; text-align:right; }
-    .timeline{ position:relative; height:36px; width:100%; background:var(--glass); border-radius:12px; margin-top: 15px; }
-    .timeline .dot{ position:absolute; top:50%; transform:translate(-50%,-50%); width:12px; height:12px; border-radius:50%; background:var(--gold); }
-    .timeline .label{ position:absolute; white-space:nowrap; transform:translate(-50%,-140%); font-size:0.85rem; padding:4px 8px; background:rgba(0,0,0,0.6); border-radius:6px; }
-
-    /* SVG ועיצוב נוסף */
-    .svg-wrap{ margin-top:30px; border-radius:12px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); }
-    .btn{ border:1px solid var(--gold); background:transparent; color:var(--fg); padding:8px 16px; border-radius:8px; cursor:pointer; margin: 5px; }
-    .btn:hover{ background:rgba(212,175,55,0.2); }
+    .btn{ border:1px solid var(--gold); background:transparent; color:var(--fg); padding:10px 20px; border-radius:8px; cursor:pointer; margin: 10px; font-weight: bold; }
+    .btn:hover{ background:var(--gold); color: black; }
   </style>
 </head>
 <body>
@@ -126,8 +117,6 @@
         </div>
     </div>
 
-    <p class="lead" id="eventLine">טוען תאריך...</p>
-
     <div id="countdown">
       <div class="time-box"><span class="number" id="days">00</span><span class="label">ימים</span></div>
       <div class="time-box"><span class="number" id="hours">00</span><span class="label">שעות</span></div>
@@ -137,69 +126,50 @@
 
     <div class="days-progress">
       <div class="days-header">
-        <span id="daysSummary">התקדמות ימים...</span>
+        <span id="daysSummary">מחשב התקדמות...</span>
         <span id="daysCounters"></span>
       </div>
       <div class="days-bar" id="daysBar"></div>
     </div>
 
-    <div class="milestones">
-      <div class="timeline" id="timeline"></div>
-    </div>
-
-    <div class="svg-wrap">
-      <svg width="100%" height="150" viewBox="0 0 800 150">
-        <path id="routePath" d="M220,100 C380,70 480,60 620,40" fill="none" stroke="#d4af37" stroke-width="2" stroke-dasharray="5,5" />
-        <circle cx="220" cy="100" r="5" fill="#ffd54f" />
-        <circle cx="620" cy="40" r="5" fill="#ffd54f" />
-        <g>
-          <text font-size="20">✈️</text>
-          <animateMotion dur="10s" repeatCount="indefinite">
-            <mpath xlink:href="#routePath"/>
-          </animateMotion>
-        </g>
-      </svg>
-    </div>
-
-    <div class="actions" style="margin-top: 20px;">
-      <button class="btn" id="addGoogle">📅 הוסף ליומן</button>
-      <button class="btn" id="share">🔗 שתף חברים</button>
+    <div class="actions" style="margin-top: 30px;">
+      <button class="btn" id="share">🔗 שתף את האחים</button>
     </div>
   </div>
 
   <script>
-    const TARGET = Date.UTC(2026, 1, 28, 7, 20); // 28.02.2026 09:20 (זמן בוקרשט)
-    const START_DATE = new Date('2026-01-01').getTime(); // נקודת התחלה לחישוב הבר
+    // הגדרות זמנים
+    const TARGET_DATE = Date.UTC(2026, 1, 28, 7, 20); // 28.02.2026 09:20
+    const START_DATE = new Date('2025-12-09T00:00:00').getTime(); // תחילת הספירה לבקשתך
 
-    function updateTimer() {
+    function updateApp() {
         const now = Date.now();
-        const diff = TARGET - now;
+        const timeLeft = TARGET_DATE - now;
 
-        if (diff <= 0) {
-            document.querySelector('.container').innerHTML = "<h1>תהנו בבוקרשט! ✈️🥂</h1>";
+        if (timeLeft <= 0) {
+            document.querySelector('.container').innerHTML = "<h1>יאללה לבוקרשט! ✈️🍻</h1>";
             return;
         }
 
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        // 1. עדכון טיימר
+        const d = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const h = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
         document.getElementById('days').textContent = d;
         document.getElementById('hours').textContent = String(h).padStart(2, '0');
         document.getElementById('minutes').textContent = String(m).padStart(2, '0');
         document.getElementById('seconds').textContent = String(s).padStart(2, '0');
-    }
 
-    function buildProgressBar() {
-        const bar = document.getElementById('daysBar');
-        const now = Date.now();
-        const totalDuration = TARGET - START_DATE;
+        // 2. עדכון בר התקדמות
+        const totalDuration = TARGET_DATE - START_DATE;
         const elapsed = now - START_DATE;
         const percent = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
 
+        const bar = document.getElementById('daysBar');
         bar.innerHTML = '';
-        const totalSegments = 50; // כמות הקוביות בבר
+        const totalSegments = 60; // כמות הקוביות בבר
         const filledSegments = Math.floor((percent / 100) * totalSegments);
 
         for (let i = 0; i < totalSegments; i++) {
@@ -207,10 +177,14 @@
             seg.className = 'seg';
             
             if (i < filledSegments) {
-                // קביעת צבע לפי התקדמות הבר הכולל
-                if (percent < 40) seg.classList.add('filled-far');
-                else if (percent < 80) seg.classList.add('filled-mid');
-                else seg.classList.add('filled-soon');
+                // לוגיקת צבעים: אדום -> צהוב -> ירוק
+                if (percent < 35) {
+                    seg.classList.add('filled-start'); // אדום
+                } else if (percent < 75) {
+                    seg.classList.add('filled-middle'); // צהוב
+                } else {
+                    seg.classList.add('filled-end'); // ירוק
+                }
             } else {
                 seg.classList.add('empty');
             }
@@ -218,47 +192,22 @@
         }
         
         document.getElementById('daysSummary').textContent = `התקדמות: ${Math.floor(percent)}%`;
-        const daysLeft = Math.floor((TARGET - now) / (1000*60*60*24));
-        document.getElementById('daysCounters').textContent = `עוד ${daysLeft} ימים למנאייק`;
+        const totalDays = Math.floor(totalDuration / (1000*60*60*24));
+        const daysPassed = Math.floor(elapsed / (1000*60*60*24));
+        document.getElementById('daysCounters').textContent = `עברו ${daysPassed} ימים מתוך ${totalDays}`;
     }
 
-    // מיילסטונים פשוטים
-    const milestones = [
-        { label: 'היום', pos: 0 },
-        { label: 'טיסה ✈️', pos: 100 }
-    ];
+    setInterval(updateApp, 1000);
+    updateApp();
 
-    function initMilestones() {
-        const tl = document.getElementById('timeline');
-        milestones.forEach(m => {
-            const dot = document.createElement('div');
-            dot.className = 'dot';
-            dot.style.left = m.pos + '%';
-            const lbl = document.createElement('div');
-            lbl.className = 'label';
-            lbl.style.left = m.pos + '%';
-            lbl.textContent = m.label;
-            tl.appendChild(dot);
-            tl.appendChild(lbl);
-        });
-    }
-
-    document.getElementById('eventLine').textContent = `נפגשים במריוט ב‑28.02.2026 (09:20)`;
-
-    setInterval(updateTimer, 1000);
-    setInterval(buildProgressBar, 60000);
-    updateTimer();
-    buildProgressBar();
-    initMilestones();
-
-    // פונקציות כפתורים
     document.getElementById('share').onclick = () => {
-        navigator.clipboard.writeText(window.location.href);
-        alert("הלינק הועתק! שלח לאחים בווצאפ");
-    };
-    document.getElementById('addGoogle').onclick = () => {
-        const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=טיסה+לבוקרשט+✈️&dates=20260228T072000Z/20260228T082000Z&details=נפגשים+במריוט!&location=Marriott+Bucharest`;
-        window.open(url, '_blank');
+        const text = `בוקרשט מחכה לנו! עוד ${document.getElementById('days').textContent} ימים למנאייק.`;
+        if (navigator.share) {
+            navigator.share({ title: 'בוקרשט 2026', text: text, url: window.location.href });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert("הלינק הועתק! שלח לחברים");
+        }
     };
   </script>
 </body>
