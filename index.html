@@ -1,890 +1,612 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>ArcWiz AI – Next Gen Interface</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  
+  <title>הספירה לאחור לבוקרשט! ✈️🇷🇴</title>
+
   <style>
-    :root {
-      --glass-bg: rgba(30, 41, 59, 0.4); 
-      --glass-border: rgba(255, 255, 255, 0.2);
-      --glass-highlight: rgba(255, 255, 255, 0.05);
-      --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      
-      --primary: #00f2ff;
-      --secondary: #7000ff;
-      --accent: #ff0055;
-      
-      --text-main: #ffffff;
-      --text-muted: #cbd5e1;
+    :root{
+      --gold:#d4af37;
+      --fg:#ffffff;
+      --fg-muted:#dddddd;
+      --glass:rgba(255,255,255,0.1);
+      --blur:6px;
+      --accent-blue:#2196f3;
+      --accent-green:#43a047;
+      --accent-red:#f44336;
+      --accent-orange:#fb8c00;
     }
 
-    body {
-      margin: 0;
-      background: #0f172a; 
-      font-family: 'Outfit', sans-serif; 
-      color: var(--text-main);
-      min-height: 100vh;
-      overflow-x: hidden;
-      font-size: 16px; 
+    body{
+      margin:0;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color:var(--fg);
+      text-align:center;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url('https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=1920&auto=format&fit=crop')
+        center/cover fixed;
     }
 
-    .bg-container {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-    }
-    .bg-layer {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-size: cover; background-position: center;
-      transition: clip-path 0.1s ease-out;
-    }
-    .layer-right {
-      background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
-      z-index: 1;
-    }
-    .layer-right::after {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, rgba(255,0,100,0.6), rgba(255,100,0,0.6));
-      mix-blend-mode: overlay;
-    }
-    .layer-left {
-      background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
-      z-index: 2;
-      clip-path: inset(0 50% 0 0);
-      border-right: 1px solid rgba(255,255,255,0.4);
-    }
-    .layer-left::after {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, rgba(0,200,255,0.6), rgba(100,50,255,0.6));
-      mix-blend-mode: overlay;
+    .container{
+      background-color: rgba(0,0,0,0.6);
+      border:2px solid var(--gold);
+      border-radius:16px;
+      box-shadow:0 0 20px rgba(212,175,55,0.5);
+      padding:32px;
+      width:min(980px, calc(100% - 24px));
     }
 
-    .app {
-      max-width: 1300px; 
-      margin: 0 auto;
-      padding: 40px 24px;
-      position: relative;
-      z-index: 10;
+    h1{
+      margin:0 0 10px;
+      color:var(--gold);
+      font-size:2.3rem;
+      text-transform:uppercase;
+      letter-spacing:2px;
     }
 
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-    .logo {
-      font-size: 2.2rem; font-weight: 800; color: white;
-      display: flex; align-items: center; gap: 15px;
-      text-shadow: 0 4px 20px rgba(0,242,255,0.3); letter-spacing: -0.5px;
-    }
-    .logo-icon {
-      width: 48px; height: 48px;
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      border-radius: 14px; display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 1.5rem; box-shadow: 0 0 20px rgba(0,114,255,0.4);
+    p.lead{
+      margin:0 0 14px;
+      color:var(--fg-muted);
+      font-size:1.1rem;
     }
 
-    .glass-card {
-      background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.4); 
-      border-radius: 24px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 32px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* ===== ספירה לאחור ===== */
+    #countdown{
+      display:flex; justify-content:center; gap:20px; flex-wrap:wrap;
+      margin-top:12px;
     }
-    .glass-card:hover { box-shadow: 0 30px 60px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.3); }
-
-    h2 { margin-top: 0; font-size: 1.6rem; font-weight: 700; color: white; margin-bottom: 15px; }
-
-    .upload-container {
-      background: rgba(0,0,0,0.2); border: 2px dashed rgba(255,255,255,0.2);
-      border-radius: 20px; padding: 40px; text-align: center; transition: 0.3s;
+    .time-box{
+      background:var(--glass);
+      padding:14px; border-radius:12px; min-width:96px;
+      backdrop-filter: blur(var(--blur));
     }
-    .upload-container:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); }
-    .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
-    .file-input-wrapper { position: relative; cursor: pointer; height: 100%; }
-    .file-input-wrapper input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
-    .upload-btn-visual {
-      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
-      padding: 25px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-      color: white; font-weight: 600; font-size: 1.1rem; transition: 0.2s; min-height: 120px;
-    }
-    .file-input-wrapper:hover .upload-btn-visual {
-      background: rgba(255,255,255,0.15); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    .icon-large { font-size: 2.5rem; margin-bottom: 5px; }
-    .file-name-display { font-size: 0.9rem; color: #4ade80; font-weight: 500; min-height: 1.2em; }
+    .number{ display:block; font-size:2.8rem; font-weight:bold; }
+    .label { font-size:0.95rem; color:var(--gold); }
 
-    .btn-grad {
-      background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 100%);
-      padding: 16px 50px; border-radius: 50px; border: none;
-      font-weight: 700; font-size: 1.1rem; color: white; cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); transition: 0.3s;
-      letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 10px; min-width: 220px; justify-content: center;
+    /* ===== בר התקדמות (כללי) ===== */
+    .progress{
+      margin-top:22px; height:10px; width:100%;
+      background:rgba(255,255,255,0.15);
+      border-radius:999px; overflow:hidden;
     }
-    .btn-grad:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6); }
-
-    .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 32px; }
-    @media(max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
-
-    .canvas-container {
-      position: relative;
-      background: rgba(10, 10, 15, 0.4); 
-      border-radius: 16px; aspect-ratio: 16/9; overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
-      box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
-      cursor: grab; 
-    }
-    .canvas-container:active { cursor: grabbing; }
-
-    .view-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-    
-    #zoomWrapper {
-      width: 100%; height: 100%;
-      position: absolute; top: 0; left: 0;
-      transform-origin: center center;
-      transition: transform 0.1s linear; 
-      display: flex; align-items: center; justify-content: center;
+    .progress .bar{
+      height:100%; width:0%;
+      background:linear-gradient(90deg, #8a5, var(--gold));
+      transition: width .8s ease;
     }
 
-    #zoomWrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+    /* ===== בר התקדמות לפי ימים (סגמנטים) ===== */
+    .days-progress{ margin-top:24px; text-align:right; }
+    .days-header{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      color:var(--fg-muted); font-size:0.95rem;
+    }
+    .days-bar{
+      margin-top:10px; height:18px; width:100%; display:flex;
+      border-radius:12px; overflow:hidden;
+      background:linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+    }
+    .days-bar .seg{
+      flex:1 1 auto; position:relative;
+      transition:transform .15s ease, opacity .3s ease;
+    }
+    .days-bar .seg::after{
+      content:""; position:absolute; top:0; bottom:0; left:0;
+      width:1px; background:rgba(255,255,255,0.12);
+    }
+    .seg.far{  background: linear-gradient(180deg, #3f51b5, var(--accent-blue)); }
+    .seg.mid{  background: linear-gradient(180deg, var(--accent-green), #8bc34a); }
+    .seg.soon{ background: linear-gradient(180deg, var(--accent-orange), var(--accent-red)); }
+    .seg.today{ outline:2px solid var(--gold); box-shadow: inset 0 0 6px rgba(212,175,55,0.55); }
+    .days-bar .seg:hover{ transform:scale(1.06); z-index:2; }
+    .legend{ margin-top:8px; display:flex; gap:8px; justify-content:flex-end; }
+    .chip{
+      font-size:0.85rem; padding:4px 8px; border-radius:999px;
+      border:1px solid rgba(255,255,255,0.2); color:var(--fg);
+    }
+    .chip.far{  background:linear-gradient(90deg,#3f51b5,#2196f3); }
+    .chip.mid{  background:linear-gradient(90deg,#43a047,#8bc34a); }
+    .chip.soon{ background:linear-gradient(90deg,#fb8c00,#f44336); }
+    #daysCounters{ font-variant-numeric: tabular-nums; }
 
-    .marker {
-      position: absolute; width: 32px; height: 32px;
-      border-radius: 50%; background: #ff0055;
-      border: 3px solid white;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: 0.3s; z-index: 10;
-      color: white; font-weight: 800; font-size: 0.9rem;
-      box-shadow: 0 5px 15px rgba(255, 0, 85, 0.6);
-      transform-origin: center center;
-      display: none;
-      transform: scale(0);
+    /* ===== בר מיילסטונים ===== */
+    .milestones{
+      margin-top:28px; text-align:right;
     }
-    
-    .marker:hover, .marker.active { transform: scale(1.3); z-index: 100; background: #fff; color: #ff0055; }
-
-    .placeholder-text {
-      color: rgba(255,255,255,0.5); font-size: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 15px; font-weight: 300; z-index: 0;
+    .milestones .title{
+      color:var(--fg-muted); font-size:0.98rem; margin-bottom:8px;
+      display:flex; justify-content:space-between; align-items:center;
     }
-
-    .scan-line {
-      position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-      background: linear-gradient(90deg, transparent, #00f2ff, transparent);
-      box-shadow: 0 0 30px #00f2ff, 0 0 10px white;
-      z-index: 20; display: none; opacity: 0.9; pointer-events: none;
+    .timeline{
+      position:relative; height:36px; width:100%;
+      background:linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border-radius:12px;
+      overflow:visible; box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
     }
-    
-    .scanning .scan-line { 
-        display: block; 
-        animation: scanMove 1.2s infinite alternate ease-in-out; 
+    .timeline .dot{
+      position:absolute; top:50%; transform:translate(-50%,-50%);
+      width:14px; height:14px; border-radius:50%;
+      background:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.25);
+      cursor:pointer;
     }
-    
-    @keyframes scanMove { 
-        0% { top: 0%; opacity: 0.5; } 
-        50% { opacity: 1; }
-        100% { top: 100%; opacity: 0.5; } 
+    .timeline .dot:hover{ filter:brightness(1.2); }
+    .timeline .label{
+      position:absolute; white-space:nowrap;
+      transform:translate(-50%,-140%); font-size:0.9rem;
+      color:var(--fg); background:rgba(0,0,0,0.4); padding:6px 8px;
+      border:1px solid rgba(255,255,255,0.15); border-radius:8px;
+      backdrop-filter: blur(4px);
     }
-
-    .zoom-controls {
-        position: absolute; bottom: 20px; right: 20px; z-index: 50;
-        display: flex; flex-direction: column; gap: 8px;
-    }
-    .zoom-btn {
-        background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px;
-        border-radius: 12px; font-size: 1.2rem; cursor: pointer; color: #000;
-        display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: 0.2s; font-weight: 700;
-    }
-    .zoom-btn:hover { background: white; transform: scale(1.1); color: var(--primary); }
-
-    .sidebar-title {
-      font-size: 1.3rem; margin-bottom: 24px; color: white;
-      font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .badge-ai { background: #4ade80; color: #064e3b; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 800; }
-
-    .info-row {
-      display: flex; justify-content: space-between; margin-bottom: 18px;
-      padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .info-label { font-size: 0.95rem; color: rgba(255,255,255,0.7); }
-    .info-val { font-weight: 600; color: white; font-size: 1rem; }
-
-    .issue-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px; padding: 16px; margin-bottom: 16px;
-      border: 1px solid rgba(255,255,255,0.05);
-      cursor: pointer; transition: 0.2s;
-    }
-    .issue-card:hover, .issue-card.highlighted { background: rgba(0, 242, 255, 0.1); border-color: var(--primary); transform: translateX(5px); }
-
-    .issue-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.1); color: var(--primary);
-      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem;
-      font-weight: 600; text-decoration: none; transition: 0.2s;
-      border: 1px solid rgba(0,242,255,0.3);
-    }
-    .issue-link:hover {
-      background: var(--primary); color: #000;
-      transform: translateX(4px); box-shadow: 0 5px 15px rgba(0,242,255,0.4);
+    .timeline .label .time{
+      color:var(--gold); font-weight:600; margin-inline-start:6px;
     }
 
-    .chat-section { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; height: 350px; }
-    .chat-history {
-      flex: 1; background: rgba(0,0,0,0.2);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
-      padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
+    /* ===== אייקונים זזים ===== */
+    .icons-track{ position:relative; height:80px; margin-top:28px; overflow:hidden; }
+    .icon-bubble{
+      position:absolute; top:50%; transform:translateY(-50%);
+      font-size:28px; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.35));
+      opacity:0.9;
     }
-    .chat-bubble {
-      max-width: 85%; padding: 14px 18px; border-radius: 18px;
-      line-height: 1.5; animation: fadeIn 0.3s ease; font-size: 1rem;
+    @keyframes fly {
+      0%   { left:-10%; transform:translateY(-50%) rotate(0deg) }
+      50%  { left:50%;  transform:translateY(-55%) rotate(8deg) }
+      100% { left:110%; transform:translateY(-50%) rotate(0deg) }
     }
-    .chat-bubble.bot { align-self: flex-start; background: rgba(255,255,255,0.15); color: white; border-bottom-left-radius: 4px; backdrop-filter: blur(10px); }
-    .chat-bubble.user { align-self: flex-end; background: linear-gradient(135deg, #7000ff, #ae00ff); color: white; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(112, 0, 255, 0.3); }
+    @keyframes slide {
+      0%   { left:110%; transform:translateY(-45%) }
+      50%  { left:50%;  transform:translateY(-55%) }
+      100% { left:-10%; transform:translateY(-45%) }
+    }
+    @keyframes bob {
+      0%   { transform:translateY(-50%) }
+      50%  { transform:translateY(-60%) }
+      100% { transform:translateY(-50%) }
+    }
+    .icon-bubble.plane { animation: fly 12s linear infinite; }
+    .icon-bubble.casino{ animation: slide 16s ease-in-out infinite; }
+    .icon-bubble.spa   { left:15%; animation: bob 3.2s ease-in-out infinite; }
+    .icons-fast .icon-bubble.plane  { animation-duration: 8s; }
+    .icons-fast .icon-bubble.casino { animation-duration: 11s; }
+    .icons-fast .icon-bubble.spa    { animation-duration: 2s; }
 
-    .questions-container {
-      display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none;
+    /* ===== SVG מפה/מסלול טיסה ===== */
+    .svg-wrap{
+      margin-top:30px; border-radius:12px; overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.20));
+      border:1px solid rgba(255,255,255,0.15);
     }
-    .questions-container::-webkit-scrollbar { display: none; }
-    .question-chip {
-      white-space: nowrap; background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2); color: white;
-      padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 500;
-      cursor: pointer; transition: 0.2s;
-    }
-    .question-chip:hover { background: white; color: #7000ff; border-color: white; transform: translateY(-2px); }
+    .svg-caption{ color:var(--fg-muted); font-size:0.95rem; margin-top:6px; }
 
-    .view-toggles { display: flex; gap: 12px; margin-bottom: 12px; }
-    .toggle-btn {
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);
-      padding: 10px 24px; border-radius: 12px; font-size: 0.95rem; font-family: 'Outfit', sans-serif;
-      color: rgba(255,255,255,0.7); cursor: pointer; transition: 0.2s; font-weight: 500;
+    /* ===== כפתורים ===== */
+    .actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:24px; }
+    .btn{
+      appearance:none; border:1px solid var(--gold); background:transparent;
+      color:var(--fg); padding:10px 14px; border-radius:8px; cursor:pointer;
+      font-weight:600; transition:transform .1s ease, background .2s ease;
     }
-    .toggle-btn.active { background: white; color: #000; font-weight: 700; box-shadow: 0 0 20px rgba(255,255,255,0.4); border-color: white; }
-    .toggle-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn:hover{ background:rgba(212,175,55,0.15); }
+    .btn:active{ transform:scale(0.98); }
+    .btn:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
 
-    .layer-controls {
-        position: absolute; top: 20px; right: 20px; z-index: 20;
-        background: rgba(0,0,0,0.6); border-radius: 50px; padding: 5px;
-        display: flex; gap: 5px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
-    }
-    .layer-btn {
-        border: none; background: transparent; padding: 8px 20px;
-        border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.8rem;
-        color: #ccc; transition: 0.2s; font-family: 'Outfit', sans-serif;
-    }
-    .layer-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 10px rgba(0,242,255,0.4); }
+    /* הודעת סיום */
+    #done{ display:none; margin-top:18px; font-size:1.4rem; color:var(--gold); }
 
-    .floating-play-btn {
-        position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-        background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; border-radius: 50px;
-        padding: 14px 36px; font-size: 1rem; font-weight: 700; color: white; font-family: 'Outfit', sans-serif;
-        cursor: pointer; box-shadow: 0 10px 30px rgba(0, 114, 255, 0.5);
-        display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 10;
+    /* מובייל */
+    @media (max-width:600px){
+      h1{ font-size:1.8rem; }
+      .number{ font-size:2rem; }
+      .time-box{ min-width:80px; padding:10px; }
+      .timeline .label{ transform:translate(-50%,-150%); font-size:0.85rem; }
     }
-    .floating-play-btn:hover { transform: translateX(-50%) scale(1.05) translateY(-2px); filter: brightness(1.1); }
-    
-    .close-video-btn {
-        position: absolute; top: 20px; right: 20px;
-        background: rgba(0,0,0,0.6); color: white; border: 1px solid rgba(255,255,255,0.3);
-        width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 20;
-        display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.2s;
-    }
-    .close-video-btn:hover { background: #ef4444; border-color: #ef4444; }
-
-    .modal-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px);
-        z-index: 9999; display: flex; align-items: center; justify-content: center;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: all; }
-    .modal-content {
-        background: rgba(20, 25, 40, 0.95); border: 1px solid rgba(255,255,255,0.2);
-        padding: 40px; border-radius: 24px; width: 360px; text-align: center;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.6); transform: scale(0.8);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); color: white;
-    }
-    .modal-overlay.active .modal-content { transform: scale(1); }
-    .modal-btn {
-        background: white; color: #7000ff; border: none;
-        padding: 12px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 25px;
-        font-family: 'Outfit', sans-serif; transition: 0.2s;
-    }
-    .modal-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
-
   </style>
 </head>
 <body>
 
-<div class="bg-container">
-  <div class="bg-layer layer-right"></div>
-  <div class="bg-layer layer-left" id="dynamicBg"></div>
-</div>
+  <div class="container" role="group" aria-label="ספירה לאחור לטיסה לבוקרשט">
+    <h1>האחים היקרים טסים לבוקרשט! 🇷🇴</h1>
+    <p class="lead" id="eventLine">נפגשים במריוט ב‑28.02.2026 בשעה 09:20 (זמן בוקרשט)</p>
 
-<div class="app">
-  <header>
-    <div class="logo">
-      <div class="logo-icon">▲</div>
-      ArcWiz AI
+    <!-- ספירה לאחור -->
+    <div id="countdown" aria-live="polite">
+      <div class="time-box" aria-label="ימים שנותרו"><span class="number" id="days">00</span><span class="label">ימים</span></div>
+      <div class="time-box" aria-label="שעות שנותרו"><span class="number" id="hours">00</span><span class="label">שעות</span></div>
+      <div class="time-box" aria-label="דקות שנותרו"><span class="number" id="minutes">00</span><span class="label">דקות</span></div>
+      <div class="time-box" aria-label="שניות שנותרו"><span class="number" id="seconds">00</span><span class="label">שניות</span></div>
     </div>
-  </header>
+    <div id="weeksLeft" style="color:var(--fg-muted);margin-top:8px;"></div>
 
-  <div class="glass-card">
-    <h2>Upload Project Files</h2>
-    
-    <div class="upload-container">
-      <p style="color:var(--text-muted); margin-bottom:20px; font-size:1.1rem;">Drag & drop files here or <u style="color:white; cursor:pointer;">Browse Files</u><br><span style="font-size:0.9rem; opacity:0.7;">Supported formats: PDF, DWG, RVT, JPG</span></p>
-      
-      <div class="upload-grid">
-        <label class="file-input-wrapper">
-          <input type="file" id="archInput" accept="image/*">
-          <div class="upload-btn-visual">
-            <span class="icon-large">📐</span>
-            <span>Upload Floor Plan</span>
-            <span id="archFileName" class="file-name-display"></span>
-          </div>
-        </label>
-        <label class="file-input-wrapper">
-          <input type="file" id="mepInput" accept="image/*">
-          <div class="upload-btn-visual">
-            <span class="icon-large">⚡</span>
-            <span>Upload MEP Plan</span>
-            <span id="mepFileName" class="file-name-display"></span>
-          </div>
-        </label>
+    <!-- בר התקדמות כללי -->
+    <div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div>
+
+    <!-- בר התקדמות לפי ימים -->
+    <div id="daysProgress" class="days-progress" aria-label="בר התקדמות לפי ימים">
+      <div class="days-header">
+        <span id="daysSummary">התקדמות ימים: 0%</span>
+        <span id="daysCounters"></span>
+      </div>
+      <div class="days-bar" id="daysBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="התקדמות עד היעד">
+        <!-- סגמנטים נוצרים דינמית -->
+      </div>
+      <div class="legend">
+        <span class="chip soon">קרוב</span>
+        <span class="chip mid">באמצע</span>
+        <span class="chip far">רחוק</span>
       </div>
     </div>
-    
-    <div style="text-align:center;">
-        <button class="btn-grad" id="analyzeBtn">
-         <span>✨ Run Analysis</span>
-       </button>
+
+    <!-- בר מיילסטונים -->
+    <div class="milestones" aria-label="מיילסטונים למסע">
+      <div class="title">
+        <span>מיילסטונים בדרך</span>
+        <span id="milestoneRange" style="color:var(--fg-muted)"></span>
+      </div>
+      <div class="timeline" id="timeline">
+        <!-- נקודות ותיוגים נוצרים דינמית -->
+      </div>
     </div>
+
+    <!-- אייקונים זזים -->
+    <div class="icons-track" aria-hidden="true" id="iconsTrack">
+      <div class="icon-bubble plane" title="✈️ טיסה">✈️</div>
+      <div class="icon-bubble casino" title="🎰 קזינו">🎰</div>
+      <div class="icon-bubble spa" title="🧖‍♂️ ספא">🧖‍♂️</div>
+    </div>
+
+    <!-- SVG מפה/מסלול טיסה -->
+    <div class="svg-wrap" aria-hidden="true">
+      <svg width="100%" height="220" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sea" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#0b3954" />
+            <stop offset="1" stop-color="#082032" />
+          </linearGradient>
+          <linearGradient id="land" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#2b9348" />
+            <stop offset="1" stop-color="#55a630" />
+          </linearGradient>
+        </defs>
+
+        <!-- רקעים סכמטיים -->
+        <rect x="0" y="0" width="800" height="220" fill="url(#sea)" opacity="0.25"/>
+        <rect x="400" y="0" width="400" height="220" fill="url(#land)" opacity="0.18"/>
+
+        <!-- נקודות מקור/יעד (סכמטי) -->
+        <circle cx="220" cy="150" r="6" fill="#ffd54f" />
+        <text x="210" y="170" fill="#fff" font-size="12">ישראל</text>
+
+        <circle cx="620" cy="90" r="6" fill="#ffd54f" />
+        <text x="610" y="70" fill="#fff" font-size="12">בוקרשט</text>
+
+        <!-- מסלול (Bezier) -->
+        <path id="routePath" d="M220,150 C380,120 480,110 620,90" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round" />
+
+        <!-- אובייקט מטוס נע לאורך המסלול -->
+        <g id="planeGlyph">
+          <text id="planeEmoji" font-size="24">✈️</text>
+          <animateMotion dur="12s" repeatCount="indefinite">
+            <mpath xlink:href="#routePath"/>
+          </animateMotion>
+        </g>
+      </svg>
+      <div class="svg-caption">מסלול טיסה סכמטי ישראל ➜ בוקרשט (אנימציה מחזורית להמחשה)</div>
+    </div>
+
+    <!-- פעולות -->
+    <div class="actions">
+      <button class="btn" id="toggleTheme">מצב יום/לילה</button>
+      <button class="btn" id="addGoogle">הוסף ליומן Google</button>
+      <button class="btn" id="downloadICS">הורד ICS</button>
+      <button class="btn" id="toggleStopwatch">מצב סטופר</button>
+      <button class="btn" id="share">שיתוף</button>
+    </div>
+
+    <div id="done" role="status" aria-live="assertive">הגיע הזמן לטוס! ✈️</div>
   </div>
 
-  <div class="main-grid">
-    
-    <div class="glass-card" style="display:flex; flex-direction:column; min-height:650px;">
-      
-      <div class="view-toggles">
-         <button class="toggle-btn active" id="btn2D">Floor Plan</button>
-         <button class="toggle-btn disabled" id="btn3D">3D Model</button>
-      </div>
-
-      <div class="canvas-container" id="mainCanvasContainer" style="flex:1; min-height: 400px;">
-        
-        <div id="layer2D" class="view-layer">
-            
-            <div class="zoom-controls">
-                <button class="zoom-btn" id="zoomInBtn">+</button>
-                <button class="zoom-btn" id="zoomOutBtn">-</button>
-                <button class="zoom-btn" id="resetZoomBtn" style="font-size:0.8rem;">R</button>
-            </div>
-
-            <div id="layerSwitcher" class="layer-controls" style="display:none;">
-                <button id="showArchBtn" class="layer-btn active">Arch</button>
-                <button id="showMepBtn" class="layer-btn">MEP</button>
-            </div>
-
-            <div class="scan-line"></div> 
-            
-            <div class="placeholder-text">
-               <div style="font-size:4rem; opacity:0.4; margin-bottom:10px;">🖼️</div>
-               Waiting for plan upload...
-            </div>
-            
-            <div id="zoomWrapper">
-                <img id="currentArchImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
-                <img id="currentMepImg" class="uploaded-img" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;">
-
-                <div id="marker1" class="marker" style="top: 30%; left: 24%; z-index:10;" title="Clash Detected">1</div>
-                <div id="marker2" class="marker" style="top: 37%; right: 33%; z-index:10;" title="Routing Error">2</div>
-            </div>
-        </div>
-
-        <div id="layer3D" class="view-layer" style="display:none;">
-            <div id="image3DContainer" style="width:100%; height:100%; position:relative;">
-                <img 
-                  id="displayImg3D"
-                  src="3d model.jpg" 
-                  alt="3D Model" 
-                  style="width:100%; height:100%; object-fit:contain; object-position:center;" 
-                  onerror="this.src='https://via.placeholder.com/800x600/1e293b/ffffff?text=3D+Model+Preview'">
-                <button id="btnPlayVideo" class="floating-play-btn">
-                    <span>▶</span> Play Video Simulation
-                </button>
-            </div>
-            <div id="videoContainer" style="display:none; width:100%; height:100%; position:relative;">
-                <button id="btnCloseVideo" class="close-video-btn" title="Close">✕</button>
-                <video 
-                  id="video3D" 
-                  controls 
-                  style="width:100%; height:100%; object-fit:contain; object-position:center;">
-                    <source src="3d video.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-
-      </div>
-      
-      <div class="chat-section">
-        <div class="chat-history" id="chatHistory">
-           <div class="chat-bubble bot">Hello! Upload your blueprints to start the AI analysis.</div>
-        </div>
-        <div class="questions-container">
-          <button class="question-chip" onclick="askQuestion(0)">Building area?</button>
-          <button class="question-chip" onclick="askQuestion(1)">Show clashes</button>
-          <button class="question-chip" onclick="askQuestion(2)">Room count?</button>
-          <button class="question-chip" onclick="askQuestion(3)">Outdoor space?</button>
-          <button class="question-chip" onclick="askQuestion(4)">Export PDF</button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="glass-card">
-      <div class="sidebar-title">
-        Analysis Summary
-        <span class="badge-ai" id="aiStatus" style="display:none;">DONE</span>
-      </div>
-
-      <div class="info-row"><span class="info-label">Building Area</span><span class="info-val" id="areaDisplay">--</span></div>
-      <div class="info-row"><span class="info-label">Rooms</span><span class="info-val" id="roomsDisplay">--</span></div>
-      <div class="info-row"><span class="info-label">Bathrooms</span><span class="info-val" id="bathsDisplay">--</span></div>
-      <div class="info-row"><span class="info-label">Outdoor Space</span><span class="info-val" id="outdoorDisplay">--</span></div>
-      <div class="info-row"><span class="info-label">Floors</span><span class="info-val" id="floorsDisplay">--</span></div>
-
-      <div style="margin-top:40px;">
-        <h4 style="color:white; margin-bottom:20px; font-weight:600; font-size:1.1rem;">AI Insights</h4>
-        <div id="waitingText" style="color:var(--text-muted); font-size:1rem; font-style:italic;">
-            Analysis pending...
-        </div>
-        <div id="issuesList" style="display:none;">
-          <div class="issue-card" data-target="marker1">
-            <div style="color:#ef4444; font-weight:700; margin-bottom:6px; font-size:1rem;">⚠️ Clash Detected</div>
-            <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4; margin-bottom:12px;">Kitchen: Socket violates minimum clearance from sink. Ensure 60cm distance.</div>
-            <a href="https://www.mabbat.co.il/post/%D7%AA%D7%A7%D7%A0%D7%99-%D7%97%D7%A9%D7%9E%D7%9C-%D7%91%D7%9E%D7%98%D7%91%D7%97%D7%99%D7%9D-%D7%9E%D7%94-%D7%90%D7%A1%D7%95%D7%A8-%D7%95%D7%9E%D7%94-%D7%9E%D7%95%D7%AA%D7%A8" target="_blank" class="issue-link">📖 תקנות חשמל במטבחים</a>
-          </div>
-          <div class="issue-card" data-target="marker2">
-            <div style="color:#fbbf24; font-weight:700; margin-bottom:6px; font-size:1rem;">⚠️ Routing Issue</div>
-            <div style="font-size:0.9rem; color:#e2e8f0; line-height:1.4; margin-bottom:12px;">Bathroom - Wet Area: Switch ($H=130$) located within wet zone. Relocate outside or use IP-rated fixture.</div>
-            <a href="https://www.abone.co.il/articles/%d7%a9%d7%a7%d7%a2%d7%99-%d7%97%d7%a9%d7%9e%d7%9c-%d7%95%d7%aa%d7%90%d7%95%d7%a8%d7%94-%d7%91%d7%9e%d7%98%d7%91%d7%97-%d7%9b%d7%9e%d7%95%d7%aa-%d7%95%d7%9e%d7%99%d7%a7%d7%95%d7%9d/" target="_blank" class="issue-link">📖 קראו מידע נוסף</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div id="customModal" class="modal-overlay">
-    <div class="modal-content">
-        <div style="font-size:3.5rem; margin-bottom:15px;">⚠️</div>
-        <div style="font-size:1.5rem; font-weight:800; margin-bottom:15px;">Attention</div>
-        <div id="modalMessage" style="color:#cbd5e1; margin-bottom:25px; font-size:1.1rem; line-height:1.5;"></div>
-        <button id="closeModalBtn" class="modal-btn">Understood</button>
-    </div>
-</div>
-
-<script>
-  let scale = 1;
-  let pointX = 0;
-  let pointY = 0;
-  let startX = 0;
-  let startY = 0;
-  let isDragging = false;
-
-  const zoomWrapper = document.getElementById('zoomWrapper');
-  const canvasContainer = document.getElementById('mainCanvasContainer');
-
-  function updateTransform() {
-      zoomWrapper.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-  }
-
-  function zoomIn() { 
-    scale = Math.min(5, scale + 0.5); 
-    updateTransform(); 
-  }
-
-  function zoomOut() { 
-    scale = Math.max(1, scale - 0.5); 
-    if(scale === 1){ pointX = 0; pointY = 0; } 
-    updateTransform(); 
-  }
-
-  function resetZoom() { 
-    scale = 1; 
-    pointX = 0; 
-    pointY = 0; 
-    updateTransform(); 
-  }
-
-  canvasContainer.addEventListener('wheel', (e) => {
-      if(document.getElementById('layer2D').style.display === 'none') return;
-      e.preventDefault();
-      const zoomSpeed = 0.1;
-      const delta = -Math.sign(e.deltaY) * zoomSpeed;
-      const newScale = Math.min(Math.max(1, scale + delta), 5); 
-      scale = newScale;
-      if (scale === 1) { pointX = 0; pointY = 0; }
-      updateTransform();
-  });
-
-  canvasContainer.addEventListener('mousedown', (e) => {
-      if (scale > 1) { 
-          isDragging = true;
-          startX = e.clientX - pointX;
-          startY = e.clientY - pointY;
-          canvasContainer.style.cursor = 'grabbing';
+  <!-- קונפטי קליל -->
+  <script>
+    const miniConfetti = {
+      fire(durationMs=1800){
+        const end = Date.now() + durationMs;
+        (function frame(){
+          const particle = document.createElement('div');
+          const size = (Math.random()*8)+4;
+          particle.style.position='fixed';
+          particle.style.top='-10px';
+          particle.style.left= (Math.random()*100)+'vw';
+          particle.style.width=size+'px';
+          particle.style.height=size+'px';
+          particle.style.background= ['#d4af37','#4caf50','#ff7043','#42a5f5'][Math.floor(Math.random()*4)];
+          particle.style.borderRadius='50%';
+          particle.style.opacity='0.9';
+          particle.style.transform=`translateY(0)`;
+          particle.style.zIndex='9999';
+          document.body.appendChild(particle);
+          const y = (window.innerHeight + 40);
+          particle.animate([
+            { transform:`translateY(0) rotate(0deg)`, opacity:1 },
+            { transform:`translateY(${y}px) rotate(${Math.random()*360}deg)`, opacity:0.7 }
+          ],{ duration: (Math.random()*1500)+800, easing:'ease-out' }).onfinish = ()=> particle.remove();
+          if(Date.now() < end) requestAnimationFrame(frame);
+        })();
       }
-  });
-
-  window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      pointX = e.clientX - startX;
-      pointY = e.clientY - startY;
-      updateTransform();
-  });
-
-  window.addEventListener('mouseup', () => {
-      isDragging = false;
-      canvasContainer.style.cursor = 'grab';
-  });
-
-  document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
-  document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
-  document.getElementById('resetZoomBtn').addEventListener('click', resetZoom);
-
-  const analyzeBtn = document.getElementById('analyzeBtn');
-  const issuesList = document.getElementById('issuesList');
-  const waitingText = document.getElementById('waitingText');
-  const aiStatus = document.getElementById('aiStatus');
-  const markers = document.querySelectorAll('.marker');
-  const areaDisplay = document.getElementById('areaDisplay');
-  const roomsDisplay = document.getElementById('roomsDisplay');
-  const bathsDisplay = document.getElementById('bathsDisplay');
-  const outdoorDisplay = document.getElementById('outdoorDisplay');
-  const floorsDisplay = document.getElementById('floorsDisplay');
-  const btn2D = document.getElementById('btn2D');
-  const btn3D = document.getElementById('btn3D');
-  const layer2D = document.getElementById('layer2D');
-  const layer3D = document.getElementById('layer3D');
-  const layerSwitcher = document.getElementById('layerSwitcher');
-  const showArchBtn = document.getElementById('showArchBtn');
-  const showMepBtn = document.getElementById('showMepBtn');
-  const currentArchImg = document.getElementById('currentArchImg');
-  const currentMepImg = document.getElementById('currentMepImg');
-  const placeholderText = layer2D.querySelector('.placeholder-text');
-  const image3DContainer = document.getElementById('image3DContainer');
-  const videoContainer = document.getElementById('videoContainer');
-  const video3D = document.getElementById('video3D');
-  const btnPlayVideo = document.getElementById('btnPlayVideo');
-  const btnCloseVideo = document.getElementById('btnCloseVideo');
-  const chatHistory = document.getElementById('chatHistory');
-  const archFileName = document.getElementById('archFileName');
-  const mepFileName = document.getElementById('mepFileName');
-  const archInput = document.getElementById('archInput');
-  const mepInput = document.getElementById('mepInput');
-  const customModal = document.getElementById('customModal');
-  const modalMessage = document.getElementById('modalMessage');
-  const closeModalBtn = document.getElementById('closeModalBtn');
-  const displayImg3D = document.getElementById('displayImg3D');
-
-  let isAnalyzed = false;
-  let lastUploadedName = "";
-
-  function showCustomAlert(msg) { 
-    modalMessage.innerText = msg; 
-    customModal.classList.add('active'); 
-  }
-  closeModalBtn.addEventListener('click', () => customModal.classList.remove('active'));
-  customModal.addEventListener('click', (e) => { if(e.target === customModal) customModal.classList.remove('active'); });
-
-  const qaData = [
-    { q: "Building area?", a: "Total net internal area is **~88 sqm**." },
-    { q: "Show clashes", a: "I found **1 critical clash** in the Living Room (Wall A)." },
-    { q: "Room count?", a: "This unit features **3 Rooms**." },
-    { q: "Outdoor space?", a: "The plan includes **1 Balcony**." },
-    { q: "Export PDF", a: "📄 Generating PDF report..." }
-  ];
-
-  function generatePDF() {
-    if (!isAnalyzed) {
-      showCustomAlert("Please run analysis before exporting PDF.");
-      return;
-    }
-
-    const element = document.createElement('div');
-    element.style.padding = '30px';
-    element.style.color = '#333';
-    element.style.backgroundColor = '#fff';
-    element.style.fontFamily = 'Arial, sans-serif';
-
-    const summaryHtml = `
-      <h1 style="color: #1e293b; text-align: center; margin-bottom: 20px;">ArcWiz AI Analysis Report</h1>
-      <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Generated on: ${new Date().toLocaleString('he-IL')}</p>
-      
-      <h2 style="border-bottom: 2px solid #00f2ff; padding-bottom: 10px; color: #1e293b;">Analysis Summary</h2>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Building Area</td><td style="padding: 12px; border: 1px solid #ddd;">${areaDisplay.innerText}</td></tr>
-        <tr><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Rooms</td><td style="padding: 12px; border: 1px solid #ddd;">${roomsDisplay.innerText}</td></tr>
-        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Bathrooms</td><td style="padding: 12px; border: 1px solid #ddd;">${bathsDisplay.innerText}</td></tr>
-        <tr><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Outdoor Space</td><td style="padding: 12px; border: 1px solid #ddd;">${outdoorDisplay.innerText}</td></tr>
-        <tr style="background: #f8fafc;"><td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">Floors</td><td style="padding: 12px; border: 1px solid #ddd;">${floorsDisplay.innerText}</td></tr>
-      </table>
-    `;
-
-    const planClone = zoomWrapper.cloneNode(true);
-    planClone.style.transform = "none";
-    planClone.style.position = "relative";
-    planClone.style.width = "100%";
-    planClone.style.height = "450px"; 
-    planClone.style.display = "flex";
-    planClone.style.alignItems = "center";
-    planClone.style.justifyContent = "center";
-    planClone.style.backgroundColor = "#0a0a0f";
-    planClone.style.borderRadius = "12px";
-    planClone.style.overflow = "hidden";
-    planClone.style.margin = "30px 0";
-    planClone.style.pageBreakInside = "avoid";
-
-    const issuesContent = issuesList.innerHTML;
-    const recommendationsHtml = `
-      <h2 style="border-bottom: 2px solid #ff0055; padding-bottom: 10px; margin-top: 40px; color: #1e293b;">Recommendations & Fixes</h2>
-      <ul style="line-height: 1.8; color: #334155; font-size: 1.1rem; padding-left: 20px;">
-        <li><b>Kitchen:</b> Re-verify the socket placement to ensure a minimum 60cm clearance from the sink.</li>
-        <li><b>Wet Areas:</b> Relocate any switches currently within the splash zone to the outside wall.</li>
-        <li><b>Routing:</b> Re-evaluate MEP routing in the bathroom area.</li>
-      </ul>
-    `;
-
-    element.innerHTML = summaryHtml;
-    const imgTitle = document.createElement('h2');
-    imgTitle.innerText = "Annotated Floor Plan (Hazards)";
-    imgTitle.style.borderBottom = "2px solid #7000ff";
-    imgTitle.style.paddingBottom = "10px";
-    imgTitle.style.color = "#1e293b";
-    element.appendChild(imgTitle);
-    element.appendChild(planClone);
-
-    const issuesHeader = document.createElement('h2');
-    issuesHeader.innerText = "Detected Issues (AI Insights)";
-    issuesHeader.style.borderBottom = "2px solid #fbbf24";
-    issuesHeader.style.paddingBottom = "10px";
-    issuesHeader.style.marginTop = "40px";
-    issuesHeader.style.color = "#1e293b";
-    element.appendChild(issuesHeader);
-
-    const issuesDiv = document.createElement('div');
-    issuesDiv.innerHTML = issuesContent;
-    issuesDiv.querySelectorAll('.issue-card').forEach(card => {
-        card.style.background = "#f1f5f9";
-        card.style.color = "#333";
-        card.style.border = "1px solid #cbd5e1";
-        card.style.marginBottom = "15px";
-        card.style.pageBreakInside = "avoid";
-    });
-    element.appendChild(issuesDiv);
-
-    const recDiv = document.createElement('div');
-    recDiv.innerHTML = recommendationsHtml;
-    recDiv.style.pageBreakInside = "avoid";
-    element.appendChild(recDiv);
-
-    const opt = {
-      margin: 10,
-      filename: `ArcWiz_Full_Report_${new Date().toISOString().slice(0,10)}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
+  </script>
 
-    html2pdf().set(opt).from(element).save().then(() => {
-        addBubble("✅ PDF report generated successfully!", 'bot');
+  <script>
+    /* ===== קבועי זמנים ===== */
+    const tzTarget = 'Europe/Bucharest';
+
+    // יעד ראשי: 28/02/2026 09:20 (בוקרשט = חורף UTC+2 => 07:20Z)
+    const TARGET = Date.UTC(2026, 1, 28, 7, 20);
+
+    // מיילסטונים (בהתאם למה שציינת): דיוטי/המראה בישראל, מפגש מריוט בבוקרשט
+    const milestones = [
+      { id:'duty',    label:'דיוטי פרי',    whenUTC: Date.UTC(2026, 1, 25, 4, 20), tz: 'Asia/Jerusalem' }, // 25.02 06:20 IL
+      { id:'takeoff', label:'המראה מנתב״ג', whenUTC: Date.UTC(2026, 1, 25, 7, 20), tz: 'Asia/Jerusalem' }, // 25.02 09:20 IL
+      { id:'meet',    label:'מפגש במריוט',  whenUTC: TARGET,                            tz: 'Europe/Bucharest' } // 28.02 09:20 RO
+    ];
+
+    // מצב כהה/בהיר אוטומטי + מתג
+    const themeKey = 'bucharest_theme';
+    const preferred = localStorage.getItem(themeKey);
+    const hours = new Date().getHours();
+    const autoTheme = (hours >= 19 || hours < 6) ? 'dark' : 'light';
+    document.body.setAttribute('data-theme', preferred || autoTheme);
+    document.getElementById('toggleTheme').addEventListener('click', ()=>{
+      const curr = document.body.getAttribute('data-theme');
+      const next = (curr === 'dark') ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', next);
+      localStorage.setItem(themeKey, next);
     });
-  }
 
-  function askQuestion(index) {
-    const data = qaData[index];
-    if (index === 4) {
-      addBubble(data.q, 'user');
-      setTimeout(() => { generatePDF(); }, 600);
-    } else {
-      addBubble(data.q, 'user');
-      setTimeout(() => addBubble(data.a, 'bot'), 600);
-    }
-  }
+    /* ===== תצוגת שורת אירוע ===== */
+    const eventLine = document.getElementById('eventLine');
+    const fmtTarget = new Intl.DateTimeFormat('he-IL', { timeZone: tzTarget, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+    eventLine.textContent = `נפגשים במריוט ב‑${fmtTarget.format(new Date(TARGET))} (זמן בוקרשט)`;
 
-  function addBubble(text, type) {
-    const bubble = document.createElement('div');
-    bubble.classList.add('chat-bubble', type);
-    bubble.innerHTML = text; 
-    chatHistory.appendChild(bubble);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-  }
+    /* ===== ספירה לאחור ===== */
+    const bar = document.getElementById('progressBar');
+    const done = document.getElementById('done');
+    const startEpoch = Date.now();
+    const endEpoch = TARGET;
 
-  btn2D.addEventListener('click', () => {
-     btn2D.classList.add('active'); 
-     btn3D.classList.remove('active');
-     video3D.pause(); 
-     video3D.currentTime = 0;
-     image3DContainer.style.display = 'block';
-     videoContainer.style.display = 'none';
-     layer2D.style.display = 'flex'; 
-     layer3D.style.display = 'none';
-     resetZoom();
-  });
+    function weeksLeft(ms){ return Math.floor(Math.max(ms,0) / (1000*60*60*24*7)); }
+    function pad(n){ return (n < 10 ? '0'+n : ''+n); }
 
-  btn3D.addEventListener('click', () => {
-     if(archInput.files.length === 0) { 
-       showCustomAlert("Please upload a Floor Plan file first."); 
-       return; 
-     }
+    const timer = setInterval(()=>{
+      const now = Date.now();
+      const distance = endEpoch - now;
 
-     // עדכון תמונה לפי מצב הניתוח
-     displayImg3D.src = isAnalyzed ? "3d with clash.jpg" : "3d model.jpg";
-     
-     // עדכון וידאו לפי מצב הניתוח
-     const videoSrc = isAnalyzed ? "3d video clash.mp4" : "3d video.mp4";
-     if(video3D.src !== videoSrc) {
-        video3D.src = videoSrc;
-        video3D.load();
-     }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hoursLeft = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutesLeft = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const secondsLeft = Math.floor((distance % (1000 * 60)) / 1000);
 
-     btn3D.classList.add('active'); 
-     btn2D.classList.remove('active');
-     layer2D.style.display = 'none'; 
-     layer3D.style.display = 'flex';
-     image3DContainer.style.display = 'block'; 
-     videoContainer.style.display = 'none';
-     video3D.pause();
-     resetZoom();
-  });
-  
-  btnPlayVideo.addEventListener('click', () => { 
-    image3DContainer.style.display = 'none'; 
-    videoContainer.style.display = 'block'; 
-    video3D.play(); 
-  });
-  btnCloseVideo.addEventListener('click', () => { 
-    video3D.pause(); 
-    videoContainer.style.display = 'none'; 
-    image3DContainer.style.display = 'block'; 
-  });
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = pad(hoursLeft);
+      document.getElementById('minutes').textContent = pad(minutesLeft);
+      document.getElementById('seconds').textContent = pad(secondsLeft);
 
-  showArchBtn.addEventListener('click', () => {
-      showArchBtn.classList.add('active'); 
-      showMepBtn.classList.remove('active');
-      if(currentArchImg.src) currentArchImg.style.display = 'block';
-      if(currentMepImg.src) currentMepImg.style.display = 'none';
-  });
+      document.getElementById('weeksLeft').textContent = `נותרו בערך ${weeksLeft(distance)} שבועות`;
 
-  showMepBtn.addEventListener('click', () => {
-      showMepBtn.classList.add('active'); 
-      showArchBtn.classList.remove('active');
-      if(currentMepImg.src) currentMepImg.style.display = 'block';
-      if(currentArchImg.src) currentArchImg.style.display = 'none';
-  });
+      const totalSpan = endEpoch - startEpoch;
+      const progressed = Math.min(Math.max(now - startEpoch, 0), totalSpan);
+      const pct = totalSpan > 0 ? (progressed / totalSpan) * 100 : 100;
+      bar.style.width = pct.toFixed(2) + '%';
 
-  function handleUpload(inputId, nameDisplayId, imgElementId) {
-    document.getElementById(inputId).addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const nameDisplay = document.getElementById(nameDisplayId);
-        nameDisplay.textContent = "✅ " + file.name;
+      // האצת אייקונים כשהיעד קרוב
+      const iconsTrack = document.getElementById('iconsTrack');
+      if(distance <= (totalSpan/3)) iconsTrack.classList.add('icons-fast');
+      else iconsTrack.classList.remove('icons-fast');
 
-        if(inputId === 'archInput') {
-          isAnalyzed = false;
-          // איפוס מקור הוידאו בטעינה חדשה
-          video3D.src = "3d video.mp4";
-          video3D.load();
-          lastUploadedName = file.name;
-          btn3D.classList.remove('disabled');
-        }
-
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          placeholderText.style.display = 'none';
-          layerSwitcher.style.display = 'flex';
-          const targetImg = document.getElementById(imgElementId);
-          targetImg.src = evt.target.result;
-          if(inputId === 'archInput') showArchBtn.click(); else showMepBtn.click();
-        };
-        reader.readAsDataURL(file);
+      if(distance <= 0){
+        clearInterval(timer);
+        document.getElementById('countdown').style.display = 'none';
+        done.style.display = 'block';
+        miniConfetti.fire();
       }
-    });
-  }
-  
-  handleUpload('archInput', 'archFileName', 'currentArchImg');
-  handleUpload('mepInput', 'mepFileName', 'currentMepImg');
+    }, 1000);
 
-  analyzeBtn.addEventListener('click', () => {
-    if (archInput.files.length === 0) { 
-      showCustomAlert("Please upload a Floor Plan file first!"); 
-      return; 
+    /* ===== בר לפי ימים (סגמנטים) ===== */
+    function startOfTodayLocal(){ const now = new Date(); return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime(); }
+    const START_DAYS = startOfTodayLocal();
+
+    function buildDaySegments(){
+      const barDays = document.getElementById('daysBar');
+      barDays.innerHTML = '';
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const totalDays = Math.max(Math.ceil((TARGET - START_DAYS) / msPerDay), 0);
+
+      if(totalDays === 0){
+        const seg = document.createElement('div');
+        seg.className = 'seg soon today';
+        seg.style.flex = '1 1 100%';
+        barDays.appendChild(seg);
+        updateDaysHeader(0, 0, 0, 100);
+        return;
+      }
+
+      const farEnd = Math.floor(totalDays * (2/3));
+      const midEnd = Math.floor(totalDays * (1/3));
+
+      for(let i=0;i<totalDays;i++){
+        const seg = document.createElement('div'); seg.classList.add('seg');
+        const daysLeft = totalDays - i;
+        if(daysLeft > farEnd) seg.classList.add('far');
+        else if(daysLeft > midEnd) seg.classList.add('mid');
+        else seg.classList.add('soon');
+        if(i===0) seg.classList.add('today');
+        const dateStr = new Date(START_DAYS + i*msPerDay).toLocaleDateString('he-IL', { weekday:'short', day:'2-digit', month:'2-digit' });
+        seg.title = `יום ${i+1} מתוך ${totalDays} (${dateStr})`;
+        barDays.appendChild(seg);
+      }
+      updateDaysHeader(totalDays, totalDays, 0, 0);
     }
-    btn2D.click();
-    layer2D.classList.add('scanning');
-    
-    analyzeBtn.innerHTML = "<span>🧠 Processing...</span>";
-    
-    setTimeout(() => { analyzeBtn.innerHTML = "<span>🔍 Detecting Clashes...</span>"; }, 2500);
-    setTimeout(() => { analyzeBtn.innerHTML = "<span>✨ Finalizing...</span>"; }, 4500);
-    
-    setTimeout(() => {
-      isAnalyzed = true;
-      layer2D.classList.remove('scanning');
-      analyzeBtn.innerHTML = "<span>✨ Analysis Complete</span>";
-      analyzeBtn.style.background = "linear-gradient(to right, #4ade80, #22c55e)"; 
-      
-      aiStatus.style.display = 'inline-block';
-      waitingText.style.display = 'none';
-      issuesList.style.display = 'block';
-      
-      markers.forEach(m => {
-          m.style.display = 'flex';
-          setTimeout(() => m.style.transform = "scale(1)", 50);
+
+    function updateDaysHeader(totalDays, daysLeft, daysPassed, percent){
+      document.getElementById('daysSummary').textContent = `התקדמות ימים: ${percent.toFixed(1)}%`;
+      document.getElementById('daysCounters').textContent = `נותרו ${Math.max(daysLeft,0)} ימים • עברו ${Math.max(daysPassed,0)} ימים • סה״כ ${totalDays} ימים`;
+      document.getElementById('daysBar').setAttribute('aria-valuenow', percent.toFixed(1));
+    }
+
+    function startDaysTicker(){
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const totalDays = Math.max( Math.ceil((TARGET - START_DAYS) / msPerDay), 0);
+      function recompute(){
+        const now = Date.now();
+        const daysLeft  = Math.ceil((TARGET - now) / msPerDay);
+        const daysPassed = Math.max(totalDays - daysLeft, 0);
+        const percent = totalDays > 0 ? (daysPassed / totalDays) * 100 : 100;
+        updateDaysHeader(totalDays, daysLeft, daysPassed, percent);
+      }
+      recompute();
+      setInterval(recompute, 60 * 1000);
+    }
+
+    buildDaySegments();
+    startDaysTicker();
+
+    /* ===== בר מיילסטונים ===== */
+    function formatInTZ(dateUTC, tz){
+      return new Intl.DateTimeFormat('he-IL',{
+        timeZone: tz, hour:'2-digit', minute:'2-digit', day:'2-digit', month:'2-digit', year:'numeric'
+      }).format(new Date(dateUTC));
+    }
+
+    function buildMilestones(){
+      const tl = document.getElementById('timeline');
+      tl.innerHTML = '';
+      const now = Date.now();
+      const start = now;          // התחלה: מעכשיו
+      const end   = TARGET;       // סוף: היעד
+      const span  = Math.max(end - start, 1);
+
+      const rangeStr = `טווח: ${new Intl.DateTimeFormat('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(start))} ➜ ${new Intl.DateTimeFormat('he-IL',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(end))}`;
+      document.getElementById('milestoneRange').textContent = rangeStr;
+
+      milestones.forEach(m=>{
+        const pos = Math.max(0, Math.min(100, ((m.whenUTC - start) / span) * 100));
+        const dot = document.createElement('div'); dot.className = 'dot'; dot.style.left = pos + '%';
+        const label = document.createElement('div'); label.className = 'label';
+        label.innerHTML = `${m.label}<span class="time">${formatInTZ(m.whenUTC, m.tz)}</span>`;
+        label.style.left = pos + '%';
+        tl.appendChild(dot); tl.appendChild(label);
       });
-      
-      animateValueHTML(areaDisplay, 0, 88, 1000, " sqm");
-      roomsDisplay.innerText = "3";
-      bathsDisplay.innerText = "2 Full";
-      outdoorDisplay.innerText = "1 Balcony";
-      floorsDisplay.innerText = "1 Level";
+    }
+    buildMilestones();
 
-      setTimeout(() => { addBubble("Analysis finished. Updated metrics and 3D simulation ready.", 'bot'); }, 500);
-    }, 6000); 
-  });
+    /* ===== מצב סטופר ===== */
+    const btnStopwatch = document.getElementById('toggleStopwatch');
+    let stopwatchOn = false;
+    // נגדיר סטופר החל מרגע ההמראה (אם כבר עברנו אותו)
+    const STOPWATCH_START = milestones.find(m=>m.id==='takeoff').whenUTC;
 
-  document.querySelectorAll('.issue-card').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      if(layer2D.style.display !== 'none') {
-          const targetId = item.getAttribute('data-target');
-          const targetMarker = document.getElementById(targetId);
-          if(targetMarker) targetMarker.classList.add('active');
-          item.classList.add('highlighted');
+    btnStopwatch.addEventListener('click', ()=>{
+      if(!stopwatchOn){
+        if(Date.now() < STOPWATCH_START){
+          alert('סטופר יהיה זמין מרגע ההמראה.');
+          return;
+        }
+        stopwatchOn = true;
+        btnStopwatch.textContent = 'כבה סטופר';
+        startStopwatch();
+      }else{
+        stopwatchOn = false;
+        btnStopwatch.textContent = 'מצב סטופר';
+        stopStopwatch();
       }
     });
-    item.addEventListener('mouseleave', () => {
-      const targetId = item.getAttribute('data-target');
-      const targetMarker = document.getElementById(targetId);
-      if(targetMarker) targetMarker.classList.remove('active');
-      item.classList.remove('highlighted');
-    });
-  });
 
-  function animateValueHTML(element, start, end, duration, suffix) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const val = Math.floor(progress * (end - start) + start);
-      element.innerText = "~" + val.toLocaleString() + suffix;
-      if (progress < 1) window.requestAnimationFrame(step);
-    };
-    window.requestAnimationFrame(step);
-  }
-</script>
+    let stopwatchInterval=null;
+    function startStopwatch(){
+      document.getElementById('countdown').style.display = 'none';
+      const box = document.getElementById('weeksLeft');
+      box.style.color = 'var(--gold)';
+      box.textContent = 'סטופר פעיל: זמן שחלף מאז ההמראה';
+      stopwatchInterval = setInterval(()=>{
+        const diff = Date.now() - STOPWATCH_START;
+        const d = Math.floor(diff / (1000*60*60*24));
+        const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+        const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+        const s = Math.floor((diff % (1000*60)) / 1000);
+        // מציגים ב‑ארבע תיבות קיימות
+        document.getElementById('days').textContent = d;
+        document.getElementById('hours').textContent = pad(h);
+        document.getElementById('minutes').textContent = pad(m);
+        document.getElementById('seconds').textContent = pad(s);
+        document.getElementById('countdown').style.display = 'flex';
+      }, 1000);
+    }
+    function stopStopwatch(){
+      clearInterval(stopwatchInterval);
+      stopwatchInterval = null;
+      document.getElementById('weeksLeft').style.color = 'var(--fg-muted)';
+      // מחזירים לספירה לאחור
+    }
+
+    /* ===== יומן Google + ICS ===== */
+    document.getElementById('addGoogle').addEventListener('click', ()=>{
+      const tz = encodeURIComponent(tzTarget);
+      const start = '20260228T072000Z'; // 09:20 בוקרשט = 07:20Z
+      const end   = '20260228T082000Z';
+      const text  = encodeURIComponent('מפגש מריוט - טיסה לבוקרשט');
+      const location = encodeURIComponent('Marriott Bucharest');
+      const details  = encodeURIComponent('נפגשים לקראת הטיסה. להביא דרכונים :)');
+      const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${start}/${end}&details=${details}&location=${location}&ctz=${tz}`;
+      window.open(url, '_blank');
+    });
+
+    document.getElementById('downloadICS').addEventListener('click', ()=>{
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Bucharest Trip//HE
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\..*/,'')}
+DTSTART:20260228T072000Z
+DTEND:20260228T082000Z
+SUMMARY:מפגש מריוט - טיסה לבוקרשט
+DESCRIPTION:נפגשים לקראת הטיסה. להביא דרכונים :)
+LOCATION:Marriott Bucharest
+END:VEVENT
+END:VCALENDAR`;
+      const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Bucharest-Meetup.ics';
+      a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    });
+
+    /* ===== שיתוף ===== */
+    document.getElementById('share').addEventListener('click', async ()=>{
+      const shareData = {
+        title:'הספירה לאחור לבוקרשט',
+        text:'האחים היקרים טסים לבוקרשט! מפגש מריוט 28.02.2026 09:20 (זמן בוקרשט)',
+        url: location.href
+      };
+      try{
+        if(navigator.share){
+          await navigator.share(shareData);
+        }else{
+          await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}\n${shareData.url}`);
+          alert('קישור הועתק ללוח!');
+        }
+      }catch(e){
+        alert('לא ניתן לשתף כרגע. נסה/י שוב מאוחר יותר.');
+      }
+    });
+  </script>
 </body>
 </html>
