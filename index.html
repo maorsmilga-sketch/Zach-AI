@@ -162,21 +162,36 @@
         }
         .live-status-btn:hover { background-color: #2196f3; color: white; border-color: #2196f3; }
 
-        /* --- כפתור טריגר לכבודה --- */
-        .baggage-trigger {
-            background: #f4f9ff;
-            color: #0056b3;
+        /* --- כפתורים בתחתית הכרטיס --- */
+        .card-actions {
+            display: flex;
+            border-top: 1px solid #e1e1e1;
+        }
+
+        .action-btn {
+            flex: 1;
             padding: 12px;
             text-align: center;
             cursor: pointer;
             font-weight: bold;
             font-size: 0.9rem;
-            border-top: 1px solid #e1e1e1;
             transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border-left: 1px solid #eee;
         }
+        .action-btn:last-child { border-left: none; }
+
+        .baggage-trigger { background: #f4f9ff; color: #0056b3; }
         .baggage-trigger:hover { background: #e6f2ff; }
 
-        /* --- Modal (החלון הקופץ) --- */
+        .trips-trigger { background: #fff8e1; color: #b36b00; }
+        .trips-trigger:hover { background: #ffecb3; }
+
+
+        /* --- Modal --- */
         .modal {
             display: none; 
             position: fixed; 
@@ -185,46 +200,57 @@
             top: 0;
             width: 100%; 
             height: 100%; 
-            background-color: rgba(0,0,0,0.6);
+            background-color: rgba(0,0,0,0.7);
             backdrop-filter: blur(5px);
+            overflow-y: auto;
         }
 
         .modal-content {
             background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
+            margin: 10% auto;
+            padding: 25px;
             border-radius: 20px;
-            width: 85%;
-            max-width: 400px;
+            width: 90%;
+            max-width: 500px;
             box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-            text-align: center;
+            text-align: right;
             position: relative;
             animation: popIn 0.3s ease-out;
         }
 
         @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
+            from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
 
         .close-btn {
             position: absolute;
-            top: 10px;
-            left: 15px;
+            top: 15px;
+            left: 20px;
             color: #aaa;
-            font-size: 28px;
+            font-size: 30px;
             font-weight: bold;
             cursor: pointer;
+            line-height: 1;
         }
-        .close-btn:hover { color: #000; }
 
-        .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 20px; }
+        .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; }
 
+        /* עיצוב כבודה */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
         .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
         .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
+
+        /* עיצוב טיולים */
+        .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; }
+        .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .trip-icon { font-size: 2rem; }
+        .trip-name { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .trip-details { font-size: 0.95rem; color: #555; line-height: 1.4; margin-bottom: 10px; }
+        .trip-time { background: #f1f8ff; color: #0056b3; padding: 5px 10px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: inline-block; }
 
         /* נקודת מפגש */
         .meeting-point {
@@ -244,11 +270,14 @@
         .label { font-size: 0.8rem; color: #ffd700; text-transform: uppercase; font-weight: bold; margin-top: 5px; }
         .time-box.days-highlight .label { color: #fff; }
 
-        /* מחשבון המרה */
-        .converter-box {
+        /* קופסאות כלליות (מחשבון + רולטה) */
+        .tool-box {
             background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
+        .tool-title { margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem; }
+
+        /* מחשבון המרה */
         .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
         .input-group input { 
             width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; 
@@ -257,17 +286,47 @@
         .input-group input:focus { border-color: #0056b3; }
         #ilsOutput { background: #f9f9f9; color: #28a745; font-weight: bold; }
 
-        /* התאמה למובייל */
+        /* --- עיצוב הרולטה (חדש!) --- */
+        .roulette-display {
+            width: 80px; height: 80px; margin: 10px auto; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 2.5rem; font-weight: bold; color: white;
+            background: #333; /* ברירת מחדל */
+            border: 4px solid #d4af37; /* זהב */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            transition: all 0.1s;
+        }
+        .num-red { background-color: #d60000; }
+        .num-black { background-color: #222; }
+        .num-green { background-color: #008000; }
+        .spinning { animation: flicker 0.08s infinite; }
+
+        @keyframes flicker {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .spin-btn {
+            background: linear-gradient(to bottom, #d4af37, #b4941f);
+            color: white; border: none; padding: 10px 25px; border-radius: 50px;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4); transition: transform 0.1s;
+        }
+        .spin-btn:active { transform: scale(0.95); }
+        .spin-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+
+
         @media (max-width: 450px) {
             h1 { font-size: 1.3rem; gap: 5px; } 
             .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
             .flight-times { font-size: 1.1rem; }
-            .baggage-items { flex-direction: column; } 
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
             .baggage-title { margin-bottom: 0; }
             .number { font-size: 1.5rem; }
             .label { font-size: 0.7rem; }
+            .modal-content { width: 85%; margin: 10% auto; padding: 20px; }
         }
     </style>
 </head>
@@ -333,8 +392,13 @@
                 </a>
             </div>
 
-            <div class="baggage-trigger" onclick="openModal()">
-                🎒🧳 לחץ כאן לפרטי כבודה מותרת
+            <div class="card-actions">
+                <div class="action-btn trips-trigger" onclick="openTripsModal()">
+                    🏔️🚗 טיולי יום - לחץ לבחירה
+                </div>
+                <div class="action-btn baggage-trigger" onclick="openBaggageModal()">
+                    🎒🧳 פרטי כבודה
+                </div>
             </div>
         </div>
 
@@ -361,8 +425,14 @@
             </div>
         </div>
 
-        <div class="converter-box">
-            <h3 style="margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem;">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
+        <div class="tool-box">
+            <h3 class="tool-title">🎰 האורקל של הקזינו</h3>
+            <div id="rouletteResult" class="roulette-display">?</div>
+            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">סובב את הרולטה!</button>
+        </div>
+
+        <div class="tool-box">
+            <h3 class="tool-title">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
             <div class="converter-inputs">
                 <div class="input-group">
                     <input type="number" id="ronInput" placeholder="LEI" oninput="convertCurrency()">
@@ -375,9 +445,9 @@
         </div>
     </div>
 
-    <div id="baggageModal" class="modal" onclick="closeModal(event)">
+    <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal(event)">&times;</span>
+            <span class="close-btn" onclick="closeModal(event, 'baggageModal')">&times;</span>
             <h3>🎒 פירוט כבודה (לכל כיוון)</h3>
             <div class="baggage-items">
                 <div class="baggage-item">
@@ -394,16 +464,42 @@
         </div>
     </div>
 
-    <script>
-        // פונקציות מודל
-        function openModal() {
-            document.getElementById('baggageModal').style.display = 'block';
-        }
+    <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event, 'tripsModal')">&times;</span>
+            <h3>🏔️ לאן נוסעים?</h3>
+            <div class="warning-box">
+                <span class="warning-title">⚠️ שימו לב!</span>
+                חייבים לכוון ליום חמישי (26.02) כדי להימנע מפקקי הסופ"ש. <br>
+                <strong>אם מחליטים לצאת מהעיר - כדאי לסגור רכב מעכשיו.</strong>
+            </div>
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אופציית אקסטרים (סינאיה)</span></div>
+                <div class="trip-details">עולים לפסגה, אופנועי שלג, גונדולה, יין חם ונוף מטורף.</div>
+                <div class="trip-time">⏰ 08:00 - 16:00</div>
+            </div>
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג + בשר)</span></div>
+                <div class="trip-details">בוקר בסינאיה, צהריים בבראשוב (מסעדות בשר).</div>
+                <div class="trip-time">⏰ 07:30 - 20:00</div>
+            </div>
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות המלח)</span></div>
+                <div class="trip-details">200 מטר מתחת לאדמה, לוקיישן הזייה.</div>
+                <div class="trip-time">⏰ 09:30 - 15:00</div>
+            </div>
+        </div>
+    </div>
 
-        function closeModal(event) {
-            // סגירה אם לחצו על האיקס או על הרקע השחור
-            if (event.target.id === 'baggageModal' || event.target.className === 'close-btn') {
-                document.getElementById('baggageModal').style.display = 'none';
+    <script>
+        // פתיחת מודלים
+        function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; }
+        function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; }
+
+        // סגירה כללית
+        function closeModal(event, modalId) {
+            if (event.target.id === modalId || event.target.className === 'close-btn') {
+                document.getElementById(modalId).style.display = 'none';
             }
         }
 
@@ -426,12 +522,56 @@
             }
         }, 1000);
 
-        // המרה - מעודכן ל-0.73
+        // המרה (שער 0.73)
         function convertCurrency() {
-            const rate = 0.73; // שער מעודכן לפי התמונה
+            const rate = 0.73; 
             const ron = document.getElementById('ronInput').value;
             const ils = ron ? (ron * rate).toFixed(1) : '';
             document.getElementById('ilsOutput').value = ils ? ils + ' ₪' : '';
+        }
+
+        // --- לוגיקת הרולטה ---
+        const rouletteNumbers = [
+            { num: 0, color: 'green' }, { num: 32, color: 'red' }, { num: 15, color: 'black' }, { num: 19, color: 'red' },
+            { num: 4, color: 'black' }, { num: 21, color: 'red' }, { num: 2, color: 'black' }, { num: 25, color: 'red' },
+            { num: 17, color: 'black' }, { num: 34, color: 'red' }, { num: 6, color: 'black' }, { num: 27, color: 'red' },
+            { num: 13, color: 'black' }, { num: 36, color: 'red' }, { num: 11, color: 'black' }, { num: 30, color: 'red' },
+            { num: 8, color: 'black' }, { num: 23, color: 'red' }, { num: 10, color: 'black' }, { num: 5, color: 'red' },
+            { num: 24, color: 'black' }, { num: 16, color: 'red' }, { num: 33, color: 'black' }, { num: 1, color: 'red' },
+            { num: 20, color: 'black' }, { num: 14, color: 'red' }, { num: 31, color: 'black' }, { num: 9, color: 'red' },
+            { num: 22, color: 'black' }, { num: 18, color: 'red' }, { num: 29, color: 'black' }, { num: 7, color: 'red' },
+            { num: 28, color: 'black' }, { num: 12, color: 'red' }, { num: 35, color: 'black' }, { num: 3, color: 'red' },
+            { num: 26, color: 'black' }
+        ];
+
+        function spinRoulette() {
+            const display = document.getElementById('rouletteResult');
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true; // מניעת לחיצה כפולה
+            display.classList.add('spinning');
+
+            let counter = 0;
+            // אנימציית הרצה
+            const spinInterval = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * rouletteNumbers.length);
+                const item = rouletteNumbers[randomIndex];
+                display.innerText = item.num;
+                display.className = 'roulette-display spinning num-' + item.color;
+                counter++;
+                if (counter > 20) { // עוצר אחרי כ-2 שניות
+                    clearInterval(spinInterval);
+                    finalizeSpin();
+                }
+            }, 100);
+
+            // תוצאה סופית
+            function finalizeSpin() {
+                const finalIndex = Math.floor(Math.random() * rouletteNumbers.length);
+                const finalItem = rouletteNumbers[finalIndex];
+                display.innerText = finalItem.num;
+                display.className = 'roulette-display num-' + finalItem.color; // מסיר את ה-spinning
+                btn.disabled = false;
+            }
         }
     </script>
 
