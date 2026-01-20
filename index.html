@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>חופשת האחים בבוקרשט</title>
     <style>
-        /* הגדרות עיצוב כלליות */
+        /* --- הגדרות בסיס --- */
         body {
             margin: 0;
             padding: 0;
@@ -32,22 +32,20 @@
             border-top: 5px solid #ff8c00;
         }
 
-        /* עדכון לכותרת - דגלים ושורה אחת */
         h1 {
-            font-size: 2rem; /* הקטנתי מעט את גודל הבסיס */
+            font-size: 1.8rem;
             margin: 0 0 15px 0;
             color: #0056b3;
             font-weight: 800;
             text-transform: uppercase;
-            /* הגדרות לשמירה על שורה אחת ומרכוז */
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px; /* רווח בין הדגלים לטקסט */
-            white-space: nowrap; /* מכריח שורה אחת */
+            gap: 10px;
+            white-space: nowrap;
         }
 
-        /* תיקון שורת האייקונים */
+        /* --- רכיבי העמוד --- */
         .vibe-container {
             display: flex;
             justify-content: center;
@@ -74,7 +72,6 @@
             flex-shrink: 0;
         }
 
-        /* עיצוב כרטיס הטיסה */
         .flight-card {
             background: #fff;
             border-radius: 15px;
@@ -144,154 +141,129 @@
             font-weight: normal;
         }
 
-        .arrow {
-            font-size: 1.5rem;
-            color: #ff8c00;
-            padding: 0 5px;
-        }
+        .arrow { font-size: 1.5rem; color: #ff8c00; padding: 0 5px; }
 
-        /* עיצוב פרטי כבודה */
-        .baggage-section {
-            padding: 15px;
-            background: #f4f9ff;
-            border-top: 2px dashed #cce5ff;
-        }
-
-        .baggage-header {
-            font-size: 1rem;
+        /* כפתור סטטוס טיסה */
+        .live-status-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 12px;
+            background-color: #e3f2fd;
             color: #0056b3;
+            font-size: 0.85rem;
             font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .baggage-items {
-            display: flex;
-            gap: 10px;
-        }
-
-        .baggage-item {
-            background: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #e1e1e1;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-radius: 20px;
+            text-decoration: none;
+            border: 1px solid #bbdefb;
+            transition: all 0.2s;
+            width: 100%;
+            box-sizing: border-box;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .live-status-btn:hover { background-color: #2196f3; color: white; border-color: #2196f3; }
+
+        /* --- כפתור טריגר לכבודה --- */
+        .baggage-trigger {
+            background: #f4f9ff;
+            color: #0056b3;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-top: 1px solid #e1e1e1;
+            transition: background 0.2s;
+        }
+        .baggage-trigger:hover { background: #e6f2ff; }
+
+        /* --- Modal (החלון הקופץ) --- */
+        .modal {
+            display: none; /* מוסתר כברירת מחדל */
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.6); /* רקע כהה */
+            backdrop-filter: blur(5px);
         }
 
-        .baggage-icon { font-size: 1.6rem; margin-bottom: 5px; }
-        .baggage-title { font-size: 0.85rem; color: #555; margin-bottom: 5px; flex-grow: 1; }
-        .baggage-status { font-size: 0.9rem; color: #28a745; font-weight: bold; }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 20px;
+            width: 85%;
+            max-width: 400px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s ease-out;
+        }
 
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 15px; /* צד שמאל כי זה עברית */
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-btn:hover { color: #000; }
+
+        .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 20px; }
+
+        /* עיצוב הפריטים בתוך המודל */
+        .baggage-items { display: flex; gap: 10px; }
+        .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
+        .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
+        .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
+
+        /* נקודת מפגש */
         .meeting-point {
             background: linear-gradient(45deg, #ff8c00, #ffd700);
-            color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin: 20px 0;
+            color: #fff; padding: 10px; border-radius: 10px;
+            font-size: 1.1rem; font-weight: bold; margin: 20px 0;
             box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
             animation: pulse 2s infinite;
         }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        /* עיצוב השעון */
-        #countdown {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin: 25px 0;
-            width: 100%;
-        }
-
-        .time-box {
-            background: linear-gradient(135deg, #006eff, #00a8ff);
-            padding: 10px 5px;
-            border-radius: 10px;
-            flex: 1;
-            max-width: 80px;
-            box-shadow: 0 4px 10px rgba(0, 110, 255, 0.2);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .time-box.days-highlight {
-            background: linear-gradient(135deg, #ffb300, #ff8c00);
-            transform: scale(1.05); 
-            z-index: 10;
-            box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4);
-            border: 1px solid #fff;
-        }
-
-        .number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        .label {
-            font-size: 0.8rem;
-            color: #ffd700;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        
+        /* שעון */
+        #countdown { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 25px 0; width: 100%; }
+        .time-box { background: linear-gradient(135deg, #006eff, #00a8ff); padding: 10px 5px; border-radius: 10px; flex: 1; max-width: 80px; box-shadow: 0 4px 10px rgba(0, 110, 255, 0.2); color: #fff; display: flex; flex-direction: column; align-items: center; }
+        .time-box.days-highlight { background: linear-gradient(135deg, #ffb300, #ff8c00); transform: scale(1.05); z-index: 10; box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4); border: 1px solid #fff; }
+        .number { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+        .label { font-size: 0.8rem; color: #ffd700; text-transform: uppercase; font-weight: bold; margin-top: 5px; }
         .time-box.days-highlight .label { color: #fff; }
 
-        /* רשימת המשתתפים */
-        .squad {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
+        /* מחשבון המרה */
+        .converter-box {
+            background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
-
-        .squad h3 { color: #0056b3; margin-bottom: 10px; font-size: 1.2rem; }
-
-        .names {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 10px;
-            display: inline-block;
+        .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
+        .input-group input { 
+            width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; 
+            text-align: center; font-size: 1.1rem; outline: none;
         }
-
-        .pending {
-            font-size: 0.9rem;
-            color: #e63946;
-            font-weight: bold;
-            background: #fff0f0;
-            padding: 8px;
-            border-radius: 8px;
-            display: inline-block;
-        }
+        .input-group input:focus { border-color: #0056b3; }
+        #ilsOutput { background: #f9f9f9; color: #28a745; font-weight: bold; }
 
         /* התאמה למובייל */
         @media (max-width: 450px) {
-            /* הקטנה משמעותית של הכותרת כדי שתיכנס בשורה אחת עם שני הדגלים */
             h1 { font-size: 1.3rem; gap: 5px; } 
-            
             .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
             .flight-times { font-size: 1.1rem; }
-            .baggage-items { flex-direction: column; }
+            .baggage-items { flex-direction: column; } /* במודל עצמו במובייל */
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
             .baggage-title { margin-bottom: 0; }
@@ -304,6 +276,13 @@
 
     <div class="container">
         <h1>🇷🇴 האחים היקרים בבוקרשט! 🇷🇴</h1>
+
+        <div style="margin-bottom: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/44d4326d10/bucharest/" data-label_1="BUCHAREST" data-label_2="מזג אוויר" data-font="Segoe UI" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="pure" >BUCHAREST מזג אוויר</a>
+            <script>
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+            </script>
+        </div>
         
         <div class="vibe-container">
             <div class="vibe-item">🧖‍♂️ ספא</div>
@@ -329,6 +308,9 @@
                         <span class="airport-code">OTP</span>
                     </div>
                 </div>
+                <a href="https://www.flightradar24.com/data/flights/w43258" target="_blank" class="live-status-btn">
+                    🔴 בדוק סטטוס המראה בזמן אמת
+                </a>
             </div>
 
             <div class="flight-segment">
@@ -347,24 +329,13 @@
                         <span class="airport-code">TLV</span>
                     </div>
                 </div>
+                <a href="https://www.flightradar24.com/data/flights/w43263" target="_blank" class="live-status-btn">
+                    🔴 בדוק סטטוס המראה בזמן אמת
+                </a>
             </div>
 
-            <div class="baggage-section">
-                <div class="baggage-header">
-                    <span style="font-size: 1.2rem;">🎒🧳</span> כבודה כלולה (לכל כיוון)
-                </div>
-                <div class="baggage-items">
-                    <div class="baggage-item">
-                        <span class="baggage-icon">🎒</span>
-                        <span class="baggage-title">תיק גב קטן (מתחת למושב)</span>
-                        <span class="baggage-status">חינם</span>
-                    </div>
-                    <div class="baggage-item">
-                        <span class="baggage-icon">🧳</span>
-                        <span class="baggage-title">מזוודה 20 ק"ג (צ'ק-אין)</span>
-                        <span class="baggage-status">כלול!</span>
-                    </div>
-                </div>
+            <div class="baggage-trigger" onclick="openModal()">
+                🎒🧳 לחץ כאן לפרטי כבודה מותרת
             </div>
         </div>
 
@@ -391,41 +362,78 @@
             </div>
         </div>
 
-        <div class="squad">
-            <h3>⭐ נבחרת החלומות ⭐</h3>
-            <div class="names">
-                היצ'קוק • בגדן • מאור • עידו
+        <div class="converter-box">
+            <h3 style="margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem;">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
+            <div class="converter-inputs">
+                <div class="input-group">
+                    <input type="number" id="ronInput" placeholder="LEI" oninput="convertCurrency()">
+                </div>
+                <span style="font-size: 1.5rem;">⬅️</span>
+                <div class="input-group">
+                    <input type="text" id="ilsOutput" placeholder="₪" readonly>
+                </div>
             </div>
-            <br>
-            <div class="pending">
-                🤔 מתנדנד: ניר (תחליט כבר!)
+        </div>
+    </div>
+
+    <div id="baggageModal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event)">&times;</span>
+            <h3>🎒 פירוט כבודה (לכל כיוון)</h3>
+            <div class="baggage-items">
+                <div class="baggage-item">
+                    <span class="baggage-icon">🎒</span>
+                    <span class="baggage-title">תיק גב קטן (מתחת למושב)</span>
+                    <span class="baggage-status">חינם</span>
+                </div>
+                <div class="baggage-item">
+                    <span class="baggage-icon">🧳</span>
+                    <span class="baggage-title">מזוודה 20 ק"ג (צ'ק-אין)</span>
+                    <span class="baggage-status">כלול!</span>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // תאריך יעד: 25 בפברואר 2026, שעה 06:20 (זמן המפגש לטיסה של 09:20)
-        const targetDate = new Date("Feb 25, 2026 06:20:00").getTime();
+        // פונקציות מודל
+        function openModal() {
+            document.getElementById('baggageModal').style.display = 'block';
+        }
 
+        function closeModal(event) {
+            // סגירה אם לחצו על האיקס או על הרקע השחור (אבל לא על התוכן עצמו)
+            if (event.target.id === 'baggageModal' || event.target.className === 'close-btn') {
+                document.getElementById('baggageModal').style.display = 'none';
+            }
+        }
+
+        // טיימר
+        const targetDate = new Date("Feb 25, 2026 06:20:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
             document.getElementById("days").innerHTML = days;
             document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
             document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
-
             if (distance < 0) {
                 clearInterval(timer);
                 document.getElementById("countdown").innerHTML = "<h2>🥂 יאללה לדיוטי! טסים! 🥂</h2>";
             }
         }, 1000);
+
+        // המרה
+        function convertCurrency() {
+            const rate = 0.8; 
+            const ron = document.getElementById('ronInput').value;
+            const ils = ron ? (ron * rate).toFixed(1) : '';
+            document.getElementById('ilsOutput').value = ils ? ils + ' ₪' : '';
+        }
     </script>
 
 </body>
