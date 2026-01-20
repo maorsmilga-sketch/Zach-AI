@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>חופשת האחים בבוקרשט</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         /* --- הגדרות בסיס --- */
         body {
@@ -33,8 +34,8 @@
         }
 
         h1 {
-            font-size: 1.8rem;
-            margin: 0 0 15px 0;
+            font-size: 1.6rem;
+            margin: 0 0 5px 0;
             color: #0056b3;
             font-weight: 800;
             text-transform: uppercase;
@@ -45,7 +46,50 @@
             white-space: nowrap;
         }
 
-        /* --- רכיבי העמוד --- */
+        /* --- טיימר יוקרתי --- */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 5px 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .time-box {
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            border-radius: 0;
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 45px;
+        }
+
+        .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .label {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        
+        .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
+
+        /* --- רכיבים כלליים --- */
         .vibe-container {
             display: flex;
             justify-content: center;
@@ -143,7 +187,6 @@
 
         .arrow { font-size: 1.5rem; color: #ff8c00; padding: 0 5px; }
 
-        /* כפתור סטטוס טיסה */
         .live-status-btn {
             display: inline-block;
             margin-top: 10px;
@@ -162,7 +205,7 @@
         }
         .live-status-btn:hover { background-color: #2196f3; color: white; border-color: #2196f3; }
 
-        /* --- כפתורים בתחתית הכרטיס --- */
+        /* --- כפתורים (טאבים) --- */
         .card-actions {
             display: flex;
             border-top: 1px solid #e1e1e1;
@@ -170,25 +213,34 @@
 
         .action-btn {
             flex: 1;
-            padding: 12px;
+            padding: 15px 2px; /* ריפוד קטן יותר כדי ש-4 ייכנסו */
             text-align: center;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* פונט טיפה יותר קטן */
             transition: background 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 3px;
             border-left: 1px solid #eee;
+            line-height: 1.1;
+            white-space: nowrap; /* מונע שבירת שורה */
         }
         .action-btn:last-child { border-left: none; }
 
+        /* צבעים לכל כפתור */
         .baggage-trigger { background: #f4f9ff; color: #0056b3; }
         .baggage-trigger:hover { background: #e6f2ff; }
 
         .trips-trigger { background: #fff8e1; color: #b36b00; }
         .trips-trigger:hover { background: #ffecb3; }
+        
+        .oracle-trigger { background: #333; color: #d4af37; }
+        .oracle-trigger:hover { background: #000; }
+
+        .raffle-trigger { background: #f3e5f5; color: #6a1b9a; } /* סגול להגרלה */
+        .raffle-trigger:hover { background: #e1bee7; }
 
 
         /* --- Modal --- */
@@ -207,11 +259,11 @@
 
         .modal-content {
             background-color: #fff;
-            margin: 10% auto;
+            margin: 15% auto;
             padding: 25px;
             border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
+            width: 85%;
+            max-width: 450px;
             box-shadow: 0 5px 30px rgba(0,0,0,0.3);
             text-align: right;
             position: relative;
@@ -236,14 +288,14 @@
 
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; }
 
-        /* עיצוב כבודה */
+        /* Baggage Styles */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
         .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
         .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
 
-        /* עיצוב טיולים */
+        /* Trip Styles */
         .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; }
         .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
@@ -252,81 +304,61 @@
         .trip-details { font-size: 0.95rem; color: #555; line-height: 1.4; margin-bottom: 10px; }
         .trip-time { background: #f1f8ff; color: #0056b3; padding: 5px 10px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: inline-block; }
 
-        /* נקודת מפגש */
-        .meeting-point {
-            background: linear-gradient(45deg, #ff8c00, #ffd700);
-            color: #fff; padding: 10px; border-radius: 10px;
-            font-size: 1.1rem; font-weight: bold; margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-
-        /* שעון */
-        #countdown { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 25px 0; width: 100%; }
-        .time-box { background: linear-gradient(135deg, #006eff, #00a8ff); padding: 10px 5px; border-radius: 10px; flex: 1; max-width: 80px; box-shadow: 0 4px 10px rgba(0, 110, 255, 0.2); color: #fff; display: flex; flex-direction: column; align-items: center; }
-        .time-box.days-highlight { background: linear-gradient(135deg, #ffb300, #ff8c00); transform: scale(1.05); z-index: 10; box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4); border: 1px solid #fff; }
-        .number { font-size: 1.8rem; font-weight: 800; line-height: 1; }
-        .label { font-size: 0.8rem; color: #ffd700; text-transform: uppercase; font-weight: bold; margin-top: 5px; }
-        .time-box.days-highlight .label { color: #fff; }
-
-        /* קופסאות כלליות (מחשבון + רולטה) */
-        .tool-box {
-            background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee;
-        }
-        .tool-title { margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem; }
-
-        /* מחשבון המרה */
+        /* Converter Styles */
+        .converter-box { background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
-        .input-group input { 
-            width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; 
-            text-align: center; font-size: 1.1rem; outline: none;
-        }
+        .input-group input { width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; text-align: center; font-size: 1.1rem; outline: none; }
         .input-group input:focus { border-color: #0056b3; }
         #ilsOutput { background: #f9f9f9; color: #28a745; font-weight: bold; }
 
-        /* --- עיצוב הרולטה (חדש!) --- */
-        .roulette-display {
-            width: 80px; height: 80px; margin: 10px auto; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 2.5rem; font-weight: bold; color: white;
-            background: #333; /* ברירת מחדל */
-            border: 4px solid #d4af37; /* זהב */
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            transition: all 0.1s;
-        }
+        /* Roulette Styles */
+        .roulette-display { width: 100px; height: 100px; margin: 20px auto; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 3rem; font-weight: bold; color: white; background: #333; border: 5px solid #d4af37; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.2); transition: all 0.1s; }
         .num-red { background-color: #d60000; }
         .num-black { background-color: #222; }
         .num-green { background-color: #008000; }
         .spinning { animation: flicker 0.08s infinite; }
-
-        @keyframes flicker {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(0.98); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .spin-btn {
-            background: linear-gradient(to bottom, #d4af37, #b4941f);
-            color: white; border: none; padding: 10px 25px; border-radius: 50px;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4); transition: transform 0.1s;
-        }
+        @keyframes flicker { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
+        
+        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: block; margin: 0 auto; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4); transition: transform 0.1s; width: 80%; }
         .spin-btn:active { transform: scale(0.95); }
         .spin-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
 
+        /* --- Raffle Styles (חדש) --- */
+        .raffle-display {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #6a1b9a;
+            text-align: center;
+            margin: 30px 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #e1bee7;
+            border-radius: 15px;
+            background: #f3e5f5;
+        }
+        .raffle-btn {
+            background: linear-gradient(to bottom, #9c27b0, #7b1fa2);
+            color: white; border: none; padding: 15px 40px; border-radius: 50px;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; display: block; margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(156, 39, 176, 0.4); transition: transform 0.1s; width: 80%;
+        }
+        .raffle-btn:active { transform: scale(0.95); }
+        .raffle-btn:disabled { background: #ccc; box-shadow: none; }
 
         @media (max-width: 450px) {
             h1 { font-size: 1.3rem; gap: 5px; } 
+            .number { font-size: 1.5rem; }
+            .label { font-size: 0.6rem; }
             .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
             .flight-times { font-size: 1.1rem; }
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
             .baggage-title { margin-bottom: 0; }
-            .number { font-size: 1.5rem; }
-            .label { font-size: 0.7rem; }
             .modal-content { width: 85%; margin: 10% auto; padding: 20px; }
+            /* תיקון לכפתורים במובייל */
+            .action-btn { font-size: 0.75rem; padding: 12px 2px; }
         }
     </style>
 </head>
@@ -334,6 +366,28 @@
 
     <div class="container">
         <h1>🇷🇴 האחים היקרים בבוקרשט! 🇷🇴</h1>
+
+        <div id="countdown">
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">ימים</span>
+            </div>
+            <span class="separator">:</span>
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">שעות</span>
+            </div>
+            <span class="separator">:</span>
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">דקות</span>
+            </div>
+            <span class="separator">:</span>
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">שניות</span>
+            </div>
+        </div>
 
         <div style="margin-bottom: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
             <a class="weatherwidget-io" href="https://forecast7.com/en/44d4326d10/bucharest/" data-label_1="BUCHAREST" data-label_2="מזג אוויר" data-font="Segoe UI" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="pure" >BUCHAREST מזג אוויר</a>
@@ -393,11 +447,17 @@
             </div>
 
             <div class="card-actions">
+                <div class="action-btn oracle-trigger" onclick="openOracleModal()">
+                    🎰 אורקל
+                </div>
+                <div class="action-btn raffle-trigger" onclick="openRaffleModal()">
+                    🎲 הגרלה
+                </div>
                 <div class="action-btn trips-trigger" onclick="openTripsModal()">
-                    🏔️🚗 טיולי יום - לחץ לבחירה
+                    🏔️ טיולים
                 </div>
                 <div class="action-btn baggage-trigger" onclick="openBaggageModal()">
-                    🎒🧳 פרטי כבודה
+                    🎒 כבודה
                 </div>
             </div>
         </div>
@@ -405,34 +465,9 @@
         <div class="meeting-point">
             📍 נפגשים בנתב"ג ב-06:20 בול!
         </div>
-        
-        <div id="countdown">
-            <div class="time-box days-highlight">
-                <span class="number" id="days">00</span>
-                <span class="label">ימים</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="hours">00</span>
-                <span class="label">שעות</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="minutes">00</span>
-                <span class="label">דקות</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="seconds">00</span>
-                <span class="label">שניות</span>
-            </div>
-        </div>
 
-        <div class="tool-box">
-            <h3 class="tool-title">🎰 האורקל של הקזינו</h3>
-            <div id="rouletteResult" class="roulette-display">?</div>
-            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">סובב את הרולטה!</button>
-        </div>
-
-        <div class="tool-box">
-            <h3 class="tool-title">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
+        <div class="converter-box">
+            <h3 style="margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem;">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
             <div class="converter-inputs">
                 <div class="input-group">
                     <input type="number" id="ronInput" placeholder="LEI" oninput="convertCurrency()">
@@ -491,10 +526,34 @@
         </div>
     </div>
 
+    <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-btn" onclick="closeModal(event, 'oracleModal')">&times;</span>
+            <h3>🎰 האורקל של הקזינו</h3>
+            <p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים? תן לי לבחור.</p>
+            <div id="rouletteResult" class="roulette-display">?</div>
+            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">סובב את הרולטה!</button>
+        </div>
+    </div>
+
+    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-btn" onclick="closeModal(event, 'raffleModal')">&times;</span>
+            <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
+            <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא? מי יושב באמצע?</p>
+            
+            <div id="raffleResult" class="raffle-display">???</div>
+            
+            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">הגרל שם!</button>
+        </div>
+    </div>
+
     <script>
         // פתיחת מודלים
         function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; }
         function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; }
+        function openOracleModal() { document.getElementById('oracleModal').style.display = 'block'; }
+        function openRaffleModal() { document.getElementById('raffleModal').style.display = 'block'; }
 
         // סגירה כללית
         function closeModal(event, modalId) {
@@ -530,7 +589,7 @@
             document.getElementById('ilsOutput').value = ils ? ils + ' ₪' : '';
         }
 
-        // --- לוגיקת הרולטה ---
+        // --- רולטה ---
         const rouletteNumbers = [
             { num: 0, color: 'green' }, { num: 32, color: 'red' }, { num: 15, color: 'black' }, { num: 19, color: 'red' },
             { num: 4, color: 'black' }, { num: 21, color: 'red' }, { num: 2, color: 'black' }, { num: 25, color: 'red' },
@@ -547,31 +606,47 @@
         function spinRoulette() {
             const display = document.getElementById('rouletteResult');
             const btn = document.getElementById('spinBtn');
-            btn.disabled = true; // מניעת לחיצה כפולה
+            btn.disabled = true; 
             display.classList.add('spinning');
-
             let counter = 0;
-            // אנימציית הרצה
             const spinInterval = setInterval(() => {
-                const randomIndex = Math.floor(Math.random() * rouletteNumbers.length);
-                const item = rouletteNumbers[randomIndex];
+                const item = rouletteNumbers[Math.floor(Math.random() * rouletteNumbers.length)];
                 display.innerText = item.num;
                 display.className = 'roulette-display spinning num-' + item.color;
                 counter++;
-                if (counter > 20) { // עוצר אחרי כ-2 שניות
+                if (counter > 20) { 
                     clearInterval(spinInterval);
-                    finalizeSpin();
+                    const finalItem = rouletteNumbers[Math.floor(Math.random() * rouletteNumbers.length)];
+                    display.innerText = finalItem.num;
+                    display.className = 'roulette-display num-' + finalItem.color; 
+                    btn.disabled = false;
                 }
             }, 100);
+        }
 
-            // תוצאה סופית
-            function finalizeSpin() {
-                const finalIndex = Math.floor(Math.random() * rouletteNumbers.length);
-                const finalItem = rouletteNumbers[finalIndex];
-                display.innerText = finalItem.num;
-                display.className = 'roulette-display num-' + finalItem.color; // מסיר את ה-spinning
-                btn.disabled = false;
-            }
+        // --- הגרלה (שמות) ---
+        const participants = ["היצ'קוק", "בגדן", "מאור", "עידו"];
+
+        function spinRaffle() {
+            const display = document.getElementById('raffleResult');
+            const btn = document.getElementById('raffleBtn');
+            btn.disabled = true;
+            
+            let counter = 0;
+            const interval = setInterval(() => {
+                const randomName = participants[Math.floor(Math.random() * participants.length)];
+                display.innerText = randomName;
+                counter++;
+                if (counter > 20) {
+                    clearInterval(interval);
+                    const winner = participants[Math.floor(Math.random() * participants.length)];
+                    display.innerText = "🎉 " + winner + " 🎉";
+                    display.style.color = "#28a745"; // ירוק מנצח
+                    btn.disabled = false;
+                } else {
+                    display.style.color = "#6a1b9a"; // חזרה לצבע מקורי
+                }
+            }, 100);
         }
     </script>
 
