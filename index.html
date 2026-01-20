@@ -3,235 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bucharest Trip</title>
+    <title>חופשת האחים בבוקרשט</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         /* --- הגדרות בסיס --- */
         body {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(rgba(0, 110, 255, 0.3), rgba(255, 140, 0, 0.3)), url('https://images.unsplash.com/photo-1559160583-7e6d322c271c?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover; background-position: center;
-            min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            color: #333; text-align: center;
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            text-align: center;
         }
 
         .container {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px; border-radius: 25px;
+            padding: 20px;
+            border-radius: 25px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-            max-width: 800px; width: 95%; margin: 10px;
-            border-top: 5px solid #ff8c00; position: relative; z-index: 10;
+            max-width: 800px;
+            width: 95%;
+            margin: 10px;
+            border-top: 5px solid #ff8c00;
+            position: relative;
+            z-index: 10;
         }
-
-        /* כפתור שפה */
-        .lang-switch {
-            position: absolute; top: 15px; left: 15px; z-index: 100;
-        }
-        [dir="ltr"] .lang-switch { left: auto; right: 15px; } /* היפוך מיקום באנגלית */
-
-        .lang-btn {
-            background: #fff; border: 1px solid #ccc; border-radius: 50%; width: 35px; height: 35px;
-            font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .lang-menu {
-            display: none; position: absolute; top: 40px; left: 0;
-            background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            overflow: hidden; width: 120px; text-align: center;
-        }
-        [dir="ltr"] .lang-menu { left: auto; right: 0; }
-        
-        .lang-opt {
-            display: block; padding: 10px; text-decoration: none; color: #333; font-size: 0.9rem; border-bottom: 1px solid #eee; cursor: pointer;
-        }
-        .lang-opt:hover { background: #f0f8ff; }
-        .lang-opt:last-child { border-bottom: none; }
 
         h1 {
-            font-size: 1.6rem; margin: 0 0 5px 0; color: #0056b3; font-weight: 800;
-            text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap;
+            font-size: 1.6rem;
+            margin: 0 0 5px 0;
+            color: #0056b3;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
         }
 
-        /* טיימר */
+        /* --- טיימר יוקרתי --- */
         #countdown-wrapper { margin-bottom: 20px; }
         #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
-        #countdown { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 5px 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
-        .time-box { display: flex; flex-direction: column; align-items: center; min-width: 45px; }
-        .number { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #d4af37; font-weight: 700; line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-        .label { font-size: 0.65rem; color: #666; text-transform: uppercase; font-weight: bold; margin-top: 2px; }
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 5px 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .time-box {
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            border-radius: 0;
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 45px;
+        }
+
+        .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .label {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        
         .days-highlight .number { font-size: 3.5rem; color: #ff8c00; }
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* Vibe Grid */
-        .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
-        .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        /* --- תפריט Vibe בצורת גריד (חדש!) --- */
+        .vibe-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 עמודות שוות */
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .vibe-item {
+            background: #f0f8ff;
+            padding: 12px 5px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #0056b3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center; /* מרכוז */
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
+        .vibe-item:active { transform: scale(0.95); }
 
         /* כרטיס טיסה */
-        .flight-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 20px; border: 2px solid #e1e1e1; }
-        .flight-segment { padding: 15px; border-bottom: 2px dashed #eee; position: relative; text-align: initial; } /* text-align fix for LTR */
+        .flight-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            text-align: right;
+            border: 2px solid #e1e1e1;
+        }
+
+        .flight-segment {
+            padding: 15px;
+            border-bottom: 2px dashed #eee;
+            position: relative;
+        }
+        
+        .flight-segment::before {
+            content: '';
+            position: absolute;
+            right: 0; top: 10%; height: 80%;
+            width: 4px;
+            background: linear-gradient(to bottom, #c71585, #4169e1);
+            border-radius: 5px 0 0 5px;
+        }
+
         .flight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .flight-title { font-size: 1.1rem; color: #0056b3; font-weight: bold; }
+        .flight-title { font-size: 1.1rem; color: #0056b3; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         .flight-num { background: #eee; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; color: #666; font-weight: bold; }
         .flight-times { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; color: #333; font-weight: bold; }
-        .live-status-btn { display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd; color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px; text-decoration: none; border: 1px solid #bbdefb; width: 100%; box-sizing: border-box; text-align: center; }
+        .time-block { text-align: center; }
+        .airport-code { display: block; font-size: 0.9rem; color: #777; margin-top: 2px; font-weight: normal; }
+        .arrow { font-size: 1.5rem; color: #ff8c00; padding: 0 5px; }
 
-        /* כפתורים תחתונים */
+        .live-status-btn {
+            display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd;
+            color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px;
+            text-decoration: none; border: 1px solid #bbdefb; transition: all 0.2s; width: 100%;
+            box-sizing: border-box; text-align: center;
+        }
+        .live-status-btn:hover { background-color: #2196f3; color: white; border-color: #2196f3; }
+
+        /* כפתורי טאבים */
         .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
-        .action-btn { flex: 1; padding: 15px 2px; text-align: center; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 3px; border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap; }
-        [dir="ltr"] .action-btn { border-left: none; border-right: 1px solid #eee; }
-        .action-btn:last-child { border: none; }
+        .action-btn {
+            flex: 1; padding: 15px 2px; text-align: center; cursor: pointer;
+            font-weight: bold; font-size: 0.8rem; transition: background 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 3px;
+            border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap;
+        }
+        .action-btn:last-child { border-left: none; }
+
         .baggage-trigger { background: #f4f9ff; color: #0056b3; }
         .trips-trigger { background: #fff8e1; color: #b36b00; }
         .oracle-trigger { background: #333; color: #d4af37; }
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
-        .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); position: relative; animation: popIn 0.3s ease-out; text-align: initial; } /* Reset text align */
-        .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; z-index: 10; }
-        [dir="ltr"] .close-btn { left: auto; right: 20px; }
+        /* --- Modal --- */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto;
+        }
+        .modal-content {
+            background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px;
+            width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            text-align: right; position: relative; animation: popIn 0.3s ease-out;
+            max-height: 90vh; overflow-y: auto; /* גלילה בתוך המודל אם הוא ארוך */
+        }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* רכיבי רשימה */
-        .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
-        .sort-btn { background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #555; }
-        .sort-btn.active { background: #0056b3; color: white; border-color: #0056b3; }
-        .section-title { color: #ff8c00; font-size: 1.1rem; font-weight: bold; margin: 20px 0 10px 0; border-bottom: 1px dashed #ddd; padding-bottom: 5px; }
-        .place-item { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* --- רשימות בתוך המודל --- */
+        .location-status {
+            text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold;
+        }
+        
+        /* כפתורי מיון */
+        .sort-controls {
+            display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;
+        }
+        .sort-btn {
+            background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px;
+            font-size: 0.85rem; cursor: pointer; transition: all 0.2s; color: #555;
+        }
+        .sort-btn.active {
+            background: #0056b3; color: white; border-color: #0056b3;
+        }
+
+        .section-title {
+            color: #ff8c00; font-size: 1.1rem; font-weight: bold; margin: 20px 0 10px 0; border-bottom: 1px dashed #ddd; padding-bottom: 5px;
+        }
+
+        .place-item {
+            background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; margin-bottom: 12px;
+            display: flex; flex-direction: column; gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;
+        }
+        .place-item:hover { transform: translateX(-5px); border-color: #0056b3; }
+        
         .place-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .place-info { flex-grow: 1; }
         .place-name { font-weight: bold; font-size: 1.1rem; color: #333; margin-bottom: 3px; display: block; }
         .place-desc { font-size: 0.9rem; color: #666; display: block; line-height: 1.3; }
         .place-meta { font-size: 0.85rem; color: #999; margin-top: 5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .place-actions { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-end; }
-        .nav-btn, .web-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; text-decoration: none; }
-        .nav-btn { background: #e3f2fd; color: #0056b3; }
-        .web-btn { background: #f3e5f5; color: #6a1b9a; }
-        .store-list { font-size: 0.85rem; color: #555; background: #fafafa; padding: 8px; border-radius: 8px; border: 1px solid #eee; }
+        .place-dist { color: #007bff; font-weight: bold; background: #e3f2fd; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
+        .place-rating { color: #f39c12; font-weight: bold; }
+        .place-cost { color: #28a745; font-weight: bold; background: #e8f5e9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;}
+        
+        .store-list { font-size: 0.85rem; color: #555; background: #fafafa; padding: 8px; border-radius: 8px; border: 1px solid #eee; display: inline-block; width: 100%; box-sizing: border-box; }
+        .store-tag { font-weight: bold; color: #0056b3; }
 
-        /* כללי */
-        .meeting-point, .meeting-point-return { background: linear-gradient(45deg, #ff8c00, #ffd700); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; animation: pulse 2s infinite; }
-        .meeting-point-return { background: linear-gradient(45deg, #0056b3, #007bff); display: none; }
+        .place-actions { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-end; }
+        .nav-btn, .web-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
+            transition: all 0.2s; text-decoration: none; border: 1px solid transparent;
+        }
+        .nav-btn { background: #e3f2fd; color: #0056b3; }
+        .nav-btn:hover { background: #2196f3; color: white; }
+        .web-btn { background: #f3e5f5; color: #6a1b9a; }
+        .web-btn:hover { background: #9c27b0; color: white; }
+
+        /* נקודת מפגש וקונפטי */
+        .meeting-point {
+            background: linear-gradient(45deg, #ff8c00, #ffd700);
+            color: #fff; padding: 10px; border-radius: 10px;
+            font-size: 1.1rem; font-weight: bold; margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+        .meeting-point-return {
+            background: linear-gradient(45deg, #0056b3, #007bff);
+            color: #fff; padding: 10px; border-radius: 10px;
+            font-size: 1.1rem; font-weight: bold; margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 86, 179, 0.4);
+            display: none;
+        }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        .confetti {
+            position: fixed; width: 10px; height: 10px; z-index: 3000; pointer-events: none;
+            animation: confetti-fall linear forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* אלמנטים נוספים */
+        .baggage-items { display: flex; gap: 10px; }
+        .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
+        .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
+        .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
+        .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; }
+        .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .trip-icon { font-size: 2rem; }
+        .trip-name { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .trip-details { font-size: 0.95rem; color: #555; line-height: 1.4; margin-bottom: 10px; }
+        .trip-time { background: #f1f8ff; color: #0056b3; padding: 5px 10px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: inline-block; }
         .converter-box { background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
         .input-group input { width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; text-align: center; font-size: 1.1rem; outline: none; }
-        
-        /* משחקים */
+        .input-group input:focus { border-color: #0056b3; }
+        #ilsOutput { background: #f9f9f9; color: #28a745; font-weight: bold; }
         .roulette-display, .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; }
-        .roulette-display { width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #333; color: white; border: 5px solid #d4af37; font-size: 3rem; }
         .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
         .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); }
         .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); }
+        .roulette-display { width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #333; color: white; border: 5px solid #d4af37; font-size: 3rem; }
         .num-red { background: #d60000; } .num-black { background: #222; } .num-green { background: #008000; }
-        .confetti { position: fixed; width: 10px; height: 10px; z-index: 3000; pointer-events: none; animation: confetti-fall linear forwards; }
-        @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         @media (max-width: 450px) {
             h1 { font-size: 1.3rem; gap: 5px; } 
-            .vibe-item { font-size: 0.8rem; padding: 12px 5px; }
+            .number { font-size: 1.5rem; }
+            .label { font-size: 0.6rem; }
+            .vibe-item { font-size: 0.8rem; padding: 12px 5px; } /* תיקון לגריד */
+            .flight-times { font-size: 1.1rem; }
+            .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
+            .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
+            .baggage-title { margin-bottom: 0; }
             .modal-content { width: 85%; margin: 5% auto; padding: 20px; }
+            .action-btn { font-size: 0.75rem; padding: 12px 2px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="lang-switch">
-        <button class="lang-btn" onclick="toggleLangMenu()">🌐</button>
-        <div class="lang-menu" id="langMenu">
-            <span class="lang-opt" onclick="setLanguage('he')">🇮🇱 עברית</span>
-            <span class="lang-opt" onclick="setLanguage('en')">🇺🇸 English</span>
-            <span class="lang-opt" onclick="setLanguage('ro')">🇷🇴 Română</span>
-        </div>
-    </div>
-
     <div class="container">
-        <h1 id="mainTitle">🇷🇴 האחים היקרים בבוקרשט! 🇷🇴</h1>
+        <h1>🇷🇴 האחים היקרים בבוקרשט! 🇷🇴</h1>
 
         <div id="countdown-wrapper">
             <div id="timer-title">⌛ ספירה לאחור להמראה:</div>
             <div id="countdown">
                 <div class="time-box days-highlight">
                     <span class="number" id="days">00</span>
-                    <span class="label" id="lbl_days">ימים</span>
+                    <span class="label">ימים</span>
                 </div>
                 <span class="separator">:</span>
                 <div class="time-box">
                     <span class="number" id="hours">00</span>
-                    <span class="label" id="lbl_hours">שעות</span>
+                    <span class="label">שעות</span>
                 </div>
                 <span class="separator">:</span>
                 <div class="time-box">
                     <span class="number" id="minutes">00</span>
-                    <span class="label" id="lbl_minutes">דקות</span>
+                    <span class="label">דקות</span>
                 </div>
                 <span class="separator">:</span>
                 <div class="time-box">
                     <span class="number" id="seconds">00</span>
-                    <span class="label" id="lbl_seconds">שניות</span>
+                    <span class="label">שניות</span>
                 </div>
             </div>
         </div>
 
         <div class="vibe-container">
-            <div class="vibe-item" onclick="openTherme()"><span id="btn_spa">🧖‍♂️ ספא</span></div>
-            <div class="vibe-item" onclick="openFoodList()"><span id="btn_food">🍔 אוכל</span></div>
-            <div class="vibe-item" onclick="openShoppingList()"><span id="btn_shop">🛍️ שופינג</span></div>
-            <div class="vibe-item" onclick="openCasinoList()"><span id="btn_casino">🎰 קזינו</span></div>
-            <div class="vibe-item" onclick="openAlcoholList()"><span id="btn_alcohol">🥃 אלכוהול</span></div>
-            <div class="vibe-item" onclick="triggerFreedom()"><span id="btn_freedom">🦅 חופש</span></div>
+            <div class="vibe-item" onclick="openTherme()">🧖‍♂️ ספא</div>
+            <div class="vibe-item" onclick="openFoodList()">🍔 אוכל</div>
+            <div class="vibe-item" onclick="openShoppingList()">🛍️ שופינג</div>
+            <div class="vibe-item" onclick="openCasinoList()">🎰 קזינו</div>
+            <div class="vibe-item" onclick="openAlcoholList()">🥃 אלכוהול</div>
+            <div class="vibe-item" onclick="triggerFreedom()">🦅 חופש</div>
         </div>
         
         <div style="margin-bottom: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <a class="weatherwidget-io" href="https://forecast7.com/en/44d4326d10/bucharest/" data-label_1="BUCHAREST" data-label_2="WEATHER" data-theme="pure" >BUCHAREST WEATHER</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');</script>
+            <a class="weatherwidget-io" href="https://forecast7.com/en/44d4326d10/bucharest/" data-label_1="BUCHAREST" data-label_2="מזג אוויר" data-font="Segoe UI" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="pure" >BUCHAREST מזג אוויר</a>
+            <script>
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+            </script>
         </div>
         
         <div class="flight-card">
             <div class="flight-segment" id="outboundFlight">
                 <div class="flight-header">
-                    <span class="flight-title" id="title_outbound">🛫 הלוך: יום ד' 25.02</span>
+                    <span class="flight-title">🛫 הלוך: יום ד' 25.02</span>
                     <span class="flight-num">W4 3258</span>
                 </div>
                 <div class="flight-times">
-                    <div class="time-block">09:20 <span class="airport-code">TLV</span></div>
+                    <div class="time-block">
+                        09:20
+                        <span class="airport-code">TLV</span>
+                    </div>
                     <span class="arrow">⬅️</span>
-                    <div class="time-block">12:15 <span class="airport-code">OTP</span></div>
+                    <div class="time-block">
+                        12:15
+                        <span class="airport-code">OTP</span>
+                    </div>
                 </div>
-                <a href="https://www.flightradar24.com/data/flights/w43258" target="_blank" class="live-status-btn" id="btn_status_out">🔴 סטטוס המראה</a>
+                <a href="https://www.flightradar24.com/data/flights/w43258" target="_blank" class="live-status-btn">
+                    🔴 בדוק סטטוס המראה בזמן אמת
+                </a>
             </div>
 
             <div class="flight-segment" id="inboundFlight">
                 <div class="flight-header">
-                    <span class="flight-title" id="title_inbound">🛬 חזור: יום א' 01.03</span>
+                    <span class="flight-title">🛬 חזור: יום א' 01.03</span>
                     <span class="flight-num">W4 3263</span>
                 </div>
                 <div class="flight-times">
-                    <div class="time-block">11:15 <span class="airport-code">OTP</span></div>
+                    <div class="time-block">
+                        11:15
+                        <span class="airport-code">OTP</span>
+                    </div>
                     <span class="arrow">⬅️</span>
-                    <div class="time-block">13:55 <span class="airport-code">TLV</span></div>
+                    <div class="time-block">
+                        13:55
+                        <span class="airport-code">TLV</span>
+                    </div>
                 </div>
-                <a href="https://www.flightradar24.com/data/flights/w43263" target="_blank" class="live-status-btn" id="btn_status_in">🔴 סטטוס המראה</a>
+                <a href="https://www.flightradar24.com/data/flights/w43263" target="_blank" class="live-status-btn">
+                    🔴 בדוק סטטוס המראה בזמן אמת
+                </a>
             </div>
 
             <div class="card-actions">
-                <div class="action-btn oracle-trigger" onclick="openOracleModal()"><span id="act_oracle">🎰 אורקל</span></div>
-                <div class="action-btn raffle-trigger" onclick="openRaffleModal()"><span id="act_raffle">🎲 הגרלה</span></div>
-                <div class="action-btn trips-trigger" onclick="openTripsModal()"><span id="act_trips">🏔️ טיולים</span></div>
-                <div class="action-btn baggage-trigger" onclick="openBaggageModal()"><span id="act_baggage">🎒 כבודה</span></div>
+                <div class="action-btn oracle-trigger" onclick="openOracleModal()">🎰 אורקל</div>
+                <div class="action-btn raffle-trigger" onclick="openRaffleModal()">🎲 הגרלה</div>
+                <div class="action-btn trips-trigger" onclick="openTripsModal()">🏔️ טיולים</div>
+                <div class="action-btn baggage-trigger" onclick="openBaggageModal()">🎒 כבודה</div>
             </div>
         </div>
 
-        <div class="meeting-point" id="meetingTLV">📍 נפגשים בנתב"ג ב-06:20 בול!</div>
-        <div class="meeting-point-return" id="meetingOTP">✈️ נפגשים בשדה (OTP) ב-08:15</div>
+        <div class="meeting-point" id="meetingTLV">
+            📍 נפגשים בנתב"ג ב-06:20 בול!
+        </div>
+
+        <div class="meeting-point-return" id="meetingOTP">
+            ✈️ נפגשים בשדה (OTP) ב-08:15
+        </div>
 
         <div class="converter-box">
-            <h3 style="margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem;" id="title_converter">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
+            <h3 style="margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem;">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
             <div class="converter-inputs">
-                <div class="input-group"><input type="number" id="ronInput" placeholder="LEI" oninput="convertCurrency()"></div>
+                <div class="input-group">
+                    <input type="number" id="ronInput" placeholder="LEI" oninput="convertCurrency()">
+                </div>
                 <span style="font-size: 1.5rem;">⬅️</span>
-                <div class="input-group"><input type="text" id="ilsOutput" placeholder="₪" readonly></div>
+                <div class="input-group">
+                    <input type="text" id="ilsOutput" placeholder="₪" readonly>
+                </div>
             </div>
         </div>
     </div>
@@ -239,8 +432,8 @@
     <div id="casinoModal" class="modal" onclick="closeModal(event, 'casinoModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'casinoModal')">×</span>
-            <h3 id="h3_casino">🎰 קזינו ופוקר</h3>
-            <div id="casinoLocationStatus" class="location-status"></div>
+            <h3>🎰 קזינו ופוקר</h3>
+            <div class="location-status" style="display:block;">✅ ממוין לפי קרבה למלון</div>
             <div id="casinoList"></div>
         </div>
     </div>
@@ -248,8 +441,8 @@
     <div id="alcoholModal" class="modal" onclick="closeModal(event, 'alcoholModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'alcoholModal')">×</span>
-            <h3 id="h3_alcohol">🥃 ברים ומועדונים</h3>
-            <div id="alcoholLocationStatus" class="location-status"></div>
+            <h3>🥃 ברים ומועדונים</h3>
+            <div class="location-status" style="display:block;">✅ ממוין לפי קרבה למלון</div>
             <div id="alcoholList"></div>
         </div>
     </div>
@@ -257,12 +450,12 @@
     <div id="foodModal" class="modal" onclick="closeModal(event, 'foodModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'foodModal')">×</span>
-            <h3 id="h3_food">🍔 אוכל בבוקרשט</h3>
+            <h3>🍔 אוכל בבוקרשט</h3>
             <div class="sort-controls">
-                <button class="sort-btn active" id="sortFoodHotelBtn" onclick="toggleSort('food', 'hotel')">🏨 Hotel</button>
-                <button class="sort-btn" id="sortFoodGpsBtn" onclick="toggleSort('food', 'gps')">📍 GPS</button>
+                <button class="sort-btn active" id="sortFoodHotelBtn" onclick="toggleSort('food', 'hotel')">🏨 לפי מלון</button>
+                <button class="sort-btn" id="sortFoodGpsBtn" onclick="toggleSort('food', 'gps')">📍 לפי GPS</button>
             </div>
-            <div id="foodLocationStatus" class="location-status"></div>
+            <div id="foodLocationStatus" class="location-status" style="display:block;">🏨 ממוין לפי קרבה למלון</div>
             <div id="foodList"></div>
         </div>
     </div>
@@ -270,12 +463,12 @@
     <div id="shoppingModal" class="modal" onclick="closeModal(event, 'shoppingModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'shoppingModal')">×</span>
-            <h3 id="h3_shop">🛍️ שופינג</h3>
+            <h3>🛍️ שופינג (קניונים ואאוטלט)</h3>
             <div class="sort-controls">
-                <button class="sort-btn active" id="sortShopHotelBtn" onclick="toggleSort('shopping', 'hotel')">🏨 Hotel</button>
-                <button class="sort-btn" id="sortShopCheapBtn" onclick="toggleSort('shopping', 'cheapest')">💸 Cheap</button>
+                <button class="sort-btn active" id="sortShopHotelBtn" onclick="toggleSort('shopping', 'hotel')">🏨 לפי מרחק</button>
+                <button class="sort-btn" id="sortShopCheapBtn" onclick="toggleSort('shopping', 'cheapest')">💸 הכי זול/משתלם</button>
             </div>
-            <div id="shoppingLocationStatus" class="location-status"></div>
+            <div id="shoppingLocationStatus" class="location-status" style="display:block;">🏨 ממוין לפי קרבה למלון</div>
             <div id="shoppingList"></div>
         </div>
     </div>
@@ -283,10 +476,18 @@
     <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'baggageModal')">×</span>
-            <h3 id="h3_baggage">🎒 פירוט כבודה</h3>
+            <h3>🎒 פירוט כבודה (לכל כיוון)</h3>
             <div class="baggage-items">
-                <div class="baggage-item"><span class="baggage-icon">🎒</span><span class="baggage-title" id="txt_backpack">תיק גב</span><span class="baggage-status" id="txt_free">חינם</span></div>
-                <div class="baggage-item"><span class="baggage-icon">🧳</span><span class="baggage-title" id="txt_suitcase">מזוודה 20 ק"ג</span><span class="baggage-status" id="txt_included">כלול!</span></div>
+                <div class="baggage-item">
+                    <span class="baggage-icon">🎒</span>
+                    <span class="baggage-title">תיק גב קטן (מתחת למושב)</span>
+                    <span class="baggage-status">חינם</span>
+                </div>
+                <div class="baggage-item">
+                    <span class="baggage-icon">🧳</span>
+                    <span class="baggage-title">מזוודה 20 ק"ג (צ'ק-אין)</span>
+                    <span class="baggage-status">כלול!</span>
+                </div>
             </div>
         </div>
     </div>
@@ -294,271 +495,135 @@
     <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span>
-            <h3 id="h3_trips">🏔️ לאן נוסעים?</h3>
-            <div class="warning-box" id="txt_trip_warn">⚠️ שימו לב! עדיף יום חמישי.</div>
-            <div id="tripsListHtml"></div> </div>
+            <h3>🏔️ לאן נוסעים?</h3>
+            <div class="warning-box">
+                <span class="warning-title">⚠️ שימו לב!</span>
+                חייבים לכוון ליום חמישי (26.02) כדי להימנע מפקקי הסופ"ש. <br>
+                <strong>אם מחליטים לצאת מהעיר - כדאי לסגור רכב מעכשיו.</strong>
+            </div>
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אופציית אקסטרים (סינאיה)</span></div>
+                <div class="trip-details">עולים לפסגה, אופנועי שלג, גונדולה, יין חם ונוף מטורף.</div>
+                <div class="trip-time">⏰ 08:00 - 16:00</div>
+            </div>
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג + בשר)</span></div>
+                <div class="trip-details">בוקר בסינאיה, צהריים בבראשוב (מסעדות בשר).</div>
+                <div class="trip-time">⏰ 07:30 - 20:00</div>
+            </div>
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות המלח)</span></div>
+                <div class="trip-details">200 מטר מתחת לאדמה, לוקיישן הזייה.</div>
+                <div class="trip-time">⏰ 09:30 - 15:00</div>
+            </div>
+        </div>
     </div>
 
     <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')">
         <div class="modal-content" style="text-align: center;">
             <span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span>
-            <h3 id="h3_oracle">🎰 האורקל</h3>
-            <p style="color:#666; margin-bottom:10px;" id="txt_oracle_desc">לא יודע על מה לשים?</p>
+            <h3>🎰 האורקל של הקזינו</h3>
+            <p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים? תן לי לבחור.</p>
             <div id="rouletteResult" class="roulette-display">?</div>
-            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button>
+            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">סובב את הרולטה!</button>
         </div>
     </div>
 
     <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')">
         <div class="modal-content" style="text-align: center;">
             <span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span>
-            <h3 style="color: #6a1b9a;" id="h3_raffle">🎲 מי בר המזל?</h3>
-            <p style="color:#666; margin-bottom:10px;" id="txt_raffle_desc">מי מזמין? מי מביא?</p>
+            <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
+            <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא? מי יושב באמצע?</p>
             <div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div>
-            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button>
+            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">הגרל שם!</button>
         </div>
     </div>
 
     <script>
-        // --- מערכת תרגום ---
-        let currentLang = 'he';
-
-        const translations = {
-            he: {
-                title: "🇷🇴 האחים היקרים בבוקרשט! 🇷🇴",
-                timer_pre: "⌛ ספירה לאחור להמראה:",
-                timer_on: "😱 זמן שנשאר לשיגועים:",
-                welcome_back: "🏠 ברוכים השבים!",
-                days: "ימים", hours: "שעות", minutes: "דקות", seconds: "שניות",
-                spa: "🧖‍♂️ ספא", food: "🍔 אוכל", shop: "🛍️ שופינג", casino: "🎰 קזינו", alcohol: "🥃 אלכוהול", freedom: "🦅 חופש",
-                out_title: "🛫 הלוך: יום ד' 25.02", in_title: "🛬 חזור: יום א' 01.03", status: "🔴 סטטוס המראה",
-                oracle: "🎰 אורקל", raffle: "🎲 הגרלה", trips: "🏔️ טיולים", bag: "🎒 כבודה",
-                meet_tlv: "📍 נפגשים בנתב\"ג ב-06:20 בול!", meet_otp: "✈️ נפגשים בשדה (OTP) ב-08:15",
-                conv_title: "💰 כמה זה בשקל? (רוני ל-ש\"ח)",
-                h3_casino: "🎰 קזינו ופוקר", h3_alcohol: "🥃 ברים ומועדונים", h3_food: "🍔 אוכל", h3_shop: "🛍️ שופינג",
-                h3_bag: "🎒 פירוט כבודה", h3_trips: "🏔️ לאן נוסעים?", h3_oracle: "🎰 האורקל", h3_raffle: "🎲 מי בר המזל?",
-                txt_backpack: "תיק גב קטן", txt_free: "חינם", txt_suitcase: "מזוודה 20 ק\"ג", txt_included: "כלול!",
-                txt_trip_warn: "⚠️ שימו לב! כדאי לכוון ליום חמישי (26.02) כדי להימנע מפקקים. אם יוצאים מהעיר - כדאי לסגור רכב.",
-                txt_oracle_desc: "לא יודע על מה לשים? תן לי לבחור.", txt_raffle_desc: "מי מזמין? מי מביא? מי יושב באמצע?",
-                sort_hotel: "🏨 לפי מרחק", sort_gps: "📍 לפי GPS", sort_cheap: "💸 הכי משתלם",
-                loc_hotel: "🏨 ממוין לפי קרבה למלון", loc_gps: "📍 ממוין לפי מיקום GPS", loc_err: "❌ לא ניתן לאתר מיקום",
-                cat_fast: "🏎️ מזון מהיר", cat_rest: "🍽️ מסעדות מומלצות", cat_mall: "🏬 קניונים", cat_outlet: "🏷️ אאוטלט",
-                store_tag: "חנויות נבחרות:"
-            },
-            en: {
-                title: "🇷🇴 Bucharest Bros Trip! 🇷🇴",
-                timer_pre: "⌛ Countdown to Takeoff:",
-                timer_on: "😱 Time left to Party:",
-                welcome_back: "🏠 Welcome Home!",
-                days: "Days", hours: "Hrs", minutes: "Mins", seconds: "Secs",
-                spa: "🧖‍♂️ Spa", food: "🍔 Food", shop: "🛍️ Shop", casino: "🎰 Casino", alcohol: "🥃 Alcohol", freedom: "🦅 Freedom",
-                out_title: "🛫 Out: Wed 25.02", in_title: "🛬 In: Sun 01.03", status: "🔴 Live Status",
-                oracle: "🎰 Oracle", raffle: "🎲 Raffle", trips: "🏔️ Trips", bag: "🎒 Baggage",
-                meet_tlv: "📍 Meeting at TLV Airport: 06:20!", meet_otp: "✈️ Meeting at OTP Airport: 08:15",
-                conv_title: "💰 Currency Converter (RON to ILS)",
-                h3_casino: "🎰 Casino & Poker", h3_alcohol: "🥃 Bars & Clubs", h3_food: "🍔 Food & Dining", h3_shop: "🛍️ Shopping",
-                h3_bag: "🎒 Baggage Info", h3_trips: "🏔️ Day Trips", h3_oracle: "🎰 The Oracle", h3_raffle: "🎲 Lucky Draw",
-                txt_backpack: "Small Backpack", txt_free: "Free", txt_suitcase: "20kg Suitcase", txt_included: "Included!",
-                txt_trip_warn: "⚠️ Note: Aim for Thursday (26.02) to avoid traffic. Book a car in advance.",
-                txt_oracle_desc: "Don't know what to bet on?", txt_raffle_desc: "Who's buying? Who's sitting in the middle?",
-                sort_hotel: "🏨 By Hotel", sort_gps: "📍 By GPS", sort_cheap: "💸 Cheapest",
-                loc_hotel: "🏨 Sorted by Hotel distance", loc_gps: "📍 Sorted by GPS", loc_err: "❌ Location not found",
-                cat_fast: "🏎️ Fast Food", cat_rest: "🍽️ Recommended", cat_mall: "🏬 Malls", cat_outlet: "🏷️ Outlets",
-                store_tag: "Selected Stores:"
-            },
-            ro: {
-                title: "🇷🇴 Excursia Fraților la București! 🇷🇴",
-                timer_pre: "⌛ Numărătoare inversă:",
-                timer_on: "😱 Timp rămas de distracție:",
-                welcome_back: "🏠 Bine ați venit acasă!",
-                days: "Zile", hours: "Ore", minutes: "Min", seconds: "Sec",
-                spa: "🧖‍♂️ Spa", food: "🍔 Mâncare", shop: "🛍️ Shop", casino: "🎰 Cazinou", alcohol: "🥃 Alcool", freedom: "🦅 Libertate",
-                out_title: "🛫 Dus: Mie 25.02", in_title: "🛬 Întors: Dum 01.03", status: "🔴 Status Zbor",
-                oracle: "🎰 Oracol", raffle: "🎲 Tombolă", trips: "🏔️ Excursii", bag: "🎒 Bagaje",
-                meet_tlv: "📍 Întâlnire la TLV: 06:20!", meet_otp: "✈️ Întâlnire la OTP: 08:15",
-                conv_title: "💰 Convertor Valutar (RON -> ILS)",
-                h3_casino: "🎰 Cazinou & Poker", h3_alcohol: "🥃 Baruri & Cluburi", h3_food: "🍔 Mâncare", h3_shop: "🛍️ Cumpărături",
-                h3_bag: "🎒 Detalii Bagaje", h3_trips: "🏔️ Excursii de o zi", h3_oracle: "🎰 Oracolul", h3_raffle: "🎲 Extragere",
-                txt_backpack: "Rucsac Mic", txt_free: "Gratuit", txt_suitcase: "Valiză 20kg", txt_included: "Inclus!",
-                txt_trip_warn: "⚠️ Notă: Recomandat Joi (26.02) pentru a evita traficul.",
-                txt_oracle_desc: "Nu știi pe ce să pariezi?", txt_raffle_desc: "Cine face cinste?",
-                sort_hotel: "🏨 Lângă Hotel", sort_gps: "📍 GPS", sort_cheap: "💸 Ieftin",
-                loc_hotel: "🏨 Sortat după distanța de hotel", loc_gps: "📍 Sortat după GPS", loc_err: "❌ Locația nedetectată",
-                cat_fast: "🏎️ Fast Food", cat_rest: "🍽️ Restaurante", cat_mall: "🏬 Mall-uri", cat_outlet: "🏷️ Outlet",
-                store_tag: "Magazine:"
-            }
-        };
-
-        // --- נתונים למקומות (עם תרגום) ---
+        // --- נתונים למקומות ---
         const places = {
             casinos: [
-                { name: "Grand Casino (JW Marriott)", desc_he: "הכי קרוב שיש. במלון.", desc_en: "Closest one. Inside hotel.", desc_ro: "Cel mai apropiat. În hotel.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: "4.3", cost: "50 RON" },
-                { name: "Gentlemen's Poker Club", desc_he: "מועדון פוקר מבוקש.", desc_en: "Popular Poker Club.", desc_ro: "Club de poker popular.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Gentlemen's+Poker+Club", website: "https://www.gpclub.ro", rating: "4.5", cost: "50 RON" },
-                { name: "Poker Room Bucharest", desc_he: "חדר פוקר ענק ומקצועי.", desc_en: "Huge pro poker room.", desc_ro: "Sală de poker imensă.", lat: 44.425, lng: 26.128, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Poker+Room+Bucharest", website: "https://www.poker-room.ro", rating: "4.4", cost: "50 RON" },
-                { name: "Platinum Casino", desc_he: "ברדיסון בלו. יוקרתי.", desc_en: "At Radisson Blu. Luxury.", desc_ro: "La Radisson Blu. Lux.", lat: 44.441, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Platinum+Casino+Bucharest", website: "https://platinumcasino.ro", rating: "4.2", cost: "50 RON" },
-                { name: "Palace Casino", desc_he: "בניין היסטורי מדהים.", desc_en: "Amazing historic building.", desc_ro: "Clădire istorică uimitoare.", lat: 44.447, lng: 26.089, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Palace+Casino+Bucharest", website: "https://palacecasino.ro", rating: "4.6", cost: "50 RON" }
+                { name: "Grand Casino (JW Marriott)", desc: "הכי קרוב שיש. ממש בתוך המלון.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: "4.3", cost: "50 RON (חוק מדינה)" },
+                { name: "Gentlemen's Poker Club", desc: "מועדון הפוקר המבוקש. אקשן וטורנירים.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Gentlemen's+Poker+Club", website: "https://www.gpclub.ro", rating: "4.5", cost: "50 RON (כניסה יומית)" },
+                { name: "Poker Room Bucharest", desc: "חדר פוקר ענק ומקצועי בכיכר אלבה יוליה.", lat: 44.425, lng: 26.128, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Poker+Room+Bucharest", website: "https://www.poker-room.ro", rating: "4.4", cost: "50 RON" },
+                { name: "Platinum Casino", desc: "ברדיסון בלו. יוקרתי, אוכל טוב ומשחקים.", lat: 44.441, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Platinum+Casino+Bucharest", website: "https://platinumcasino.ro", rating: "4.2", cost: "50 RON" },
+                { name: "Palace Casino", desc: "בניין היסטורי מדהים (Casa Vernescu). חוויה.", lat: 44.447, lng: 26.089, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Palace+Casino+Bucharest", website: "https://palacecasino.ro", rating: "4.6", cost: "50 RON" }
             ],
             alcohol: [
-                { name: "Champions Sports Bar", desc_he: "בתוך המלון. ספורט.", desc_en: "Inside hotel. Sports.", desc_ro: "În hotel. Sport.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", rating: "4.4", cost: "FREE" },
-                { name: "Nomad Skybar", desc_he: "רופטופ חובה בעיר העתיקה.", desc_en: "Must-visit rooftop.", desc_ro: "Rooftop obligatoriu.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", rating: "4.5", cost: "FREE" },
-                { name: "Linea / Closer to the Moon", desc_he: "גג מפורסם עם איגלו.", desc_en: "Famous rooftop with igloos.", desc_ro: "Rooftop faimos cu igluuri.", lat: 44.433, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Linea+Closer+To+The+Moon", rating: "4.6", cost: "FREE" },
-                { name: "Control Club", desc_he: "מועדון אלטרנטיבי.", desc_en: "Alternative club.", desc_ro: "Club alternativ.", lat: 44.436, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club", rating: "4.6", cost: "30-50 RON" },
-                { name: "Interbelic Cocktail Bar", desc_he: "קוקטיילים מעולים.", desc_en: "Great cocktails.", desc_ro: "Cocktailuri grozave.", lat: 44.437, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Interbelic+Cocktail+Bar", rating: "4.7", cost: "FREE" },
-                { name: "E3 by Entourage", desc_he: "בר יוקרתי בכיכר פלורסקה.", desc_en: "Luxury bar in Floreasca.", desc_ro: "Bar de lux în Floreasca.", lat: 44.463, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=E3+by+Entourage", rating: "4.4", cost: "FREE" },
-                { name: "Fix Me a Drink", desc_he: "בר בוטני מגניב.", desc_en: "Cool botanical bar.", desc_ro: "Bar botanic cool.", lat: 44.434, lng: 26.097, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Fix+Me+A+Drink", rating: "4.8", cost: "FREE" }
+                { name: "Champions Sports Bar", desc: "בתוך המלון. ספורט, המבורגר ובירה.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "https://www.marriott.com/en-us/hotels/buhro-jw-marriott-bucharest-grand-hotel/dining/", rating: "4.4", cost: "חינם" },
+                { name: "Nomad Skybar", desc: "רופטופ חובה בעיר העתיקה. עיצוב משוגע.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "https://nomadskybar.ro", rating: "4.5", cost: "חינם" },
+                { name: "Linea / Closer to the Moon", desc: "גג מפורסם עם איגלו בחורף.", lat: 44.433, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Linea+Closer+To+The+Moon", website: "https://www.facebook.com/LineaCloserToTheMoon/", rating: "4.6", cost: "חינם" },
+                { name: "Control Club", desc: "מועדון אלטרנטיבי לריקודים.", lat: 44.436, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club", website: "https://www.control-club.ro", rating: "4.6", cost: "30-50 RON (בערב)" },
+                { name: "Interbelic Cocktail Bar", desc: "בר קוקטיילים מעולה, אווירה קלאסית.", lat: 44.437, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Interbelic+Cocktail+Bar", website: "https://www.facebook.com/InterbelicCocktailBar/", rating: "4.7", cost: "חינם" },
+                { name: "E3 by Entourage", desc: "מסעדה ובר יוקרתי בכיכר פלורסקה.", lat: 44.463, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=E3+by+Entourage", website: "https://www.e3byentourage.ro", rating: "4.4", cost: "חינם" },
+                { name: "Fix Me a Drink", desc: "בר בוטני מגניב, מתמחה בצמחים מקומיים.", lat: 44.434, lng: 26.097, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Fix+Me+A+Drink", website: "https://fixmad.com", rating: "4.8", cost: "חינם" }
             ],
             food: [
-                { name: "Dristor Kebab", type: "fast", desc_he: "השווארמה הכי מפורסמת.", desc_en: "Most famous Shawarma.", desc_ro: "Cea mai faimoasă Șaorma.", lat: 44.430, lng: 26.101, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott2", rating: "4.4" },
-                { name: "Spartan", type: "fast", desc_he: "רשת יוונית מעולה.", desc_en: "Great Greek chain.", desc_ro: "Lanț grecesc excelent.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott3", rating: "4.2" },
-                { name: "Luca", type: "fast", desc_he: "מאפים ב-5 שקל.", desc_en: "Pastries for cheap.", desc_ro: "Produse de patiserie ieftine.", lat: 44.435, lng: 26.098, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott4", rating: "4.7" },
-                { name: "Latin Pizza", type: "fast", desc_he: "פיצה ללילה.", desc_en: "Late night pizza.", desc_ro: "Pizza noaptea târziu.", lat: 44.432, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.102", rating: "4.5" },
-                { name: "Aubergine", type: "rest", desc_he: "אוכל בריא, אהוב על ישראלים.", desc_en: "Healthy food.", desc_ro: "Mâncare sănătoasă.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott5", rating: "4.6" },
-                { name: "Caru' cu Bere", type: "rest", desc_he: "הכי עתיקה ומפורסמת.", desc_en: "Oldest & most famous.", desc_ro: "Cea mai veche și faimoasă.", lat: 44.432, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.098", rating: "4.5" },
-                { name: "Argentine Steak & Sushi", type: "rest", desc_he: "בשר וסושי.", desc_en: "Steak & Sushi.", desc_ro: "Friptură și Sushi.", lat: 44.456, lng: 26.086, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.456,26.086", rating: "4.5" },
-                { name: "Vacamuu", type: "rest", desc_he: "סטייקים ברמה גבוהה.", desc_en: "High end steaks.", desc_ro: "Fripturi de top.", lat: 44.460, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.460,26.100", rating: "4.6" },
-                { name: "MAMMO", type: "rest", desc_he: "אסייתי/סושי מעולה.", desc_en: "Great Asian/Sushi.", desc_ro: "Asiatic/Sushi grozav.", lat: 44.431, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.431,26.101", rating: "4.7" },
-                { name: "Nor Sky Casual", type: "rest", desc_he: "נוף בקומה 36.", desc_en: "View from 36th floor.", desc_ro: "Vedere de la etajul 36.", lat: 44.480, lng: 26.105, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.480,26.105", rating: "4.6" },
-                { name: "Stadio", type: "rest", desc_he: "עיצוב מגניב ואוכל מגוון.", desc_en: "Cool design, varied food.", desc_ro: "Design cool, mâncare variată.", lat: 44.437, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.437,26.098", rating: "4.5" },
-                { name: "Ginger Sushi Bar", type: "rest", desc_he: "סושי ברדיסון.", desc_en: "Sushi at Radisson.", desc_ro: "Sushi la Radisson.", lat: 44.441, lng: 26.095, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.441,26.095", rating: "4.5" }
+                { name: "Dristor Kebab", type: "fast", desc: "השווארמה הכי מפורסמת בבוקרשט. חובה.", lat: 44.430, lng: 26.101, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott2", rating: "4.4" },
+                { name: "Spartan", type: "fast", desc: "רשת יוונית-רומנית מעולה, בשרים טובים.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott3", rating: "4.2" },
+                { name: "Luca", type: "fast", desc: "מאפים ופרעצלים ב-5 שקל שסוגרים פינה.", lat: 44.435, lng: 26.098, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott4", rating: "4.7" },
+                { name: "Latin Pizza", type: "fast", desc: "פיצה מעולה ללילה בעיר העתיקה.", lat: 44.432, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.102", rating: "4.5" },
+                { name: "FROG", type: "fast", desc: "מקום קטן ומגניב לבראנץ' ואוכל קליל.", lat: 44.450, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.450,26.100", rating: "4.6" },
+                { name: "Aubergine", type: "rest", desc: "אוכל בריא וים-תיכוני, אהוב מאוד על ישראלים.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott5", rating: "4.6" },
+                { name: "Caru' cu Bere", type: "rest", desc: "המסעדה הכי עתיקה ומפורסמת. אוכל רומני ואווירה.", lat: 44.432, lng: 26.098, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott6", rating: "4.5" },
+                { name: "Argentine Steak & Sushi", type: "rest", desc: "שילוב מנצח של בשרים איכותיים וסושי.", lat: 44.456, lng: 26.086, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.456,26.086", rating: "4.5" },
+                { name: "Vacamuu", type: "rest", desc: "גן עדן לקרניבורים. סטייקים ברמה גבוהה.", lat: 44.460, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.460,26.100", rating: "4.6" },
+                { name: "MAMMO", type: "rest", desc: "אסייתי/סושי ברמה גבוהה מאוד בעיר העתיקה.", lat: 44.431, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.431,26.101", rating: "4.7" },
+                { name: "Nor Sky Casual", type: "rest", desc: "מסעדה בקומה 36, הנוף הכי יפה בעיר.", lat: 44.480, lng: 26.105, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.480,26.105", rating: "4.6" },
+                { name: "Stadio", type: "rest", desc: "מסעדה עם עיצוב מגניב (אטריום) ואוכל מגוון.", lat: 44.437, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.437,26.098", rating: "4.5" },
+                { name: "Ginger Sushi Bar", type: "rest", desc: "סושי בר מעולה בתוך מלון רדיסון.", lat: 44.441, lng: 26.095, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.441,26.095", rating: "4.5" }
             ],
             shopping: [
-                { name: "AFI Cotroceni", type: "mall", desc_he: "הכי גדול וקרוב.", desc_en: "Biggest & closest.", desc_ro: "Cel mai mare și apropiat.", stores: "Zara, Sephora, H&M, Peek", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
-                { name: "Fashion House Outlet", type: "outlet", desc_he: "אאוטלט במיליטארי.", desc_en: "Outlet at Militari.", desc_ro: "Outlet la Militari.", stores: "Nike, Adidas, Boss, Diesel", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
-                { name: "ParkLake", type: "mall", desc_he: "קניון יפהפה, יש פריימרק.", desc_en: "Beautiful, has Primark.", desc_ro: "Frumos, are Primark.", stores: "Primark, Zara, Victoria's Secret", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
-                { name: "Baneasa Shopping City", type: "mall", desc_he: "קניון יוקרתי בצפון.", desc_en: "Luxury mall in north.", desc_ro: "Mall de lux în nord.", stores: "Michael Kors, Apple, Peek", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
-                { name: "Unirea Shopping Center", type: "mall", desc_he: "במרכז העיר.", desc_en: "City center.", desc_ro: "Centrul orașului.", stores: "Zara, Bershka, Stradivarius", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest4", rating: "4.1", priceLevel: 2 }
+                { name: "AFI Cotroceni", type: "mall", desc: "הקניון הכי גדול וקרוב למלון. יש בו הכל.", stores: "Zara, Sephora, H&M, Peek & Cloppenburg, Cinema", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
+                { name: "Fashion House Outlet", type: "outlet", desc: "אאוטלט במיליטארי. מותגים בהנחות שוות (קצת רחוק).", stores: "Nike, Adidas, Boss, Diesel, Tommy Hilfiger", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
+                { name: "ParkLake Shopping Center", type: "mall", desc: "קניון יפהפה ליד הפארק. יש בו פריימרק!", stores: "Primark, Zara, Victoria's Secret, Lefties", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
+                { name: "Baneasa Shopping City", type: "mall", desc: "קניון יוקרתי בצפון העיר. מותגי על.", stores: "Michael Kors, Gucci (near), Apple, Peek & Cloppenburg", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
+                { name: "Unirea Shopping Center", type: "mall", desc: "במרכז העיר (ליד המזרקות). קצת מיושן אבל נגיש.", stores: "Zara, Bershka, Stradivarius, Douglas", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest4", rating: "4.1", priceLevel: 2 }
             ]
         };
 
-        const tripsData = {
-            he: [
-                {icon: "🎿", name: "אקסטרים (סינאיה)", desc: "אופנועי שלג, גונדולה, יין חם.", time: "08:00 - 16:00"},
-                {icon: "🥩", name: "המשולבת (שלג+בשר)", desc: "סינאיה + בראשוב.", time: "07:30 - 20:00"},
-                {icon: "💎", name: "הבונקר (מכרות מלח)", desc: "200 מטר מתחת לאדמה.", time: "09:30 - 15:00"}
-            ],
-            en: [
-                {icon: "🎿", name: "Extreme (Sinaia)", desc: "Snowmobiles, Gondola, Mulled wine.", time: "08:00 - 16:00"},
-                {icon: "🥩", name: "Snow & Meat", desc: "Sinaia + Brasov.", time: "07:30 - 20:00"},
-                {icon: "💎", name: "Salt Mines", desc: "200m underground.", time: "09:30 - 15:00"}
-            ],
-            ro: [
-                {icon: "🎿", name: "Extrem (Sinaia)", desc: "Snowmobil, Gondolă, Vin fiert.", time: "08:00 - 16:00"},
-                {icon: "🥩", name: "Zăpadă & Carne", desc: "Sinaia + Brașov.", time: "07:30 - 20:00"},
-                {icon: "💎", name: "Salina", desc: "200m sub pământ.", time: "09:30 - 15:00"}
-            ]
-        };
+        // --- ניהול זמן חכם ---
+        const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
+        const tripEndDate = new Date("Mar 01, 2026 11:15:00").getTime();   
 
-        // --- לוגיקת שפה ---
-        function toggleLangMenu() {
-            const menu = document.getElementById('langMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
+        function updateTimerAndUI() {
+            const now = new Date().getTime();
+            let targetDate = tripStartDate;
+            let titleText = "⌛ ספירה לאחור להמראה:";
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.getElementById('langMenu').style.display = 'none';
-            
-            // כיוון
-            const dir = lang === 'he' ? 'rtl' : 'ltr';
-            document.documentElement.setAttribute('dir', dir);
-
-            // טקסטים סטטיים
-            const t = translations[lang];
-            document.getElementById('mainTitle').innerText = t.title;
-            document.getElementById('timer-title').innerText = t.timer_pre; // Will update by timer logic
-            
-            ['days', 'hours', 'minutes', 'seconds'].forEach(k => document.getElementById('lbl_' + k).innerText = t[k]);
-            
-            document.getElementById('btn_spa').innerText = t.spa;
-            document.getElementById('btn_food').innerText = t.food;
-            document.getElementById('btn_shop').innerText = t.shop;
-            document.getElementById('btn_casino').innerText = t.casino;
-            document.getElementById('btn_alcohol').innerText = t.alcohol;
-            document.getElementById('btn_freedom').innerText = t.freedom;
-            
-            document.getElementById('title_outbound').innerText = t.out_title;
-            document.getElementById('title_inbound').innerText = t.in_title;
-            document.getElementById('btn_status_out').innerText = t.status;
-            document.getElementById('btn_status_in').innerText = t.status;
-            
-            document.getElementById('act_oracle').innerText = t.oracle;
-            document.getElementById('act_raffle').innerText = t.raffle;
-            document.getElementById('act_trips').innerText = t.trips;
-            document.getElementById('act_baggage').innerText = t.bag;
-            
-            document.getElementById('meetingTLV').innerText = t.meet_tlv;
-            document.getElementById('meetingOTP').innerText = t.meet_otp;
-            
-            document.getElementById('title_converter').innerText = t.conv_title;
-            
-            // Modal Titles
-            document.getElementById('h3_casino').innerText = t.h3_casino;
-            document.getElementById('h3_alcohol').innerText = t.h3_alcohol;
-            document.getElementById('h3_food').innerText = t.h3_food;
-            document.getElementById('h3_shop').innerText = t.h3_shop;
-            document.getElementById('h3_baggage').innerText = t.h3_bag;
-            document.getElementById('h3_trips').innerText = t.h3_trips;
-            document.getElementById('h3_oracle').innerText = t.h3_oracle;
-            document.getElementById('h3_raffle').innerText = t.h3_raffle;
-            
-            // Modal static content
-            document.getElementById('txt_backpack').innerText = t.txt_backpack;
-            document.getElementById('txt_free').innerText = t.txt_free;
-            document.getElementById('txt_suitcase').innerText = t.txt_suitcase;
-            document.getElementById('txt_included').innerText = t.txt_included;
-            document.getElementById('txt_trip_warn').innerText = t.txt_trip_warn;
-            document.getElementById('txt_oracle_desc').innerText = t.txt_oracle_desc;
-            document.getElementById('txt_raffle_desc').innerText = t.txt_raffle_desc;
-            
-            // Sort buttons
-            document.getElementById('sortFoodHotelBtn').innerText = t.sort_hotel;
-            document.getElementById('sortFoodGpsBtn').innerText = t.sort_gps;
-            document.getElementById('sortShopHotelBtn').innerText = t.sort_hotel;
-            document.getElementById('sortShopCheapBtn').innerText = t.sort_cheap;
-
-            // עדכון רשימת טיולים (סטטי)
-            renderTripsStatic(lang);
-            
-            // ריענון רשימות דינמיות אם פתוחות
-            const openModal = document.querySelector('.modal[style*="display: block"]');
-            if (openModal) {
-                if (openModal.id === 'casinoModal') renderList('casinos');
-                if (openModal.id === 'alcoholModal') renderList('alcohol');
-                if (openModal.id === 'foodModal') {
-                    // Check active sort
-                    const isGps = document.getElementById('sortFoodGpsBtn').classList.contains('active');
-                    if (isGps && navigator.geolocation) {
-                         navigator.geolocation.getCurrentPosition(pos => renderFoodList(pos.coords.latitude, pos.coords.longitude, true));
-                    } else {
-                        renderFoodList(null, null, false);
-                    }
-                }
-                if (openModal.id === 'shoppingModal') {
-                    const isCheap = document.getElementById('sortShopCheapBtn').classList.contains('active');
-                    renderShoppingList(isCheap);
-                }
+            if (now >= tripStartDate && now < tripEndDate) {
+                targetDate = tripEndDate;
+                titleText = "😱 זמן שנשאר לשיגועים:";
+                document.getElementById('outboundFlight').style.display = 'none'; 
+                document.getElementById('meetingTLV').style.display = 'none'; 
+                document.getElementById('meetingOTP').style.display = 'block'; 
+            } else if (now >= tripEndDate) {
+                document.getElementById('countdown-wrapper').innerHTML = "<h2>🏠 ברוכים השבים!</h2>";
+                return; 
             }
-            updateTimerAndUI(); // Trigger timer text update
+
+            document.getElementById('timer-title').innerText = titleText;
+
+            const distance = targetDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
         }
 
-        function renderTripsStatic(lang) {
-            const list = tripsData[lang];
-            let html = '';
-            list.forEach(t => {
-                html += `<div class="trip-option">
-                    <div class="trip-header"><span class="trip-icon">${t.icon}</span><span class="trip-name">${t.name}</span></div>
-                    <div class="trip-details">${t.desc}</div>
-                    <div class="trip-time">⏰ ${t.time}</div>
-                </div>`;
-            });
-            document.getElementById('tripsListHtml').innerHTML = html;
-        }
+        const timer = setInterval(updateTimerAndUI, 1000);
+        updateTimerAndUI(); 
 
-        // --- Core Functions ---
-        
+        // --- פונקציות לתפריט Vibe ---
         function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
-        function triggerFreedom() { alert('🦅 FREEDOM MODE ON! 🦅'); triggerConfetti(); }
+        function triggerFreedom() { alert('🦅 FREEDOM MODE ON! 🦅\nיאללה להתנתק מהעולם!'); triggerConfetti(); }
 
+        // --- חישוב מרחק ---
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; 
             const dLat = deg2rad(lat2 - lat1);
@@ -569,67 +634,76 @@
         }
         function deg2rad(deg) { return deg * (Math.PI/180); }
 
+        // --- רנדור כללי (קזינו/ברים - תמיד סטטי לפי מלון) ---
         function renderList(type) {
             const listContainer = document.getElementById(type === 'casinos' ? 'casinoList' : 'alcoholList');
-            const statusDiv = document.getElementById(type === 'casinos' ? 'casinoLocationStatus' : 'alcoholLocationStatus');
             const data = places[type];
             const hotelLat = 44.4263; const hotelLng = 26.0844;
-            const t = translations[currentLang];
 
             data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
             data.sort((a, b) => a.distance - b.distance);
-            
-            statusDiv.innerText = t.loc_hotel;
-            statusDiv.style.display = 'block';
 
             let html = '';
             data.forEach(item => {
-                const distText = item.distance < 0.1 ? `🏨` : `👣 ${item.distance.toFixed(1)} km`;
-                const desc = item['desc_' + currentLang] || item.desc_en; // Fallback
-                
+                const distText = item.distance < 0.1 ? `<span class="place-dist">🏨 במלון</span>` : `<span class="place-dist">👣 ${item.distance.toFixed(1)} ק"מ מהמלון</span>`;
                 html += `
                 <div class="place-item">
                     <div class="place-header-row">
                         <div class="place-info">
                             <span class="place-name">${item.name}</span>
-                            <span class="place-desc">${desc}</span>
+                            <span class="place-desc">${item.desc}</span>
                             <div class="place-meta">
-                                <span class="place-dist">${distText}</span>
+                                ${distText}
                                 <span class="place-rating">⭐ ${item.rating}</span>
                                 <span class="place-cost">💰 ${item.cost}</span>
                             </div>
                         </div>
                     </div>
                     <div class="place-actions">
-                        <a href="${item.website}" target="_blank" class="web-btn">🌐</a>
-                        <a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a>
+                        <a href="${item.website}" target="_blank" class="web-btn" title="אתר">🌐</a>
+                        <a href="${item.navUrl}" target="_blank" class="nav-btn" title="ניווט">📍</a>
                     </div>
                 </div>`;
             });
             listContainer.innerHTML = html;
         }
 
+        // --- מיון ורנדור (אוכל ושופינג) ---
         function toggleSort(category, mode) {
+            // עדכון כפתורים
             const btnHotel = document.getElementById(category === 'food' ? 'sortFoodHotelBtn' : 'sortShopHotelBtn');
-            const btnOther = document.getElementById(category === 'food' ? 'sortFoodGpsBtn' : 'sortShopCheapBtn');
+            const btnOther = document.getElementById(category === 'food' ? 'sortFoodGpsBtn' : 'sortShopCheapBtn'); // כפתור שני משתנה
             
-            btnHotel.className = 'sort-btn'; btnOther.className = 'sort-btn';
+            // איפוס קלאסים
+            if(category === 'food') {
+                document.getElementById('sortFoodHotelBtn').className = 'sort-btn';
+                document.getElementById('sortFoodGpsBtn').className = 'sort-btn';
+            } else {
+                document.getElementById('sortShopHotelBtn').className = 'sort-btn';
+                document.getElementById('sortShopCheapBtn').className = 'sort-btn';
+            }
 
-            if (mode === 'hotel') btnHotel.classList.add('active');
-            else btnOther.classList.add('active');
+            // הפעלת הכפתור שנלחץ
+            if (mode === 'hotel') {
+                (category === 'food' ? document.getElementById('sortFoodHotelBtn') : document.getElementById('sortShopHotelBtn')).classList.add('active');
+            } else {
+                (category === 'food' ? document.getElementById('sortFoodGpsBtn') : document.getElementById('sortShopCheapBtn')).classList.add('active');
+            }
 
+            // לוגיקה
             if (category === 'food') {
-                const statusDiv = document.getElementById('foodLocationStatus');
-                const t = translations[currentLang];
                 if (mode === 'gps') {
-                    statusDiv.innerText = "⏳ ...";
+                    const statusDiv = document.getElementById('foodLocationStatus');
+                    statusDiv.innerText = "⏳ מאתר מיקום GPS...";
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(
-                            (pos) => renderFoodList(pos.coords.latitude, pos.coords.longitude, true),
-                            (err) => { alert(t.loc_err); renderFoodList(null, null, false); }
+                            (position) => { renderFoodList(position.coords.latitude, position.coords.longitude, true); },
+                            (error) => { alert("לא ניתן לאתר מיקום"); renderFoodList(null, null, false); }
                         );
-                    } else { renderFoodList(null, null, false); }
-                } else { renderFoodList(null, null, false); }
+                    } else { alert("דפדפן לא תומך"); renderFoodList(null, null, false); }
+                } else {
+                    renderFoodList(null, null, false); // חזרה למלון
+                }
             } else if (category === 'shopping') {
                 renderShoppingList(mode === 'cheapest');
             }
@@ -638,32 +712,34 @@
         function renderFoodList(lat, lng, isGps) {
             const listContainer = document.getElementById('foodList');
             const data = places.food;
-            const t = translations[currentLang];
+            let statusText = "🏨 ממוין לפי קרבה למלון";
             let refLat = 44.4263; let refLng = 26.0844;
-            
-            if (isGps && lat && lng) { refLat = lat; refLng = lng; document.getElementById('foodLocationStatus').innerText = t.loc_gps; }
-            else { document.getElementById('foodLocationStatus').innerText = t.loc_hotel; }
+
+            if (isGps && lat && lng) {
+                refLat = lat; refLng = lng;
+                statusText = "📍 ממוין לפי מיקום GPS שלי";
+            }
+            document.getElementById('foodLocationStatus').innerText = statusText;
 
             data.forEach(item => { item.distance = calculateDistance(refLat, refLng, item.lat, item.lng); });
             data.sort((a, b) => a.distance - b.distance);
 
-            let fastHtml = `<div class="section-title">${t.cat_fast}</div>`;
-            let restHtml = `<div class="section-title">${t.cat_rest}</div>`;
+            let fastHtml = '<div class="section-title">🏎️ מזון מהיר</div>';
+            let restHtml = '<div class="section-title">🍽️ מסעדות מומלצות</div>';
 
             data.forEach(item => {
-                const distText = `👣 ${item.distance.toFixed(1)} km`;
-                const desc = item['desc_' + currentLang] || item.desc_en;
-                
+                const distLabel = isGps ? "ממך" : "מהמלון";
+                const distText = `<span class="place-dist">👣 ${item.distance.toFixed(1)} ק"מ ${distLabel}</span>`;
                 const itemHtml = `
                 <div class="place-item">
                     <div class="place-header-row">
                         <div class="place-info">
                             <span class="place-name">${item.name}</span>
-                            <span class="place-desc">${desc}</span>
-                            <div class="place-meta"><span class="place-dist">${distText}</span> <span class="place-rating">⭐ ${item.rating}</span></div>
+                            <span class="place-desc">${item.desc}</span>
+                            <div class="place-meta">${distText} <span class="place-rating">⭐ ${item.rating}</span></div>
                         </div>
                     </div>
-                    <div class="place-actions"><a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a></div>
+                    <div class="place-actions"><a href="${item.navUrl}" target="_blank" class="nav-btn" title="ניווט">📍</a></div>
                 </div>`;
                 if (item.type === 'fast') fastHtml += itemHtml; else restHtml += itemHtml;
             });
@@ -673,123 +749,117 @@
         function renderShoppingList(sortByCheapest) {
             const listContainer = document.getElementById('shoppingList');
             const data = places.shopping;
-            const t = translations[currentLang];
-            const hotelLat = 44.4263; const hotelLng = 26.0844;
+            let statusText = "🏨 ממוין לפי קרבה למלון";
             
+            // חישוב מרחק תמיד (מהמלון)
+            const hotelLat = 44.4263; const hotelLng = 26.0844;
             data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
 
             if (sortByCheapest) {
-                document.getElementById('shoppingLocationStatus').innerText = "💸 " + t.sort_cheap;
-                data.sort((a, b) => a.priceLevel - b.priceLevel);
+                statusText = "💸 ממוין: מהזול והמשתלם ביותר";
+                data.sort((a, b) => a.priceLevel - b.priceLevel); // 1 הכי זול
             } else {
-                document.getElementById('shoppingLocationStatus').innerText = t.loc_hotel;
-                data.sort((a, b) => a.distance - b.distance);
+                data.sort((a, b) => a.distance - b.distance); // הכי קרוב
             }
+            document.getElementById('shoppingLocationStatus').innerText = statusText;
 
             let html = '';
             data.forEach(item => {
                 const typeIcon = item.type === 'outlet' ? '🏷️' : '🏬';
-                const distText = `👣 ${item.distance.toFixed(1)} km`;
-                const desc = item['desc_' + currentLang] || item.desc_en;
-                
+                const distText = `<span class="place-dist">👣 ${item.distance.toFixed(1)} ק"מ</span>`;
                 html += `
                 <div class="place-item">
                     <div class="place-header-row">
                         <div class="place-info">
                             <span class="place-name">${typeIcon} ${item.name}</span>
-                            <span class="place-desc">${desc}</span>
-                            <div class="place-meta"><span class="place-dist">${distText}</span> <span class="place-rating">⭐ ${item.rating}</span></div>
+                            <span class="place-desc">${item.desc}</span>
+                            <div class="place-meta">${distText} <span class="place-rating">⭐ ${item.rating}</span></div>
                         </div>
                     </div>
-                    <div class="store-list"><span class="store-tag">${t.store_tag}</span> ${item.stores}</div>
-                    <div class="place-actions"><a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a></div>
+                    <div class="store-list"><span class="store-tag">חנויות נבחרות:</span> ${item.stores}</div>
+                    <div class="place-actions"><a href="${item.navUrl}" target="_blank" class="nav-btn" title="ניווט">📍</a></div>
                 </div>`;
             });
             listContainer.innerHTML = html;
         }
 
-        // --- Modals & Utilities ---
-        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; renderList('casinos'); }
-        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; renderList('alcohol'); }
         function openFoodList() { document.getElementById('foodModal').style.display = 'block'; toggleSort('food', 'hotel'); }
         function openShoppingList() { document.getElementById('shoppingModal').style.display = 'block'; toggleSort('shopping', 'hotel'); }
+        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; renderList('casinos'); }
+        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; renderList('alcohol'); }
+
         function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; }
         function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; }
         function openOracleModal() { document.getElementById('oracleModal').style.display = 'block'; }
         function openRaffleModal() { document.getElementById('raffleModal').style.display = 'block'; }
-        function closeModal(event, id) { if(event.target.id === id || event.target.className === 'close-btn') document.getElementById(id).style.display = 'none'; }
+
+        function closeModal(event, modalId) {
+            if (event.target.id === modalId || event.target.className === 'close-btn') {
+                document.getElementById(modalId).style.display = 'none';
+            }
+        }
 
         function convertCurrency() {
+            const rate = 0.73; 
             const ron = document.getElementById('ronInput').value;
-            document.getElementById('ilsOutput').value = ron ? (ron * 0.73).toFixed(1) + ' ₪' : '';
+            const ils = ron ? (ron * rate).toFixed(1) : '';
+            document.getElementById('ilsOutput').value = ils ? ils + ' ₪' : '';
         }
 
-        // --- Timer Logic ---
-        const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
-        const tripEndDate = new Date("Mar 01, 2026 11:15:00").getTime();   
+        const rouletteNumbers = [{num:0,color:'green'},{num:32,color:'red'},{num:15,color:'black'},{num:19,color:'red'},{num:4,color:'black'},{num:21,color:'red'},{num:2,color:'black'},{num:25,color:'red'},{num:17,color:'black'},{num:34,color:'red'},{num:6,color:'black'},{num:27,color:'red'},{num:13,color:'black'},{num:36,color:'red'},{num:11,color:'black'},{num:30,color:'red'},{num:8,color:'black'},{num:23,color:'red'},{num:10,color:'black'},{num:5,color:'red'},{num:24,color:'black'},{num:16,color:'red'},{num:33,color:'black'},{num:1,color:'red'},{num:20,color:'black'},{num:14,color:'red'},{num:31,color:'black'},{num:9,color:'red'},{num:22,color:'black'},{num:18,color:'red'},{num:29,color:'black'},{num:7,color:'red'},{num:28,color:'black'},{num:12,color:'red'},{num:35,color:'black'},{num:3,color:'red'},{num:26,color:'black'}];
 
-        function updateTimerAndUI() {
-            const now = new Date().getTime();
-            let target = tripStartDate;
-            const t = translations[currentLang];
-            let titleText = t.timer_pre;
-
-            if (now >= tripStartDate && now < tripEndDate) {
-                target = tripEndDate;
-                titleText = t.timer_on;
-                document.getElementById('outboundFlight').style.display = 'none'; 
-                document.getElementById('meetingTLV').style.display = 'none'; 
-                document.getElementById('meetingOTP').style.display = 'block'; 
-            } else if (now >= tripEndDate) {
-                document.getElementById('countdown-wrapper').innerHTML = `<h2>${t.welcome_back}</h2>`;
-                return; 
-            }
-            document.getElementById('timer-title').innerText = titleText;
-
-            const d = target - now;
-            document.getElementById("days").innerHTML = Math.floor(d / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerHTML = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("minutes").innerHTML = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById("seconds").innerHTML = Math.floor((d % (1000 * 60)) / 1000);
-        }
-        setInterval(updateTimerAndUI, 1000);
-        updateTimerAndUI();
-        renderTripsStatic('he'); // init
-
-        // --- Games ---
-        const rouletteNums = [{num:0,c:'green'},{num:32,c:'red'},{num:15,c:'black'},{num:19,c:'red'},{num:4,c:'black'},{num:21,c:'red'},{num:2,c:'black'},{num:25,c:'red'},{num:17,c:'black'},{num:34,c:'red'},{num:6,c:'black'},{num:27,c:'red'},{num:13,c:'black'},{num:36,c:'red'},{num:11,c:'black'},{num:30,c:'red'},{num:8,c:'black'},{num:23,c:'red'},{num:10,c:'black'},{num:5,c:'red'},{num:24,c:'black'},{num:16,c:'red'},{num:33,c:'black'},{num:1,c:'red'},{num:20,c:'black'},{num:14,c:'red'},{num:31,c:'black'},{num:9,c:'red'},{num:22,c:'black'},{num:18,c:'red'},{num:29,c:'black'},{num:7,c:'red'},{num:28,c:'black'},{num:12,c:'red'},{num:35,c:'black'},{num:3,c:'red'},{num:26,c:'black'}];
         function spinRoulette() {
             const display = document.getElementById('rouletteResult');
             const btn = document.getElementById('spinBtn');
-            btn.disabled = true; display.className = 'roulette-display spinning';
-            let c = 0;
-            const i = setInterval(() => {
-                const item = rouletteNums[Math.floor(Math.random()*rouletteNums.length)];
-                display.innerText = item.num; display.className = 'roulette-display spinning num-'+item.c;
-                if(++c > 20) { clearInterval(i); display.className = 'roulette-display num-'+item.c; btn.disabled = false; }
+            btn.disabled = true; display.classList.add('spinning');
+            let counter = 0;
+            const spinInterval = setInterval(() => {
+                const item = rouletteNumbers[Math.floor(Math.random() * rouletteNumbers.length)];
+                display.innerText = item.num;
+                display.className = 'roulette-display spinning num-' + item.color;
+                counter++;
+                if (counter > 20) { 
+                    clearInterval(spinInterval);
+                    const finalItem = rouletteNumbers[Math.floor(Math.random() * rouletteNumbers.length)];
+                    display.innerText = finalItem.num;
+                    display.className = 'roulette-display num-' + finalItem.color; 
+                    btn.disabled = false;
+                }
             }, 100);
         }
-        
+
         const participants = ["היצ'קוק", "בגדן", "מאור", "עידו"];
         function spinRaffle() {
             const display = document.getElementById('raffleResult');
             const btn = document.getElementById('raffleBtn');
             btn.disabled = true;
-            let c = 0;
-            const i = setInterval(() => {
-                display.innerText = participants[Math.floor(Math.random()*participants.length)];
-                if(++c > 20) { clearInterval(i); display.style.color = "#28a745"; display.innerText = "🎉 " + display.innerText + " 🎉"; btn.disabled = false; triggerConfetti(); }
-                else display.style.color = "#6a1b9a";
+            let counter = 0;
+            const interval = setInterval(() => {
+                const randomName = participants[Math.floor(Math.random() * participants.length)];
+                display.innerText = randomName;
+                counter++;
+                if (counter > 20) {
+                    clearInterval(interval);
+                    const winner = participants[Math.floor(Math.random() * participants.length)];
+                    display.innerText = "🎉 " + winner + " 🎉";
+                    display.style.color = "#28a745"; btn.disabled = false;
+                    triggerConfetti();
+                } else { display.style.color = "#6a1b9a"; }
             }, 100);
         }
+
         function triggerConfetti() {
             for(let i=0; i<50; i++) {
-                const c = document.createElement("div"); c.classList.add("confetti");
-                c.style.left = Math.random()*100+"vw"; c.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
-                c.style.animationDuration = Math.random()*3+2+"s";
-                document.body.appendChild(c); setTimeout(()=>c.remove(), 5000);
+                const conf = document.createElement("div");
+                conf.classList.add("confetti");
+                conf.style.left = Math.random() * 100 + "vw";
+                conf.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                conf.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(conf);
+                setTimeout(() => { conf.remove(); }, 5000);
             }
         }
     </script>
+
 </body>
 </html>
