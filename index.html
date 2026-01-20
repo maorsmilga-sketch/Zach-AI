@@ -178,14 +178,14 @@
 
         /* --- Modal (החלון הקופץ) --- */
         .modal {
-            display: none; /* מוסתר כברירת מחדל */
+            display: none; 
             position: fixed; 
             z-index: 1000; 
             left: 0;
             top: 0;
             width: 100%; 
             height: 100%; 
-            background-color: rgba(0,0,0,0.6); /* רקע כהה */
+            background-color: rgba(0,0,0,0.6);
             backdrop-filter: blur(5px);
         }
 
@@ -210,7 +210,7 @@
         .close-btn {
             position: absolute;
             top: 10px;
-            left: 15px; /* צד שמאל כי זה עברית */
+            left: 15px;
             color: #aaa;
             font-size: 28px;
             font-weight: bold;
@@ -220,7 +220,6 @@
 
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 20px; }
 
-        /* עיצוב הפריטים בתוך המודל */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
@@ -263,7 +262,7 @@
             h1 { font-size: 1.3rem; gap: 5px; } 
             .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
             .flight-times { font-size: 1.1rem; }
-            .baggage-items { flex-direction: column; } /* במודל עצמו במובייל */
+            .baggage-items { flex-direction: column; } 
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
             .baggage-title { margin-bottom: 0; }
@@ -402,7 +401,7 @@
         }
 
         function closeModal(event) {
-            // סגירה אם לחצו על האיקס או על הרקע השחור (אבל לא על התוכן עצמו)
+            // סגירה אם לחצו על האיקס או על הרקע השחור
             if (event.target.id === 'baggageModal' || event.target.className === 'close-btn') {
                 document.getElementById('baggageModal').style.display = 'none';
             }
@@ -427,9 +426,9 @@
             }
         }, 1000);
 
-        // המרה
+        // המרה - מעודכן ל-0.73
         function convertCurrency() {
-            const rate = 0.8; 
+            const rate = 0.73; // שער מעודכן לפי התמונה
             const ron = document.getElementById('ronInput').value;
             const ils = ron ? (ron * rate).toFixed(1) : '';
             document.getElementById('ilsOutput').value = ils ? ils + ' ₪' : '';
