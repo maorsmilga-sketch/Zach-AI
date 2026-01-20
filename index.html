@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>חופשת האחים בבוקרשט</title>
     <style>
         /* הגדרות עיצוב כלליות */
@@ -23,30 +23,36 @@
 
         .container {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px; /* הקטנתי קצת padding */
+            padding: 20px;
             border-radius: 25px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             max-width: 800px;
-            width: 95%; /* התאמה טובה יותר למובייל */
+            width: 95%;
             margin: 10px;
             border-top: 5px solid #ff8c00;
         }
 
         h1 {
-            font-size: 2.2rem; /* קצת הקטנתי לכותרת */
+            font-size: 2.2rem;
             margin: 0 0 15px 0;
             color: #0056b3;
             font-weight: 800;
             text-transform: uppercase;
         }
 
+        /* תיקון שורת האייקונים */
         .vibe-container {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px; /* רווח קטן יותר */
             margin-bottom: 20px;
-            flex-wrap: wrap;
+            /* הסרתי את flex-wrap כדי שיהיו בשורה אחת */
+            white-space: nowrap; /* מונע שבירת טקסט */
+            overflow-x: auto; /* גלילה אופקית אם ממש צר */
+            scrollbar-width: none; /* הסתרת פס גלילה */
+            padding-bottom: 5px;
         }
+        .vibe-container::-webkit-scrollbar { display: none; } /* לכרום/ספארי */
 
         .vibe-item {
             background: #f0f8ff;
@@ -59,6 +65,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            flex-shrink: 0; /* מונע כיווץ יתר */
         }
 
         /* עיצוב כרטיס הטיסה */
@@ -77,8 +84,6 @@
             border-bottom: 2px dashed #eee;
             position: relative;
         }
-        
-        .flight-segment:last-child { border-bottom: none; }
         
         .flight-segment::before {
             content: '';
@@ -139,6 +144,45 @@
             padding: 0 5px;
         }
 
+        /* --- עיצוב חדש לפרטי כבודה --- */
+        .baggage-section {
+            padding: 15px;
+            background: #f4f9ff; /* רקע תכלת עדין */
+            border-top: 2px dashed #cce5ff;
+        }
+
+        .baggage-header {
+            font-size: 1rem;
+            color: #0056b3;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .baggage-items {
+            display: flex;
+            gap: 10px;
+        }
+
+        .baggage-item {
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #e1e1e1;
+            flex: 1; /* רוחב שווה */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .baggage-icon { font-size: 1.6rem; margin-bottom: 5px; }
+        .baggage-title { font-size: 0.85rem; color: #555; margin-bottom: 5px; flex-grow: 1; }
+        .baggage-status { font-size: 0.9rem; color: #28a745; font-weight: bold; } /* ירוק להדגשה */
+
         .meeting-point {
             background: linear-gradient(45deg, #ff8c00, #ffd700);
             color: #fff;
@@ -157,22 +201,22 @@
             100% { transform: scale(1); }
         }
 
-        /* --- עיצוב השעון החדש: שורה אחת --- */
+        /* עיצוב השעון */
         #countdown {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px; /* רווח קטן בין הקוביות */
+            gap: 8px;
             margin: 25px 0;
             width: 100%;
         }
 
         .time-box {
             background: linear-gradient(135deg, #006eff, #00a8ff);
-            padding: 10px 5px; /* פחות ריפוד */
+            padding: 10px 5px;
             border-radius: 10px;
-            flex: 1; /* לוקח רוחב שווה */
-            max-width: 80px; /* שלא יהיה ענק במסכים גדולים */
+            flex: 1;
+            max-width: 80px;
             box-shadow: 0 4px 10px rgba(0, 110, 255, 0.2);
             color: #fff;
             display: flex;
@@ -182,7 +226,6 @@
 
         .time-box.days-highlight {
             background: linear-gradient(135deg, #ffb300, #ff8c00);
-            /* ביטלתי את ה-scale הגדול כדי שלא ישבור שורה, במקום זה נתתי טיפה יותר גובה/רוחב ויזואלית */
             transform: scale(1.05); 
             z-index: 10;
             box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4);
@@ -190,7 +233,7 @@
         }
 
         .number {
-            font-size: 1.8rem; /* פונט קטן יותר */
+            font-size: 1.8rem;
             font-weight: 800;
             line-height: 1;
         }
@@ -203,10 +246,7 @@
             margin-top: 5px;
         }
         
-        /* תיקון ספציפי לימים */
-        .time-box.days-highlight .label {
-            color: #fff;
-        }
+        .time-box.days-highlight .label { color: #fff; }
 
         /* רשימת המשתתפים */
         .squad {
@@ -239,12 +279,16 @@
         }
 
         /* התאמה למובייל */
-        @media (max-width: 400px) {
+        @media (max-width: 450px) {
             h1 { font-size: 1.8rem; }
-            .number { font-size: 1.5rem; } /* עוד הקטנה למסכים ממש קטנים */
+            .vibe-item { font-size: 0.75rem; padding: 6px 10px; } /* הקטנה נוספת לאייקונים */
+            .flight-times { font-size: 1.1rem; }
+            .baggage-items { flex-direction: column; } /* כבודה אחת מתחת לשנייה במובייל */
+            .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
+            .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
+            .baggage-title { margin-bottom: 0; }
+            .number { font-size: 1.5rem; }
             .label { font-size: 0.7rem; }
-            .vibe-item { font-size: 0.8rem; padding: 5px 8px; }
-            .meeting-point { font-size: 1rem; }
         }
     </style>
 </head>
@@ -293,6 +337,24 @@
                     <div class="time-block">
                         13:55
                         <span class="airport-code">TLV</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="baggage-section">
+                <div class="baggage-header">
+                    <span style="font-size: 1.2rem;">🎒🧳</span> כבודה כלולה (לכל כיוון)
+                </div>
+                <div class="baggage-items">
+                    <div class="baggage-item">
+                        <span class="baggage-icon">🎒</span>
+                        <span class="baggage-title">תיק גב קטן (מתחת למושב)</span>
+                        <span class="baggage-status">חינם</span>
+                    </div>
+                    <div class="baggage-item">
+                        <span class="baggage-icon">🧳</span>
+                        <span class="baggage-title">מזוודה 20 ק"ג (צ'ק-אין)</span>
+                        <span class="baggage-status">כלול!</span>
                     </div>
                 </div>
             </div>
