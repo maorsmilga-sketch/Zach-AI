@@ -1,214 +1,238 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title> האחים היקרים - בוקרשט ✈️🇷🇴</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בוקרשט 2026 - טיול האחים</title>
+    <style>
+        /* הגדרות עיצוב כלליות */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1596525737525-a130f162793b?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+        }
 
-  <style>
-    :root{
-      --gold:#d4af37;
-      --fg:#ffffff;
-      --fg-muted:#dddddd;
-      --glass:rgba(255,255,255,0.1);
-      --blur:6px;
-      --accent-red:#f44336;
-      --accent-yellow:#f1c40f;
-      --accent-green:#2ecc71;
-    }
+        .container {
+            background-color: rgba(20, 20, 20, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #d4af37; /* זהב */
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            max-width: 800px;
+            width: 90%;
+            margin: 20px;
+        }
 
-    body{
-      margin:0;
-      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color:var(--fg);
-      text-align:center;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:
-        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-        url('https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=1920&auto=format&fit=crop')
-        center/cover fixed;
-    }
+        h1 {
+            font-size: 2.8rem;
+            margin: 0 0 10px 0;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px #000;
+        }
 
-    .container{
-      background-color: rgba(0,0,0,0.75);
-      border:2px solid var(--gold);
-      border-radius:16px;
-      box-shadow:0 0 30px rgba(0,0,0,0.5);
-      padding:32px;
-      width:min(980px, calc(100% - 24px));
-      margin: 20px 0;
-    }
+        .vibe {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
 
-    h1{ margin:0 0 10px; color:var(--gold); font-size:2.3rem; text-transform:uppercase; letter-spacing:2px; }
-    
-    /* ===== רשימת משתתפים ===== */
-    .people-section {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 25px;
-      background: var(--glass);
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px solid rgba(212,175,55,0.3);
-    }
-    .people-group { text-align: right; }
-    .people-group h3 { margin: 0 0 8px; font-size: 1rem; color: var(--gold); border-bottom: 1px solid var(--gold); }
-    .people-group ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 10px; flex-wrap: wrap; }
-    .people-group li { font-size: 0.95rem; background: rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 5px; }
+        /* עיצוב כרטיס הטיסה */
+        .flight-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: right;
+        }
 
-    /* ===== ספירה לאחור ===== */
-    #countdown{ display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:12px; }
-    .time-box{
-      background:var(--glass);
-      padding:14px; border-radius:12px; min-width:85px;
-      backdrop-filter: blur(var(--blur));
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .number{ display:block; font-size:2.5rem; font-weight:bold; color: var(--gold); }
-    .label { font-size:0.9rem; color:var(--fg-muted); }
+        .flight-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
-    /* ===== בר התקדמות צבעוני ===== */
-    .days-progress{ margin-top:24px; text-align:right; }
-    .days-header{ display:flex; justify-content:space-between; align-items:center; color:var(--fg-muted); font-size:0.95rem; }
-    .days-bar{
-      margin-top:10px; height:24px; width:100%; display:flex;
-      border-radius:12px; overflow:hidden;
-      background: rgba(255,255,255,0.1);
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    .days-bar .seg{ flex:1 1 auto; transition: background 0.5s ease; border-left: 1px solid rgba(0,0,0,0.2); }
-    
-    /* צבעים לפי בקשתך */
-    .seg.filled-start  { background: linear-gradient(180deg, #e74c3c, var(--accent-red)); }
-    .seg.filled-middle { background: linear-gradient(180deg, #f39c12, var(--accent-yellow)); }
-    .seg.filled-end    { background: linear-gradient(180deg, #27ae60, var(--accent-green)); }
-    .seg.empty { background: transparent; }
+        .flight-row:last-child {
+            border-bottom: none;
+        }
 
-    .btn{ border:1px solid var(--gold); background:transparent; color:var(--fg); padding:10px 20px; border-radius:8px; cursor:pointer; margin: 10px; font-weight: bold; }
-    .btn:hover{ background:var(--gold); color: black; }
-  </style>
+        .flight-icon { font-size: 1.5rem; margin-left: 10px; }
+        .flight-date { color: #d4af37; font-weight: bold; }
+        .flight-time { font-family: monospace; font-size: 1.1rem; }
+        .flight-num { font-size: 0.9rem; color: #aaa; }
+
+        /* עיצוב השעון */
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .time-box {
+            background: linear-gradient(145deg, #1a1a1a, #333);
+            padding: 15px 20px;
+            border-radius: 12px;
+            min-width: 70px;
+            border: 1px solid #444;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .label {
+            font-size: 0.9rem;
+            color: #d4af37;
+            text-transform: uppercase;
+        }
+
+        /* רשימת המשתתפים */
+        .squad {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .squad h3 { color: #d4af37; margin-bottom: 15px; }
+
+        .names {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pending {
+            font-size: 1rem;
+            color: #ffcc00;
+            font-style: italic;
+        }
+
+        .meeting-point {
+            background-color: #d4af37;
+            color: #000;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        /* התאמה למובייל */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .flight-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .number { font-size: 1.8rem; }
+            .time-box { min-width: 50px; padding: 10px; }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>האחים היקרים טסים לבוקרשט! 🇷🇴</h1>
-    
-    <div class="people-section">
-        <div class="people-group">
-            <h3>משתתפים</h3>
-            <ul>
-                <li>✅ היצ'קוק</li>
-                <li>✅ בגדן</li>
-                <li>✅ עידו</li>
-                <li>✅ מאור</li>
-            </ul>
-        </div>
-        <div class="people-group">
-            <h3>מתלבטים</h3>
-            <ul style="opacity: 0.7;">
-                <li>❓ ניר</li>
-                <li>❓ בילי</li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="countdown">
-      <div class="time-box"><span class="number" id="days">00</span><span class="label">ימים</span></div>
-      <div class="time-box"><span class="number" id="hours">00</span><span class="label">שעות</span></div>
-      <div class="time-box"><span class="number" id="minutes">00</span><span class="label">דקות</span></div>
-      <div class="time-box"><span class="number" id="seconds">00</span><span class="label">שניות</span></div>
-    </div>
-
-    <div class="days-progress">
-      <div class="days-header">
-        <span id="daysSummary">מחשב התקדמות...</span>
-        <span id="daysCounters"></span>
-      </div>
-      <div class="days-bar" id="daysBar"></div>
-    </div>
-
-    <div class="actions" style="margin-top: 30px;">
-      <button class="btn" id="share">🔗 שתף את האחים</button>
-    </div>
-  </div>
-
-  <script>
-    // הגדרות זמנים
-    const TARGET_DATE = Date.UTC(2026, 1, 28, 7, 20); // 28.02.2026 09:20
-    const START_DATE = new Date('2025-12-09T00:00:00').getTime(); // תחילת הספירה לבקשתך
-
-    function updateApp() {
-        const now = Date.now();
-        const timeLeft = TARGET_DATE - now;
-
-        if (timeLeft <= 0) {
-            document.querySelector('.container').innerHTML = "<h1>יאללה לבוקרשט! ✈️🍻</h1>";
-            return;
-        }
-
-        // 1. עדכון טיימר
-        const d = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const h = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-        document.getElementById('days').textContent = d;
-        document.getElementById('hours').textContent = String(h).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(m).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(s).padStart(2, '0');
-
-        // 2. עדכון בר התקדמות
-        const totalDuration = TARGET_DATE - START_DATE;
-        const elapsed = now - START_DATE;
-        const percent = Math.min(Math.max((elapsed / totalDuration) * 100, 0), 100);
-
-        const bar = document.getElementById('daysBar');
-        bar.innerHTML = '';
-        const totalSegments = 60; // כמות הקוביות בבר
-        const filledSegments = Math.floor((percent / 100) * totalSegments);
-
-        for (let i = 0; i < totalSegments; i++) {
-            const seg = document.createElement('div');
-            seg.className = 'seg';
-            
-            if (i < filledSegments) {
-                // לוגיקת צבעים: אדום -> צהוב -> ירוק
-                if (percent < 35) {
-                    seg.classList.add('filled-start'); // אדום
-                } else if (percent < 75) {
-                    seg.classList.add('filled-middle'); // צהוב
-                } else {
-                    seg.classList.add('filled-end'); // ירוק
-                }
-            } else {
-                seg.classList.add('empty');
-            }
-            bar.appendChild(seg);
-        }
+    <div class="container">
+        <h1>האחים כובשים את בוקרשט 🇷🇴</h1>
+        <p class="vibe">ספא 🧖‍♂️ | קזינו 🎰 | אלכוהול 🥃 | חופש 🦅</p>
         
-        document.getElementById('daysSummary').textContent = `התקדמות: ${Math.floor(percent)}%`;
-        const totalDays = Math.floor(totalDuration / (1000*60*60*24));
-        const daysPassed = Math.floor(elapsed / (1000*60*60*24));
-        document.getElementById('daysCounters').textContent = `עברו ${daysPassed} ימים מתוך ${totalDays}`;
-    }
+        <div class="flight-card">
+            <div class="flight-row">
+                <div>
+                    <span class="flight-icon">🛫</span>
+                    <span class="flight-date">הלוך: יום ד' 25.02</span>
+                </div>
+                <div>
+                    <span class="flight-time">09:20 TLV ➔ 12:15 OTP</span>
+                    <span class="flight-num">(W4 3258)</span>
+                </div>
+            </div>
+            <div class="flight-row">
+                <div>
+                    <span class="flight-icon">🛬</span>
+                    <span class="flight-date">חזור: יום א' 01.03</span>
+                </div>
+                <div>
+                    <span class="flight-time">11:15 OTP ➔ 13:55 TLV</span>
+                    <span class="flight-num">(W4 3263)</span>
+                </div>
+            </div>
+        </div>
 
-    setInterval(updateApp, 1000);
-    updateApp();
+        <div class="meeting-point">
+            📍 נפגשים בנתב"ג בשעה 06:20 בול!
+        </div>
+        
+        <div id="countdown">
+            <div class="time-box">
+                <span class="number" id="days">00</span>
+                <span class="label">ימים</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="hours">00</span>
+                <span class="label">שעות</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="minutes">00</span>
+                <span class="label">דקות</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="seconds">00</span>
+                <span class="label">שניות</span>
+            </div>
+        </div>
 
-    document.getElementById('share').onclick = () => {
-        const text = `בוקרשט מחכה לנו! עוד ${document.getElementById('days').textContent} ימים למנאייק.`;
-        if (navigator.share) {
-            navigator.share({ title: 'בוקרשט 2026', text: text, url: window.location.href });
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-            alert("הלינק הועתק! שלח לחברים");
-        }
-    };
-  </script>
+        <div class="squad">
+            <h3>⭐ ההרכב המנצח ⭐</h3>
+            <div class="names">
+                היצ'קוק • בגדן • מאור • עידו
+            </div>
+            <div class="pending">
+                ❓ מתנדנד: ניר
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // תאריך יעד: 25 בפברואר 2026, שעה 06:20 (זמן המפגש לטיסה של 09:20)
+        const targetDate = new Date("Feb 25, 2026 06:20:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "<h2>🥂 יאללה לדיוטי! טסים! 🥂</h2>";
+            }
+        }, 1000);
+    </script>
+
 </body>
 </html>
