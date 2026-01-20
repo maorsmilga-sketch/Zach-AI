@@ -32,27 +32,33 @@
             border-top: 5px solid #ff8c00;
         }
 
+        /* עדכון לכותרת - דגלים ושורה אחת */
         h1 {
-            font-size: 2.2rem;
+            font-size: 2rem; /* הקטנתי מעט את גודל הבסיס */
             margin: 0 0 15px 0;
             color: #0056b3;
             font-weight: 800;
             text-transform: uppercase;
+            /* הגדרות לשמירה על שורה אחת ומרכוז */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* רווח בין הדגלים לטקסט */
+            white-space: nowrap; /* מכריח שורה אחת */
         }
 
         /* תיקון שורת האייקונים */
         .vibe-container {
             display: flex;
             justify-content: center;
-            gap: 8px; /* רווח קטן יותר */
+            gap: 8px;
             margin-bottom: 20px;
-            /* הסרתי את flex-wrap כדי שיהיו בשורה אחת */
-            white-space: nowrap; /* מונע שבירת טקסט */
-            overflow-x: auto; /* גלילה אופקית אם ממש צר */
-            scrollbar-width: none; /* הסתרת פס גלילה */
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
             padding-bottom: 5px;
         }
-        .vibe-container::-webkit-scrollbar { display: none; } /* לכרום/ספארי */
+        .vibe-container::-webkit-scrollbar { display: none; }
 
         .vibe-item {
             background: #f0f8ff;
@@ -65,7 +71,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            flex-shrink: 0; /* מונע כיווץ יתר */
+            flex-shrink: 0;
         }
 
         /* עיצוב כרטיס הטיסה */
@@ -144,10 +150,10 @@
             padding: 0 5px;
         }
 
-        /* --- עיצוב חדש לפרטי כבודה --- */
+        /* עיצוב פרטי כבודה */
         .baggage-section {
             padding: 15px;
-            background: #f4f9ff; /* רקע תכלת עדין */
+            background: #f4f9ff;
             border-top: 2px dashed #cce5ff;
         }
 
@@ -171,7 +177,7 @@
             padding: 10px;
             border-radius: 10px;
             border: 1px solid #e1e1e1;
-            flex: 1; /* רוחב שווה */
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -181,7 +187,7 @@
 
         .baggage-icon { font-size: 1.6rem; margin-bottom: 5px; }
         .baggage-title { font-size: 0.85rem; color: #555; margin-bottom: 5px; flex-grow: 1; }
-        .baggage-status { font-size: 0.9rem; color: #28a745; font-weight: bold; } /* ירוק להדגשה */
+        .baggage-status { font-size: 0.9rem; color: #28a745; font-weight: bold; }
 
         .meeting-point {
             background: linear-gradient(45deg, #ff8c00, #ffd700);
@@ -280,10 +286,12 @@
 
         /* התאמה למובייל */
         @media (max-width: 450px) {
-            h1 { font-size: 1.8rem; }
-            .vibe-item { font-size: 0.75rem; padding: 6px 10px; } /* הקטנה נוספת לאייקונים */
+            /* הקטנה משמעותית של הכותרת כדי שתיכנס בשורה אחת עם שני הדגלים */
+            h1 { font-size: 1.3rem; gap: 5px; } 
+            
+            .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
             .flight-times { font-size: 1.1rem; }
-            .baggage-items { flex-direction: column; } /* כבודה אחת מתחת לשנייה במובייל */
+            .baggage-items { flex-direction: column; }
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
             .baggage-title { margin-bottom: 0; }
@@ -295,7 +303,7 @@
 <body>
 
     <div class="container">
-        <h1>האחים היקרים בבוקרשט! 🇷🇴</h1>
+        <h1>🇷🇴 האחים היקרים בבוקרשט! 🇷🇴</h1>
         
         <div class="vibe-container">
             <div class="vibe-item">🧖‍♂️ ספא</div>
@@ -315,7 +323,7 @@
                         09:20
                         <span class="airport-code">TLV</span>
                     </div>
-                    <span class="arrow">➔</span>
+                    <span class="arrow">⬅️</span>
                     <div class="time-block">
                         12:15
                         <span class="airport-code">OTP</span>
@@ -333,7 +341,7 @@
                         11:15
                         <span class="airport-code">OTP</span>
                     </div>
-                    <span class="arrow">➔</span>
+                    <span class="arrow">⬅️</span>
                     <div class="time-block">
                         13:55
                         <span class="airport-code">TLV</span>
