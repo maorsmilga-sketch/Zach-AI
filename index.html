@@ -46,13 +46,13 @@
             white-space: nowrap;
         }
 
-        /* --- טיימר יוקרתי --- */
+        /* --- טיימר יוקרתי עם הדגשת ימים --- */
         #countdown {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* ממרכז את הכל לגובה */
             gap: 15px;
-            margin: 5px 0 20px 0;
+            margin: 10px 0 25px 0;
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
@@ -69,25 +69,42 @@
             min-width: 45px;
         }
 
+        /* עיצוב רגיל לשעות/דקות/שניות */
         .number {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: #d4af37;
+            font-size: 1.5rem;
+            color: #d4af37; /* זהב */
             font-weight: 700;
             line-height: 1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .label {
             font-size: 0.65rem;
-            color: #666;
+            color: #999;
             text-transform: uppercase;
             font-weight: bold;
-            margin-top: 2px;
+            margin-top: 4px;
             letter-spacing: 1px;
         }
         
-        .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
+        /* --- הדגשה מיוחדת לימים --- */
+        .days-highlight .number {
+            font-size: 3.5rem; /* ענק! */
+            color: #ff8c00; /* כתום בולט */
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        
+        .days-highlight .label {
+            color: #333; /* טקסט כהה יותר */
+            font-size: 0.9rem;
+            margin-top: 0;
+        }
+
+        .separator { 
+            font-size: 1.2rem; 
+            color: #ccc; 
+            margin-top: -10px; 
+        }
 
         /* --- רכיבים כלליים --- */
         .vibe-container {
@@ -213,11 +230,11 @@
 
         .action-btn {
             flex: 1;
-            padding: 15px 2px; /* ריפוד קטן יותר כדי ש-4 ייכנסו */
+            padding: 15px 2px;
             text-align: center;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.8rem; /* פונט טיפה יותר קטן */
+            font-size: 0.8rem;
             transition: background 0.2s;
             display: flex;
             align-items: center;
@@ -225,11 +242,10 @@
             gap: 3px;
             border-left: 1px solid #eee;
             line-height: 1.1;
-            white-space: nowrap; /* מונע שבירת שורה */
+            white-space: nowrap;
         }
         .action-btn:last-child { border-left: none; }
 
-        /* צבעים לכל כפתור */
         .baggage-trigger { background: #f4f9ff; color: #0056b3; }
         .baggage-trigger:hover { background: #e6f2ff; }
 
@@ -239,7 +255,7 @@
         .oracle-trigger { background: #333; color: #d4af37; }
         .oracle-trigger:hover { background: #000; }
 
-        .raffle-trigger { background: #f3e5f5; color: #6a1b9a; } /* סגול להגרלה */
+        .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
         .raffle-trigger:hover { background: #e1bee7; }
 
 
@@ -318,12 +334,11 @@
         .num-green { background-color: #008000; }
         .spinning { animation: flicker 0.08s infinite; }
         @keyframes flicker { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
-        
         .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: block; margin: 0 auto; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4); transition: transform 0.1s; width: 80%; }
         .spin-btn:active { transform: scale(0.95); }
         .spin-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
 
-        /* --- Raffle Styles (חדש) --- */
+        /* Raffle Styles */
         .raffle-display {
             font-size: 2.2rem;
             font-weight: 800;
@@ -349,15 +364,12 @@
 
         @media (max-width: 450px) {
             h1 { font-size: 1.3rem; gap: 5px; } 
-            .number { font-size: 1.5rem; }
-            .label { font-size: 0.6rem; }
             .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
             .flight-times { font-size: 1.1rem; }
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
             .baggage-title { margin-bottom: 0; }
             .modal-content { width: 85%; margin: 10% auto; padding: 20px; }
-            /* תיקון לכפתורים במובייל */
             .action-btn { font-size: 0.75rem; padding: 12px 2px; }
         }
     </style>
@@ -368,11 +380,13 @@
         <h1>🇷🇴 האחים היקרים בבוקרשט! 🇷🇴</h1>
 
         <div id="countdown">
-            <div class="time-box">
+            <div class="time-box days-highlight">
                 <span class="number" id="days">00</span>
                 <span class="label">ימים</span>
             </div>
+            
             <span class="separator">:</span>
+            
             <div class="time-box">
                 <span class="number" id="hours">00</span>
                 <span class="label">שעות</span>
@@ -641,10 +655,10 @@
                     clearInterval(interval);
                     const winner = participants[Math.floor(Math.random() * participants.length)];
                     display.innerText = "🎉 " + winner + " 🎉";
-                    display.style.color = "#28a745"; // ירוק מנצח
+                    display.style.color = "#28a745"; 
                     btn.disabled = false;
                 } else {
-                    display.style.color = "#6a1b9a"; // חזרה לצבע מקורי
+                    display.style.color = "#6a1b9a"; 
                 }
             }, 100);
         }
