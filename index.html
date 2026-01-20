@@ -31,6 +31,8 @@
             width: 95%;
             margin: 10px;
             border-top: 5px solid #ff8c00;
+            position: relative;
+            z-index: 10;
         }
 
         h1 {
@@ -46,13 +48,13 @@
             white-space: nowrap;
         }
 
-        /* --- טיימר יוקרתי עם הדגשת ימים --- */
+        /* --- טיימר יוקרתי --- */
         #countdown {
             display: flex;
             justify-content: center;
-            align-items: center; /* ממרכז את הכל לגובה */
+            align-items: center;
             gap: 15px;
-            margin: 10px 0 25px 0;
+            margin: 5px 0 20px 0;
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
@@ -69,44 +71,29 @@
             min-width: 45px;
         }
 
-        /* עיצוב רגיל לשעות/דקות/שניות */
         .number {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: #d4af37; /* זהב */
+            font-size: 1.8rem;
+            color: #d4af37;
             font-weight: 700;
             line-height: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .label {
             font-size: 0.65rem;
-            color: #999;
+            color: #666;
             text-transform: uppercase;
             font-weight: bold;
-            margin-top: 4px;
+            margin-top: 2px;
             letter-spacing: 1px;
         }
         
-        /* --- הדגשה מיוחדת לימים --- */
-        .days-highlight .number {
-            font-size: 3.5rem; /* ענק! */
-            color: #ff8c00; /* כתום בולט */
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-        }
-        
-        .days-highlight .label {
-            color: #333; /* טקסט כהה יותר */
-            font-size: 0.9rem;
-            margin-top: 0;
-        }
+        .days-highlight .number { font-size: 3.5rem; color: #ff8c00; }
+        .days-highlight .label { color: #333; font-size: 0.9rem; }
+        .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        .separator { 
-            font-size: 1.2rem; 
-            color: #ccc; 
-            margin-top: -10px; 
-        }
-
-        /* --- רכיבים כלליים --- */
+        /* --- כפתורי ה-Vibe למעלה --- */
         .vibe-container {
             display: flex;
             justify-content: center;
@@ -121,7 +108,7 @@
 
         .vibe-item {
             background: #f0f8ff;
-            padding: 8px 12px;
+            padding: 10px 15px;
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: bold;
@@ -131,8 +118,14 @@
             align-items: center;
             gap: 5px;
             flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
         }
+        .vibe-item:hover { transform: scale(1.05); border-color: #0056b3; background: #fff; }
+        .vibe-item:active { transform: scale(0.95); }
 
+        /* כרטיס טיסה */
         .flight-card {
             background: #fff;
             border-radius: 15px;
@@ -158,160 +151,99 @@
             border-radius: 5px 0 0 5px;
         }
 
-        .flight-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .flight-title {
-            font-size: 1.1rem;
-            color: #0056b3;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .flight-num {
-            background: #eee;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            color: #666;
-            font-weight: bold;
-        }
-
-        .flight-times {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.2rem;
-            color: #333;
-            font-weight: bold;
-        }
-
+        .flight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .flight-title { font-size: 1.1rem; color: #0056b3; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .flight-num { background: #eee; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; color: #666; font-weight: bold; }
+        .flight-times { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; color: #333; font-weight: bold; }
         .time-block { text-align: center; }
-
-        .airport-code {
-            display: block;
-            font-size: 0.9rem;
-            color: #777;
-            margin-top: 2px;
-            font-weight: normal;
-        }
-
+        .airport-code { display: block; font-size: 0.9rem; color: #777; margin-top: 2px; font-weight: normal; }
         .arrow { font-size: 1.5rem; color: #ff8c00; padding: 0 5px; }
 
         .live-status-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 5px 12px;
-            background-color: #e3f2fd;
-            color: #0056b3;
-            font-size: 0.85rem;
-            font-weight: bold;
-            border-radius: 20px;
-            text-decoration: none;
-            border: 1px solid #bbdefb;
-            transition: all 0.2s;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
+            display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd;
+            color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px;
+            text-decoration: none; border: 1px solid #bbdefb; transition: all 0.2s; width: 100%;
+            box-sizing: border-box; text-align: center;
         }
         .live-status-btn:hover { background-color: #2196f3; color: white; border-color: #2196f3; }
 
-        /* --- כפתורים (טאבים) --- */
-        .card-actions {
-            display: flex;
-            border-top: 1px solid #e1e1e1;
-        }
-
+        /* כפתורי טאבים */
+        .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
         .action-btn {
-            flex: 1;
-            padding: 15px 2px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.8rem;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            border-left: 1px solid #eee;
-            line-height: 1.1;
-            white-space: nowrap;
+            flex: 1; padding: 15px 2px; text-align: center; cursor: pointer;
+            font-weight: bold; font-size: 0.8rem; transition: background 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 3px;
+            border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap;
         }
         .action-btn:last-child { border-left: none; }
 
         .baggage-trigger { background: #f4f9ff; color: #0056b3; }
-        .baggage-trigger:hover { background: #e6f2ff; }
-
         .trips-trigger { background: #fff8e1; color: #b36b00; }
-        .trips-trigger:hover { background: #ffecb3; }
-        
         .oracle-trigger { background: #333; color: #d4af37; }
-        .oracle-trigger:hover { background: #000; }
-
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
-        .raffle-trigger:hover { background: #e1bee7; }
-
 
         /* --- Modal --- */
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            overflow-y: auto;
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto;
         }
-
         .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 25px;
-            border-radius: 20px;
-            width: 85%;
-            max-width: 450px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-            text-align: right;
-            position: relative;
-            animation: popIn 0.3s ease-out;
+            background-color: #fff; margin: 10% auto; padding: 25px; border-radius: 20px;
+            width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            text-align: right; position: relative; animation: popIn 0.3s ease-out;
+        }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; }
+        .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+
+        /* --- רשימות בתוך המודל (קזינו/ברים) --- */
+        .place-item {
+            background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 12px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;
+        }
+        .place-item:hover { transform: translateX(-5px); border-color: #0056b3; }
+        
+        .place-info { flex-grow: 1; }
+        .place-name { font-weight: bold; font-size: 1.05rem; color: #333; margin-bottom: 3px; display: block; }
+        .place-desc { font-size: 0.85rem; color: #666; display: block; line-height: 1.3; }
+        .place-meta { font-size: 0.8rem; color: #999; margin-top: 5px; display: block; }
+        .place-rating { color: #f39c12; font-weight: bold; }
+        
+        .place-action { text-decoration: none; }
+        .nav-btn {
+            background: #e3f2fd; color: #0056b3; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover { background: #2196f3; color: white; }
+
+        /* נקודת מפגש */
+        .meeting-point {
+            background: linear-gradient(45deg, #ff8c00, #ffd700);
+            color: #fff; padding: 10px; border-radius: 10px;
+            font-size: 1.1rem; font-weight: bold; margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+        /* קונפטי */
+        .confetti {
+            position: fixed; width: 10px; height: 10px; z-index: 3000; pointer-events: none;
+            animation: confetti-fall linear forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        @keyframes popIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            color: #aaa;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; }
-
-        /* Baggage Styles */
+        /* סגנונות כבודה וטיולים מהקוד הקודם נשמרו */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
         .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
         .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
-
-        /* Trip Styles */
         .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; }
         .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
@@ -319,52 +251,23 @@
         .trip-name { font-size: 1.2rem; font-weight: bold; color: #333; }
         .trip-details { font-size: 0.95rem; color: #555; line-height: 1.4; margin-bottom: 10px; }
         .trip-time { background: #f1f8ff; color: #0056b3; padding: 5px 10px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: inline-block; }
-
-        /* Converter Styles */
         .converter-box { background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
         .input-group input { width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; text-align: center; font-size: 1.1rem; outline: none; }
         .input-group input:focus { border-color: #0056b3; }
         #ilsOutput { background: #f9f9f9; color: #28a745; font-weight: bold; }
-
-        /* Roulette Styles */
-        .roulette-display { width: 100px; height: 100px; margin: 20px auto; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 3rem; font-weight: bold; color: white; background: #333; border: 5px solid #d4af37; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.2); transition: all 0.1s; }
-        .num-red { background-color: #d60000; }
-        .num-black { background-color: #222; }
-        .num-green { background-color: #008000; }
-        .spinning { animation: flicker 0.08s infinite; }
-        @keyframes flicker { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
-        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: block; margin: 0 auto; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4); transition: transform 0.1s; width: 80%; }
-        .spin-btn:active { transform: scale(0.95); }
-        .spin-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
-
-        /* Raffle Styles */
-        .raffle-display {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #6a1b9a;
-            text-align: center;
-            margin: 30px 0;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed #e1bee7;
-            border-radius: 15px;
-            background: #f3e5f5;
-        }
-        .raffle-btn {
-            background: linear-gradient(to bottom, #9c27b0, #7b1fa2);
-            color: white; border: none; padding: 15px 40px; border-radius: 50px;
-            font-size: 1.2rem; font-weight: bold; cursor: pointer; display: block; margin: 0 auto;
-            box-shadow: 0 4px 10px rgba(156, 39, 176, 0.4); transition: transform 0.1s; width: 80%;
-        }
-        .raffle-btn:active { transform: scale(0.95); }
-        .raffle-btn:disabled { background: #ccc; box-shadow: none; }
+        .roulette-display, .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; }
+        .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
+        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); }
+        .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); }
+        .roulette-display { width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #333; color: white; border: 5px solid #d4af37; font-size: 3rem; }
+        .num-red { background: #d60000; } .num-black { background: #222; } .num-green { background: #008000; }
 
         @media (max-width: 450px) {
             h1 { font-size: 1.3rem; gap: 5px; } 
-            .vibe-item { font-size: 0.75rem; padding: 6px 10px; }
+            .number { font-size: 1.5rem; }
+            .label { font-size: 0.6rem; }
+            .vibe-item { font-size: 0.75rem; padding: 8px 10px; }
             .flight-times { font-size: 1.1rem; }
             .baggage-item { flex-direction: row; text-align: right; padding: 10px 15px; gap: 15px; }
             .baggage-icon { margin-bottom: 0; font-size: 1.4rem; }
@@ -384,9 +287,7 @@
                 <span class="number" id="days">00</span>
                 <span class="label">ימים</span>
             </div>
-            
             <span class="separator">:</span>
-            
             <div class="time-box">
                 <span class="number" id="hours">00</span>
                 <span class="label">שעות</span>
@@ -403,18 +304,18 @@
             </div>
         </div>
 
+        <div class="vibe-container">
+            <div class="vibe-item" onclick="openTherme()">🧖‍♂️ ספא</div>
+            <div class="vibe-item" onclick="openCasinoList()">🎰 קזינו</div>
+            <div class="vibe-item" onclick="openAlcoholList()">🥃 אלכוהול</div>
+            <div class="vibe-item" onclick="triggerFreedom()">🦅 חופש</div>
+        </div>
+        
         <div style="margin-bottom: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
             <a class="weatherwidget-io" href="https://forecast7.com/en/44d4326d10/bucharest/" data-label_1="BUCHAREST" data-label_2="מזג אוויר" data-font="Segoe UI" data-icons="Climacons Animated" data-mode="Current" data-days="3" data-theme="pure" >BUCHAREST מזג אוויר</a>
             <script>
             !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
             </script>
-        </div>
-        
-        <div class="vibe-container">
-            <div class="vibe-item">🧖‍♂️ ספא</div>
-            <div class="vibe-item">🎰 קזינו</div>
-            <div class="vibe-item">🥃 אלכוהול</div>
-            <div class="vibe-item">🦅 חופש</div>
         </div>
         
         <div class="flight-card">
@@ -461,18 +362,10 @@
             </div>
 
             <div class="card-actions">
-                <div class="action-btn oracle-trigger" onclick="openOracleModal()">
-                    🎰 אורקל
-                </div>
-                <div class="action-btn raffle-trigger" onclick="openRaffleModal()">
-                    🎲 הגרלה
-                </div>
-                <div class="action-btn trips-trigger" onclick="openTripsModal()">
-                    🏔️ טיולים
-                </div>
-                <div class="action-btn baggage-trigger" onclick="openBaggageModal()">
-                    🎒 כבודה
-                </div>
+                <div class="action-btn oracle-trigger" onclick="openOracleModal()">🎰 אורקל</div>
+                <div class="action-btn raffle-trigger" onclick="openRaffleModal()">🎲 הגרלה</div>
+                <div class="action-btn trips-trigger" onclick="openTripsModal()">🏔️ טיולים</div>
+                <div class="action-btn baggage-trigger" onclick="openBaggageModal()">🎒 כבודה</div>
             </div>
         </div>
 
@@ -490,6 +383,97 @@
                 <div class="input-group">
                     <input type="text" id="ilsOutput" placeholder="₪" readonly>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="casinoModal" class="modal" onclick="closeModal(event, 'casinoModal')">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event, 'casinoModal')">&times;</span>
+            <h3>🎰 קזינואים בסביבה</h3>
+            
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Grand Casino Bucharest</span>
+                    <span class="place-desc">הכי קרוב שיש. ממש בתוך המלון שלכם (JW Marriott).</span>
+                    <span class="place-meta">📍 0 מטר | ⭐ 4.3</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
+            </div>
+
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Gentlemen's Poker Club</span>
+                    <span class="place-desc">מועדון הפוקר המבוקש. אקשן טוב וטורנירים.</span>
+                    <span class="place-meta">📍 כ-2.5 ק"מ | ⭐ 4.5</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Gentlemen's+Poker+Club+Bucharest" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
+            </div>
+
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Platinum Casino</span>
+                    <span class="place-desc">נמצא במלון רדיסון. מקום חזק מאוד לפוקר ומשחקי שולחן.</span>
+                    <span class="place-meta">📍 כ-3 ק"מ | ⭐ 4.2</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Platinum+Casino+Bucharest" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="alcoholModal" class="modal" onclick="closeModal(event, 'alcoholModal')">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event, 'alcoholModal')">&times;</span>
+            <h3>🥃 ברים ומועדונים מומלצים</h3>
+
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Champions Sports Bar</span>
+                    <span class="place-desc">בתוך המלון. המקום המושלם לבירה ראשונה ומשחק.</span>
+                    <span class="place-meta">📍 0 מטר | ⭐ 4.4</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Champions+Sports+Bar+Marriott+Bucharest" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
+            </div>
+
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Nomad Skybar</span>
+                    <span class="place-desc">בעיר העתיקה. רופטופ עם אווירה מחשמלת, אוכל ודרינקים.</span>
+                    <span class="place-meta">📍 2.8 ק"מ | ⭐ 4.5</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
+            </div>
+
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Linea / Closer to the Moon</span>
+                    <span class="place-desc">בר גג מפורסם עם "איגלו" בחורף ונוף מטורף לעיר.</span>
+                    <span class="place-meta">📍 2.7 ק"מ | ⭐ 4.6</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Linea+Closer+To+The+Moon" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
+            </div>
+
+            <div class="place-item">
+                <div class="place-info">
+                    <span class="place-name">Control Club</span>
+                    <span class="place-desc">מועדון אלטרנטיבי מעולה למי שרוצה מוזיקה וריקודים.</span>
+                    <span class="place-meta">📍 3.0 ק"מ | ⭐ 4.6</span>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Control+Club+Bucharest" target="_blank" class="place-action">
+                    <div class="nav-btn">📍</div>
+                </a>
             </div>
         </div>
     </div>
@@ -555,15 +539,25 @@
             <span class="close-btn" onclick="closeModal(event, 'raffleModal')">&times;</span>
             <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
             <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא? מי יושב באמצע?</p>
-            
-            <div id="raffleResult" class="raffle-display">???</div>
-            
+            <div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div>
             <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">הגרל שם!</button>
         </div>
     </div>
 
     <script>
-        // פתיחת מודלים
+        // --- פונקציות לתפריט Vibe ---
+        function openTherme() {
+            window.open('https://therme.ro/en/', '_blank');
+        }
+        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; }
+        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; }
+        
+        function triggerFreedom() {
+            alert('🦅 FREEDOM MODE ON! 🦅\nיאללה להתנתק מהעולם!');
+            triggerConfetti();
+        }
+
+        // --- פונקציות כפתורים תחתונים ---
         function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; }
         function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; }
         function openOracleModal() { document.getElementById('oracleModal').style.display = 'block'; }
@@ -657,10 +651,24 @@
                     display.innerText = "🎉 " + winner + " 🎉";
                     display.style.color = "#28a745"; 
                     btn.disabled = false;
+                    triggerConfetti(); // קונפטי למנצח!
                 } else {
                     display.style.color = "#6a1b9a"; 
                 }
             }, 100);
+        }
+
+        // קונפטי
+        function triggerConfetti() {
+            for(let i=0; i<50; i++) {
+                const conf = document.createElement("div");
+                conf.classList.add("confetti");
+                conf.style.left = Math.random() * 100 + "vw";
+                conf.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                conf.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(conf);
+                setTimeout(() => { conf.remove(); }, 5000);
+            }
         }
     </script>
 
