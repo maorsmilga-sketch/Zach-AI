@@ -48,14 +48,10 @@
             white-space: nowrap;
         }
 
-        #timer-title {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+        /* --- טיימר יוקרתי --- */
+        #countdown-wrapper { margin-bottom: 20px; }
+        #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
 
-        /* --- טיימר --- */
         #countdown {
             display: flex;
             justify-content: center;
@@ -100,7 +96,7 @@
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* --- Vibe --- */
+        /* --- כפתורי ה-Vibe למעלה --- */
         .vibe-container {
             display: flex;
             justify-content: center;
@@ -130,6 +126,7 @@
             border: 1px solid transparent;
         }
         .vibe-item:hover { transform: scale(1.05); border-color: #0056b3; background: #fff; }
+        .vibe-item:active { transform: scale(0.95); }
 
         /* כרטיס טיסה */
         .flight-card {
@@ -173,6 +170,7 @@
         }
         .live-status-btn:hover { background-color: #2196f3; color: white; border-color: #2196f3; }
 
+        /* כפתורי טאבים */
         .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
         .action-btn {
             flex: 1; padding: 15px 2px; text-align: center; cursor: pointer;
@@ -187,7 +185,7 @@
         .oracle-trigger { background: #333; color: #d4af37; }
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
-        /* Modal */
+        /* --- Modal --- */
         .modal {
             display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto;
@@ -201,14 +199,14 @@
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; }
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* רשימות במודל */
-        .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold; }
+        /* --- רשימות בתוך המודל (קזינו/ברים) --- */
         .place-item {
             background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; margin-bottom: 12px;
             display: flex; flex-direction: column; gap: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;
         }
         .place-item:hover { transform: translateX(-5px); border-color: #0056b3; }
+        
         .place-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
         .place-info { flex-grow: 1; }
         .place-name { font-weight: bold; font-size: 1.1rem; color: #333; margin-bottom: 3px; display: block; }
@@ -217,9 +215,11 @@
         .place-dist { color: #007bff; font-weight: bold; background: #e3f2fd; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
         .place-rating { color: #f39c12; font-weight: bold; }
         .place-cost { color: #28a745; font-weight: bold; background: #e8f5e9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;}
+
         .place-actions { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-end; }
         .nav-btn, .web-btn {
-            width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
             transition: all 0.2s; text-decoration: none; border: 1px solid transparent;
         }
         .nav-btn { background: #e3f2fd; color: #0056b3; }
@@ -236,11 +236,11 @@
             animation: pulse 2s infinite;
         }
         .meeting-point-return {
-            background: linear-gradient(45deg, #0056b3, #007bff); /* כחול לחזור */
+            background: linear-gradient(45deg, #0056b3, #007bff);
             color: #fff; padding: 10px; border-radius: 10px;
             font-size: 1.1rem; font-weight: bold; margin: 20px 0;
             box-shadow: 0 5px 15px rgba(0, 86, 179, 0.4);
-            display: none; /* מוסתר בהתחלה */
+            display: none;
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         .confetti {
@@ -412,7 +412,7 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'casinoModal')">×</span>
             <h3>🎰 קזינו ופוקר</h3>
-            <div id="casinoLocationStatus" class="location-status">📍 מאתר מיקום...</div>
+            <div class="location-status" style="display:block;">✅ ממוין לפי קרבה למלון</div>
             <div id="casinoList"></div>
         </div>
     </div>
@@ -421,7 +421,7 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'alcoholModal')">×</span>
             <h3>🥃 ברים ומועדונים</h3>
-            <div id="alcoholLocationStatus" class="location-status">📍 מאתר מיקום...</div>
+            <div class="location-status" style="display:block;">✅ ממוין לפי קרבה למלון</div>
             <div id="alcoholList"></div>
         </div>
     </div>
@@ -493,7 +493,7 @@
     </div>
 
     <script>
-        // --- נתונים ---
+        // --- נתונים למקומות (קזינו + ברים) ---
         const places = {
             casinos: [
                 { name: "Grand Casino (JW Marriott)", desc: "הכי קרוב שיש. ממש בתוך המלון.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: "4.3", cost: "50 RON (חוק מדינה)" },
@@ -514,33 +514,27 @@
         };
 
         // --- ניהול זמן חכם ---
-        const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); // זמן המראה הלוך
-        const tripEndDate = new Date("Mar 01, 2026 11:15:00").getTime();   // זמן המראה חזור
+        const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
+        const tripEndDate = new Date("Mar 01, 2026 11:15:00").getTime();   
 
         function updateTimerAndUI() {
             const now = new Date().getTime();
             let targetDate = tripStartDate;
             let titleText = "⌛ ספירה לאחור להמראה:";
 
-            // בדיקה אם הטיול התחיל
             if (now >= tripStartDate && now < tripEndDate) {
-                // אנחנו בתוך הטיול!
                 targetDate = tripEndDate;
                 titleText = "😱 זמן שנשאר לשיגועים:";
-                
-                // שינויים בממשק
-                document.getElementById('outboundFlight').style.display = 'none'; // הסתרת הלוך
-                document.getElementById('meetingTLV').style.display = 'none'; // הסתרת נתב"ג
-                document.getElementById('meetingOTP').style.display = 'block'; // הצגת חזור
+                document.getElementById('outboundFlight').style.display = 'none'; 
+                document.getElementById('meetingTLV').style.display = 'none'; 
+                document.getElementById('meetingOTP').style.display = 'block'; 
             } else if (now >= tripEndDate) {
-                // הטיול נגמר
                 document.getElementById('countdown-wrapper').innerHTML = "<h2>🏠 ברוכים השבים!</h2>";
-                return; // יציאה מהפונקציה
+                return; 
             }
 
             document.getElementById('timer-title').innerText = titleText;
 
-            // חישוב זמן
             const distance = targetDate - now;
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -553,14 +547,14 @@
             document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
         }
 
-        // הפעלת הטיימר
         const timer = setInterval(updateTimerAndUI, 1000);
-        updateTimerAndUI(); // הרצה ראשונית
+        updateTimerAndUI(); 
 
-        // --- שאר הפונקציות (Vibe, מיקום, מודלים, המרה, משחקים) ---
+        // --- פונקציות לתפריט Vibe ---
         function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
         function triggerFreedom() { alert('🦅 FREEDOM MODE ON! 🦅\nיאללה להתנתק מהעולם!'); triggerConfetti(); }
 
+        // --- חישוב מרחק סטטי ---
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; 
             const dLat = deg2rad(lat2 - lat1);
@@ -571,24 +565,22 @@
         }
         function deg2rad(deg) { return deg * (Math.PI/180); }
 
-        function renderList(type, userLat, userLng) {
+        function renderList(type) {
             const listContainer = document.getElementById(type === 'casinos' ? 'casinoList' : 'alcoholList');
-            const statusDiv = document.getElementById(type === 'casinos' ? 'casinoLocationStatus' : 'alcoholLocationStatus');
             const data = places[type];
+            // נקודת ייחוס: JW Marriott
+            const hotelLat = 44.4263; 
+            const hotelLng = 26.0844;
 
-            if (userLat && userLng) {
-                statusDiv.innerText = "✅ ממוין לפי מרחק ממך";
-                statusDiv.style.display = 'block';
-                data.forEach(item => { item.distance = calculateDistance(userLat, userLng, item.lat, item.lng); });
-                data.sort((a, b) => a.distance - b.distance);
-            } else {
-                statusDiv.innerText = "❌ לא ניתן לזהות מיקום";
-                statusDiv.style.display = 'block';
-            }
+            data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
+            data.sort((a, b) => a.distance - b.distance);
 
             let html = '';
             data.forEach(item => {
-                const distText = item.distance ? `<span class="place-dist">👣 ${item.distance.toFixed(1)} ק"מ</span>` : '';
+                const distText = item.distance < 0.1 ? 
+                    `<span class="place-dist">🏨 במלון</span>` : 
+                    `<span class="place-dist">👣 ${item.distance.toFixed(1)} ק"מ מהמלון</span>`;
+                
                 html += `
                 <div class="place-item">
                     <div class="place-header-row">
@@ -611,23 +603,8 @@
             listContainer.innerHTML = html;
         }
 
-        function getGeoAndRender(type) {
-            const listContainer = document.getElementById(type === 'casinos' ? 'casinoList' : 'alcoholList');
-            const statusDiv = document.getElementById(type === 'casinos' ? 'casinoLocationStatus' : 'alcoholLocationStatus');
-            listContainer.innerHTML = '';
-            statusDiv.innerText = "⏳ מאתר מיקום...";
-            statusDiv.style.display = 'block';
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => { renderList(type, position.coords.latitude, position.coords.longitude); },
-                    (error) => { renderList(type, null, null); }
-                );
-            } else { renderList(type, null, null); }
-        }
-
-        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; getGeoAndRender('casinos'); }
-        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; getGeoAndRender('alcohol'); }
+        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; renderList('casinos'); }
+        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; renderList('alcohol'); }
 
         function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; }
         function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; }
