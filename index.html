@@ -29,7 +29,7 @@
             text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap;
         }
 
-        /* טיימר */
+        /* --- טיימר --- */
         #countdown-wrapper { margin-bottom: 20px; }
         #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
         #countdown { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 5px 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
@@ -40,7 +40,7 @@
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* Vibe Grid */
+        /* --- תפריט Vibe --- */
         .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
         .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
@@ -63,7 +63,7 @@
         .flight-times { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; color: #333; font-weight: bold; }
         .live-status-btn { display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd; color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px; text-decoration: none; border: 1px solid #bbdefb; width: 100%; box-sizing: border-box; text-align: center; }
 
-        /* כפתורים תחתונים */
+        /* כפתורי טאבים */
         .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
         .action-btn { flex: 1; padding: 15px 2px; text-align: center; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 3px; border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap; }
         .action-btn:last-child { border-left: none; }
@@ -80,7 +80,7 @@
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* Kitty & Friends */
+        /* --- Kitty (קופה) Styles --- */
         .payer-selection { display: flex; justify-content: space-around; margin-bottom: 10px; }
         .payer-btn {
             width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent;
@@ -117,6 +117,11 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
+        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
+        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
+        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
+
         .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold; }
         .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .sort-btn { background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #555; }
@@ -151,6 +156,7 @@
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 4000; pointer-events: none; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
+        /* Baggage items */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
@@ -189,18 +195,20 @@
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
-        /* Freedom */
-        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
-        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
-        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
-        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
-        
         /* Settlement */
         .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
         .balance-positive { color: #28a745; font-weight: bold; }
         .balance-negative { color: #dc3545; font-weight: bold; }
 
+        @media (max-width: 450px) {
+            h1 { font-size: 1.3rem; gap: 5px; } 
+            .number { font-size: 1.5rem; }
+            .label { font-size: 0.6rem; }
+            .vibe-item { font-size: 0.8rem; padding: 12px 5px; }
+            .modal-content { width: 85%; margin: 5% auto; padding: 20px; }
+            .action-btn { font-size: 0.75rem; padding: 12px 2px; }
+        }
     </style>
 </head>
 <body>
@@ -291,10 +299,10 @@
                     <span id="grandTotal" class="grand-total-amount">0 RON</span>
                 </div>
                 <div class="friends-balance-grid">
-                    <div class="friend-stat p-hichkok" style="color:white; border:none;">היצ'קוק: <strong id="paid_היצ'קוק">0</strong></div>
-                    <div class="friend-stat p-bagdan" style="color:white; border:none;">בגדן: <strong id="paid_בגדן">0</strong></div>
-                    <div class="friend-stat p-maor" style="color:white; border:none;">מאור: <strong id="paid_מאור">0</strong></div>
-                    <div class="friend-stat p-ido" style="color:white; border:none;">עידו: <strong id="paid_עידו">0</strong></div>
+                    <div class="friend-stat p-hichkok" style="color:white; border:none;">היצ'קוק: <strong id="stat_hichkok">0</strong></div>
+                    <div class="friend-stat p-bagdan" style="color:white; border:none;">בגדן: <strong id="stat_bagdan">0</strong></div>
+                    <div class="friend-stat p-maor" style="color:white; border:none;">מאור: <strong id="stat_maor">0</strong></div>
+                    <div class="friend-stat p-ido" style="color:white; border:none;">עידו: <strong id="stat_ido">0</strong></div>
                 </div>
             </div>
 
@@ -437,16 +445,7 @@
     <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'baggageModal')">×</span><h3>🎒 פירוט כבודה</h3><div class="baggage-items"><div class="baggage-item"><span class="baggage-icon">🎒</span><span class="baggage-title">תיק גב קטן</span><span class="baggage-status">חינם</span></div><div class="baggage-item"><span class="baggage-icon">🧳</span><span class="baggage-title">מזוודה 20 ק"ג</span><span class="baggage-status">כלול!</span></div></div></div></div>
     <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span><h3>🏔️ לאן נוסעים?</h3><div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div><div class="trip-details">יום של שלג, אופנועי שלג בפסגה, עליה בגונדולה לגובה 2000 מטר ויין חם בקור.</div><div class="trip-time">⏰ 08:00 - 16:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div><div class="trip-details">מתחילים בסינאיה לשלג, וממשיכים לבראשוב לארוחת צהריים במסעדת בשרים טובה וטיול בעיר העתיקה.</div><div class="trip-time">⏰ 07:30 - 20:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div><div class="trip-details">ירידה של 200 מטר מתחת לאדמה למכרות המלח הגדולים באירופה (Slanic). חוויה הזויה.</div><div class="trip-time">⏰ 09:30 - 15:00</div></div></div></div>
     <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span><h3>🎰 האורקל</h3><p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p><div id="rouletteResult" class="roulette-display">?</div><button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button></div></div>
-    
-    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span>
-            <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
-            <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p>
-            <div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div>
-            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button>
-        </div>
-    </div>
+    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
 
     <script>
         // ⚠️⚠️⚠️ שים כאן את ה-URL שקיבלת מגוגל APPS SCRIPT ⚠️⚠️⚠️
@@ -489,6 +488,14 @@
         let expensesCache = [];
         let selectedPayerName = null;
 
+        // מיפוי שמות לאנגלית כדי למנוע בעיות ID עם גרשיים ועברית
+        const nameToId = {
+            "היצ'קוק": "stat_hichkok",
+            "בגדן": "stat_bagdan",
+            "מאור": "stat_maor",
+            "עידו": "stat_ido"
+        };
+
         function openKittyModal() {
             document.getElementById('kittyModal').style.display = 'block';
             fetchExpenses();
@@ -525,8 +532,6 @@
 
             const data = { name: selectedPayerName, category: desc, amount: amount };
 
-            // שיפור: שימוש ב-no-cors עבור POST כדי לעקוף שגיאות בדפדפן
-            // (הנתונים יישמרו בסקריפט, גם אם הדפדפן "חושב" שזו שגיאה)
             fetch(SCRIPT_URL + "?action=add", {
                 method: "POST",
                 mode: "no-cors", 
@@ -549,7 +554,6 @@
         }
 
         function fetchExpenses() {
-            // ב-GET אנחנו צריכים את התשובה, לכן לא משתמשים ב-no-cors
             fetch(SCRIPT_URL + "?action=get")
             .then(res => res.json())
             .then(data => {
@@ -563,15 +567,31 @@
             let total = 0;
             let sums = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
 
-            expensesCache.forEach(e => {
-                const amt = parseFloat(e.amount);
-                total += amt;
-                if (sums[e.name] !== undefined) sums[e.name] += amt;
-            });
+            if (expensesCache && expensesCache.length > 0) {
+                expensesCache.forEach(e => {
+                    const amt = parseFloat(e.amount);
+                    if (!isNaN(amt)) {
+                        total += amt;
+                        // חיפוש חכם גם אם השם לא תואם ב-100%
+                        for (let key in sums) {
+                            if (e.name.includes(key) || key.includes(e.name)) {
+                                sums[key] += amt;
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
 
             document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
-            for (let name in sums) {
-                document.getElementById('paid_' + name).innerText = sums[name].toLocaleString();
+            
+            // עדכון ה-IDs באנגלית
+            for (let hebName in nameToId) {
+                const elementId = nameToId[hebName];
+                const el = document.getElementById(elementId);
+                if (el) {
+                    el.innerText = sums[hebName].toLocaleString();
+                }
             }
         }
 
@@ -581,8 +601,15 @@
 
             expensesCache.forEach(e => {
                 const amount = parseFloat(e.amount);
-                total += amount;
-                if (paidBy[e.name] !== undefined) paidBy[e.name] += amount;
+                if (!isNaN(amount)) {
+                    total += amount;
+                    for (let key in paidBy) {
+                        if (e.name.includes(key) || key.includes(e.name)) {
+                            paidBy[key] += amount;
+                            break;
+                        }
+                    }
+                }
             });
 
             const sharePerPerson = total / 4;
@@ -796,6 +823,7 @@
             listContainer.innerHTML = mallHtml + outletHtml;
         }
 
+        // --- פתיחת מודלים ---
         function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; renderList('casinos'); }
         function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; renderList('alcohol'); }
         function openFoodList() { document.getElementById('foodModal').style.display = 'block'; toggleSort('food', 'hotel'); switchFoodTab('street'); }
@@ -826,7 +854,6 @@
                 display.className = 'roulette-display num-' + item.c;
                 if(++c > 20) { 
                     clearInterval(i); 
-                    display.className = 'roulette-display num-' + item.c; 
                     btn.disabled = false; 
                 }
             }, 100);
