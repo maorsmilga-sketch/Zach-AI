@@ -72,7 +72,7 @@
         .oracle-trigger { background: #333; color: #d4af37; }
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
-        /* Modal */
+        /* --- Modal --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-top { z-index: 3000 !important; }
         .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
@@ -81,18 +81,20 @@
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
         /* --- Kitty (קופה) Styles --- */
+        /* תיקון: הגדרת הצבעים לפני שאר ה-CSS כדי לוודא שיופעלו */
+        .bg-hichkok { background-color: #9c27b0 !important; color: white !important; }
+        .bg-bagdan { background-color: #ff5722 !important; color: white !important; }
+        .bg-maor { background-color: #2196f3 !important; color: white !important; }
+        .bg-ido { background-color: #4caf50 !important; color: white !important; }
+
         .payer-selection { display: flex; justify-content: space-around; margin-bottom: 10px; }
         .payer-btn {
             width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent;
             font-weight: bold; font-size: 0.8rem; color: white; cursor: pointer;
-            transition: all 0.2s; opacity: 0.7; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s; opacity: 0.6; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: flex; align-items: center; justify-content: center; text-align: center;
         }
         .payer-btn.active { opacity: 1; transform: scale(1.15); border-color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .p-hichkok { background: #9c27b0; }
-        .p-bagdan { background: #ff5722; }
-        .p-maor { background: #2196f3; }
-        .p-ido { background: #4caf50; }
 
         .kitty-form { display: flex; flex-direction: column; gap: 15px; }
         .kitty-group { display: flex; flex-direction: column; gap: 5px; }
@@ -106,8 +108,10 @@
         .live-balance-container { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #eee; }
         .grand-total-row { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 10px; }
         .grand-total-amount { font-size: 2.2rem; font-weight: 800; color: #0056b3; font-family: 'Playfair Display', serif; }
+        
         .friends-balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .friend-stat { background: #fff; padding: 8px; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0; }
+        /* תיקון: הסרת הרקע הלבן מהמחלקה הכללית כדי שהצבע הספציפי ייראה */
+        .friend-stat { padding: 10px; border-radius: 12px; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         
         /* עיצוב כללי לאלמנטים */
         .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -299,10 +303,10 @@
                     <span id="grandTotal" class="grand-total-amount">0 RON</span>
                 </div>
                 <div class="friends-balance-grid">
-                    <div class="friend-stat p-hichkok" style="color:white; border:none;">היצ'קוק: <strong id="stat_hichkok">0</strong></div>
-                    <div class="friend-stat p-bagdan" style="color:white; border:none;">בגדן: <strong id="stat_bagdan">0</strong></div>
-                    <div class="friend-stat p-maor" style="color:white; border:none;">מאור: <strong id="stat_maor">0</strong></div>
-                    <div class="friend-stat p-ido" style="color:white; border:none;">עידו: <strong id="stat_ido">0</strong></div>
+                    <div class="friend-stat bg-hichkok">היצ'קוק: <strong id="stat_hichkok">0</strong></div>
+                    <div class="friend-stat bg-bagdan">בגדן: <strong id="stat_bagdan">0</strong></div>
+                    <div class="friend-stat bg-maor">מאור: <strong id="stat_maor">0</strong></div>
+                    <div class="friend-stat bg-ido">עידו: <strong id="stat_ido">0</strong></div>
                 </div>
             </div>
 
@@ -310,10 +314,10 @@
                 <div class="kitty-group">
                     <label class="kitty-label">מי משלם עכשיו?</label>
                     <div class="payer-selection">
-                        <button class="payer-btn p-hichkok" onclick="selectPayer(this, 'היצ\'קוק')">היצ'קוק</button>
-                        <button class="payer-btn p-bagdan" onclick="selectPayer(this, 'בגדן')">בגדן</button>
-                        <button class="payer-btn p-maor" onclick="selectPayer(this, 'מאור')">מאור</button>
-                        <button class="payer-btn p-ido" onclick="selectPayer(this, 'עידו')">עידו</button>
+                        <button class="payer-btn bg-hichkok" onclick="selectPayer(this, 'היצ\'קוק')">היצ'קוק</button>
+                        <button class="payer-btn bg-bagdan" onclick="selectPayer(this, 'בגדן')">בגדן</button>
+                        <button class="payer-btn bg-maor" onclick="selectPayer(this, 'מאור')">מאור</button>
+                        <button class="payer-btn bg-ido" onclick="selectPayer(this, 'עידו')">עידו</button>
                     </div>
                 </div>
 
@@ -449,7 +453,7 @@
 
     <script>
         // ⚠️⚠️⚠️ שים כאן את ה-URL שקיבלת מגוגל APPS SCRIPT ⚠️⚠️⚠️
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOY6peOM91D90aA5BDP4oT71URSn2TVfCUlcqkVntYrM_PtAciwRZP3o56wUczVgqA/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwi8czwtHD54V_SvBXgk4BLgySSO3PC84hu6U661sS617uTR6TvrmWqqZNhJDgl9jB9/exec"; 
 
         // --- ניהול זמן חכם ---
         const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
@@ -488,7 +492,6 @@
         let expensesCache = [];
         let selectedPayerName = null;
 
-        // מיפוי שמות לאנגלית כדי למנוע בעיות ID עם גרשיים ועברית
         const nameToId = {
             "היצ'קוק": "stat_hichkok",
             "בגדן": "stat_bagdan",
@@ -572,7 +575,6 @@
                     const amt = parseFloat(e.amount);
                     if (!isNaN(amt)) {
                         total += amt;
-                        // חיפוש חכם גם אם השם לא תואם ב-100%
                         for (let key in sums) {
                             if (e.name.includes(key) || key.includes(e.name)) {
                                 sums[key] += amt;
@@ -585,7 +587,6 @@
 
             document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
             
-            // עדכון ה-IDs באנגלית
             for (let hebName in nameToId) {
                 const elementId = nameToId[hebName];
                 const el = document.getElementById(elementId);
