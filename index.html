@@ -72,7 +72,21 @@
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* --- רשימות --- */
+        /* --- Tabs לאוכל --- */
+        .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; }
+        .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* עיצוב חופש */
+        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
+        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
+        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
+        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
+
+        /* רשימות */
         .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold; }
         .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .sort-btn { background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #555; }
@@ -90,52 +104,12 @@
         .place-cost { color: #28a745; font-weight: bold; background: #e8f5e9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;}
         .store-list { font-size: 0.85rem; color: #555; background: #fafafa; padding: 8px; border-radius: 8px; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
         .store-tag { font-weight: bold; color: #0056b3; }
-        
         .place-actions { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-end; }
         .nav-btn, .web-btn, .taxi-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: all 0.2s; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
         .nav-btn { background: #e3f2fd; color: #0056b3; } .nav-btn:hover { background: #2196f3; color: white; }
         .web-btn { background: #f3e5f5; color: #6a1b9a; } .web-btn:hover { background: #9c27b0; color: white; }
         .taxi-btn { background: #fff9c4; color: #fbc02d; font-size: 1.4rem; } .taxi-btn:hover { background: #ffd600; }
         .uber-link-btn { display: block; width: 100%; background: #000; color: #fff; text-decoration: none; padding: 15px; border-radius: 12px; font-size: 1.2rem; margin-top: 20px; font-weight: bold; text-align: center; box-sizing: border-box; }
-
-        /* Tabs */
-        .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; }
-        .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
-        .tab-content { display: none; animation: fadeIn 0.3s; }
-        .tab-content.active { display: block; }
-
-        /* Freedom */
-        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
-        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
-        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
-        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
-
-        /* --- Trip Options (עיצוב משוקם) --- */
-        .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right; }
-        .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
-        .trip-icon { font-size: 2.2rem; }
-        .trip-name { font-size: 1.3rem; font-weight: 800; color: #333; }
-        .trip-details { font-size: 1rem; color: #555; line-height: 1.5; margin-bottom: 10px; }
-        .trip-time { background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
-        .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; font-weight: bold; }
-
-        /* --- Roulette (משוקם) --- */
-        .roulette-display { 
-            width: 120px; height: 120px; border-radius: 50%; 
-            display: flex; justify-content: center; align-items: center; 
-            background: #222; color: #fff; border: 6px solid #d4af37; 
-            font-size: 3.5rem; font-weight: 800; margin: 20px auto; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.8);
-            font-family: 'Playfair Display', serif;
-        }
-        .num-red { background-color: #d60000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; } 
-        .num-black { background-color: #111; color: #fff; border-color: #d4af37; text-shadow: 1px 1px 2px #000; } 
-        .num-green { background-color: #008000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; }
-        .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
-        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-        .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4); }
-        .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; }
 
         /* כללי */
         .meeting-point { background: linear-gradient(45deg, #ff8c00, #ffd700); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; animation: pulse 2s infinite; }
@@ -154,6 +128,39 @@
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
         .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
         .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
+
+        /* Trip Options */
+        .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right; }
+        .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .trip-icon { font-size: 2.2rem; }
+        .trip-name { font-size: 1.3rem; font-weight: 800; color: #333; }
+        .trip-details { font-size: 1rem; color: #555; line-height: 1.5; margin-bottom: 10px; }
+        .trip-time { background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
+        .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; font-weight: bold; }
+
+        /* Roulette */
+        .roulette-display { 
+            width: 120px; height: 120px; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            background: #222; color: #fff; border: 6px solid #d4af37; 
+            font-size: 3.5rem; font-weight: 800; margin: 20px auto; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.8);
+            font-family: 'Playfair Display', serif;
+        }
+        .num-red { background-color: #d60000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; } 
+        .num-black { background-color: #111; color: #fff; border-color: #d4af37; text-shadow: 1px 1px 2px #000; } 
+        .num-green { background-color: #008000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; }
+        .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
+        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+        .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4); }
+        
+        /* Raffle & Winner Image */
+        .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .winner-img {
+            width: 150px; height: 150px; border-radius: 50%; border: 5px solid #28a745;
+            object-fit: cover; margin-top: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
         @media (max-width: 450px) {
             h1 { font-size: 1.3rem; gap: 5px; } 
@@ -705,26 +712,46 @@
             let c = 0;
             const i = setInterval(() => {
                 const item = rouletteNums[Math.floor(Math.random()*rouletteNums.length)];
-                display.innerText = item.num; 
-                display.className = 'roulette-display spinning num-' + item.c;
-                if(++c > 20) { 
-                    clearInterval(i); 
-                    display.className = 'roulette-display num-' + item.c; 
-                    btn.disabled = false; 
-                }
+                display.innerText = item.num; display.className = 'roulette-display spinning num-'+item.c;
+                if(++c > 20) { clearInterval(i); display.className = 'roulette-display num-'+item.c; btn.disabled = false; }
             }, 100);
         }
         
-        const participants = ["היצ'קוק", "בגדן", "מאור", "עידו"];
+        const participants = [
+            {name: "היצ'קוק", img: "hichkok.jpg"},
+            {name: "בגדן", img: "bagdan.jpg"},
+            {name: "מאור", img: "maor.jpg"},
+            {name: "עידו", img: "ido.jpg"}
+        ];
+
         function spinRaffle() {
             const display = document.getElementById('raffleResult');
             const btn = document.getElementById('raffleBtn');
             btn.disabled = true;
             let c = 0;
+            display.innerHTML = ""; 
+
             const i = setInterval(() => {
-                display.innerText = participants[Math.floor(Math.random()*participants.length)];
-                if(++c > 20) { clearInterval(i); display.style.color = "#28a745"; display.innerText = "🎉 " + display.innerText + " 🎉"; btn.disabled = false; triggerConfetti(); }
-                else display.style.color = "#6a1b9a";
+                const randomPart = participants[Math.floor(Math.random() * participants.length)];
+                display.innerText = randomPart.name;
+                
+                if(++c > 20) { 
+                    clearInterval(i); 
+                    const winner = participants[Math.floor(Math.random() * participants.length)];
+                    
+                    const img = document.createElement('img');
+                    img.src = winner.img; 
+                    img.className = 'winner-img';
+                    img.onerror = function() { this.style.display='none'; }; // Hide if image missing
+
+                    display.innerHTML = `<div style="font-size:1.5rem; color:#28a745;">🎉 ${winner.name} 🎉</div>`;
+                    display.appendChild(img);
+                    
+                    btn.disabled = false; 
+                    triggerConfetti(); 
+                } else { 
+                    display.style.color = "#6a1b9a"; 
+                }
             }, 100);
         }
 
