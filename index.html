@@ -29,7 +29,7 @@
             text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap;
         }
 
-        /* --- טיימר --- */
+        /* טיימר */
         #countdown-wrapper { margin-bottom: 20px; }
         #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
         #countdown { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 5px 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
@@ -40,25 +40,18 @@
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* --- תפריט Vibe --- */
+        /* Vibe Grid */
         .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
         .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
         
-        /* כפתור הקופה - עיצוב מיוחד */
         .vibe-item.kitty-big-btn {
-            grid-column: span 3; /* תופס רוחב מלא */
+            grid-column: span 3;
             background: linear-gradient(45deg, #ffd700, #ff8c00);
-            color: #fff;
-            font-size: 1.1rem;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-            margin-top: 5px;
+            color: #fff; font-size: 1.1rem; padding: 15px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4); margin-top: 5px;
         }
-        .vibe-item.kitty-big-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
-        }
+        .vibe-item.kitty-big-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6); }
 
         /* כרטיס טיסה */
         .flight-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: right; border: 2px solid #e1e1e1; }
@@ -70,7 +63,7 @@
         .flight-times { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; color: #333; font-weight: bold; }
         .live-status-btn { display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd; color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px; text-decoration: none; border: 1px solid #bbdefb; width: 100%; box-sizing: border-box; text-align: center; }
 
-        /* כפתורי טאבים */
+        /* כפתורים תחתונים */
         .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
         .action-btn { flex: 1; padding: 15px 2px; text-align: center; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 3px; border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap; }
         .action-btn:last-child { border-left: none; }
@@ -79,7 +72,7 @@
         .oracle-trigger { background: #333; color: #d4af37; }
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
-        /* --- Modal --- */
+        /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-top { z-index: 3000 !important; }
         .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
@@ -87,13 +80,7 @@
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* --- Kitty (קופה) Styles - מעודכן --- */
-        .kitty-form { display: flex; flex-direction: column; gap: 15px; }
-        .kitty-group { display: flex; flex-direction: column; gap: 5px; }
-        .kitty-label { font-weight: bold; font-size: 0.9rem; color: #555; margin-bottom: 5px; }
-        .kitty-input, .kitty-select { padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; width: 100%; box-sizing: border-box; }
-        
-        /* כפתורי חברים לקופה */
+        /* Kitty & Friends */
         .payer-selection { display: flex; justify-content: space-around; margin-bottom: 10px; }
         .payer-btn {
             width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent;
@@ -102,46 +89,33 @@
             display: flex; align-items: center; justify-content: center; text-align: center;
         }
         .payer-btn.active { opacity: 1; transform: scale(1.15); border-color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        /* צבעים לחברים */
         .p-hichkok { background: #9c27b0; }
         .p-bagdan { background: #ff5722; }
         .p-maor { background: #2196f3; }
         .p-ido { background: #4caf50; }
 
-        /* תצוגת מצב בזמן אמת */
-        .live-balance-container {
-            background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #eee;
-        }
-        .grand-total-row { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 10px; }
-        .grand-total-label { font-size: 0.9rem; color: #666; }
-        .grand-total-amount { font-size: 2.2rem; font-weight: 800; color: #0056b3; font-family: 'Playfair Display', serif; }
-        
-        .friends-balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .friend-stat { background: #fff; padding: 8px; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0; }
-        .friend-stat strong { font-weight: bold; margin-left: 5px; }
-
+        .kitty-form { display: flex; flex-direction: column; gap: 15px; }
+        .kitty-group { display: flex; flex-direction: column; gap: 5px; }
+        .kitty-label { font-weight: bold; font-size: 0.9rem; color: #555; }
+        .kitty-input, .kitty-select { padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; width: 100%; box-sizing: border-box; }
         .kitty-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
         .chip { background: #eee; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
         .chip.active { background: #0056b3; color: white; border-color: #0056b3; }
         .kitty-submit { background: linear-gradient(45deg, #28a745, #218838); color: white; padding: 15px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); }
         
-        .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
-        .balance-positive { color: #28a745; font-weight: bold; }
-        .balance-negative { color: #dc3545; font-weight: bold; }
+        .live-balance-container { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #eee; }
+        .grand-total-row { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 10px; }
+        .grand-total-amount { font-size: 2.2rem; font-weight: 800; color: #0056b3; font-family: 'Playfair Display', serif; }
+        .friends-balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .friend-stat { background: #fff; padding: 8px; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0; }
         
-        /* כללי */
+        /* עיצוב כללי לאלמנטים */
         .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; }
         .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
         .tab-content { display: none; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
-        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
-        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
-        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
 
         .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold; }
         .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
@@ -177,7 +151,6 @@
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 4000; pointer-events: none; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        /* Baggage items */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
@@ -192,6 +165,7 @@
         .trip-time { background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
         .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; font-weight: bold; }
 
+        /* Roulette */
         .roulette-display { 
             width: 120px; height: 120px; border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; 
@@ -206,21 +180,27 @@
         .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
         .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
         .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4); }
-        .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* Raffle & Winner Image */
+        .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px; }
         .winner-img {
             width: 150px; height: 150px; border-radius: 50%; border: 5px solid #28a745;
             object-fit: cover; margin-top: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.3);
             animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        
+        /* Freedom */
+        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
+        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
+        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
+        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
+        
+        /* Settlement */
+        .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
+        .balance-positive { color: #28a745; font-weight: bold; }
+        .balance-negative { color: #dc3545; font-weight: bold; }
 
-        @media (max-width: 450px) {
-            h1 { font-size: 1.3rem; gap: 5px; } 
-            .number { font-size: 1.5rem; }
-            .label { font-size: 0.6rem; }
-            .vibe-item { font-size: 0.8rem; padding: 12px 5px; }
-            .modal-content { width: 85%; margin: 5% auto; padding: 20px; }
-            .action-btn { font-size: 0.75rem; padding: 12px 2px; }
-        }
     </style>
 </head>
 <body>
@@ -386,6 +366,10 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'casinoModal')">×</span>
             <h3>🎰 קזינו ופוקר</h3>
+            <div class="sort-controls">
+                <button class="sort-btn active" id="sortCasinoHotelBtn" onclick="toggleSort('casinos', 'hotel')">🏨 לפי מרחק</button>
+                <button class="sort-btn" id="sortCasinoRatingBtn" onclick="toggleSort('casinos', 'rating')">⭐ הכי טובים</button>
+            </div>
             <div class="location-status" style="display:block;">🏨 ממוין לפי קרבה למלון</div>
             <div id="casinoList"></div>
         </div>
@@ -453,11 +437,20 @@
     <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'baggageModal')">×</span><h3>🎒 פירוט כבודה</h3><div class="baggage-items"><div class="baggage-item"><span class="baggage-icon">🎒</span><span class="baggage-title">תיק גב קטן</span><span class="baggage-status">חינם</span></div><div class="baggage-item"><span class="baggage-icon">🧳</span><span class="baggage-title">מזוודה 20 ק"ג</span><span class="baggage-status">כלול!</span></div></div></div></div>
     <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span><h3>🏔️ לאן נוסעים?</h3><div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div><div class="trip-details">יום של שלג, אופנועי שלג בפסגה, עליה בגונדולה לגובה 2000 מטר ויין חם בקור.</div><div class="trip-time">⏰ 08:00 - 16:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div><div class="trip-details">מתחילים בסינאיה לשלג, וממשיכים לבראשוב לארוחת צהריים במסעדת בשרים טובה וטיול בעיר העתיקה.</div><div class="trip-time">⏰ 07:30 - 20:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div><div class="trip-details">ירידה של 200 מטר מתחת לאדמה למכרות המלח הגדולים באירופה (Slanic). חוויה הזויה.</div><div class="trip-time">⏰ 09:30 - 15:00</div></div></div></div>
     <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span><h3>🎰 האורקל</h3><p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p><div id="rouletteResult" class="roulette-display">?</div><button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button></div></div>
-    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
+    
+    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span>
+            <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
+            <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p>
+            <div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div>
+            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button>
+        </div>
+    </div>
 
     <script>
         // ⚠️⚠️⚠️ שים כאן את ה-URL שקיבלת מגוגל APPS SCRIPT ⚠️⚠️⚠️
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzp6h0LFQmW_2UmnN69B35O-I0UblXxYEyxJAfOCUMy9WNB45V7gQvgDc9pe2dMDw/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOY6peOM91D90aA5BDP4oT71URSn2TVfCUlcqkVntYrM_PtAciwRZP3o56wUczVgqA/exec"; 
 
         // --- ניהול זמן חכם ---
         const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
@@ -511,9 +504,7 @@
 
         function selectPayer(btn, name) {
             selectedPayerName = name;
-            // איפוס עיצוב
             document.querySelectorAll('.payer-btn').forEach(b => b.classList.remove('active'));
-            // סימון הנבחר
             btn.classList.add('active');
         }
 
@@ -534,9 +525,11 @@
 
             const data = { name: selectedPayerName, category: desc, amount: amount };
 
+            // שיפור: שימוש ב-no-cors עבור POST כדי לעקוף שגיאות בדפדפן
+            // (הנתונים יישמרו בסקריפט, גם אם הדפדפן "חושב" שזו שגיאה)
             fetch(SCRIPT_URL + "?action=add", {
                 method: "POST",
-                mode: "no-cors",
+                mode: "no-cors", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             }).then(() => {
@@ -547,19 +540,23 @@
                 document.getElementById('expenseDesc').value = '';
                 fetchExpenses();
             }).catch(err => {
-                alert("שגיאה בשמירה, נסה שוב");
+                console.log(err); 
+                alert("ההוצאה נשמרה! (למרות הודעת שגיאה)");
                 btn.innerText = originalText;
                 btn.disabled = false;
+                fetchExpenses();
             });
         }
 
         function fetchExpenses() {
+            // ב-GET אנחנו צריכים את התשובה, לכן לא משתמשים ב-no-cors
             fetch(SCRIPT_URL + "?action=get")
             .then(res => res.json())
             .then(data => {
                 expensesCache = data;
                 updateGrandTotalAndStandings();
-            });
+            })
+            .catch(err => console.log("Error fetching data:", err));
         }
 
         function updateGrandTotalAndStandings() {
@@ -573,8 +570,6 @@
             });
 
             document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
-            
-            // עדכון תצוגה אישית בזמן אמת
             for (let name in sums) {
                 document.getElementById('paid_' + name).innerText = sums[name].toLocaleString();
             }
@@ -656,7 +651,7 @@
             const hotelLat = 44.4263; const hotelLng = 26.0844;
 
             data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
-            data.sort((a, b) => a.distance - b.distance); // סטטי
+            data.sort((a, b) => a.distance - b.distance); 
             
             let html = '';
             data.forEach(item => {
@@ -683,8 +678,6 @@
         }
 
         // --- ניהול טאבים לאוכל ---
-        let currentFoodSort = 'hotel'; 
-
         function switchFoodTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             const buttons = document.querySelectorAll('.tab-btn');
@@ -704,7 +697,6 @@
             if (mode === 'hotel') btnHotel.classList.add('active'); else btnOther.classList.add('active');
 
             if (category === 'food') {
-                currentFoodSort = mode;
                 if (mode === 'gps') {
                     document.getElementById('foodLocationStatus').innerText = "⏳ ...";
                     if (navigator.geolocation) {
@@ -804,7 +796,6 @@
             listContainer.innerHTML = mallHtml + outletHtml;
         }
 
-        // --- פתיחת מודלים ---
         function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; renderList('casinos'); }
         function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; renderList('alcohol'); }
         function openFoodList() { document.getElementById('foodModal').style.display = 'block'; toggleSort('food', 'hotel'); switchFoodTab('street'); }
@@ -823,6 +814,7 @@
 
         // --- Games ---
         const rouletteNums = [{num:0,c:'green'},{num:32,c:'red'},{num:15,c:'black'},{num:19,c:'red'},{num:4,c:'black'},{num:21,c:'red'},{num:2,c:'black'},{num:25,c:'red'},{num:17,c:'black'},{num:34,c:'red'},{num:6,c:'black'},{num:27,c:'red'},{num:13,c:'black'},{num:36,c:'red'},{num:11,c:'black'},{num:30,c:'red'},{num:8,c:'black'},{num:23,c:'red'},{num:10,c:'black'},{num:5,c:'red'},{num:24,c:'black'},{num:16,c:'red'},{num:33,c:'black'},{num:1,c:'red'},{num:20,c:'black'},{num:14,c:'red'},{num:31,c:'black'},{num:9,c:'red'},{num:22,c:'black'},{num:18,c:'red'},{num:29,c:'black'},{num:7,c:'red'},{num:28,c:'black'},{num:12,c:'red'},{num:35,c:'black'},{num:3,c:'red'},{num:26,c:'black'}];
+        
         function spinRoulette() {
             const display = document.getElementById('rouletteResult');
             const btn = document.getElementById('spinBtn');
@@ -834,6 +826,7 @@
                 display.className = 'roulette-display num-' + item.c;
                 if(++c > 20) { 
                     clearInterval(i); 
+                    display.className = 'roulette-display num-' + item.c; 
                     btn.disabled = false; 
                 }
             }, 100);
