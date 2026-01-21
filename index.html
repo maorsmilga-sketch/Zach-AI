@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>האחים היקרים בבוקרשט</title>
+    <title>חופשת האחים בבוקרשט</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         /* --- הגדרות בסיס --- */
@@ -29,7 +29,7 @@
             text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap;
         }
 
-        /* טיימר */
+        /* --- טיימר --- */
         #countdown-wrapper { margin-bottom: 20px; }
         #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
         #countdown { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 5px 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
@@ -40,10 +40,25 @@
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* Vibe Grid */
+        /* --- תפריט Vibe --- */
         .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
         .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
+        
+        /* כפתור הקופה - עיצוב מיוחד */
+        .vibe-item.kitty-big-btn {
+            grid-column: span 3; /* תופס רוחב מלא */
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            margin-top: 5px;
+        }
+        .vibe-item.kitty-big-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
 
         /* כרטיס טיסה */
         .flight-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: right; border: 2px solid #e1e1e1; }
@@ -64,7 +79,7 @@
         .oracle-trigger { background: #333; color: #d4af37; }
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
-        /* Modal */
+        /* --- Modal --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-top { z-index: 3000 !important; }
         .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
@@ -72,21 +87,48 @@
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* --- Kitty (קופה) Styles --- */
+        /* --- Kitty (קופה) Styles - מעודכן --- */
         .kitty-form { display: flex; flex-direction: column; gap: 15px; }
         .kitty-group { display: flex; flex-direction: column; gap: 5px; }
-        .kitty-label { font-weight: bold; font-size: 0.9rem; color: #555; }
+        .kitty-label { font-weight: bold; font-size: 0.9rem; color: #555; margin-bottom: 5px; }
         .kitty-input, .kitty-select { padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; width: 100%; box-sizing: border-box; }
+        
+        /* כפתורי חברים לקופה */
+        .payer-selection { display: flex; justify-content: space-around; margin-bottom: 10px; }
+        .payer-btn {
+            width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent;
+            font-weight: bold; font-size: 0.8rem; color: white; cursor: pointer;
+            transition: all 0.2s; opacity: 0.7; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .payer-btn.active { opacity: 1; transform: scale(1.15); border-color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        /* צבעים לחברים */
+        .p-hichkok { background: #9c27b0; }
+        .p-bagdan { background: #ff5722; }
+        .p-maor { background: #2196f3; }
+        .p-ido { background: #4caf50; }
+
+        /* תצוגת מצב בזמן אמת */
+        .live-balance-container {
+            background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #eee;
+        }
+        .grand-total-row { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 10px; }
+        .grand-total-label { font-size: 0.9rem; color: #666; }
+        .grand-total-amount { font-size: 2.2rem; font-weight: 800; color: #0056b3; font-family: 'Playfair Display', serif; }
+        
+        .friends-balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .friend-stat { background: #fff; padding: 8px; border-radius: 8px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0; }
+        .friend-stat strong { font-weight: bold; margin-left: 5px; }
+
         .kitty-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
         .chip { background: #eee; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
         .chip.active { background: #0056b3; color: white; border-color: #0056b3; }
         .kitty-submit { background: linear-gradient(45deg, #28a745, #218838); color: white; padding: 15px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); }
-        .kitty-total-display { text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 15px; border: 1px dashed #ccc; }
-        .total-amount { font-size: 2.5rem; font-weight: 800; color: #0056b3; display: block; font-family: 'Playfair Display', serif; }
+        
         .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
-        .balance-positive { color: #28a745; font-weight: bold; } /* מקבל */
-        .balance-negative { color: #dc3545; font-weight: bold; } /* חייב */
+        .balance-positive { color: #28a745; font-weight: bold; }
+        .balance-negative { color: #dc3545; font-weight: bold; }
         
         /* כללי */
         .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -135,6 +177,7 @@
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 4000; pointer-events: none; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
+        /* Baggage items */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
@@ -217,7 +260,7 @@
             <div class="vibe-item" onclick="openCasinoList()">🎰 קזינו</div>
             <div class="vibe-item" onclick="openAlcoholList()">🥃 אלכוהול</div>
             <div class="vibe-item" onclick="openFreedomModal()">🦅 חופש</div>
-            <div class="vibe-item" onclick="openKittyModal()" style="background: #fff8e1; border-color: #ffd700;">💰 קופה</div>
+            <div class="vibe-item kitty-big-btn" onclick="openKittyModal()">💰 קופה משותפת</div>
         </div>
         
         <div style="margin-bottom: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
@@ -262,20 +305,28 @@
             <span class="close-btn" onclick="closeModal(event, 'kittyModal')">×</span>
             <h3>💰 קופה משותפת</h3>
             
-            <div class="kitty-total-display">
-                סה"כ יצא מהקופה:
-                <span id="grandTotal" class="total-amount">0 RON</span>
+            <div class="live-balance-container">
+                <div class="grand-total-row">
+                    <div class="grand-total-label">סה"כ יצא מהקופה:</div>
+                    <span id="grandTotal" class="grand-total-amount">0 RON</span>
+                </div>
+                <div class="friends-balance-grid">
+                    <div class="friend-stat p-hichkok" style="color:white; border:none;">היצ'קוק: <strong id="paid_היצ'קוק">0</strong></div>
+                    <div class="friend-stat p-bagdan" style="color:white; border:none;">בגדן: <strong id="paid_בגדן">0</strong></div>
+                    <div class="friend-stat p-maor" style="color:white; border:none;">מאור: <strong id="paid_מאור">0</strong></div>
+                    <div class="friend-stat p-ido" style="color:white; border:none;">עידו: <strong id="paid_עידו">0</strong></div>
+                </div>
             </div>
 
             <div class="kitty-form">
                 <div class="kitty-group">
-                    <label class="kitty-label">מי שילם?</label>
-                    <select id="payerName" class="kitty-select">
-                        <option value="היצ'קוק">היצ'קוק</option>
-                        <option value="בגדן">בגדן</option>
-                        <option value="מאור">מאור</option>
-                        <option value="עידו">עידו</option>
-                    </select>
+                    <label class="kitty-label">מי משלם עכשיו?</label>
+                    <div class="payer-selection">
+                        <button class="payer-btn p-hichkok" onclick="selectPayer(this, 'היצ\'קוק')">היצ'קוק</button>
+                        <button class="payer-btn p-bagdan" onclick="selectPayer(this, 'בגדן')">בגדן</button>
+                        <button class="payer-btn p-maor" onclick="selectPayer(this, 'מאור')">מאור</button>
+                        <button class="payer-btn p-ido" onclick="selectPayer(this, 'עידו')">עידו</button>
+                    </div>
                 </div>
 
                 <div class="kitty-group">
@@ -306,7 +357,7 @@
 
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
             
-            <button class="settle-up-btn" onclick="calculateSettlement()">⚖️ מצב התחשבנות (התקזזות)</button>
+            <button class="settle-up-btn" onclick="calculateSettlement()">⚖️ הצג חישוב התקזזות סופי</button>
             <div id="settlementResult" style="margin-top: 15px; text-align: left;"></div>
         </div>
     </div>
@@ -443,6 +494,7 @@
 
         // --- KITTY LOGIC (קופה) ---
         let expensesCache = [];
+        let selectedPayerName = null;
 
         function openKittyModal() {
             document.getElementById('kittyModal').style.display = 'block';
@@ -455,12 +507,19 @@
             descInput.style.display = (cat === 'אחר') ? 'block' : 'none';
         }
 
-        function setAmount(val) {
-            document.getElementById('expenseAmount').value = val;
+        function setAmount(val) { document.getElementById('expenseAmount').value = val; }
+
+        function selectPayer(btn, name) {
+            selectedPayerName = name;
+            // איפוס עיצוב
+            document.querySelectorAll('.payer-btn').forEach(b => b.classList.remove('active'));
+            // סימון הנבחר
+            btn.classList.add('active');
         }
 
         function submitExpense() {
-            const name = document.getElementById('payerName').value;
+            if (!selectedPayerName) { alert("חובה לבחור מי שילם!"); return; }
+            
             const cat = document.getElementById('expenseCategory').value;
             let desc = cat;
             if (cat === 'אחר') desc = document.getElementById('expenseDesc').value || 'אחר';
@@ -468,17 +527,16 @@
 
             if (!amount || amount <= 0) { alert("יש להזין סכום תקין"); return; }
 
-            // UI Feedback Immediate
             const btn = document.querySelector('.kitty-submit');
             const originalText = btn.innerText;
             btn.innerText = "שולח...";
             btn.disabled = true;
 
-            const data = { name: name, category: desc, amount: amount };
+            const data = { name: selectedPayerName, category: desc, amount: amount };
 
             fetch(SCRIPT_URL + "?action=add", {
                 method: "POST",
-                mode: "no-cors", // חשוב לגוגל סקריפט
+                mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             }).then(() => {
@@ -487,7 +545,7 @@
                 btn.disabled = false;
                 document.getElementById('expenseAmount').value = '';
                 document.getElementById('expenseDesc').value = '';
-                fetchExpenses(); // רענון נתונים
+                fetchExpenses();
             }).catch(err => {
                 alert("שגיאה בשמירה, נסה שוב");
                 btn.innerText = originalText;
@@ -500,14 +558,26 @@
             .then(res => res.json())
             .then(data => {
                 expensesCache = data;
-                updateGrandTotal();
+                updateGrandTotalAndStandings();
             });
         }
 
-        function updateGrandTotal() {
+        function updateGrandTotalAndStandings() {
             let total = 0;
-            expensesCache.forEach(e => total += parseFloat(e.amount));
+            let sums = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
+
+            expensesCache.forEach(e => {
+                const amt = parseFloat(e.amount);
+                total += amt;
+                if (sums[e.name] !== undefined) sums[e.name] += amt;
+            });
+
             document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
+            
+            // עדכון תצוגה אישית בזמן אמת
+            for (let name in sums) {
+                document.getElementById('paid_' + name).innerText = sums[name].toLocaleString();
+            }
         }
 
         function calculateSettlement() {
@@ -537,11 +607,7 @@
             document.getElementById('settlementResult').innerHTML = html;
         }
 
-        // --- שאר הפונקציות (Vibe, Games, Modals) נשארו זהות ---
-        
-        // ... (העתק את שאר פונקציות ה-JS מהקוד הקודם: openTherme, openFreedomModal, וכו') ...
-        // לנוחותך, הנה הפונקציות החיוניות שהשתנו או שצריך לוודא שקיימות:
-
+        // --- פונקציות כלליות ---
         function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
         function openFreedomModal() { document.getElementById('freedomModal').style.display = 'block'; triggerConfetti(); }
         
@@ -559,66 +625,6 @@
         }
         
         function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
-
-        // --- נתונים למקומות (הועתקו מהגרסה הקודמת) ---
-        const places = {
-            casinos: [
-                { name: "Grand Casino (JW Marriott)", type: "casino", desc: "הכי קרוב שיש. במלון.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: 4.3, cost: "50 RON" },
-                { name: "Gentlemen's Poker Club", type: "poker", desc: "מועדון פוקר מבוקש.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Gentlemen's+Poker+Club", website: "https://www.gpclub.ro", rating: 4.5, cost: "50 RON" },
-                { name: "Poker Room Bucharest", type: "poker", desc: "חדר פוקר ענק ומקצועי.", lat: 44.425, lng: 26.128, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Poker+Room+Bucharest", website: "https://www.poker-room.ro", rating: 4.4, cost: "50 RON" },
-                { name: "Platinum Casino", type: "casino", desc: "ברדיסון בלו. יוקרתי.", lat: 44.441, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Platinum+Casino+Bucharest", website: "https://platinumcasino.ro", rating: 4.2, cost: "50 RON" },
-                { name: "Palace Casino", type: "casino", desc: "בניין היסטורי מדהים.", lat: 44.447, lng: 26.089, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Palace+Casino+Bucharest", website: "https://palacecasino.ro", rating: 4.6, cost: "50 RON" },
-                { name: "Fortuna Palace", type: "casino", desc: "קזינו יוקרתי ופופולרי.", lat: 44.440, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "#", rating: 4.3, cost: "50 RON" },
-                { name: "Million Casino", type: "casino", desc: "רשת קזינואים נגישה.", lat: 44.430, lng: 26.110, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "#", rating: 4.0, cost: "FREE" }
-            ],
-            alcohol: [
-                { name: "Champions Sports Bar", desc: "בתוך המלון. ספורט.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "https://www.marriott.com/en-us/hotels/buhro-jw-marriott-bucharest-grand-hotel/dining/", rating: "4.4", cost: "חינם" },
-                { name: "Nomad Skybar", desc: "רופטופ חובה בעיר העתיקה.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "https://nomadskybar.ro", rating: "4.5", cost: "חינם" },
-                { name: "Linea / Closer to the Moon", desc: "גג מפורסם עם איגלו.", lat: 44.433, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Linea+Closer+To+The+Moon", website: "https://www.facebook.com/LineaCloserToTheMoon/", rating: "4.6", cost: "חינם" },
-                { name: "Control Club", desc: "מועדון אלטרנטיבי.", lat: 44.436, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club", website: "https://www.control-club.ro", rating: "4.6", cost: "30-50 RON" },
-                { name: "Interbelic Cocktail Bar", desc: "קוקטיילים מעולים.", lat: 44.437, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Interbelic+Cocktail+Bar", website: "https://www.facebook.com/InterbelicCocktailBar/", rating: "4.7", cost: "חינם" },
-                { name: "E3 by Entourage", desc: "בר יוקרתי בכיכר פלורסקה.", lat: 44.463, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=E3+by+Entourage", website: "https://www.e3byentourage.ro", rating: "4.4", cost: "חינם" },
-                { name: "Fix Me a Drink", desc: "בר בוטני מגניב.", lat: 44.434, lng: 26.097, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Fix+Me+A+Drink", website: "https://fixmad.com", rating: "4.8", cost: "חינם" }
-            ],
-            food: [
-                // Street & Shawarma
-                { name: "Dristor Kebab", type: "street", desc: "השווארמה הכי מפורסמת.", lat: 44.430, lng: 26.101, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott2", rating: "4.4" },
-                { name: "Socului Kebab", type: "street", desc: "אגדה מקומית, מנות ענקיות.", lat: 44.437, lng: 26.155, navUrl: "https://www.google.com/maps/search/?api=1&query=LAT,LNG", rating: "4.6" },
-                { name: "Calif", type: "street", desc: "שווארמה מעולה, נקי ומסודר.", lat: 44.433, lng: 26.108, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club0", rating: "4.5" },
-                { name: "Genin", type: "street", desc: "שווארמה מעולה בפלורסקה.", lat: 44.453, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.426,26.084", rating: "4.5" },
-                { name: "Fendi Kebab", type: "street", desc: "מקום פופולרי מאוד.", lat: 44.430, lng: 26.130, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club1", rating: "4.4" },
-                { name: "Spartan", type: "street", desc: "רשת יוונית מעולה.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott3", rating: "4.2" },
-                { name: "Luca", type: "street", desc: "מאפים ופרעצלים.", lat: 44.435, lng: 26.098, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott4", rating: "4.7" },
-                { name: "Latin Pizza", type: "street", desc: "פיצה ללילה.", lat: 44.432, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.102", rating: "4.5" },
-                { name: "FROG", type: "street", desc: "מקום קטן ומגניב לבראנץ' ואוכל קליל.", lat: 44.450, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.450,26.100", rating: "4.6" },
-                
-                // Burgers
-                { name: "Vivo Fusion Food Bar", type: "burger", desc: "ההמבורגר הכי טוב בעיר.", lat: 44.453, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club2", rating: "4.8" },
-                { name: "Burger Van", type: "burger", desc: "המבורגר בוטיק וזול בעיר העתיקה.", lat: 44.433, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.441,26.096", rating: "4.7" },
-                { name: "Hashtag Pub", type: "burger", desc: "אווירה טובה, בורגרים ואלכוהול.", lat: 44.435, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club3", rating: "4.5" },
-                { name: "McDonald's Unirea", type: "burger", desc: "סניף מרכזי בכיכר אונירי.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.435,26.102", rating: "4.2" },
-                { name: "Burger King Universitate", type: "burger", desc: "מול האוניברסיטה.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.425,26.128", rating: "4.1" },
-                
-                // Restaurants
-                { name: "Aubergine", type: "rest", desc: "אוכל בריא, אהוב על ישראלים.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott5", rating: "4.6" },
-                { name: "Caru' cu Bere", type: "rest", desc: "הכי עתיקה ומפורסמת.", lat: 44.432, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.098", rating: "4.5" },
-                { name: "Hanu' lui Manuc", type: "rest", desc: "מסעדה רומנית מסורתית בחצר היסטורית.", lat: 44.429, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club4", rating: "4.4" },
-                { name: "Argentine Steak & Sushi", type: "rest", desc: "בשר וסושי.", lat: 44.456, lng: 26.086, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.456,26.086", rating: "4.5" },
-                { name: "Vacamuu", type: "rest", desc: "סטייקים ברמה גבוהה.", lat: 44.460, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.460,26.100", rating: "4.6" },
-                { name: "MAMMO", type: "rest", desc: "אסייתי/סושי מעולה.", lat: 44.431, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.431,26.101", rating: "4.7" },
-                { name: "Nor Sky Casual", type: "rest", desc: "נוף בקומה 36.", lat: 44.480, lng: 26.105, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.480,26.105", rating: "4.6" },
-                { name: "Stadio", type: "rest", desc: "עיצוב מגניב ואוכל מגוון.", lat: 44.437, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.437,26.098", rating: "4.5" },
-                { name: "Hard Rock Cafe", type: "rest", desc: "גדול, המבורגרים, ליד הפארק.", lat: 44.471, lng: 26.080, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club5", rating: "4.6" },
-                { name: "Trattoria Il Calcio", type: "rest", desc: "איטלקית טובה באווירת כדורגל.", lat: 44.438, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club6", rating: "4.4" }
-            ],
-            shopping: [
-                { name: "AFI Cotroceni", type: "mall", desc: "הקניון הכי גדול וקרוב למלון. יש בו הכל.", stores: "Primark, Sephora, Zara, H&M, Peek", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
-                { name: "Fashion House Outlet", type: "outlet", desc: "אאוטלט במיליטארי. מותגים בהנחות שוות (קצת רחוק).", stores: "Nike, Adidas, Boss, Diesel, Tommy Hilfiger", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
-                { name: "ParkLake", type: "mall", desc: "קניון יפהפה ליד הפארק.", stores: "Primark, Sephora, Zara, Victoria's Secret", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
-                { name: "Baneasa Shopping City", type: "mall", desc: "קניון יוקרתי בצפון.", stores: "Sephora, Michael Kors, Apple, Peek", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
-                { name: "Unirea Shopping Center", type: "mall", desc: "במרכז העיר.", stores: "Sephora, Zara, Bershka", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest4", rating: "4.1", priceLevel: 2 }
-            ]
-        };
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; 
@@ -650,7 +656,7 @@
             const hotelLat = 44.4263; const hotelLng = 26.0844;
 
             data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
-            data.sort((a, b) => a.distance - b.distance);
+            data.sort((a, b) => a.distance - b.distance); // סטטי
             
             let html = '';
             data.forEach(item => {
@@ -677,6 +683,8 @@
         }
 
         // --- ניהול טאבים לאוכל ---
+        let currentFoodSort = 'hotel'; 
+
         function switchFoodTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             const buttons = document.querySelectorAll('.tab-btn');
@@ -696,6 +704,7 @@
             if (mode === 'hotel') btnHotel.classList.add('active'); else btnOther.classList.add('active');
 
             if (category === 'food') {
+                currentFoodSort = mode;
                 if (mode === 'gps') {
                     document.getElementById('foodLocationStatus').innerText = "⏳ ...";
                     if (navigator.geolocation) {
@@ -812,9 +821,8 @@
             document.getElementById('ilsOutput').value = ron ? (ron * rate).toFixed(1) + ' ₪' : '';
         }
 
-        // --- Games (הוחזרו לגרסה המלאה והיפה) ---
+        // --- Games ---
         const rouletteNums = [{num:0,c:'green'},{num:32,c:'red'},{num:15,c:'black'},{num:19,c:'red'},{num:4,c:'black'},{num:21,c:'red'},{num:2,c:'black'},{num:25,c:'red'},{num:17,c:'black'},{num:34,c:'red'},{num:6,c:'black'},{num:27,c:'red'},{num:13,c:'black'},{num:36,c:'red'},{num:11,c:'black'},{num:30,c:'red'},{num:8,c:'black'},{num:23,c:'red'},{num:10,c:'black'},{num:5,c:'red'},{num:24,c:'black'},{num:16,c:'red'},{num:33,c:'black'},{num:1,c:'red'},{num:20,c:'black'},{num:14,c:'red'},{num:31,c:'black'},{num:9,c:'red'},{num:22,c:'black'},{num:18,c:'red'},{num:29,c:'black'},{num:7,c:'red'},{num:28,c:'black'},{num:12,c:'red'},{num:35,c:'black'},{num:3,c:'red'},{num:26,c:'black'}];
-        
         function spinRoulette() {
             const display = document.getElementById('rouletteResult');
             const btn = document.getElementById('spinBtn');
