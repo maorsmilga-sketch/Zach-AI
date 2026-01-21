@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>האחים היקרים בבוקרשט</title>
+    <title>חופשת האחים בבוקרשט</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         /* --- הגדרות בסיס --- */
@@ -40,7 +40,7 @@
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* --- תפריט Vibe (Grid) --- */
+        /* --- תפריט Vibe --- */
         .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
         .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
@@ -55,7 +55,7 @@
         .flight-times { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; color: #333; font-weight: bold; }
         .live-status-btn { display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd; color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px; text-decoration: none; border: 1px solid #bbdefb; width: 100%; box-sizing: border-box; text-align: center; }
 
-        /* כפתורים תחתונים */
+        /* כפתורי טאבים */
         .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
         .action-btn { flex: 1; padding: 15px 2px; text-align: center; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 3px; border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap; }
         .action-btn:last-child { border-left: none; }
@@ -66,26 +66,13 @@
 
         /* --- Modal --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
+        .modal-top { z-index: 3000 !important; }
         .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* --- Tabs לאוכל --- */
-        .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; }
-        .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
-        .tab-content { display: none; animation: fadeIn 0.3s; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* עיצוב חופש */
-        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
-        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
-        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
-        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
-
-        /* רשימות */
+        /* --- רשימות --- */
         .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold; }
         .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .sort-btn { background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #555; }
@@ -101,16 +88,54 @@
         .place-dist { color: #007bff; font-weight: bold; background: #e3f2fd; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
         .place-rating { color: #f39c12; font-weight: bold; }
         .place-cost { color: #28a745; font-weight: bold; background: #e8f5e9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;}
-        
         .store-list { font-size: 0.85rem; color: #555; background: #fafafa; padding: 8px; border-radius: 8px; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
         .store-tag { font-weight: bold; color: #0056b3; }
-
+        
         .place-actions { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-end; }
-        .nav-btn, .web-btn, .taxi-btn, .uber-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: all 0.2s; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
-        .nav-btn { background: #e3f2fd; color: #0056b3; }
-        .web-btn { background: #f3e5f5; color: #6a1b9a; }
-        .taxi-btn { background: #fff9c4; color: #fbc02d; font-size: 1.4rem; }
-        .uber-btn { background: #000; color: #fff; font-size: 1.1rem; }
+        .nav-btn, .web-btn, .taxi-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: all 0.2s; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
+        .nav-btn { background: #e3f2fd; color: #0056b3; } .nav-btn:hover { background: #2196f3; color: white; }
+        .web-btn { background: #f3e5f5; color: #6a1b9a; } .web-btn:hover { background: #9c27b0; color: white; }
+        .taxi-btn { background: #fff9c4; color: #fbc02d; font-size: 1.4rem; } .taxi-btn:hover { background: #ffd600; }
+        .uber-link-btn { display: block; width: 100%; background: #000; color: #fff; text-decoration: none; padding: 15px; border-radius: 12px; font-size: 1.2rem; margin-top: 20px; font-weight: bold; text-align: center; box-sizing: border-box; }
+
+        /* Tabs */
+        .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; }
+        .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+
+        /* Freedom */
+        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
+        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
+        .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
+        .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
+
+        /* --- Trip Options (עיצוב משוקם) --- */
+        .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right; }
+        .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .trip-icon { font-size: 2.2rem; }
+        .trip-name { font-size: 1.3rem; font-weight: 800; color: #333; }
+        .trip-details { font-size: 1rem; color: #555; line-height: 1.5; margin-bottom: 10px; }
+        .trip-time { background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
+        .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; font-weight: bold; }
+
+        /* --- Roulette (משוקם) --- */
+        .roulette-display { 
+            width: 120px; height: 120px; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            background: #222; color: #fff; border: 6px solid #d4af37; 
+            font-size: 3.5rem; font-weight: 800; margin: 20px auto; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.8);
+            font-family: 'Playfair Display', serif;
+        }
+        .num-red { background-color: #d60000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; } 
+        .num-black { background-color: #111; color: #fff; border-color: #d4af37; text-shadow: 1px 1px 2px #000; } 
+        .num-green { background-color: #008000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; }
+        .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
+        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+        .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4); }
+        .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; }
 
         /* כללי */
         .meeting-point { background: linear-gradient(45deg, #ff8c00, #ffd700); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; animation: pulse 2s infinite; }
@@ -120,7 +145,7 @@
         .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
         .input-group input { width: 70px; padding: 10px; border-radius: 10px; border: 1px solid #ddd; text-align: center; font-size: 1.1rem; outline: none; }
         
-        .confetti { position: fixed; width: 10px; height: 10px; z-index: 3000; pointer-events: none; animation: confetti-fall linear forwards; }
+        .confetti { position: fixed; width: 10px; height: 10px; z-index: 4000; pointer-events: none; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         /* Baggage items */
@@ -216,11 +241,35 @@
         </div>
     </div>
 
+    <div id="taxiModal" class="modal modal-top" onclick="closeModal(event, 'taxiModal')">
+        <div class="modal-content" style="text-align: center; border-top: 5px solid #fbc02d;">
+            <span class="close-btn" onclick="closeModal(event, 'taxiModal')">×</span>
+            <h3>🚕 עלות משוערת ל-4 אנשים</h3>
+            <div id="taxiCostDisplay" style="font-size: 2.5rem; color: #fbc02d; font-weight: 800; margin: 20px 0; text-shadow: 1px 1px 0 #000;"></div>
+            <p style="color: #666; font-size: 0.9rem;">* המחיר משוער לפי תעריף Bolt/Uber רגיל</p>
+            <a id="modalUberBtn" href="#" target="_blank" class="uber-link-btn">🚗 הזמן Uber ליעד</a>
+        </div>
+    </div>
+
+    <div id="giftModal" class="modal modal-top" onclick="closeModal(event, 'giftModal')">
+        <div class="modal-content" style="text-align: center; border: 3px solid #e91e63;">
+            <h3>🎁 רגע אחד!</h3>
+            <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;">לא לשכוח לקנות מתנה לאישה ולילדים!</p>
+            <p style="margin-bottom: 20px;">(אחרת אין לכם לאן לחזור... 😉)</p>
+            <button class="action-btn" onclick="markGiftAsBought()" style="width: 100%; background: #28a745; color: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; font-size: 1.1rem; border:none;">✅ קניתי, שחרר אותי</button>
+            <button class="action-btn" onclick="closeGiftModal()" style="width: 100%; background: #dc3545; color: white; padding: 15px; border-radius: 10px; font-size: 1.1rem; border:none;">❌ עדיין לא</button>
+        </div>
+    </div>
+
     <div id="casinoModal" class="modal" onclick="closeModal(event, 'casinoModal')">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'casinoModal')">×</span>
             <h3>🎰 קזינו ופוקר</h3>
-            <div class="location-status" style="display:block;">✅ ממוין לפי קרבה למלון</div>
+            <div class="sort-controls">
+                <button class="sort-btn active" id="sortCasinoHotelBtn" onclick="toggleSort('casinos', 'hotel')">🏨 לפי מרחק</button>
+                <button class="sort-btn" id="sortCasinoRatingBtn" onclick="toggleSort('casinos', 'rating')">⭐ הכי טובים</button>
+            </div>
+            <div class="location-status" style="display:block;">🏨 ממוין לפי קרבה למלון</div>
             <div id="casinoList"></div>
         </div>
     </div>
@@ -229,7 +278,7 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'alcoholModal')">×</span>
             <h3>🥃 ברים ומועדונים</h3>
-            <div class="location-status" style="display:block;">✅ ממוין לפי קרבה למלון</div>
+            <div class="location-status" style="display:block;">🏨 ממוין לפי קרבה למלון</div>
             <div id="alcoholList"></div>
         </div>
     </div>
@@ -270,7 +319,7 @@
         </div>
     </div>
 
-    <div id="freedomModal" class="modal" onclick="closeModal(event, 'freedomModal')">
+    <div id="freedomModal" class="modal modal-top" onclick="closeModal(event, 'freedomModal')">
         <div class="modal-content freedom-content" style="background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700;">
             <span class="close-btn" onclick="closeModal(event, 'freedomModal')" style="color:white;">×</span>
             <h3 style="color:#ffd700; border-bottom-color:#444;">🦅 FREEDOM MODE: ON!</h3>
@@ -285,9 +334,52 @@
     </div>
 
     <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'baggageModal')">×</span><h3>🎒 פירוט כבודה</h3><div class="baggage-items"><div class="baggage-item"><span class="baggage-icon">🎒</span><span class="baggage-title">תיק גב קטן</span><span class="baggage-status">חינם</span></div><div class="baggage-item"><span class="baggage-icon">🧳</span><span class="baggage-title">מזוודה 20 ק"ג</span><span class="baggage-status">כלול!</span></div></div></div></div>
-    <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span><h3>🏔️ לאן נוסעים?</h3><div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div><div class="trip-details">אופנועי שלג, גונדולה, יין חם.</div><div class="trip-time">⏰ 08:00 - 16:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div><div class="trip-details">סינאיה + בראשוב.</div><div class="trip-time">⏰ 07:30 - 20:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div><div class="trip-details">200 מטר מתחת לאדמה.</div><div class="trip-time">⏰ 09:30 - 15:00</div></div></div></div>
-    <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span><h3>🎰 האורקל</h3><p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p><div id="rouletteResult" class="roulette-display">?</div><button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button></div></div>
-    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
+    
+    <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span>
+            <h3>🏔️ לאן נוסעים?</h3>
+            <div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div>
+            
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div>
+                <div class="trip-details">יום של שלג, אופנועי שלג בפסגה, עליה בגונדולה לגובה 2000 מטר ויין חם בקור.</div>
+                <div class="trip-time">⏰ 08:00 - 16:00</div>
+            </div>
+            
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div>
+                <div class="trip-details">מתחילים בסינאיה לשלג, וממשיכים לבראשוב לארוחת צהריים במסעדת בשרים טובה וטיול בעיר העתיקה.</div>
+                <div class="trip-time">⏰ 07:30 - 20:00</div>
+            </div>
+            
+            <div class="trip-option">
+                <div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div>
+                <div class="trip-details">ירידה של 200 מטר מתחת לאדמה למכרות המלח הגדולים באירופה (Slanic). חוויה הזויה.</div>
+                <div class="trip-time">⏰ 09:30 - 15:00</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span>
+            <h3>🎰 האורקל</h3>
+            <p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p>
+            <div id="rouletteResult" class="roulette-display">?</div>
+            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button>
+        </div>
+    </div>
+
+    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span>
+            <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
+            <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p>
+            <div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div>
+            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button>
+        </div>
+    </div>
 
     <script>
         // --- נתונים למקומות ---
@@ -342,10 +434,10 @@
                 { name: "Trattoria Il Calcio", type: "rest", desc: "איטלקית טובה באווירת כדורגל.", lat: 44.438, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club6", rating: "4.4" }
             ],
             shopping: [
-                { name: "AFI Cotroceni", type: "mall", desc: "הקניון הכי גדול. יש הכל.", stores: "Primark, Sephora, Zara, H&M", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
-                { name: "Fashion House Outlet", type: "outlet", desc: "אאוטלט במיליטארי.", stores: "Nike, Adidas, Boss, Diesel", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
-                { name: "ParkLake", type: "mall", desc: "קניון יפהפה ליד הפארק.", stores: "Primark, Sephora, Zara", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
-                { name: "Baneasa Shopping City", type: "mall", desc: "קניון יוקרתי בצפון.", stores: "Michael Kors, Apple, Peek", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
+                { name: "AFI Cotroceni", type: "mall", desc: "הקניון הכי גדול וקרוב למלון. יש בו הכל.", stores: "Primark, Sephora, Zara, H&M, Peek", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
+                { name: "Fashion House Outlet", type: "outlet", desc: "אאוטלט במיליטארי. מותגים בהנחות שוות (קצת רחוק).", stores: "Nike, Adidas, Boss, Diesel, Tommy Hilfiger", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
+                { name: "ParkLake", type: "mall", desc: "קניון יפהפה ליד הפארק.", stores: "Primark, Sephora, Zara, Victoria's Secret", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
+                { name: "Baneasa Shopping City", type: "mall", desc: "קניון יוקרתי בצפון.", stores: "Sephora, Michael Kors, Apple, Peek", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
                 { name: "Unirea Shopping Center", type: "mall", desc: "במרכז העיר.", stores: "Sephora, Zara, Bershka", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest4", rating: "4.1", priceLevel: 2 }
             ]
         };
@@ -388,12 +480,25 @@
         function openFreedomModal() { document.getElementById('freedomModal').style.display = 'block'; triggerConfetti(); }
         
         function handleFreedomClick() {
-            // בדיקת LocalStorage להודעת מתנה
-            if (!localStorage.getItem('giftAlertShown')) {
-                alert("❗ תזכורת של אחים:\n\nלא לשכוח לקנות מתנה לאישה ולילדים בדיוטי בחזור!\n\n(לא נציק לך עם זה יותר)");
-                localStorage.setItem('giftAlertShown', 'true');
+            const giftBought = localStorage.getItem('giftBought');
+            // סגירת מודל חופש
+            document.getElementById('freedomModal').style.display = 'none';
+
+            if (!giftBought) {
+                document.getElementById('giftModal').style.display = 'block';
+            } else {
+                triggerConfetti();
             }
-            closeModal(null, 'freedomModal');
+        }
+
+        function markGiftAsBought() {
+            localStorage.setItem('giftBought', 'true');
+            document.getElementById('giftModal').style.display = 'none';
+            triggerConfetti();
+        }
+        
+        function closeGiftModal() {
+            document.getElementById('giftModal').style.display = 'none';
         }
 
         function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -411,9 +516,13 @@
             const cost = Math.ceil((5 + (distance * 3)) * 1.15); 
             return `${cost} - ${cost + 10} RON`;
         }
-        function showTaxiCost(distance) {
+
+        function openTaxiModal(distance, lat, lng, name) {
             const est = getTaxiEstimate(distance);
-            alert(`🚕 הערכת עלות מונית (Bolt/Uber) ל-4 אנשים:\n\n${est}\n\n*המחיר משוער ותלוי בעומס*`);
+            document.getElementById('taxiCostDisplay').innerText = est;
+            const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${lat}&dropoff[longitude]=${lng}&dropoff[nickname]=${encodeURIComponent(name)}`;
+            document.getElementById('modalUberBtn').href = uberLink;
+            document.getElementById('taxiModal').style.display = 'block';
         }
 
         function renderList(type) {
@@ -422,12 +531,12 @@
             const hotelLat = 44.4263; const hotelLng = 26.0844;
 
             data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
-            data.sort((a, b) => a.distance - b.distance);
+            data.sort((a, b) => a.distance - b.distance); // סטטי
             
             let html = '';
             data.forEach(item => {
                 const distText = item.distance < 0.1 ? `🏨` : `👣 ${item.distance.toFixed(1)} km`;
-                const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${item.lat}&dropoff[longitude]=${item.lng}&dropoff[nickname]=${encodeURIComponent(item.name)}`;
+                const safeName = item.name.replace(/'/g, "\\'");
                 
                 html += `
                 <div class="place-item">
@@ -439,8 +548,7 @@
                         </div>
                     </div>
                     <div class="place-actions">
-                        <button class="taxi-btn" onclick="showTaxiCost(${item.distance})" title="מונית">🚕</button>
-                        <a href="${uberLink}" target="_blank" class="uber-btn" title="Uber">🚗</a>
+                        <button class="taxi-btn" onclick="openTaxiModal(${item.distance}, ${item.lat}, ${item.lng}, '${safeName}')" title="מונית">🚕</button>
                         <a href="${item.website}" target="_blank" class="web-btn">🌐</a>
                         <a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a>
                     </div>
@@ -450,19 +558,19 @@
         }
 
         // --- ניהול טאבים לאוכל ---
-        let currentFoodSort = 'hotel'; // ברירת מחדל
+        let currentFoodSort = 'hotel'; 
 
         function switchFoodTab(tabName) {
-            // עדכון UI של הטאבים
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => { if(b.innerText.includes(tabName === 'street' ? 'רחוב' : (tabName === 'burger' ? 'המבורגר' : 'מסעדות'))) b.classList.add('active'); }); // זיהוי פשוט לפי טקסט במקום ID מורכב
+            const buttons = document.querySelectorAll('.tab-btn');
+            if(tabName === 'street') buttons[0].classList.add('active');
+            else if(tabName === 'burger') buttons[1].classList.add('active');
+            else buttons[2].classList.add('active');
 
-            // הסתרת/הצגת תוכן
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(`foodList_${tabName}`).classList.add('active');
         }
 
-        // פונקציית מיון כללית
         function toggleSort(category, mode) {
             const btnHotel = document.getElementById(category === 'food' ? 'sortFoodHotelBtn' : 'sortShopHotelBtn');
             const btnOther = document.getElementById(category === 'food' ? 'sortFoodGpsBtn' : 'sortShopCheapBtn');
@@ -497,14 +605,14 @@
             data.forEach(item => { item.distance = calculateDistance(refLat, refLng, item.lat, item.lng); });
             data.sort((a, b) => a.distance - b.distance);
 
-            // ניקוי הקונטיינרים
+            // ניקוי
             document.getElementById('foodList_street').innerHTML = '';
             document.getElementById('foodList_burger').innerHTML = '';
             document.getElementById('foodList_rest').innerHTML = '';
 
             data.forEach(item => {
                 const distText = `👣 ${item.distance.toFixed(1)} km`;
-                const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${item.lat}&dropoff[longitude]=${item.lng}&dropoff[nickname]=${encodeURIComponent(item.name)}`;
+                const safeName = item.name.replace(/'/g, "\\'");
                 
                 const itemHtml = `
                 <div class="place-item">
@@ -516,8 +624,7 @@
                         </div>
                     </div>
                     <div class="place-actions">
-                        <button class="taxi-btn" onclick="showTaxiCost(${item.distance})" title="מונית">🚕</button>
-                        <a href="${uberLink}" target="_blank" class="uber-btn" title="Uber">🚗</a>
+                        <button class="taxi-btn" onclick="openTaxiModal(${item.distance}, ${item.lat}, ${item.lng}, '${safeName}')" title="מונית">🚕</button>
                         <a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a>
                     </div>
                 </div>`;
@@ -550,7 +657,7 @@
             data.forEach(item => {
                 const typeIcon = item.type === 'outlet' ? '🏷️' : '🏬';
                 const distText = `👣 ${item.distance.toFixed(1)} km`;
-                const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${item.lat}&dropoff[longitude]=${item.lng}&dropoff[nickname]=${encodeURIComponent(item.name)}`;
+                const safeName = item.name.replace(/'/g, "\\'");
                 
                 const itemHtml = `
                 <div class="place-item">
@@ -563,8 +670,7 @@
                     </div>
                     <div class="store-list"><span class="store-tag">חנויות נבחרות:</span> ${item.stores}</div>
                     <div class="place-actions">
-                        <button class="taxi-btn" onclick="showTaxiCost(${item.distance})" title="מונית">🚕</button>
-                        <a href="${uberLink}" target="_blank" class="uber-btn" title="Uber">🚗</a>
+                        <button class="taxi-btn" onclick="openTaxiModal(${item.distance}, ${item.lat}, ${item.lng}, '${safeName}')" title="מונית">🚕</button>
                         <a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a>
                     </div>
                 </div>`;
@@ -576,7 +682,7 @@
         // --- פתיחת מודלים ---
         function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; renderList('casinos'); }
         function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; renderList('alcohol'); }
-        function openFoodList() { document.getElementById('foodModal').style.display = 'block'; toggleSort('food', 'hotel'); switchFoodTab('street'); } // ברירת מחדל
+        function openFoodList() { document.getElementById('foodModal').style.display = 'block'; toggleSort('food', 'hotel'); switchFoodTab('street'); }
         function openShoppingList() { document.getElementById('shoppingModal').style.display = 'block'; toggleSort('shopping', 'hotel'); }
         function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; }
         function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; }
@@ -599,8 +705,13 @@
             let c = 0;
             const i = setInterval(() => {
                 const item = rouletteNums[Math.floor(Math.random()*rouletteNums.length)];
-                display.innerText = item.num; display.className = 'roulette-display spinning num-'+item.c;
-                if(++c > 20) { clearInterval(i); display.className = 'roulette-display num-'+item.c; btn.disabled = false; }
+                display.innerText = item.num; 
+                display.className = 'roulette-display spinning num-' + item.c;
+                if(++c > 20) { 
+                    clearInterval(i); 
+                    display.className = 'roulette-display num-' + item.c; 
+                    btn.disabled = false; 
+                }
             }, 100);
         }
         
@@ -616,6 +727,7 @@
                 else display.style.color = "#6a1b9a";
             }, 100);
         }
+
         function triggerConfetti() {
             for(let i=0; i<50; i++) {
                 const c = document.createElement("div"); c.classList.add("confetti");
