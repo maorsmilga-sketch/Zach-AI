@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>חופשת האחים בבוקרשט</title>
+    <title>האחים היקרים בבוקרשט</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         /* --- הגדרות בסיס --- */
@@ -29,7 +29,7 @@
             text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap;
         }
 
-        /* --- טיימר --- */
+        /* טיימר */
         #countdown-wrapper { margin-bottom: 20px; }
         #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
         #countdown { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 5px 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
@@ -40,7 +40,7 @@
         .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
-        /* --- תפריט Vibe --- */
+        /* Vibe Grid */
         .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
         .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
@@ -64,7 +64,7 @@
         .oracle-trigger { background: #333; color: #d4af37; }
         .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
-        /* --- Modal --- */
+        /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-top { z-index: 3000 !important; }
         .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
@@ -72,7 +72,23 @@
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
         .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
-        /* --- Tabs לאוכל --- */
+        /* --- Kitty (קופה) Styles --- */
+        .kitty-form { display: flex; flex-direction: column; gap: 15px; }
+        .kitty-group { display: flex; flex-direction: column; gap: 5px; }
+        .kitty-label { font-weight: bold; font-size: 0.9rem; color: #555; }
+        .kitty-input, .kitty-select { padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; width: 100%; box-sizing: border-box; }
+        .kitty-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
+        .chip { background: #eee; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .chip.active { background: #0056b3; color: white; border-color: #0056b3; }
+        .kitty-submit { background: linear-gradient(45deg, #28a745, #218838); color: white; padding: 15px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); }
+        .kitty-total-display { text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 15px; border: 1px dashed #ccc; }
+        .total-amount { font-size: 2.5rem; font-weight: 800; color: #0056b3; display: block; font-family: 'Playfair Display', serif; }
+        .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
+        .balance-positive { color: #28a745; font-weight: bold; } /* מקבל */
+        .balance-negative { color: #dc3545; font-weight: bold; } /* חייב */
+        
+        /* כללי */
         .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; }
         .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
@@ -80,13 +96,11 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* עיצוב חופש */
         .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
         .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
         .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
         .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
 
-        /* רשימות */
         .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: none; font-weight: bold; }
         .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .sort-btn { background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #555; }
@@ -111,7 +125,6 @@
         .taxi-btn { background: #fff9c4; color: #fbc02d; font-size: 1.4rem; } .taxi-btn:hover { background: #ffd600; }
         .uber-link-btn { display: block; width: 100%; background: #000; color: #fff; text-decoration: none; padding: 15px; border-radius: 12px; font-size: 1.2rem; margin-top: 20px; font-weight: bold; text-align: center; box-sizing: border-box; }
 
-        /* כללי */
         .meeting-point { background: linear-gradient(45deg, #ff8c00, #ffd700); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; animation: pulse 2s infinite; }
         .meeting-point-return { background: linear-gradient(45deg, #0056b3, #007bff); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; display: none; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
@@ -122,14 +135,12 @@
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 4000; pointer-events: none; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        /* Baggage items */
         .baggage-items { display: flex; gap: 10px; }
         .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
         .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
         .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
 
-        /* Trip Options */
         .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right; }
         .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
         .trip-icon { font-size: 2.2rem; }
@@ -138,7 +149,6 @@
         .trip-time { background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
         .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; font-weight: bold; }
 
-        /* Roulette */
         .roulette-display { 
             width: 120px; height: 120px; border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; 
@@ -153,8 +163,6 @@
         .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
         .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
         .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4); }
-        
-        /* Raffle & Winner Image */
         .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .winner-img {
             width: 150px; height: 150px; border-radius: 50%; border: 5px solid #28a745;
@@ -209,6 +217,7 @@
             <div class="vibe-item" onclick="openCasinoList()">🎰 קזינו</div>
             <div class="vibe-item" onclick="openAlcoholList()">🥃 אלכוהול</div>
             <div class="vibe-item" onclick="openFreedomModal()">🦅 חופש</div>
+            <div class="vibe-item" onclick="openKittyModal()" style="background: #fff8e1; border-color: #ffd700;">💰 קופה</div>
         </div>
         
         <div style="margin-bottom: 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
@@ -248,6 +257,60 @@
         </div>
     </div>
 
+    <div id="kittyModal" class="modal" onclick="closeModal(event, 'kittyModal')">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event, 'kittyModal')">×</span>
+            <h3>💰 קופה משותפת</h3>
+            
+            <div class="kitty-total-display">
+                סה"כ יצא מהקופה:
+                <span id="grandTotal" class="total-amount">0 RON</span>
+            </div>
+
+            <div class="kitty-form">
+                <div class="kitty-group">
+                    <label class="kitty-label">מי שילם?</label>
+                    <select id="payerName" class="kitty-select">
+                        <option value="היצ'קוק">היצ'קוק</option>
+                        <option value="בגדן">בגדן</option>
+                        <option value="מאור">מאור</option>
+                        <option value="עידו">עידו</option>
+                    </select>
+                </div>
+
+                <div class="kitty-group">
+                    <label class="kitty-label">על מה?</label>
+                    <select id="expenseCategory" class="kitty-select" onchange="toggleOtherInput()">
+                        <option value="מזון">🍔 מזון/מסעדה</option>
+                        <option value="מונית">🚕 מונית/אובר</option>
+                        <option value="אלכוהול">🥃 אלכוהול/בילוי</option>
+                        <option value="קזינו">🎰 קזינו (הלוואה)</option>
+                        <option value="אחר">✏️ אחר...</option>
+                    </select>
+                    <input type="text" id="expenseDesc" class="kitty-input" placeholder="פירוט (אופציונלי)" style="display:none; margin-top:5px;">
+                </div>
+
+                <div class="kitty-group">
+                    <label class="kitty-label">כמה? (RON)</label>
+                    <div class="kitty-chips">
+                        <div class="chip" onclick="setAmount(50)">50</div>
+                        <div class="chip" onclick="setAmount(100)">100</div>
+                        <div class="chip" onclick="setAmount(200)">200</div>
+                        <div class="chip" onclick="setAmount(500)">500</div>
+                    </div>
+                    <input type="number" id="expenseAmount" class="kitty-input" placeholder="סכום מדויק">
+                </div>
+
+                <button class="kitty-submit" onclick="submitExpense()">➕ הוסף הוצאה</button>
+            </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+            
+            <button class="settle-up-btn" onclick="calculateSettlement()">⚖️ מצב התחשבנות (התקזזות)</button>
+            <div id="settlementResult" style="margin-top: 15px; text-align: left;"></div>
+        </div>
+    </div>
+
     <div id="taxiModal" class="modal modal-top" onclick="closeModal(event, 'taxiModal')">
         <div class="modal-content" style="text-align: center; border-top: 5px solid #fbc02d;">
             <span class="close-btn" onclick="closeModal(event, 'taxiModal')">×</span>
@@ -272,10 +335,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'casinoModal')">×</span>
             <h3>🎰 קזינו ופוקר</h3>
-            <div class="sort-controls">
-                <button class="sort-btn active" id="sortCasinoHotelBtn" onclick="toggleSort('casinos', 'hotel')">🏨 לפי מרחק</button>
-                <button class="sort-btn" id="sortCasinoRatingBtn" onclick="toggleSort('casinos', 'rating')">⭐ הכי טובים</button>
-            </div>
             <div class="location-status" style="display:block;">🏨 ממוין לפי קרבה למלון</div>
             <div id="casinoList"></div>
         </div>
@@ -341,55 +400,167 @@
     </div>
 
     <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'baggageModal')">×</span><h3>🎒 פירוט כבודה</h3><div class="baggage-items"><div class="baggage-item"><span class="baggage-icon">🎒</span><span class="baggage-title">תיק גב קטן</span><span class="baggage-status">חינם</span></div><div class="baggage-item"><span class="baggage-icon">🧳</span><span class="baggage-title">מזוודה 20 ק"ג</span><span class="baggage-status">כלול!</span></div></div></div></div>
-    
-    <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span>
-            <h3>🏔️ לאן נוסעים?</h3>
-            <div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div>
-            
-            <div class="trip-option">
-                <div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div>
-                <div class="trip-details">יום של שלג, אופנועי שלג בפסגה, עליה בגונדולה לגובה 2000 מטר ויין חם בקור.</div>
-                <div class="trip-time">⏰ 08:00 - 16:00</div>
-            </div>
-            
-            <div class="trip-option">
-                <div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div>
-                <div class="trip-details">מתחילים בסינאיה לשלג, וממשיכים לבראשוב לארוחת צהריים במסעדת בשרים טובה וטיול בעיר העתיקה.</div>
-                <div class="trip-time">⏰ 07:30 - 20:00</div>
-            </div>
-            
-            <div class="trip-option">
-                <div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div>
-                <div class="trip-details">ירידה של 200 מטר מתחת לאדמה למכרות המלח הגדולים באירופה (Slanic). חוויה הזויה.</div>
-                <div class="trip-time">⏰ 09:30 - 15:00</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span>
-            <h3>🎰 האורקל</h3>
-            <p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p>
-            <div id="rouletteResult" class="roulette-display">?</div>
-            <button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button>
-        </div>
-    </div>
-
-    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span>
-            <h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3>
-            <p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p>
-            <div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div>
-            <button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button>
-        </div>
-    </div>
+    <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span><h3>🏔️ לאן נוסעים?</h3><div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div><div class="trip-details">יום של שלג, אופנועי שלג בפסגה, עליה בגונדולה לגובה 2000 מטר ויין חם בקור.</div><div class="trip-time">⏰ 08:00 - 16:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div><div class="trip-details">מתחילים בסינאיה לשלג, וממשיכים לבראשוב לארוחת צהריים במסעדת בשרים טובה וטיול בעיר העתיקה.</div><div class="trip-time">⏰ 07:30 - 20:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div><div class="trip-details">ירידה של 200 מטר מתחת לאדמה למכרות המלח הגדולים באירופה (Slanic). חוויה הזויה.</div><div class="trip-time">⏰ 09:30 - 15:00</div></div></div></div>
+    <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span><h3>🎰 האורקל</h3><p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p><div id="rouletteResult" class="roulette-display">?</div><button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button></div></div>
+    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
 
     <script>
-        // --- נתונים למקומות ---
+        // ⚠️⚠️⚠️ שים כאן את ה-URL שקיבלת מגוגל APPS SCRIPT ⚠️⚠️⚠️
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzp6h0LFQmW_2UmnN69B35O-I0UblXxYEyxJAfOCUMy9WNB45V7gQvgDc9pe2dMDw/exec"; 
+
+        // --- ניהול זמן חכם ---
+        const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
+        const tripEndDate = new Date("Mar 01, 2026 11:15:00").getTime();   
+
+        function updateTimerAndUI() {
+            const now = new Date().getTime();
+            let targetDate = tripStartDate;
+            let titleText = "⌛ ספירה לאחור להמראה:";
+
+            if (now >= tripStartDate && now < tripEndDate) {
+                targetDate = tripEndDate;
+                titleText = "😱 זמן שנשאר לשיגועים:";
+                document.getElementById('outboundFlight').style.display = 'none'; 
+                document.getElementById('meetingTLV').style.display = 'none'; 
+                document.getElementById('meetingOTP').style.display = 'block'; 
+            } else if (now >= tripEndDate) {
+                document.getElementById('countdown-wrapper').innerHTML = "<h2>🏠 ברוכים השבים!</h2>";
+                return; 
+            }
+            document.getElementById('timer-title').innerText = titleText;
+            const distance = targetDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+        }
+        setInterval(updateTimerAndUI, 1000);
+        updateTimerAndUI(); 
+
+        // --- KITTY LOGIC (קופה) ---
+        let expensesCache = [];
+
+        function openKittyModal() {
+            document.getElementById('kittyModal').style.display = 'block';
+            fetchExpenses();
+        }
+
+        function toggleOtherInput() {
+            const cat = document.getElementById('expenseCategory').value;
+            const descInput = document.getElementById('expenseDesc');
+            descInput.style.display = (cat === 'אחר') ? 'block' : 'none';
+        }
+
+        function setAmount(val) {
+            document.getElementById('expenseAmount').value = val;
+        }
+
+        function submitExpense() {
+            const name = document.getElementById('payerName').value;
+            const cat = document.getElementById('expenseCategory').value;
+            let desc = cat;
+            if (cat === 'אחר') desc = document.getElementById('expenseDesc').value || 'אחר';
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+
+            if (!amount || amount <= 0) { alert("יש להזין סכום תקין"); return; }
+
+            // UI Feedback Immediate
+            const btn = document.querySelector('.kitty-submit');
+            const originalText = btn.innerText;
+            btn.innerText = "שולח...";
+            btn.disabled = true;
+
+            const data = { name: name, category: desc, amount: amount };
+
+            fetch(SCRIPT_URL + "?action=add", {
+                method: "POST",
+                mode: "no-cors", // חשוב לגוגל סקריפט
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).then(() => {
+                alert("ההוצאה נשמרה בהצלחה!");
+                btn.innerText = originalText;
+                btn.disabled = false;
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseDesc').value = '';
+                fetchExpenses(); // רענון נתונים
+            }).catch(err => {
+                alert("שגיאה בשמירה, נסה שוב");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        function fetchExpenses() {
+            fetch(SCRIPT_URL + "?action=get")
+            .then(res => res.json())
+            .then(data => {
+                expensesCache = data;
+                updateGrandTotal();
+            });
+        }
+
+        function updateGrandTotal() {
+            let total = 0;
+            expensesCache.forEach(e => total += parseFloat(e.amount));
+            document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
+        }
+
+        function calculateSettlement() {
+            let total = 0;
+            let paidBy = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
+
+            expensesCache.forEach(e => {
+                const amount = parseFloat(e.amount);
+                total += amount;
+                if (paidBy[e.name] !== undefined) paidBy[e.name] += amount;
+            });
+
+            const sharePerPerson = total / 4;
+            let html = `<div>סה"כ הוצאות: <strong>${total}</strong> (חלק לאדם: <strong>${sharePerPerson.toFixed(0)}</strong>)</div><hr>`;
+
+            for (let person in paidBy) {
+                const paid = paidBy[person];
+                const balance = paid - sharePerPerson;
+                const colorClass = balance >= 0 ? 'balance-positive' : 'balance-negative';
+                const text = balance >= 0 ? `מקבל: ${balance.toFixed(0)}` : `חייב לקופה: ${Math.abs(balance).toFixed(0)}`;
+                
+                html += `<div class="balance-row">
+                            <span>${person} (שילם ${paid})</span>
+                            <span class="${colorClass}">${text}</span>
+                         </div>`;
+            }
+            document.getElementById('settlementResult').innerHTML = html;
+        }
+
+        // --- שאר הפונקציות (Vibe, Games, Modals) נשארו זהות ---
+        
+        // ... (העתק את שאר פונקציות ה-JS מהקוד הקודם: openTherme, openFreedomModal, וכו') ...
+        // לנוחותך, הנה הפונקציות החיוניות שהשתנו או שצריך לוודא שקיימות:
+
+        function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
+        function openFreedomModal() { document.getElementById('freedomModal').style.display = 'block'; triggerConfetti(); }
+        
+        function handleFreedomClick() {
+            const giftBought = localStorage.getItem('giftBought');
+            document.getElementById('freedomModal').style.display = 'none';
+            if (!giftBought) { document.getElementById('giftModal').style.display = 'block'; } 
+            else { triggerConfetti(); }
+        }
+
+        function markGiftAsBought() {
+            localStorage.setItem('giftBought', 'true');
+            document.getElementById('giftModal').style.display = 'none';
+            triggerConfetti();
+        }
+        
+        function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
+
+        // --- נתונים למקומות (הועתקו מהגרסה הקודמת) ---
         const places = {
             casinos: [
                 { name: "Grand Casino (JW Marriott)", type: "casino", desc: "הכי קרוב שיש. במלון.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: 4.3, cost: "50 RON" },
@@ -449,65 +620,6 @@
             ]
         };
 
-        // --- זמן טיול ---
-        const tripStartDate = new Date("Feb 25, 2026 09:20:00").getTime(); 
-        const tripEndDate = new Date("Mar 01, 2026 11:15:00").getTime();   
-
-        function updateTimerAndUI() {
-            const now = new Date().getTime();
-            let targetDate = tripStartDate;
-            let titleText = "⌛ ספירה לאחור להמראה:";
-
-            if (now >= tripStartDate && now < tripEndDate) {
-                targetDate = tripEndDate;
-                titleText = "😱 זמן שנשאר לשיגועים:";
-                document.getElementById('outboundFlight').style.display = 'none'; 
-                document.getElementById('meetingTLV').style.display = 'none'; 
-                document.getElementById('meetingOTP').style.display = 'block'; 
-            } else if (now >= tripEndDate) {
-                document.getElementById('countdown-wrapper').innerHTML = "<h2>🏠 ברוכים השבים!</h2>";
-                return; 
-            }
-            document.getElementById('timer-title').innerText = titleText;
-            const distance = targetDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("days").innerHTML = days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
-        }
-        setInterval(updateTimerAndUI, 1000);
-        updateTimerAndUI(); 
-
-        // --- פונקציות כלליות ---
-        function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
-        function openFreedomModal() { document.getElementById('freedomModal').style.display = 'block'; triggerConfetti(); }
-        
-        function handleFreedomClick() {
-            const giftBought = localStorage.getItem('giftBought');
-            // סגירת מודל חופש
-            document.getElementById('freedomModal').style.display = 'none';
-
-            if (!giftBought) {
-                document.getElementById('giftModal').style.display = 'block';
-            } else {
-                triggerConfetti();
-            }
-        }
-
-        function markGiftAsBought() {
-            localStorage.setItem('giftBought', 'true');
-            document.getElementById('giftModal').style.display = 'none';
-            triggerConfetti();
-        }
-        
-        function closeGiftModal() {
-            document.getElementById('giftModal').style.display = 'none';
-        }
-
         function calculateDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; 
             const dLat = deg2rad(lat2 - lat1);
@@ -538,7 +650,7 @@
             const hotelLat = 44.4263; const hotelLng = 26.0844;
 
             data.forEach(item => { item.distance = calculateDistance(hotelLat, hotelLng, item.lat, item.lng); });
-            data.sort((a, b) => a.distance - b.distance); // סטטי
+            data.sort((a, b) => a.distance - b.distance);
             
             let html = '';
             data.forEach(item => {
@@ -565,8 +677,6 @@
         }
 
         // --- ניהול טאבים לאוכל ---
-        let currentFoodSort = 'hotel'; 
-
         function switchFoodTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             const buttons = document.querySelectorAll('.tab-btn');
@@ -586,7 +696,6 @@
             if (mode === 'hotel') btnHotel.classList.add('active'); else btnOther.classList.add('active');
 
             if (category === 'food') {
-                currentFoodSort = mode;
                 if (mode === 'gps') {
                     document.getElementById('foodLocationStatus').innerText = "⏳ ...";
                     if (navigator.geolocation) {
@@ -703,17 +812,22 @@
             document.getElementById('ilsOutput').value = ron ? (ron * rate).toFixed(1) + ' ₪' : '';
         }
 
-        // --- Games ---
+        // --- Games (הוחזרו לגרסה המלאה והיפה) ---
         const rouletteNums = [{num:0,c:'green'},{num:32,c:'red'},{num:15,c:'black'},{num:19,c:'red'},{num:4,c:'black'},{num:21,c:'red'},{num:2,c:'black'},{num:25,c:'red'},{num:17,c:'black'},{num:34,c:'red'},{num:6,c:'black'},{num:27,c:'red'},{num:13,c:'black'},{num:36,c:'red'},{num:11,c:'black'},{num:30,c:'red'},{num:8,c:'black'},{num:23,c:'red'},{num:10,c:'black'},{num:5,c:'red'},{num:24,c:'black'},{num:16,c:'red'},{num:33,c:'black'},{num:1,c:'red'},{num:20,c:'black'},{num:14,c:'red'},{num:31,c:'black'},{num:9,c:'red'},{num:22,c:'black'},{num:18,c:'red'},{num:29,c:'black'},{num:7,c:'red'},{num:28,c:'black'},{num:12,c:'red'},{num:35,c:'black'},{num:3,c:'red'},{num:26,c:'black'}];
+        
         function spinRoulette() {
             const display = document.getElementById('rouletteResult');
             const btn = document.getElementById('spinBtn');
-            btn.disabled = true; display.classList.add('spinning');
+            btn.disabled = true; 
             let c = 0;
             const i = setInterval(() => {
                 const item = rouletteNums[Math.floor(Math.random()*rouletteNums.length)];
-                display.innerText = item.num; display.className = 'roulette-display spinning num-'+item.c;
-                if(++c > 20) { clearInterval(i); display.className = 'roulette-display num-'+item.c; btn.disabled = false; }
+                display.innerText = item.num; 
+                display.className = 'roulette-display num-' + item.c;
+                if(++c > 20) { 
+                    clearInterval(i); 
+                    btn.disabled = false; 
+                }
             }, 100);
         }
         
@@ -742,7 +856,7 @@
                     const img = document.createElement('img');
                     img.src = winner.img; 
                     img.className = 'winner-img';
-                    img.onerror = function() { this.style.display='none'; }; // Hide if image missing
+                    img.onerror = function() { this.style.display='none'; };
 
                     display.innerHTML = `<div style="font-size:1.5rem; color:#28a745;">🎉 ${winner.name} 🎉</div>`;
                     display.appendChild(img);
