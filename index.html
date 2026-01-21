@@ -26,7 +26,7 @@
         .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
         .vibe-item.kitty-big-btn { grid-column: span 3; background: linear-gradient(45deg, #ffd700, #ff8c00); color: #fff; font-size: 1.1rem; padding: 15px; box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4); margin-top: 5px; }
         
-        /* כרטיס טיסה */
+        /* טיסה */
         .flight-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: right; border: 2px solid #e1e1e1; }
         .flight-segment { padding: 15px; border-bottom: 2px dashed #eee; position: relative; }
         .flight-segment::before { content: ''; position: absolute; right: 0; top: 10%; height: 80%; width: 4px; background: linear-gradient(to bottom, #c71585, #4169e1); border-radius: 5px 0 0 5px; }
@@ -68,6 +68,11 @@
         .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
         .balance-positive { color: #28a745; font-weight: bold; } .balance-negative { color: #dc3545; font-weight: bold; }
+
+        /* Loader Styles */
+        .loader-container { display: none; text-align: center; padding: 40px; }
+        .loader { border: 5px solid #f3f3f3; border-top: 5px solid #0056b3; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Tabs & Lists */
         .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -115,7 +120,13 @@
         .confetti { position: fixed; width: 10px; height: 10px; z-index: 4000; pointer-events: none; animation: confetti-fall linear forwards; }
         @keyframes confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        /* Trip Options */
+        /* Baggage items */
+        .baggage-items { display: flex; gap: 10px; }
+        .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
+        .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
+        .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
+
         .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right; }
         .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
         .trip-icon { font-size: 2.2rem; }
@@ -203,54 +214,68 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'kittyModal')">×</span>
             <h3>💰 קופה משותפת</h3>
-            <div class="live-balance-container">
-                <div class="grand-total-row">
-                    <div class="grand-total-label">סה"כ יצא מהקופה:</div>
-                    <span id="grandTotal" class="grand-total-amount">0 RON</span>
-                </div>
-                <div class="friends-balance-grid">
-                    <div class="friend-stat bg-hichkok">היצ'קוק: <strong id="stat_hichkok">0</strong></div>
-                    <div class="friend-stat bg-bagdan">בגדן: <strong id="stat_bagdan">0</strong></div>
-                    <div class="friend-stat bg-maor">מאור: <strong id="stat_maor">0</strong></div>
-                    <div class="friend-stat bg-ido">עידו: <strong id="stat_ido">0</strong></div>
-                </div>
+            
+            <div id="kittyLoader" class="loader-container">
+                <div class="loader"></div>
+                <p>טוען נתונים מהכספת...</p>
             </div>
-            <div class="kitty-form">
-                <div class="kitty-group">
-                    <label class="kitty-label">מי משלם עכשיו?</label>
-                    <div class="payer-selection">
-                        <button class="payer-btn bg-hichkok" onclick="selectPayer(this, 'היצ\'קוק')">היצ'קוק</button>
-                        <button class="payer-btn bg-bagdan" onclick="selectPayer(this, 'בגדן')">בגדן</button>
-                        <button class="payer-btn bg-maor" onclick="selectPayer(this, 'מאור')">מאור</button>
-                        <button class="payer-btn bg-ido" onclick="selectPayer(this, 'עידו')">עידו</button>
+
+            <div id="kittyContent" style="display:none;">
+                <div class="live-balance-container">
+                    <div class="grand-total-row">
+                        <div class="grand-total-label">סה"כ יצא מהקופה:</div>
+                        <span id="grandTotal" class="grand-total-amount">0 RON</span>
+                    </div>
+                    <div class="friends-balance-grid">
+                        <div class="friend-stat bg-hichkok">היצ'קוק: <strong id="stat_hichkok">0</strong></div>
+                        <div class="friend-stat bg-bagdan">בגדן: <strong id="stat_bagdan">0</strong></div>
+                        <div class="friend-stat bg-maor">מאור: <strong id="stat_maor">0</strong></div>
+                        <div class="friend-stat bg-ido">עידו: <strong id="stat_ido">0</strong></div>
                     </div>
                 </div>
-                <div class="kitty-group">
-                    <label class="kitty-label">על מה?</label>
-                    <select id="expenseCategory" class="kitty-select" onchange="toggleOtherInput()">
-                        <option value="מזון">🍔 מזון/מסעדה</option>
-                        <option value="מונית">🚕 מונית/אובר</option>
-                        <option value="אלכוהול">🥃 אלכוהול/בילוי</option>
-                        <option value="קזינו">🎰 קזינו (הלוואה)</option>
-                        <option value="אחר">✏️ אחר...</option>
-                    </select>
-                    <input type="text" id="expenseDesc" class="kitty-input" placeholder="פירוט (אופציונלי)" style="display:none; margin-top:5px;">
-                </div>
-                <div class="kitty-group">
-                    <label class="kitty-label">כמה? (RON)</label>
-                    <div class="kitty-chips">
-                        <div class="chip" onclick="setAmount(50)">50</div>
-                        <div class="chip" onclick="setAmount(100)">100</div>
-                        <div class="chip" onclick="setAmount(200)">200</div>
-                        <div class="chip" onclick="setAmount(500)">500</div>
+
+                <div class="kitty-form">
+                    <div class="kitty-group">
+                        <label class="kitty-label">מי משלם עכשיו?</label>
+                        <div class="payer-selection">
+                            <button class="payer-btn bg-hichkok" onclick="selectPayer(this, 'היצ\'קוק')">היצ'קוק</button>
+                            <button class="payer-btn bg-bagdan" onclick="selectPayer(this, 'בגדן')">בגדן</button>
+                            <button class="payer-btn bg-maor" onclick="selectPayer(this, 'מאור')">מאור</button>
+                            <button class="payer-btn bg-ido" onclick="selectPayer(this, 'עידו')">עידו</button>
+                        </div>
                     </div>
-                    <input type="number" id="expenseAmount" class="kitty-input" placeholder="סכום מדויק">
+
+                    <div class="kitty-group">
+                        <label class="kitty-label">על מה?</label>
+                        <select id="expenseCategory" class="kitty-select" onchange="toggleOtherInput()">
+                            <option value="מזון">🍔 מזון/מסעדה</option>
+                            <option value="מונית">🚕 מונית/אובר</option>
+                            <option value="אלכוהול">🥃 אלכוהול/בילוי</option>
+                            <option value="קזינו">🎰 קזינו (הלוואה)</option>
+                            <option value="אחר">✏️ אחר...</option>
+                        </select>
+                        <input type="text" id="expenseDesc" class="kitty-input" placeholder="פירוט (אופציונלי)" style="display:none; margin-top:5px;">
+                    </div>
+
+                    <div class="kitty-group">
+                        <label class="kitty-label">כמה? (RON)</label>
+                        <div class="kitty-chips">
+                            <div class="chip" onclick="setAmount(50)">50</div>
+                            <div class="chip" onclick="setAmount(100)">100</div>
+                            <div class="chip" onclick="setAmount(200)">200</div>
+                            <div class="chip" onclick="setAmount(500)">500</div>
+                        </div>
+                        <input type="number" id="expenseAmount" class="kitty-input" placeholder="סכום מדויק">
+                    </div>
+
+                    <button class="kitty-submit" onclick="submitExpense()">➕ הוסף הוצאה</button>
                 </div>
-                <button class="kitty-submit" onclick="submitExpense()">➕ הוסף הוצאה</button>
+
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                
+                <button class="settle-up-btn" onclick="calculateSettlement()">⚖️ הצג חישוב התקזזות סופי</button>
+                <div id="settlementResult" style="margin-top: 15px; text-align: left;"></div>
             </div>
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-            <button class="settle-up-btn" onclick="calculateSettlement()">⚖️ הצג חישוב התקזזות סופי</button>
-            <div id="settlementResult" style="margin-top: 15px; text-align: left;"></div>
         </div>
     </div>
 
@@ -279,7 +304,7 @@
             <span class="close-btn" onclick="closeModal(event, 'casinoModal')">×</span>
             <h3>🎰 קזינו ופוקר</h3>
             <div class="sort-controls">
-                <button class="sort-btn active" onclick="renderList('casinos')">🏨 לפי מרחק מהמלון</button>
+                <button class="sort-btn active">🏨 לפי מרחק מהמלון</button>
             </div>
             <div class="location-status">🏨 מחושב מ-JW Marriott</div>
             <div id="casinoList"></div>
@@ -318,9 +343,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, 'shoppingModal')">×</span>
             <h3>🛍️ שופינג</h3>
-            <div class="sort-controls">
-                <button class="sort-btn active">🏨 לפי מרחק מהמלון</button>
-            </div>
             <div class="location-status">🏨 מחושב מ-JW Marriott</div>
             <div id="shoppingList"></div>
         </div>
@@ -346,6 +368,7 @@
     <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
 
     <script>
+        // ⚠️⚠️⚠️ שים כאן את ה-URL שקיבלת מגוגל APPS SCRIPT ⚠️⚠️⚠️
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzt1YsjS9jhHW92Aj8XVQ3_DJgr33tnUCVie2ItWRqiezDXqFbfmoHWr5uYArTvQjV9/exec"; 
 
         // --- Back Button Logic ---
@@ -383,7 +406,17 @@
         let expensesCache = []; let selectedPayerName = null;
         const nameToId = { "היצ'קוק": "stat_hichkok", "בגדן": "stat_bagdan", "מאור": "stat_maor", "עידו": "stat_ido" };
 
-        function openKittyModal() { document.getElementById('kittyModal').style.display = 'block'; pushModalState('kittyModal'); fetchExpenses(); }
+        function openKittyModal() { 
+            document.getElementById('kittyModal').style.display = 'block'; 
+            pushModalState('kittyModal'); 
+            
+            // Show loader
+            document.getElementById('kittyLoader').style.display = 'block';
+            document.getElementById('kittyContent').style.display = 'none';
+            
+            fetchExpenses(); 
+        }
+        
         function toggleOtherInput() { const cat = document.getElementById('expenseCategory').value; document.getElementById('expenseDesc').style.display = (cat === 'אחר') ? 'block' : 'none'; }
         function setAmount(val) { document.getElementById('expenseAmount').value = val; }
         function selectPayer(btn, name) { selectedPayerName = name; document.querySelectorAll('.payer-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
@@ -400,12 +433,35 @@
             const data = { name: selectedPayerName, category: desc, amount: amount };
 
             fetch(SCRIPT_URL + "?action=add", { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-            .then(() => { alert("ההוצאה נשמרה בהצלחה!"); btn.innerText = originalText; btn.disabled = false; document.getElementById('expenseAmount').value = ''; document.getElementById('expenseDesc').value = ''; fetchExpenses(); })
-            .catch(err => { console.log(err); alert("ההוצאה נשמרה!"); btn.innerText = originalText; btn.disabled = false; fetchExpenses(); });
+            .then(() => { 
+                alert("ההוצאה נשמרה בהצלחה!"); 
+                btn.innerText = originalText; btn.disabled = false; 
+                document.getElementById('expenseAmount').value = ''; document.getElementById('expenseDesc').value = ''; 
+                // Show loader again for refresh
+                document.getElementById('kittyLoader').style.display = 'block';
+                document.getElementById('kittyContent').style.display = 'none';
+                fetchExpenses(); 
+            })
+            .catch(err => { 
+                console.log(err); alert("ההוצאה נשמרה!"); 
+                btn.innerText = originalText; btn.disabled = false; 
+                fetchExpenses(); 
+            });
         }
 
         function fetchExpenses() {
-            fetch(SCRIPT_URL + "?action=get").then(res => res.json()).then(data => { expensesCache = data; updateGrandTotalAndStandings(); }).catch(err => console.log("Error fetching data:", err));
+            fetch(SCRIPT_URL + "?action=get").then(res => res.json()).then(data => { 
+                expensesCache = data; 
+                updateGrandTotalAndStandings();
+                // Hide loader
+                document.getElementById('kittyLoader').style.display = 'none';
+                document.getElementById('kittyContent').style.display = 'block';
+            }).catch(err => {
+                console.log("Error fetching data:", err);
+                // Hide loader even on error
+                document.getElementById('kittyLoader').style.display = 'none';
+                document.getElementById('kittyContent').style.display = 'block';
+            });
         }
 
         function updateGrandTotalAndStandings() {
@@ -568,7 +624,7 @@
             return html;
         }
 
-        // --- פונקציות פתיחה (פשוטות ובטוחות) ---
+        // --- פתיחת מודלים ---
         function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; pushModalState('casinoModal'); renderList('casinos'); }
         function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; pushModalState('alcoholModal'); renderList('alcohol'); }
         function openFoodList() { document.getElementById('foodModal').style.display = 'block'; pushModalState('foodModal'); renderFoodTabs(); switchFoodTab('street'); }
