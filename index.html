@@ -7,112 +7,112 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         /* --- הגדרות בסיס --- */
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(rgba(76, 175, 80, 0.3), rgba(255, 255, 255, 0.3)), url('https://images.unsplash.com/photo-1559160583-7e6d322c271c?q=80&w=1920&auto=format&fit=crop'); background-size: cover; background-position: center; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #333; text-align: center; }
-        .container { background-color: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 30px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); max-width: 800px; width: 95%; margin: 15px; border-top: 5px solid #4CAF50; position: relative; z-index: 10; }
-        h1 { font-size: 1.6rem; margin: 0 0 5px 0; color: #2E7D32; font-weight: 800; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(rgba(0, 110, 255, 0.3), rgba(255, 140, 0, 0.3)), url('https://images.unsplash.com/photo-1559160583-7e6d322c271c?q=80&w=1920&auto=format&fit=crop'); background-size: cover; background-position: center; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #333; text-align: center; }
+        .container { background-color: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 25px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); max-width: 800px; width: 95%; margin: 10px; border-top: 5px solid #ff8c00; position: relative; z-index: 10; }
+        h1 { font-size: 1.6rem; margin: 0 0 5px 0; color: #0056b3; font-weight: 800; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; white-space: nowrap; }
 
         /* טיימר */
-        #countdown-wrapper { margin-bottom: 20px; } #timer-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; font-weight: bold; }
+        #countdown-wrapper { margin-bottom: 20px; } #timer-title { font-size: 0.9rem; color: #666; margin-bottom: 5px; font-weight: bold; }
         #countdown { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 5px 0 20px 0; padding-bottom: 15px; border-bottom: 1px solid #eee; }
         .time-box { display: flex; flex-direction: column; align-items: center; min-width: 45px; }
-        .number { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #4CAF50; font-weight: 700; line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .number { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #d4af37; font-weight: 700; line-height: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
         .label { font-size: 0.65rem; color: #666; text-transform: uppercase; font-weight: bold; margin-top: 2px; }
-        .days-highlight .number { font-size: 3.5rem; color: #2E7D32; } .days-highlight .label { color: #333; font-size: 0.9rem; }
+        .days-highlight .number { font-size: 3.5rem; color: #ff8c00; } .days-highlight .label { color: #333; font-size: 0.9rem; }
         .separator { font-size: 1.2rem; color: #ccc; margin-top: -10px; }
 
         /* Vibe Grid */
-        .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .vibe-item { background: #F1F8E9; padding: 12px 5px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; color: #2E7D32; box-shadow: 0 2px 5px rgba(0,0,0,0.08); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-        .vibe-item:hover { transform: translateY(-2px); border-color: #4CAF50; background: #fff; }
-        .vibe-item.kitty-big-btn { grid-column: span 3; background: linear-gradient(45deg, #4CAF50, #2E7D32); color: #fff; font-size: 1.1rem; padding: 15px; box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4); margin-top: 5px; }
+        .vibe-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .vibe-item { background: #f0f8ff; padding: 12px 5px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; gap: 5px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        .vibe-item:hover { transform: translateY(-2px); border-color: #0056b3; background: #fff; }
+        .vibe-item.kitty-big-btn { grid-column: span 3; background: linear-gradient(45deg, #ffd700, #ff8c00); color: #fff; font-size: 1.1rem; padding: 15px; box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4); margin-top: 5px; }
         
         /* טיסה */
-        .flight-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); margin-bottom: 20px; text-align: right; border: 2px solid #E8F5E9; }
+        .flight-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: right; border: 2px solid #e1e1e1; }
         .flight-segment { padding: 15px; border-bottom: 2px dashed #eee; position: relative; }
-        .flight-segment::before { content: ''; position: absolute; right: 0; top: 10%; height: 80%; width: 4px; background: linear-gradient(to bottom, #4CAF50, #2E7D32); border-radius: 5px 0 0 5px; }
+        .flight-segment::before { content: ''; position: absolute; right: 0; top: 10%; height: 80%; width: 4px; background: linear-gradient(to bottom, #c71585, #4169e1); border-radius: 5px 0 0 5px; }
         .flight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .flight-title { font-size: 1.1rem; color: #4CAF50; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .flight-title { font-size: 1.1rem; color: #0056b3; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         .flight-num { background: #eee; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; color: #666; font-weight: bold; }
         .flight-times { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; color: #333; font-weight: bold; }
-        .live-status-btn { display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #E8F5E9; color: #4CAF50; font-size: 0.85rem; font-weight: bold; border-radius: 20px; text-decoration: none; border: 1px solid #C5E1A5; width: 100%; box-sizing: border-box; text-align: center; }
+        .live-status-btn { display: inline-block; margin-top: 10px; padding: 5px 12px; background-color: #e3f2fd; color: #0056b3; font-size: 0.85rem; font-weight: bold; border-radius: 20px; text-decoration: none; border: 1px solid #bbdefb; width: 100%; box-sizing: border-box; text-align: center; }
         
         /* כפתורי טאבים */
-        .card-actions { display: flex; border-top: 1px solid #E8F5E9; }
+        .card-actions { display: flex; border-top: 1px solid #e1e1e1; }
         .action-btn { flex: 1; padding: 15px 2px; text-align: center; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 3px; border-left: 1px solid #eee; line-height: 1.1; white-space: nowrap; }
         .action-btn:last-child { border-left: none; }
-        .baggage-trigger { background: #F1F8E9; color: #4CAF50; } .trips-trigger { background: #F1F8E9; color: #2E7D32; } .oracle-trigger { background: #333; color: #4CAF50; } .raffle-trigger { background: #F1F8E9; color: #2E7D32; }
+        .baggage-trigger { background: #f4f9ff; color: #0056b3; } .trips-trigger { background: #fff8e1; color: #b36b00; } .oracle-trigger { background: #333; color: #d4af37; } .raffle-trigger { background: #f3e5f5; color: #6a1b9a; }
 
         /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-top { z-index: 3000 !important; }
-        .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 25px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.2); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; box-shadow: 0 5px 30px rgba(0,0,0,0.3); text-align: right; position: relative; animation: popIn 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .close-btn { position: absolute; top: 15px; left: 20px; color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer; line-height: 1; z-index: 10;}
-        .modal h3 { margin-top: 0; color: #4CAF50; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        .modal h3 { margin-top: 0; color: #0056b3; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
 
         /* Kitty Styles */
-        .bg-hichkok { background-color: #4CAF50 !important; color: white !important; } .bg-bagdan { background-color: #66BB6A !important; color: white !important; } .bg-maor { background-color: #81C784 !important; color: white !important; } .bg-ido { background-color: #AED581 !important; color: white !important; }
+        .bg-hichkok { background-color: #9c27b0 !important; color: white !important; } .bg-bagdan { background-color: #ff5722 !important; color: white !important; } .bg-maor { background-color: #2196f3 !important; color: white !important; } .bg-ido { background-color: #4caf50 !important; color: white !important; }
         .payer-selection { display: flex; justify-content: space-around; margin-bottom: 10px; }
         .payer-btn { width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent; font-weight: bold; font-size: 0.8rem; color: white; cursor: pointer; transition: all 0.2s; opacity: 0.6; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; text-align: center; }
         .payer-btn.active { opacity: 1; transform: scale(1.15); border-color: #333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .kitty-form { display: flex; flex-direction: column; gap: 15px; } .kitty-group { display: flex; flex-direction: column; gap: 5px; } .kitty-label { font-weight: bold; font-size: 0.9rem; color: #555; }
         .kitty-input, .kitty-select { padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; width: 100%; box-sizing: border-box; }
         .kitty-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 5px; }
-        .chip { background: #eee; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: 1px solid transparent; } .chip.active { background: #4CAF50; color: white; border-color: #4CAF50; }
-        .kitty-submit { background: linear-gradient(45deg, #4CAF50, #2E7D32); color: white; padding: 15px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3); }
-        .live-balance-container { background: #F1F8E9; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #E8F5E9; }
+        .chip { background: #eee; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: 1px solid transparent; } .chip.active { background: #0056b3; color: white; border-color: #0056b3; }
+        .kitty-submit { background: linear-gradient(45deg, #28a745, #218838); color: white; padding: 15px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); }
+        .live-balance-container { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #eee; }
         .grand-total-row { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-bottom: 10px; }
-        .grand-total-amount { font-size: 2.2rem; font-weight: 800; color: #4CAF50; font-family: 'Playfair Display', serif; }
+        .grand-total-amount { font-size: 2.2rem; font-weight: 800; color: #0056b3; font-family: 'Playfair Display', serif; }
         .friends-balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .friend-stat { padding: 10px; border-radius: 12px; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .settle-up-btn { background: #333; color: #4CAF50; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .settle-up-btn { background: #333; color: #ffd700; width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .balance-row { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
-        .balance-positive { color: #4CAF50; font-weight: bold; } .balance-negative { color: #f44336; font-weight: bold; }
+        .balance-positive { color: #28a745; font-weight: bold; } .balance-negative { color: #dc3545; font-weight: bold; }
 
         /* Loader Styles */
         .loader-container { display: none; text-align: center; padding: 40px; }
-        .loader { border: 5px solid #f3f3f3; border-top: 5px solid #4CAF50; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+        .loader { border: 5px solid #f3f3f3; border-top: 5px solid #0056b3; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Tabs & Lists */
         .tabs-nav { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; } .tab-btn.active { background-color: #E8F5E9; color: #4CAF50; }
+        .tab-btn { background: none; border: none; padding: 8px 12px; font-size: 0.9rem; font-weight: bold; color: #666; cursor: pointer; border-radius: 20px; transition: all 0.2s; } .tab-btn.active { background-color: #e3f2fd; color: #0056b3; }
         .tab-content { display: none; animation: fadeIn 0.3s; } .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .location-status { text-align: center; font-size: 0.8rem; color: #4CAF50; margin-bottom: 10px; display: block; font-weight: bold; }
+        .location-status { text-align: center; font-size: 0.8rem; color: #28a745; margin-bottom: 10px; display: block; font-weight: bold; }
         .sort-controls { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
         .sort-btn { background: #f0f0f0; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #555; }
-        .sort-btn.active { background: #4CAF50; color: white; border-color: #4CAF50; }
-        .section-title { color: #2E7D32; font-size: 1.1rem; font-weight: bold; margin: 20px 0 10px 0; border-bottom: 1px dashed #ddd; padding-bottom: 5px; }
+        .sort-btn.active { background: #0056b3; color: white; border-color: #0056b3; }
+        .section-title { color: #ff8c00; font-size: 1.1rem; font-weight: bold; margin: 20px 0 10px 0; border-bottom: 1px dashed #ddd; padding-bottom: 5px; }
         
-        .place-item { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .place-item { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .place-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
         .place-info { flex-grow: 1; }
         .place-name { font-weight: bold; font-size: 1.1rem; color: #333; margin-bottom: 3px; display: block; }
         .place-desc { font-size: 0.9rem; color: #666; display: block; line-height: 1.3; }
         .place-meta { font-size: 0.85rem; color: #999; margin-top: 5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .place-dist { color: #4CAF50; font-weight: bold; background: #E8F5E9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
-        .place-rating { color: #4CAF50; font-weight: bold; }
-        .place-cost { color: #2E7D32; font-weight: bold; background: #E8F5E9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;}
+        .place-dist { color: #007bff; font-weight: bold; background: #e3f2fd; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
+        .place-rating { color: #f39c12; font-weight: bold; }
+        .place-cost { color: #28a745; font-weight: bold; background: #e8f5e9; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;}
         .store-list { font-size: 0.85rem; color: #555; background: #fafafa; padding: 8px; border-radius: 8px; border: 1px solid #eee; width: 100%; box-sizing: border-box; }
-        .store-tag { font-weight: bold; color: #4CAF50; }
+        .store-tag { font-weight: bold; color: #0056b3; }
         .place-actions { display: flex; gap: 10px; margin-top: 5px; justify-content: flex-end; }
         .nav-btn, .web-btn, .taxi-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: all 0.2s; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
-        .nav-btn { background: #E8F5E9; color: #4CAF50; } .nav-btn:hover { background: #2E7D32; color: white; }
-        .web-btn { background: #E8F5E9; color: #2E7D32; } .web-btn:hover { background: #4CAF50; color: white; }
-        .taxi-btn { background: #F1F8E9; color: #4CAF50; font-size: 1.4rem; } .taxi-btn:hover { background: #2E7D32; color: white; }
+        .nav-btn { background: #e3f2fd; color: #0056b3; } .nav-btn:hover { background: #2196f3; color: white; }
+        .web-btn { background: #f3e5f5; color: #6a1b9a; } .web-btn:hover { background: #9c27b0; color: white; }
+        .taxi-btn { background: #fff9c4; color: #fbc02d; font-size: 1.4rem; } .taxi-btn:hover { background: #ffd600; }
         .uber-link-btn { display: block; width: 100%; background: #000; color: #fff; text-decoration: none; padding: 15px; border-radius: 12px; font-size: 1.2rem; margin-top: 20px; font-weight: bold; text-align: center; box-sizing: border-box; }
 
         /* עיצוב חופש */
-        .freedom-content { background: linear-gradient(135deg, #2E7D32, #4CAF50); color: #fff; border: 2px solid #E8F5E9; }
-        .freedom-content h3 { color: #E8F5E9; border-bottom-color: #444; }
+        .freedom-content { background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700; }
+        .freedom-content h3 { color: #ffd700; border-bottom-color: #444; }
         .freedom-list { list-style: none; padding: 0; margin: 20px 0; text-align: center; }
         .freedom-item { font-size: 1.5rem; margin: 15px 0; font-weight: bold; }
 
         /* כללי */
-        .meeting-point { background: linear-gradient(45deg, #4CAF50, #2E7D32); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; animation: pulse 2s infinite; }
-        .meeting-point-return { background: linear-gradient(45deg, #4CAF50, #2E7D32); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; display: none; }
+        .meeting-point { background: linear-gradient(45deg, #ff8c00, #ffd700); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; animation: pulse 2s infinite; }
+        .meeting-point-return { background: linear-gradient(45deg, #0056b3, #007bff); color: #fff; padding: 10px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; margin: 20px 0; display: none; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
         .converter-box { background: #fff; padding: 15px; border-radius: 15px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .converter-inputs { display: flex; gap: 10px; justify-content: center; align-items: center; }
@@ -122,28 +122,28 @@
 
         /* Baggage items */
         .baggage-items { display: flex; gap: 10px; }
-        .baggage-item { background: #F1F8E9; padding: 15px 10px; border-radius: 10px; border: 1px solid #E8F5E9; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .baggage-item { background: #f9f9f9; padding: 15px 10px; border-radius: 10px; border: 1px solid #eee; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .baggage-icon { font-size: 2rem; margin-bottom: 10px; }
         .baggage-title { font-size: 0.9rem; color: #555; margin-bottom: 5px; flex-grow: 1; line-height: 1.3; }
-        .baggage-status { font-size: 1rem; color: #4CAF50; font-weight: bold; }
+        .baggage-status { font-size: 1rem; color: #28a745; font-weight: bold; }
 
         .trip-option { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: right; }
         .trip-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
         .trip-icon { font-size: 2.2rem; }
         .trip-name { font-size: 1.3rem; font-weight: 800; color: #333; }
         .trip-details { font-size: 1rem; color: #555; line-height: 1.5; margin-bottom: 10px; }
-        .trip-time { background: #E8F5E9; color: #4CAF50; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
-        .warning-box { background: #F1F8E9; color: #2E7D32; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #E8F5E9; text-align: center; font-weight: bold; }
+        .trip-time { background: #e3f2fd; color: #0056b3; padding: 5px 12px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; display: inline-block; }
+        .warning-box { background: #fff3cd; color: #856404; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #ffeeba; text-align: center; font-weight: bold; }
 
         /* Roulette */
-        .roulette-display { width: 120px; height: 120px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #222; color: #fff; border: 6px solid #4CAF50; font-size: 3.5rem; font-weight: 800; margin: 20px auto; box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.8); font-family: 'Playfair Display', serif; }
-        .num-red { background-color: #d60000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; } .num-black { background-color: #111; color: #fff; border-color: #4CAF50; text-shadow: 1px 1px 2px #000; } .num-green { background-color: #008000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; }
+        .roulette-display { width: 120px; height: 120px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: #222; color: #fff; border: 6px solid #d4af37; font-size: 3.5rem; font-weight: 800; margin: 20px auto; box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.8); font-family: 'Playfair Display', serif; }
+        .num-red { background-color: #d60000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; } .num-black { background-color: #111; color: #fff; border-color: #d4af37; text-shadow: 1px 1px 2px #000; } .num-green { background-color: #008000; color: #fff; border-color: #fff; text-shadow: 1px 1px 2px #000; }
         .spin-btn, .raffle-btn { display: block; margin: 0 auto; width: 80%; padding: 15px; border-radius: 50px; border: none; font-size: 1.2rem; font-weight: bold; color: white; cursor: pointer; }
-        .spin-btn { background: linear-gradient(to bottom, #4CAF50, #2E7D32); box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4); } .raffle-btn { background: linear-gradient(to bottom, #4CAF50, #2E7D32); box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4); }
+        .spin-btn { background: linear-gradient(to bottom, #d4af37, #b4941f); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); } .raffle-btn { background: linear-gradient(to bottom, #9c27b0, #7b1fa2); box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4); }
         
         /* Raffle */
         .raffle-display { margin: 20px auto; text-align: center; font-size: 2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px; }
-        .winner-img { width: 150px; height: 150px; border-radius: 50%; border: 5px solid #4CAF50; object-fit: cover; margin-top: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .winner-img { width: 150px; height: 150px; border-radius: 50%; border: 5px solid #28a745; object-fit: cover; margin-top: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
         @media (max-width: 450px) { h1 { font-size: 1.3rem; gap: 5px; } .number { font-size: 1.5rem; } .label { font-size: 0.6rem; } .vibe-item { font-size: 0.8rem; padding: 12px 5px; } .modal-content { width: 85%; margin: 5% auto; padding: 20px; } .action-btn { font-size: 0.75rem; padding: 12px 2px; } }
     </style>
@@ -201,7 +201,7 @@
         <div class="meeting-point-return" id="meetingOTP">✈️ נפגשים בשדה (OTP) ב-08:15</div>
 
         <div class="converter-box">
-            <h3 style="margin-top: 0; margin-bottom: 10px; color: #4CAF50; font-size: 1.1rem;">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
+            <h3 style="margin-top: 0; margin-bottom: 10px; color: #0056b3; font-size: 1.1rem;">💰 כמה זה בשקל? (רוני ל-ש"ח)</h3>
             <div class="converter-inputs">
                 <div class="input-group"><input type="number" id="ronInput" placeholder="LEI" oninput="convertCurrency()"></div>
                 <span style="font-size: 1.5rem;">⬅️</span>
@@ -280,22 +280,22 @@
     </div>
 
     <div id="taxiModal" class="modal modal-top" onclick="closeModal(event, 'taxiModal')">
-        <div class="modal-content" style="text-align: center; border-top: 5px solid #4CAF50;">
+        <div class="modal-content" style="text-align: center; border-top: 5px solid #fbc02d;">
             <span class="close-btn" onclick="closeModal(event, 'taxiModal')">×</span>
             <h3>🚕 עלות משוערת ל-4 אנשים</h3>
-            <div id="taxiCostDisplay" style="font-size: 2.5rem; color: #2E7D32; font-weight: 800; margin: 20px 0; text-shadow: 1px 1px 0 #000;"></div>
+            <div id="taxiCostDisplay" style="font-size: 2.5rem; color: #fbc02d; font-weight: 800; margin: 20px 0; text-shadow: 1px 1px 0 #000;"></div>
             <p style="color: #666; font-size: 0.9rem;">* המחיר משוער לפי תעריף Bolt/Uber רגיל</p>
             <a id="modalUberBtn" href="#" target="_blank" class="uber-link-btn">🚗 הזמן Uber ליעד</a>
         </div>
     </div>
 
     <div id="giftModal" class="modal modal-top" onclick="closeModal(event, 'giftModal')">
-        <div class="modal-content" style="text-align: center; border: 3px solid #4CAF50;">
+        <div class="modal-content" style="text-align: center; border: 3px solid #e91e63;">
             <h3>🎁 רגע אחד!</h3>
             <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;">לא לשכוח לקנות מתנה לאישה ולילדים!</p>
             <p style="margin-bottom: 20px;">(אחרת אין לכם לאן לחזור... 😉)</p>
-            <button class="action-btn" onclick="markGiftAsBought()" style="width: 100%; background: #4CAF50; color: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; font-size: 1.1rem; border:none;">✅ קניתי, שחרר אותי</button>
-            <button class="action-btn" onclick="closeGiftModal()" style="width: 100%; background: #f44336; color: white; padding: 15px; border-radius: 10px; font-size: 1.1rem; border:none;">❌ עדיין לא</button>
+            <button class="action-btn" onclick="markGiftAsBought()" style="width: 100%; background: #28a745; color: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; font-size: 1.1rem; border:none;">✅ קניתי, שחרר אותי</button>
+            <button class="action-btn" onclick="closeGiftModal()" style="width: 100%; background: #dc3545; color: white; padding: 15px; border-radius: 10px; font-size: 1.1rem; border:none;">❌ עדיין לא</button>
         </div>
     </div>
 
@@ -349,23 +349,23 @@
     </div>
 
     <div id="freedomModal" class="modal modal-top" onclick="closeModal(event, 'freedomModal')">
-        <div class="modal-content freedom-content" style="background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #4CAF50;">
+        <div class="modal-content freedom-content" style="background: linear-gradient(135deg, #2b2b2b, #1a1a1a); color: #fff; border: 2px solid #ffd700;">
             <span class="close-btn" onclick="closeModal(event, 'freedomModal')" style="color:white;">×</span>
-            <h3 style="color:#4CAF50; border-bottom-color:#444;">🦅 FREEDOM MODE: ON!</h3>
+            <h3 style="color:#ffd700; border-bottom-color:#444;">🦅 FREEDOM MODE: ON!</h3>
             <ul style="list-style:none; padding:0; margin:20px 0; text-align:center;">
                 <li style="font-size:1.5rem; margin:15px 0; font-weight:bold;">🚫 אין נשים!</li>
                 <li style="font-size:1.5rem; margin:15px 0; font-weight:bold;">🚫 אין ילדים!</li>
                 <li style="font-size:1.5rem; margin:15px 0; font-weight:bold;">🚫 אין עבודה!</li>
                 <li style="font-size:1.5rem; margin:15px 0; font-weight:bold;">🍻 רק שיגועים!</li>
             </ul>
-            <button style="background: linear-gradient(to right, #4CAF50, #2E7D32); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(46, 125, 50, 0.5); width:100%;" onclick="handleFreedomClick()">יאללה בלאגן!</button>
+            <button style="background: linear-gradient(to right, #ff8c00, #ff0080); color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.3rem; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(255, 0, 128, 0.5); width:100%;" onclick="handleFreedomClick()">יאללה בלאגן!</button>
         </div>
     </div>
 
     <div id="baggageModal" class="modal" onclick="closeModal(event, 'baggageModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'baggageModal')">×</span><h3>🎒 פירוט כבודה</h3><div class="baggage-items"><div class="baggage-item"><span class="baggage-icon">🎒</span><span class="baggage-title">תיק גב קטן</span><span class="baggage-status">חינם</span></div><div class="baggage-item"><span class="baggage-icon">🧳</span><span class="baggage-title">מזוודה 20 ק"ג</span><span class="baggage-status">כלול!</span></div></div></div></div>
     <div id="tripsModal" class="modal" onclick="closeModal(event, 'tripsModal')"><div class="modal-content"><span class="close-btn" onclick="closeModal(event, 'tripsModal')">×</span><h3>🏔️ לאן נוסעים?</h3><div class="warning-box">⚠️ שימו לב! עדיף יום חמישי.</div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🎿</span><span class="trip-name">אקסטרים (סינאיה)</span></div><div class="trip-details">יום של שלג, אופנועי שלג בפסגה, עליה בגונדולה לגובה 2000 מטר ויין חם בקור.</div><div class="trip-time">⏰ 08:00 - 16:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">🥩</span><span class="trip-name">המשולבת (שלג+בשר)</span></div><div class="trip-details">מתחילים בסינאיה לשלג, וממשיכים לבראשוב לארוחת צהריים במסעדת בשרים טובה וטיול בעיר העתיקה.</div><div class="trip-time">⏰ 07:30 - 20:00</div></div><div class="trip-option"><div class="trip-header"><span class="trip-icon">💎</span><span class="trip-name">הבונקר (מכרות מלח)</span></div><div class="trip-details">ירידה של 200 מטר מתחת לאדמה למכרות המלח הגדולים באירופה (Slanic). חוויה הזויה.</div><div class="trip-time">⏰ 09:30 - 15:00</div></div></div></div>
     <div id="oracleModal" class="modal" onclick="closeModal(event, 'oracleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'oracleModal')">×</span><h3>🎰 האורקל</h3><p style="color:#666; margin-bottom:10px;">לא יודע על מה לשים?</p><div id="rouletteResult" class="roulette-display">?</div><button id="spinBtn" class="spin-btn" onclick="spinRoulette()">SPIN!</button></div></div>
-    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #4CAF50;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #E8F5E9; background: #F1F8E9; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #4CAF50;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
+    <div id="raffleModal" class="modal" onclick="closeModal(event, 'raffleModal')"><div class="modal-content" style="text-align: center;"><span class="close-btn" onclick="closeModal(event, 'raffleModal')">×</span><h3 style="color: #6a1b9a;">🎲 מי בר המזל?</h3><p style="color:#666; margin-bottom:10px;">מי מזמין? מי מביא?</p><div id="raffleResult" class="raffle-display" style="border: 2px dashed #e1bee7; background: #f3e5f5; border-radius: 15px; margin: 20px 0; padding: 20px; font-weight: 800; color: #6a1b9a;">???</div><button id="raffleBtn" class="raffle-btn" onclick="spinRaffle()">GO!</button></div></div>
 
     <script>
         // ⚠️⚠️⚠️ שים כאן את ה-URL שקיבלת מגוגל APPS SCRIPT ⚠️⚠️⚠️
@@ -436,252 +436,3 @@
             .then(() => { 
                 alert("ההוצאה נשמרה בהצלחה!"); 
                 btn.innerText = originalText; btn.disabled = false; 
-                document.getElementById('expenseAmount').value = ''; document.getElementById('expenseDesc').value = ''; 
-                // Show loader again for refresh
-                document.getElementById('kittyLoader').style.display = 'block';
-                document.getElementById('kittyContent').style.display = 'none';
-                fetchExpenses(); 
-            })
-            .catch(err => { 
-                console.log(err); alert("ההוצאה נשמרה!"); 
-                btn.innerText = originalText; btn.disabled = false; 
-                fetchExpenses(); 
-            });
-        }
-
-        function fetchExpenses() {
-            fetch(SCRIPT_URL + "?action=get").then(res => res.json()).then(data => { 
-                expensesCache = data; 
-                updateGrandTotalAndStandings();
-                // Hide loader
-                document.getElementById('kittyLoader').style.display = 'none';
-                document.getElementById('kittyContent').style.display = 'block';
-            }).catch(err => {
-                console.log("Error fetching data:", err);
-                // Hide loader even on error
-                document.getElementById('kittyLoader').style.display = 'none';
-                document.getElementById('kittyContent').style.display = 'block';
-            });
-        }
-
-        function updateGrandTotalAndStandings() {
-            let total = 0; let sums = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
-            if (expensesCache && expensesCache.length > 0) {
-                expensesCache.forEach(e => {
-                    const amt = parseFloat(e.amount);
-                    if (!isNaN(amt)) {
-                        total += amt;
-                        for (let key in sums) { if (e.name.includes(key) || key.includes(e.name)) { sums[key] += amt; break; } }
-                    }
-                });
-            }
-            document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
-            for (let hebName in nameToId) { const el = document.getElementById(nameToId[hebName]); if (el) el.innerText = sums[hebName].toLocaleString(); }
-        }
-
-        function calculateSettlement() {
-            let total = 0; let paidBy = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
-            expensesCache.forEach(e => {
-                const amount = parseFloat(e.amount);
-                if (!isNaN(amount)) {
-                    total += amount;
-                    for (let key in paidBy) { if (e.name.includes(key) || key.includes(e.name)) { paidBy[key] += amount; break; } }
-                }
-            });
-            const sharePerPerson = total / 4;
-            let html = `<div>סה"כ הוצאות: <strong>\( {total}</strong> (חלק לאדם: <strong> \){sharePerPerson.toFixed(0)}</strong>)</div><hr>`;
-            for (let person in paidBy) {
-                const paid = paidBy[person]; const balance = paid - sharePerPerson;
-                const colorClass = balance >= 0 ? 'balance-positive' : 'balance-negative';
-                const text = balance >= 0 ? `מקבל: ${balance.toFixed(0)}` : `חייב לקופה: ${Math.abs(balance).toFixed(0)}`;
-                html += `<div class="balance-row"><span>${person} (שילם \( {paid})</span><span class=" \){colorClass}">${text}</span></div>`;
-            }
-            document.getElementById('settlementResult').innerHTML = html;
-        }
-
-        function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
-        function openFreedomModal() { document.getElementById('freedomModal').style.display = 'block'; pushModalState('freedomModal'); triggerConfetti(); }
-        function handleFreedomClick() { const giftBought = localStorage.getItem('giftBought'); history.back(); setTimeout(() => { if (!giftBought) { document.getElementById('giftModal').style.display = 'block'; pushModalState('giftModal'); } else { triggerConfetti(); } }, 300); }
-        function markGiftAsBought() { localStorage.setItem('giftBought', 'true'); history.back(); triggerConfetti(); }
-        function closeGiftModal() { history.back(); }
-        
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; const dLat = deg2rad(lat2 - lat1); const dLon = deg2rad(lon2 - lon1);
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
-            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-        }
-        function deg2rad(deg) { return deg * (Math.PI/180); }
-        function getTaxiEstimate(distance) { if (!distance) return "N/A"; const cost = Math.ceil((5 + (distance * 3)) * 1.15); return `${cost} - ${cost + 10} RON`; }
-        function openTaxiModal(distance, lat, lng, name) {
-            const est = getTaxiEstimate(distance); document.getElementById('taxiCostDisplay').innerText = est;
-            const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=\( {lat}&dropoff[longitude]= \){lng}&dropoff[nickname]=${encodeURIComponent(name)}`;
-            document.getElementById('modalUberBtn').href = uberLink; document.getElementById('taxiModal').style.display = 'block'; pushModalState('taxiModal');
-        }
-        function closeModal(event, id) { if(event) { if(event.target.id !== id && !event.target.className.includes('close-btn')) return; history.back(); } else { history.back(); } }
-
-        function convertCurrency() { const rate = 0.73; const ron = document.getElementById('ronInput').value; document.getElementById('ilsOutput').value = ron ? (ron * rate).toFixed(1) + ' ₪' : ''; }
-
-        // --- Data ---
-        const places = {
-            casinos: [
-                { name: "Grand Casino (JW Marriott)", type: "casino", desc: "הכי קרוב שיש. במלון עצמו, כולל מכונות מזל, שולחנות רולטה, בלאק ג'ק ופוקר, עם בר משקאות ושירות VIP.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: 4.3, cost: "50 RON" },
-                { name: "Gentlemen's Poker Club", type: "poker", desc: "מועדון פוקר מבוקש עם טורנירים יומיים, שולחנות קאש, אווירה מקצועית ומשקאות חינם לשחקנים.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Gentlemen's+Poker+Club", website: "https://www.gpclub.ro", rating: 4.5, cost: "50 RON" },
-                { name: "Poker Room Bucharest", type: "poker", desc: "חדר פוקר ענק ומקצועי עם יותר מ-20 שולחנות, אירועים מיוחדים וקורסים למתחילים.", lat: 44.425, lng: 26.128, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Poker+Room+Bucharest", website: "https://www.poker-room.ro", rating: 4.4, cost: "50 RON" },
-                { name: "Platinum Casino", type: "casino", desc: "ברדיסון בלו. יוקרתי עם סוויטות VIP, הופעות חיות ומגוון משחקים כולל סלוטים מודרניים.", lat: 44.441, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Platinum+Casino+Bucharest", website: "https://platinumcasino.ro", rating: 4.2, cost: "50 RON" },
-                { name: "Palace Casino", type: "casino", desc: "בניין היסטורי מדהים עם ארכיטקטורה קלאסית, כולל רולטה אלקטרונית ובר יוקרתי.", lat: 44.447, lng: 26.089, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Palace+Casino+Bucharest", website: "https://palacecasino.ro", rating: 4.6, cost: "50 RON" },
-                { name: "Fortuna Palace", type: "casino", desc: "קזינו יוקרתי ופופולרי עם טורנירי פוקר שבועיים ומכונות מזל חדישות.", lat: 44.440, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "#", rating: 4.3, cost: "50 RON" },
-                { name: "Million Casino", type: "casino", desc: "רשת קזינואים נגישה עם כניסה חינם, כולל מבצעים יומיים ומשחקים מגוונים.", lat: 44.430, lng: 26.110, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "#", rating: 4.0, cost: "FREE" }
-            ],
-            alcohol: [
-                { name: "Champions Sports Bar", desc: "בתוך המלון. ספורט עם מסכי ענק, בירות מקומיות, כנפיים ותפריט פאב קלאסי.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "https://www.marriott.com/en-us/hotels/buhro-jw-marriott-bucharest-grand-hotel/dining/", rating: "4.4", cost: "חינם" },
-                { name: "Nomad Skybar", desc: "רופטופ חובה בעיר העתיקה עם נוף פנורמי, קוקטיילים יצירתיים ומוזיקה חיה בערבים.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "https://nomadskybar.ro", rating: "4.5", cost: "חינם" },
-                { name: "Linea / Closer to the Moon", desc: "גג מפורסם עם איגלו בחורף, משקאות קוקטיילים מיוחדים ותפריט אוכל קל.", lat: 44.433, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Linea+Closer+To+The+Moon", website: "https://www.facebook.com/LineaCloserToTheMoon/", rating: "4.6", cost: "חינם" },
-                { name: "Control Club", desc: "מועדון אלטרנטיבי עם מוזיקה אלקטרונית, הופעות חיות ובירות זולות.", lat: 44.436, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club", website: "https://www.control-club.ro", rating: "4.6", cost: "30-50 RON" },
-                { name: "Interbelic Cocktail Bar", desc: "קוקטיילים מעולים באווירה רטרו, כולל משקאות בהשראת תקופת המלחמה.", lat: 44.437, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Interbelic+Cocktail+Bar", website: "https://www.facebook.com/InterbelicCocktailBar/", rating: "4.7", cost: "חינם" },
-                { name: "E3 by Entourage", desc: "בר יוקרתי עם תפריט משקאות עשיר, ספות נוחות ומוזיקה רגועה.", lat: 44.463, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=E3+by+Entourage", website: "https://www.e3byentourage.ro", rating: "4.4", cost: "חינם" },
-                { name: "Fix Me a Drink", desc: "בר בוטני מגניב עם קוקטיילים על בסיס צמחים, אווירה טרופית ותפריט וגן.", lat: 44.434, lng: 26.097, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Fix+Me+A+Drink", website: "https://fixmad.com", rating: "4.8", cost: "חינם" }
-            ],
-            food: [
-                { name: "Dristor Kebab", type: "street", desc: "השווארמה הכי מפורסמת, עם בשר טרי, סלטים ורטבים מיוחדים, זול וטעים.", lat: 44.430, lng: 26.101, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott2", rating: "4.4" },
-                { name: "Socului Kebab", type: "street", desc: "אגדה מקומית עם שווארמה ענקית, צ'יפס בפנים ומגוון תוספות.", lat: 44.437, lng: 26.155, navUrl: "https://www.google.com/maps/search/?api=1&query=LAT,LNG", rating: "4.6" },
-                { name: "Calif", type: "street", desc: "שווארמה מעולה עם אופציות וגן, סלטים טריים ורוטב חריף.", lat: 44.433, lng: 26.108, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club0", rating: "4.5" },
-                { name: "Genin", type: "street", desc: "שווארמה מעולה בפלורסקה, כולל גרסאות עוף ובקר, עם לחם טרי.", lat: 44.453, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.426,26.084", rating: "4.5" },
-                { name: "Spartan", type: "street", desc: "רשת יוונית עם גירוס, סובלאקי וסלטים יווניים טריים.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott3", rating: "4.2" },
-                { name: "Luca", type: "street", desc: "מאפים ופרעצלים חמים, כולל גרסאות מתוקות ומלוחות, מושלם לנשנוש.", lat: 44.435, lng: 26.098, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott4", rating: "4.7" },
-                { name: "Latin Pizza", type: "street", desc: "פיצה ללילה עם תוספות מגוונות, בצק דק וגבינה נמסה.", lat: 44.432, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.102", rating: "4.5" },
-                { name: "FROG", type: "street", desc: "בראנץ' ואוכל קליל עם סלטים, סנדוויצ'ים וקפה איכותי.", lat: 44.450, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.450,26.100", rating: "4.6" },
-                { name: "Vivo Fusion Food Bar", type: "burger", desc: "ההמבורגר הכי טוב בעיר עם בשר אנגוס, תוספות יצירתיות וצ'יפס פריך.", lat: 44.453, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club2", rating: "4.8" },
-                { name: "Burger Van", type: "burger", desc: "המבורגר בוטיק עם רטבים ביתיים, גבינות מיוחדות ואופציות וגן.", lat: 44.433, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.441,26.096", rating: "4.7" },
-                { name: "Hashtag Pub", type: "burger", desc: "בורגרים ואלכוהול עם המבורגרים גורמה, בירות מקומיות ומסכי ספורט.", lat: 44.435, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club3", rating: "4.5" },
-                { name: "McDonald's Unirea", type: "burger", desc: "סניף מרכזי עם כל הקלאסיקות, מק נאגטס ומילקשייקים.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.435,26.102", rating: "4.2" },
-                { name: "Burger King Universitate", type: "burger", desc: "מול האוניברסיטה עם וופר גדול, צ'יפס וסלטים.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.425,26.128", rating: "4.1" },
-                { name: "Aubergine", type: "rest", desc: "בריא, ים-תיכוני עם סלטים טריים, דגים ותבשילים צמחוניים.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott5", rating: "4.6" },
-                { name: "Caru' cu Bere", type: "rest", desc: "הכי עתיקה ומפורסמת עם מאכלים רומניים מסורתיים, בירה ביתית והופעות פולקלור.", lat: 44.432, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.098", rating: "4.5" },
-                { name: "Hanu' lui Manuc", type: "rest", desc: "מסעדה רומנית בחצר היסטורית עם בשרים על האש, מרקים ויין מקומי.", lat: 44.429, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club4", rating: "4.4" },
-                { name: "Argentine Steak & Sushi", type: "rest", desc: "בשר וסושי עם סטייקים ארגנטיניים איכותיים ורולים טריים.", lat: 44.456, lng: 26.086, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.456,26.086", rating: "4.5" },
-                { name: "Vacamuu", type: "rest", desc: "סטייקים עם בשר מיושן, תוספות צד ויינות משובחים.", lat: 44.460, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.460,26.100", rating: "4.6" },
-                { name: "MAMMO", type: "rest", desc: "אסייתי/סושי מעולה עם מנות יפניות אותנטיות, ניגירי וטמפורה.", lat: 44.431, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.431,26.101", rating: "4.7" },
-                { name: "Nor Sky Casual", type: "rest", desc: "נוף בקומה 36 עם מנות בינלאומיות, קוקטיילים ונוף פנורמי.", lat: 44.480, lng: 26.105, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.480,26.105", rating: "4.6" },
-                { name: "Stadio", type: "rest", desc: "עיצוב מגניב עם פיצות, פסטות ומאכלי ים תיכוניים.", lat: 44.437, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.437,26.098", rating: "4.5" },
-                { name: "Hard Rock Cafe", type: "rest", desc: "גדול, ליד הפארק עם בורגרים, ריבס והופעות רוק.", lat: 44.471, lng: 26.080, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club5", rating: "4.6" },
-                { name: "Trattoria Il Calcio", type: "rest", desc: "איטלקית טובה עם פיצות תנור, פסטות טריות וטירמיסו.", lat: 44.438, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club6", rating: "4.4" }
-            ],
-            shopping: [
-                { name: "AFI Cotroceni", type: "mall", desc: "הכי גדול. Primark, Zara, H&M, קולנוע IMAX, אזור משחקים לילדים, פוד קורט ענק עם אוכל בינלאומי ומבצעים יומיים.", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
-                { name: "Fashion House Outlet", type: "outlet", desc: "אאוטלט במיליטארי עם הנחות על מותגים כמו Nike, Adidas, Puma, חנויות בגדים ותיקים, קפה ומסעדות מהירות.", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
-                { name: "ParkLake", type: "mall", desc: "קניון יפהפה. Primark, Bershka, Pull&Bear, אגם מלאכותי, אזור משחקים, סופרמרקט ומסעדות על המים.", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
-                { name: "Baneasa Shopping City", type: "mall", desc: "קניון יוקרתי בצפון עם Louis Vuitton, Gucci, Apple Store, קולנוע VIP ומסעדות גורמה.", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
-                { name: "Unirea Shopping Center", type: "mall", desc: "במרכז העיר עם חנויות מקומיות, אלקטרוניקה, בגדים זולים, סופרמרקט ופוד קורט.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest4", rating: "4.1", priceLevel: 2 }
-            ]
-        };
-
-        const HOTEL_LAT = 44.4263; const HOTEL_LNG = 26.0844;
-
-        function renderList(type) {
-            const listContainer = document.getElementById(type === 'casinos' ? 'casinoList' : 'alcoholList');
-            const data = places[type];
-            data.forEach(item => item.distance = calculateDistance(HOTEL_LAT, HOTEL_LNG, item.lat, item.lng));
-            data.sort((a, b) => a.distance - b.distance);
-            listContainer.innerHTML = generateHtmlList(data);
-        }
-
-        function renderFoodTabs() {
-            const data = places.food;
-            data.forEach(item => item.distance = calculateDistance(HOTEL_LAT, HOTEL_LNG, item.lat, item.lng));
-            data.sort((a, b) => a.distance - b.distance);
-
-            document.getElementById('foodList_street').innerHTML = generateHtmlList(data.filter(i => i.type === 'street' || i.type === 'shawarma'));
-            document.getElementById('foodList_burger').innerHTML = generateHtmlList(data.filter(i => i.type === 'burger'));
-            document.getElementById('foodList_rest').innerHTML = generateHtmlList(data.filter(i => i.type === 'rest'));
-        }
-
-        function renderShoppingList() {
-            const data = places.shopping;
-            data.forEach(item => item.distance = calculateDistance(HOTEL_LAT, HOTEL_LNG, item.lat, item.lng));
-            data.sort((a, b) => a.distance - b.distance);
-            document.getElementById('shoppingList').innerHTML = generateHtmlList(data);
-        }
-
-        function generateHtmlList(data) {
-            let html = '';
-            data.forEach(item => {
-                const distText = item.distance < 0.1 ? `🏨` : `👣 ${item.distance.toFixed(1)} km`;
-                const safeName = item.name.replace(/'/g, "\\'");
-                html += `
-                <div class="place-item">
-                    <div class="place-header-row">
-                        <div class="place-info"><span class="place-name">\( {item.name}</span><span class="place-desc"> \){item.desc}</span>
-                            <div class="place-meta"><span class="place-dist">${distText}</span> <span class="place-rating">⭐ ${item.rating}</span></div>
-                        </div>
-                    </div>
-                    <div class="place-actions">
-                        <button class="taxi-btn" onclick="openTaxiModal(${item.distance}, ${item.lat}, \( {item.lng}, ' \){safeName}')" title="מונית">🚕</button>
-                        <a href="${item.website || '#'}" target="_blank" class="web-btn">🌐</a>
-                        <a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a>
-                    </div>
-                </div>`;
-            });
-            return html;
-        }
-
-        // --- פתיחת מודלים ---
-        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; pushModalState('casinoModal'); renderList('casinos'); }
-        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; pushModalState('alcoholModal'); renderList('alcohol'); }
-        function openFoodList() { document.getElementById('foodModal').style.display = 'block'; pushModalState('foodModal'); renderFoodTabs(); switchFoodTab('street'); }
-        function openShoppingList() { document.getElementById('shoppingModal').style.display = 'block'; pushModalState('shoppingModal'); renderShoppingList(); }
-        function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; pushModalState('baggageModal'); }
-        function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; pushModalState('tripsModal'); }
-        function openOracleModal() { document.getElementById('oracleModal').style.display = 'block'; pushModalState('oracleModal'); }
-        function openRaffleModal() { document.getElementById('raffleModal').style.display = 'block'; pushModalState('raffleModal'); }
-        function closeModal(event, id) { 
-            if(event) {
-                if(event.target.id !== id && !event.target.className.includes('close-btn')) return;
-                history.back();
-            } else { history.back(); }
-        }
-
-        // --- שאר הפונקציות זהות (משחקים, קופה וכו') ---
-        // (Games, Roulette, Raffle, Kitty Logic - Already perfect in previous steps)
-        
-        function switchFoodTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            const buttons = document.querySelectorAll('.tab-btn');
-            if(tabName === 'street') buttons[0].classList.add('active');
-            else if(tabName === 'burger') buttons[1].classList.add('active');
-            else buttons[2].classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(`foodList_${tabName}`).classList.add('active');
-        }
-
-        const rouletteNums = [{num:0,c:'green'},{num:32,c:'red'},{num:15,c:'black'},{num:19,c:'red'},{num:4,c:'black'},{num:21,c:'red'},{num:2,c:'black'},{num:25,c:'red'},{num:17,c:'black'},{num:34,c:'red'},{num:6,c:'black'},{num:27,c:'red'},{num:13,c:'black'},{num:36,c:'red'},{num:11,c:'black'},{num:30,c:'red'},{num:8,c:'black'},{num:23,c:'red'},{num:10,c:'black'},{num:5,c:'red'},{num:24,c:'black'},{num:16,c:'red'},{num:33,c:'black'},{num:1,c:'red'},{num:20,c:'black'},{num:14,c:'red'},{num:31,c:'black'},{num:9,c:'red'},{num:22,c:'black'},{num:18,c:'red'},{num:29,c:'black'},{num:7,c:'red'},{num:28,c:'black'},{num:12,c:'red'},{num:35,c:'black'},{num:3,c:'red'},{num:26,c:'black'}];
-        function spinRoulette() {
-            const display = document.getElementById('rouletteResult');
-            const btn = document.getElementById('spinBtn');
-            btn.disabled = true; let c = 0;
-            const i = setInterval(() => {
-                const item = rouletteNums[Math.floor(Math.random()*rouletteNums.length)];
-                display.innerText = item.num; display.className = 'roulette-display num-' + item.c;
-                if(++c > 20) { clearInterval(i); btn.disabled = false; }
-            }, 100);
-        }
-        
-        const participants = [ {name: "היצ'קוק", img: "hichkok.jpg"}, {name: "בגדן", img: "bagdan.jpg"}, {name: "מאור", img: "maor.jpg"}, {name: "עידו", img: "ido.jpg"} ];
-        function spinRaffle() {
-            const display = document.getElementById('raffleResult');
-            const btn = document.getElementById('raffleBtn');
-            btn.disabled = true; let c = 0; display.innerHTML = ""; 
-            const i = setInterval(() => {
-                const randomPart = participants[Math.floor(Math.random() * participants.length)];
-                display.innerText = randomPart.name;
-                if(++c > 20) { 
-                    clearInterval(i); 
-                    const winner = participants[Math.floor(Math.random() * participants.length)];
-                    display.innerHTML = `<div style="font-size:1.5rem; color:#28a745;">🎉 \( {winner.name} 🎉</div><img src=" \){winner.img}" class="winner-img" onerror="this.style.display='none'">`;
-                    btn.disabled = false; triggerConfetti(); 
-                } else { display.style.color = "#6a1b9a"; }
-            }, 100);
-        }
-        function triggerConfetti() { for(let i=0; i<50; i++) { const c = document.createElement("div"); c.classList.add("confetti"); c.style.left = Math.random()*100+"vw"; c.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`; c.style.animationDuration = Math.random()*3+2+"s"; document.body.appendChild(c); setTimeout(()=>c.remove(), 5000); } }
-    </script>
-</body>
-</html>
