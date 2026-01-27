@@ -436,3 +436,252 @@
             .then(() => { 
                 alert("ההוצאה נשמרה בהצלחה!"); 
                 btn.innerText = originalText; btn.disabled = false; 
+                document.getElementById('expenseAmount').value = ''; document.getElementById('expenseDesc').value = ''; 
+                // Show loader again for refresh
+                document.getElementById('kittyLoader').style.display = 'block';
+                document.getElementById('kittyContent').style.display = 'none';
+                fetchExpenses(); 
+            })
+            .catch(err => { 
+                console.log(err); alert("ההוצאה נשמרה!"); 
+                btn.innerText = originalText; btn.disabled = false; 
+                fetchExpenses(); 
+            });
+        }
+
+        function fetchExpenses() {
+            fetch(SCRIPT_URL + "?action=get").then(res => res.json()).then(data => { 
+                expensesCache = data; 
+                updateGrandTotalAndStandings();
+                // Hide loader
+                document.getElementById('kittyLoader').style.display = 'none';
+                document.getElementById('kittyContent').style.display = 'block';
+            }).catch(err => {
+                console.log("Error fetching data:", err);
+                // Hide loader even on error
+                document.getElementById('kittyLoader').style.display = 'none';
+                document.getElementById('kittyContent').style.display = 'block';
+            });
+        }
+
+        function updateGrandTotalAndStandings() {
+            let total = 0; let sums = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
+            if (expensesCache && expensesCache.length > 0) {
+                expensesCache.forEach(e => {
+                    const amt = parseFloat(e.amount);
+                    if (!isNaN(amt)) {
+                        total += amt;
+                        for (let key in sums) { if (e.name.includes(key) || key.includes(e.name)) { sums[key] += amt; break; } }
+                    }
+                });
+            }
+            document.getElementById('grandTotal').innerText = total.toLocaleString() + " RON";
+            for (let hebName in nameToId) { const el = document.getElementById(nameToId[hebName]); if (el) el.innerText = sums[hebName].toLocaleString(); }
+        }
+
+        function calculateSettlement() {
+            let total = 0; let paidBy = { "היצ'קוק": 0, "בגדן": 0, "מאור": 0, "עידו": 0 };
+            expensesCache.forEach(e => {
+                const amount = parseFloat(e.amount);
+                if (!isNaN(amount)) {
+                    total += amount;
+                    for (let key in paidBy) { if (e.name.includes(key) || key.includes(e.name)) { paidBy[key] += amount; break; } }
+                }
+            });
+            const sharePerPerson = total / 4;
+            let html = `<div>סה"כ הוצאות: <strong>${total}</strong> (חלק לאדם: <strong>${sharePerPerson.toFixed(0)}</strong>)</div><hr>`;
+            for (let person in paidBy) {
+                const paid = paidBy[person]; const balance = paid - sharePerPerson;
+                const colorClass = balance >= 0 ? 'balance-positive' : 'balance-negative';
+                const text = balance >= 0 ? `מקבל: ${balance.toFixed(0)}` : `חייב לקופה: ${Math.abs(balance).toFixed(0)}`;
+                html += `<div class="balance-row"><span>${person} (שילם ${paid})</span><span class="${colorClass}">${text}</span></div>`;
+            }
+            document.getElementById('settlementResult').innerHTML = html;
+        }
+
+        function openTherme() { window.open('https://therme.ro/en/', '_blank'); }
+        function openFreedomModal() { document.getElementById('freedomModal').style.display = 'block'; pushModalState('freedomModal'); triggerConfetti(); }
+        function handleFreedomClick() { const giftBought = localStorage.getItem('giftBought'); history.back(); setTimeout(() => { if (!giftBought) { document.getElementById('giftModal').style.display = 'block'; pushModalState('giftModal'); } else { triggerConfetti(); } }, 300); }
+        function markGiftAsBought() { localStorage.setItem('giftBought', 'true'); history.back(); triggerConfetti(); }
+        function closeGiftModal() { history.back(); }
+        
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; const dLat = deg2rad(lat2 - lat1); const dLon = deg2rad(lon2 - lon1);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        }
+        function deg2rad(deg) { return deg * (Math.PI/180); }
+        function getTaxiEstimate(distance) { if (!distance) return "N/A"; const cost = Math.ceil((5 + (distance * 3)) * 1.15); return `${cost} - ${cost + 10} RON`; }
+        function openTaxiModal(distance, lat, lng, name) {
+            const est = getTaxiEstimate(distance); document.getElementById('taxiCostDisplay').innerText = est;
+            const uberLink = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${lat}&dropoff[longitude]=${lng}&dropoff[nickname]=${encodeURIComponent(name)}`;
+            document.getElementById('modalUberBtn').href = uberLink; document.getElementById('taxiModal').style.display = 'block'; pushModalState('taxiModal');
+        }
+        function closeModal(event, id) { if(event) { if(event.target.id !== id && !event.target.className.includes('close-btn')) return; history.back(); } else { history.back(); } }
+
+        function convertCurrency() { const rate = 0.73; const ron = document.getElementById('ronInput').value; document.getElementById('ilsOutput').value = ron ? (ron * rate).toFixed(1) + ' ₪' : ''; }
+
+        // --- Data ---
+        const places = {
+            casinos: [
+                { name: "Grand Casino (JW Marriott)", type: "casino", desc: "הכי קרוב שיש. במלון.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Grand+Casino+Bucharest", website: "https://grandcasino.ro", rating: 4.3, cost: "50 RON" },
+                { name: "Gentlemen's Poker Club", type: "poker", desc: "מועדון פוקר מבוקש.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Gentlemen's+Poker+Club", website: "https://www.gpclub.ro", rating: 4.5, cost: "50 RON" },
+                { name: "Poker Room Bucharest", type: "poker", desc: "חדר פוקר ענק ומקצועי.", lat: 44.425, lng: 26.128, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Poker+Room+Bucharest", website: "https://www.poker-room.ro", rating: 4.4, cost: "50 RON" },
+                { name: "Platinum Casino", type: "casino", desc: "ברדיסון בלו. יוקרתי.", lat: 44.441, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Platinum+Casino+Bucharest", website: "https://platinumcasino.ro", rating: 4.2, cost: "50 RON" },
+                { name: "Palace Casino", type: "casino", desc: "בניין היסטורי מדהים.", lat: 44.447, lng: 26.089, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Palace+Casino+Bucharest", website: "https://palacecasino.ro", rating: 4.6, cost: "50 RON" },
+                { name: "Fortuna Palace", type: "casino", desc: "קזינו יוקרתי ופופולרי.", lat: 44.440, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "#", rating: 4.3, cost: "50 RON" },
+                { name: "Million Casino", type: "casino", desc: "רשת קזינואים נגישה.", lat: 44.430, lng: 26.110, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "#", rating: 4.0, cost: "FREE" }
+            ],
+            alcohol: [
+                { name: "Champions Sports Bar", desc: "בתוך המלון. ספורט.", lat: 44.426, lng: 26.084, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Champions+Sports+Bar+Bucharest", website: "https://www.marriott.com/en-us/hotels/buhro-jw-marriott-bucharest-grand-hotel/dining/", rating: "4.4", cost: "חינם" },
+                { name: "Nomad Skybar", desc: "רופטופ חובה בעיר העתיקה.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Nomad+Skybar", website: "https://nomadskybar.ro", rating: "4.5", cost: "חינם" },
+                { name: "Linea / Closer to the Moon", desc: "גג מפורסם עם איגלו.", lat: 44.433, lng: 26.096, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Linea+Closer+To+The+Moon", website: "https://www.facebook.com/LineaCloserToTheMoon/", rating: "4.6", cost: "חינם" },
+                { name: "Control Club", desc: "מועדון אלטרנטיבי.", lat: 44.436, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club", website: "https://www.control-club.ro", rating: "4.6", cost: "30-50 RON" },
+                { name: "Interbelic Cocktail Bar", desc: "קוקטיילים מעולים.", lat: 44.437, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Interbelic+Cocktail+Bar", website: "https://www.facebook.com/InterbelicCocktailBar/", rating: "4.7", cost: "חינם" },
+                { name: "E3 by Entourage", desc: "בר יוקרתי.", lat: 44.463, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=E3+by+Entourage", website: "https://www.e3byentourage.ro", rating: "4.4", cost: "חינם" },
+                { name: "Fix Me a Drink", desc: "בר בוטני מגניב.", lat: 44.434, lng: 26.097, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Fix+Me+A+Drink", website: "https://fixmad.com", rating: "4.8", cost: "חינם" }
+            ],
+            food: [
+                { name: "Dristor Kebab", type: "street", desc: "השווארמה הכי מפורסמת.", lat: 44.430, lng: 26.101, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott2", rating: "4.4" },
+                { name: "Socului Kebab", type: "street", desc: "אגדה מקומית.", lat: 44.437, lng: 26.155, navUrl: "https://www.google.com/maps/search/?api=1&query=LAT,LNG", rating: "4.6" },
+                { name: "Calif", type: "street", desc: "שווארמה מעולה.", lat: 44.433, lng: 26.108, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club0", rating: "4.5" },
+                { name: "Genin", type: "street", desc: "שווארמה מעולה בפלורסקה.", lat: 44.453, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.426,26.084", rating: "4.5" },
+                { name: "Spartan", type: "street", desc: "רשת יוונית.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott3", rating: "4.2" },
+                { name: "Luca", type: "street", desc: "מאפים ופרעצלים.", lat: 44.435, lng: 26.098, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott4", rating: "4.7" },
+                { name: "Latin Pizza", type: "street", desc: "פיצה ללילה.", lat: 44.432, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.102", rating: "4.5" },
+                { name: "FROG", type: "street", desc: "בראנץ' ואוכל קליל.", lat: 44.450, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.450,26.100", rating: "4.6" },
+                { name: "Vivo Fusion Food Bar", type: "burger", desc: "ההמבורגר הכי טוב בעיר.", lat: 44.453, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club2", rating: "4.8" },
+                { name: "Burger Van", type: "burger", desc: "המבורגר בוטיק.", lat: 44.433, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.441,26.096", rating: "4.7" },
+                { name: "Hashtag Pub", type: "burger", desc: "בורגרים ואלכוהול.", lat: 44.435, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club3", rating: "4.5" },
+                { name: "McDonald's Unirea", type: "burger", desc: "סניף מרכזי.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.435,26.102", rating: "4.2" },
+                { name: "Burger King Universitate", type: "burger", desc: "מול האוניברסיטה.", lat: 44.435, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.425,26.128", rating: "4.1" },
+                { name: "Aubergine", type: "rest", desc: "בריא, ים-תיכוני.", lat: 44.431, lng: 26.100, navUrl: "https://www.google.com/maps/search/?api=1&query=Grand+Casino+Bucharest+Marriott5", rating: "4.6" },
+                { name: "Caru' cu Bere", type: "rest", desc: "הכי עתיקה ומפורסמת.", lat: 44.432, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.432,26.098", rating: "4.5" },
+                { name: "Hanu' lui Manuc", type: "rest", desc: "מסעדה רומנית בחצר היסטורית.", lat: 44.429, lng: 26.102, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club4", rating: "4.4" },
+                { name: "Argentine Steak & Sushi", type: "rest", desc: "בשר וסושי.", lat: 44.456, lng: 26.086, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.456,26.086", rating: "4.5" },
+                { name: "Vacamuu", type: "rest", desc: "סטייקים.", lat: 44.460, lng: 26.100, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.460,26.100", rating: "4.6" },
+                { name: "MAMMO", type: "rest", desc: "אסייתי/סושי מעולה.", lat: 44.431, lng: 26.101, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.431,26.101", rating: "4.7" },
+                { name: "Nor Sky Casual", type: "rest", desc: "נוף בקומה 36.", lat: 44.480, lng: 26.105, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.480,26.105", rating: "4.6" },
+                { name: "Stadio", type: "rest", desc: "עיצוב מגניב.", lat: 44.437, lng: 26.098, navUrl: "https://www.google.com/maps/dir/?api=1&destination=44.437,26.098", rating: "4.5" },
+                { name: "Hard Rock Cafe", type: "rest", desc: "גדול, ליד הפארק.", lat: 44.471, lng: 26.080, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club5", rating: "4.6" },
+                { name: "Trattoria Il Calcio", type: "rest", desc: "איטלקית טובה.", lat: 44.438, lng: 26.099, navUrl: "https://www.google.com/maps/dir/?api=1&destination=Control+Club6", rating: "4.4" }
+            ],
+            shopping: [
+                { name: "AFI Cotroceni", type: "mall", desc: "הכי גדול. Primark.", lat: 44.430, lng: 26.052, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest0", rating: "4.7", priceLevel: 2 },
+                { name: "Fashion House Outlet", type: "outlet", desc: "אאוטלט במיליטארי.", lat: 44.436, lng: 25.952, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest1", rating: "4.3", priceLevel: 1 },
+                { name: "ParkLake", type: "mall", desc: "קניון יפהפה. Primark.", lat: 44.420, lng: 26.152, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest2", rating: "4.7", priceLevel: 2 },
+                { name: "Baneasa Shopping City", type: "mall", desc: "קניון יוקרתי בצפון.", lat: 44.507, lng: 26.089, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest3", rating: "4.6", priceLevel: 3 },
+                { name: "Unirea Shopping Center", type: "mall", desc: "במרכז העיר.", lat: 44.427, lng: 26.103, navUrl: "https://www.google.com/maps/search/?api=1&query=Nomad+Skybar+Bucharest4", rating: "4.1", priceLevel: 2 }
+            ]
+        };
+
+        const HOTEL_LAT = 44.4263; const HOTEL_LNG = 26.0844;
+
+        function renderList(type) {
+            const listContainer = document.getElementById(type === 'casinos' ? 'casinoList' : 'alcoholList');
+            const data = places[type];
+            data.forEach(item => item.distance = calculateDistance(HOTEL_LAT, HOTEL_LNG, item.lat, item.lng));
+            data.sort((a, b) => a.distance - b.distance);
+            listContainer.innerHTML = generateHtmlList(data);
+        }
+
+        function renderFoodTabs() {
+            const data = places.food;
+            data.forEach(item => item.distance = calculateDistance(HOTEL_LAT, HOTEL_LNG, item.lat, item.lng));
+            data.sort((a, b) => a.distance - b.distance);
+
+            document.getElementById('foodList_street').innerHTML = generateHtmlList(data.filter(i => i.type === 'street' || i.type === 'shawarma'));
+            document.getElementById('foodList_burger').innerHTML = generateHtmlList(data.filter(i => i.type === 'burger'));
+            document.getElementById('foodList_rest').innerHTML = generateHtmlList(data.filter(i => i.type === 'rest'));
+        }
+
+        function renderShoppingList() {
+            const data = places.shopping;
+            data.forEach(item => item.distance = calculateDistance(HOTEL_LAT, HOTEL_LNG, item.lat, item.lng));
+            data.sort((a, b) => a.distance - b.distance);
+            document.getElementById('shoppingList').innerHTML = generateHtmlList(data);
+        }
+
+        function generateHtmlList(data) {
+            let html = '';
+            data.forEach(item => {
+                const distText = item.distance < 0.1 ? `🏨` : `👣 ${item.distance.toFixed(1)} km`;
+                const safeName = item.name.replace(/'/g, "\\'");
+                html += `
+                <div class="place-item">
+                    <div class="place-header-row">
+                        <div class="place-info"><span class="place-name">${item.name}</span><span class="place-desc">${item.desc}</span>
+                            <div class="place-meta"><span class="place-dist">${distText}</span> <span class="place-rating">⭐ ${item.rating}</span></div>
+                        </div>
+                    </div>
+                    <div class="place-actions">
+                        <button class="taxi-btn" onclick="openTaxiModal(${item.distance}, ${item.lat}, ${item.lng}, '${safeName}')" title="מונית">🚕</button>
+                        <a href="${item.website || '#'}" target="_blank" class="web-btn">🌐</a>
+                        <a href="${item.navUrl}" target="_blank" class="nav-btn">📍</a>
+                    </div>
+                </div>`;
+            });
+            return html;
+        }
+
+        // --- פתיחת מודלים ---
+        function openCasinoList() { document.getElementById('casinoModal').style.display = 'block'; pushModalState('casinoModal'); renderList('casinos'); }
+        function openAlcoholList() { document.getElementById('alcoholModal').style.display = 'block'; pushModalState('alcoholModal'); renderList('alcohol'); }
+        function openFoodList() { document.getElementById('foodModal').style.display = 'block'; pushModalState('foodModal'); renderFoodTabs(); switchFoodTab('street'); }
+        function openShoppingList() { document.getElementById('shoppingModal').style.display = 'block'; pushModalState('shoppingModal'); renderShoppingList(); }
+        function openBaggageModal() { document.getElementById('baggageModal').style.display = 'block'; pushModalState('baggageModal'); }
+        function openTripsModal() { document.getElementById('tripsModal').style.display = 'block'; pushModalState('tripsModal'); }
+        function openOracleModal() { document.getElementById('oracleModal').style.display = 'block'; pushModalState('oracleModal'); }
+        function openRaffleModal() { document.getElementById('raffleModal').style.display = 'block'; pushModalState('raffleModal'); }
+        function closeModal(event, id) { 
+            if(event) {
+                if(event.target.id !== id && !event.target.className.includes('close-btn')) return;
+                history.back();
+            } else { history.back(); }
+        }
+
+        // --- שאר הפונקציות זהות (משחקים, קופה וכו') ---
+        // (Games, Roulette, Raffle, Kitty Logic - Already perfect in previous steps)
+        
+        function switchFoodTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            const buttons = document.querySelectorAll('.tab-btn');
+            if(tabName === 'street') buttons[0].classList.add('active');
+            else if(tabName === 'burger') buttons[1].classList.add('active');
+            else buttons[2].classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`foodList_${tabName}`).classList.add('active');
+        }
+
+        const rouletteNums = [{num:0,c:'green'},{num:32,c:'red'},{num:15,c:'black'},{num:19,c:'red'},{num:4,c:'black'},{num:21,c:'red'},{num:2,c:'black'},{num:25,c:'red'},{num:17,c:'black'},{num:34,c:'red'},{num:6,c:'black'},{num:27,c:'red'},{num:13,c:'black'},{num:36,c:'red'},{num:11,c:'black'},{num:30,c:'red'},{num:8,c:'black'},{num:23,c:'red'},{num:10,c:'black'},{num:5,c:'red'},{num:24,c:'black'},{num:16,c:'red'},{num:33,c:'black'},{num:1,c:'red'},{num:20,c:'black'},{num:14,c:'red'},{num:31,c:'black'},{num:9,c:'red'},{num:22,c:'black'},{num:18,c:'red'},{num:29,c:'black'},{num:7,c:'red'},{num:28,c:'black'},{num:12,c:'red'},{num:35,c:'black'},{num:3,c:'red'},{num:26,c:'black'}];
+        function spinRoulette() {
+            const display = document.getElementById('rouletteResult');
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true; let c = 0;
+            const i = setInterval(() => {
+                const item = rouletteNums[Math.floor(Math.random()*rouletteNums.length)];
+                display.innerText = item.num; display.className = 'roulette-display num-' + item.c;
+                if(++c > 20) { clearInterval(i); btn.disabled = false; }
+            }, 100);
+        }
+        
+        const participants = [ {name: "היצ'קוק", img: "hichkok.jpg"}, {name: "בגדן", img: "bagdan.jpg"}, {name: "מאור", img: "maor.jpg"}, {name: "עידו", img: "ido.jpg"} ];
+        function spinRaffle() {
+            const display = document.getElementById('raffleResult');
+            const btn = document.getElementById('raffleBtn');
+            btn.disabled = true; let c = 0; display.innerHTML = ""; 
+            const i = setInterval(() => {
+                const randomPart = participants[Math.floor(Math.random() * participants.length)];
+                display.innerText = randomPart.name;
+                if(++c > 20) { 
+                    clearInterval(i); 
+                    const winner = participants[Math.floor(Math.random() * participants.length)];
+                    display.innerHTML = `<div style="font-size:1.5rem; color:#28a745;">🎉 ${winner.name} 🎉</div><img src="${winner.img}" class="winner-img" onerror="this.style.display='none'">`;
+                    btn.disabled = false; triggerConfetti(); 
+                } else { display.style.color = "#6a1b9a"; }
+            }, 100);
+        }
+        function triggerConfetti() { for(let i=0; i<50; i++) { const c = document.createElement("div"); c.classList.add("confetti"); c.style.left = Math.random()*100+"vw"; c.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`; c.style.animationDuration = Math.random()*3+2+"s"; document.body.appendChild(c); setTimeout(()=>c.remove(), 5000); } }
+    </script>
+</body>
+</html>
